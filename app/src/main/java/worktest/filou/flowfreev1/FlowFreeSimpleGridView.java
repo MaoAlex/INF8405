@@ -3,7 +3,8 @@ package worktest.filou.flowfreev1;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by filou on 07/02/16.
@@ -25,6 +27,7 @@ public class FlowFreeSimpleGridView extends View {
     private int x_offset, y_offset;
     private GraphicalTubPart mvTub = null;
     private boolean isFirstUse = true;
+    private HashMap<Integer, Tube> colorToTubes;
 
     private void setupGrid() {
         float radius = Math.min(x_offset, y_offset)/3;
@@ -53,25 +56,20 @@ public class FlowFreeSimpleGridView extends View {
             float x_center1 = i1*x_offset + x_offset/2;
             float y_center1 = j1*y_offset + y_offset/2;
             Tube tube = new Tube(i0, j0, i1, j1, color);
+            colorToTubes.put(color, tube);
             grid[i0][j0] = new GridDelimiter(i0, j0, x_center0,
-                    y_center0, color, tube,
+                    y_center0, color,
                     new GridCircle(x_center0,  y_center0, radius, tmpPaint));
             grid[i1][j1] = new GridDelimiter(i1, j1, x_center1,
-                    y_center1, color, tube,
+                    y_center1, color,
                     new GridCircle(x_center1,  y_center1, radius, tmpPaint));
-            TubePart tubePart0= new TubePart(i0, j0, color, null, tube);
-            grid[i0][j0].addTubePart(color, tubePart0);
-            gameState.incNbOccupied();
-            TubePart tubePart1 = new TubePart(i1, j1, color, null, tube);
-            grid[i1][j1].addTubePart(color, tubePart1);
-            gameState.incNbOccupied();
         }
     }
 
     private void drawElementsOnGrid(Canvas canvas) {
         for (int i = 0; i < level.getWidth(); i++) {
             for (int j = 0; j < level.getHeight(); j++) {
-                grid[i][j].draw(canvas);
+                grid[i][j].draw(canvas, colorToTubes);
             }
         }
     }
@@ -105,11 +103,15 @@ public class FlowFreeSimpleGridView extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (grid[i][j].isColored() &&
-                        !grid[i][j].getTubePart(grid[i][j].getColor()).getTube().isComplete()) {
-                    if (!grid[i][j].getTubePart(grid[i][j].getColor()).getTube().hasStart())
-                        grid[i][j].getTubePart(grid[i][j].getColor()).getTube().chooseADelimiter(i,j);
-                    else if (grid[i][j].getTubePart(grid[i][j].getColor()).getTube().getEnd().getI() == i
-                            && grid[i][j].getTubePart(grid[i][j].getColor()).getTube().getEnd().getJ() == j)
+                        !colorToTubes.get(grid[i][j].getColor()).isComplete()) {
+                    if (!colorToTubes.get(grid[i][j].getColor()).hasStart()) {
+                        colorToTubes.get(grid[i][j].getColor()).chooseADelimiter(i, j);
+                        colorToTubes.get(grid[i][j].getColor()).addTubePart(new TubePart(i, j, grid[i][j].getColor()));
+                        grid[i][j].setCurrentColor(grid[i][j].getColor());
+                        grid[i][j].addIndexTubePart(grid[i][j].getColor(), colorToTubes.get(grid[i][j].getColor()).getLastIndex());
+                        gameState.incNbOccupied();
+                    } else if (colorToTubes.get(grid[i][j].getColor()).getEnd().getI() == i
+                            && colorToTubes.get(grid[i][j].getColor()).getEnd().getJ() == j)
                         return true;
                     drawState.setCurrent_x(i);
                     drawState.setCurrent_y(j);
@@ -122,23 +124,24 @@ public class FlowFreeSimpleGridView extends View {
                         color = drawState.getCurrentColor() ;
                 if (drawState.validMove(i, j)
                         && drawState.getInternalState() != InternalDrawState.DRAWOFF
-                        && grid[i0][j0].getTubePart(color).isTail()
-                        && drawState.isColorFriendly(i, j, grid)) {
-                    TubePart tubePart = grid[i0][j0].getTubePart(drawState.getCurrentColor());
-                    TubePart next = new TubePart(i, j, color, tubePart, tubePart.getTube());
+                        && colorToTubes.get(color).isTail(i0, j0)
+                        && drawState.isColorFriendly(i, j, grid, colorToTubes)) {
+                    TubePart tubePart = colorToTubes.get(color).getTubePart(grid[i0][j0].getIndexTubePart(color));
+                    TubePart newTubePart = new TubePart(i, j, color);
                     GraphicalTubPart[] tubParts = drawState.createTubParts(i0, j0, i,
                             j, color, grid);
                     tubePart.setGraphicalTubNext(tubParts[0]);
-                    tubePart.setNext(next);
-                    next.setGraphicalTubPrevious(tubParts[1]);
+                    newTubePart.setGraphicalTubPrevious(tubParts[1]);
+                    colorToTubes.get(color).addTubePart(newTubePart);
                     if (!grid[i][j].isEmpty() && color != grid[i][j].getColor())
                         gameState.incTubSuperposed();
-                    grid[i][j].addTubePart(color, next);
+                    if (grid[i][j].isEmpty())
+                        gameState.incNbOccupied();
+                    grid[i][j].addIndexTubePart(color, colorToTubes.get(color).getLastIndex());
                     grid[i][j].setCurrentColor(color);
                     drawState.setCurrent_x(i);
                     drawState.setCurrent_y(j);
                     drawState.setCurrentColor(color);
-                    gameState.incNbOccupied();
                     if (gameState.isOver()) {
                         if (gameState.playerHasWon()) {
                             Log.d(TAG, "onTouchEvent: player has won");
@@ -147,7 +150,7 @@ public class FlowFreeSimpleGridView extends View {
                         }
                     }
                 } else if (drawState.getInternalState() != InternalDrawState.DRAWOFF
-                        && grid[i0][j0].getTubePart(color).isTail()) {
+                        && colorToTubes.get(color).isTail(i0, j0) && !colorToTubes.get(color).isComplete()) {
                     mvTub = drawState.createTubToPos(i0, j0, touchX, touchY, color, grid);
                 }
                 break;
@@ -183,11 +186,14 @@ public class FlowFreeSimpleGridView extends View {
         } else {
             Log.d(TAG, "handleChanges: screen turned");
             changeOrientation(w, h);
+            isFirstUse = true;
         }
     }
 
     private void init(Context context) {
+        setSaveEnabled(true);
         level = ((InGame)context).getLevel();
+        colorToTubes = new HashMap<>();
         grid = new AbsGridElement[level.getWidth()][level.getHeight()];
         lines = new GridLine[level.getHeight() + level.getWidth() + 2];
         gameState = new GameState(level.getWidth()*level.getHeight());
@@ -197,6 +203,7 @@ public class FlowFreeSimpleGridView extends View {
     private void changeOrientation(int w, int h) {
         lines = new GridLine[level.getHeight() + level.getWidth() + 2];
         setupDrawing();
+
         for (int i = 0; i < level.getWidth(); i++) {
             for (int j = 0; j < level.getHeight(); j++) {
                 grid[i][j].setCenterX(i * x_offset + x_offset / 2);
@@ -206,7 +213,7 @@ public class FlowFreeSimpleGridView extends View {
 
         for (int i = 0; i < level.getWidth(); i++) {
             for (int j = 0; j < level.getHeight(); j++) {
-                grid[i][j].updateSize(drawState, grid);
+                grid[i][j].updateSize(drawState, grid, colorToTubes);
             }
         }
     }
@@ -253,4 +260,27 @@ public class FlowFreeSimpleGridView extends View {
         }
     }
 
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        GridWrapper gridWrapper = new GridWrapper(level.getWidth(), level.getHeight(), grid);
+        GridSavedState gridSavedState = new GridSavedState(superState,
+                                                            gridWrapper, gameState,
+                                                            drawState,
+                                                            new HashIntTubeWrapper(colorToTubes));
+
+        return gridSavedState;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        GridSavedState gridSavedState = (GridSavedState) state;
+        super.onRestoreInstanceState(gridSavedState.getSuperState());
+        isFirstUse = false;
+        grid = gridSavedState.getGridWrapper().getGrid();
+        drawState = gridSavedState.getDrawState();
+        gameState = gridSavedState.getGameState();
+        colorToTubes = new HashMap<>();
+        gridSavedState.getHashIntTubeWrapper().fillMap(colorToTubes);
+    }
 }

@@ -2,16 +2,51 @@ package worktest.filou.flowfreev1;
 
 import android.graphics.Paint;
 import android.graphics.Path;
-import java.util.Deque;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
  * Created by filou on 08/02/16.
  */
-public class DrawState {
+public class DrawState implements Parcelable {
+
+    public static final Parcelable.Creator<Level> CREATOR = new Parcelable.Creator<Level>() {
+        @Override
+        public Level createFromParcel(Parcel source) {
+            return new Level(source);
+        }
+
+        @Override
+        public Level[] newArray(int size) {
+            return new Level[size];
+        }
+    };
+
+    public DrawState(){
+    }
+
+    public DrawState(Parcel in) {
+        current_x = in.readInt();
+        current_y = in.readInt();
+        String tmpState = in.readString();
+        try {
+            internalState = InternalDrawState.valueOf(in.readString());
+        } catch (IllegalArgumentException x) {
+            internalState = null;
+        }
+        IntListWrapper intListWrapper = in.readParcelable(IntListWrapper.class.getClassLoader());
+        colorHistory = intListWrapper.getColorList();
+        strokeW = in.readInt();
+        x_offset = in.readInt();
+        y_offset = in.readInt();
+
+    }
     private int current_x, current_y;
     private InternalDrawState internalState = InternalDrawState.DRAWOFF;
-    private Deque<Integer> colorHistory = new LinkedList<>();
+    private LinkedList<Integer> colorHistory = new LinkedList<>();
     private int strokeW;
     private int x_offset, y_offset;
 
@@ -20,6 +55,23 @@ public class DrawState {
         this.y_offset = y_offset;
         strokeW = Math.min(x_offset, y_offset);
         strokeW /= 4;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(current_x);
+        dest.writeInt(current_y);
+        dest.writeString((internalState == null) ? "" : internalState.toString());
+        IntListWrapper intListWrapper = new IntListWrapper(colorHistory);
+        dest.writeParcelable(intListWrapper, 0);
+        dest.writeInt(strokeW);
+        dest.writeInt(x_offset);
+        dest.writeInt(y_offset);
     }
 
     public int getX_offset() {
@@ -153,17 +205,19 @@ public class DrawState {
         return fromBothSide;
     }
 
-    public boolean isColorFriendly(int i, int j, AbsGridElement[][] grid) {
+    public boolean isColorFriendly(int i, int j, AbsGridElement[][] grid, HashMap<Integer, Tube> colorToTubes) {
         int i0 = getCurrent_x(), j0 = getCurrent_y();
-        if (!grid[i0][j0].isColored())
+        if (!grid[i][j].isColored())
             return true;
         int colorOrg = grid[i0][j0].getColor();
-        if (grid[i][j].getTubePart(colorOrg) == null)
+        int colorDest = grid[i][j].getColor();
+        int index = grid[i][j].getIndexTubePart(colorOrg);
+        if (colorDest != colorOrg && index == -1)
             return true;
-        else if (grid[i][j].getTubePart(colorOrg).getTube().equals(grid[i0][j0].getTubePart(colorOrg).getTube())) {
-            Position position = grid[i][j].getTubePart(colorOrg).getTube().getEnd();
+        else if (colorDest == colorOrg) {
+            Position position = colorToTubes.get(colorOrg).getEnd();
             if (position.getI() == i && position.getJ() == j) {
-                grid[i][j].getTubePart(colorOrg).getTube().setIsComplete(true);
+                colorToTubes.get(colorOrg).setIsComplete(true);
                 internalState = InternalDrawState.DRAWOFF;
                 return true;
             } else

@@ -1,16 +1,21 @@
 package worktest.filou.flowfreev1;
 
 import android.graphics.Canvas;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * Created by filou on 07/02/16.
  */
-public abstract class AbsGridElement {
+public abstract class AbsGridElement implements Parcelable {
    private int i, j;
     private float centerX, centerY;
-    protected LinkedHashMap<Integer,TubePart> tubParts= new LinkedHashMap<>();
+    protected LinkedHashMap<Integer,Integer> colorsToIndexTubParts = new LinkedHashMap<>();
     protected LinkedList<Integer> colorsInOrder = new LinkedList<>();
 
     public int getI() {
@@ -28,6 +33,31 @@ public abstract class AbsGridElement {
         this.centerY = centerY;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public AbsGridElement(Parcel in) {
+        i = in.readInt();
+        j = in.readInt();
+        IntListWrapper intListWrapper = in.readParcelable(IntListWrapper.class.getClassLoader());
+        colorsInOrder = intListWrapper.getColorList();
+        HashIntIntWrapper hashIntIntWrapper = in.readParcelable(HashIntIntWrapper.class.getClassLoader());
+        colorsToIndexTubParts = new LinkedHashMap<>();
+        hashIntIntWrapper.fillMap(colorsToIndexTubParts);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(i);
+        dest.writeInt(j);
+        IntListWrapper intListWrapper = new IntListWrapper(colorsInOrder);
+        dest.writeParcelable(intListWrapper, 0);
+        HashIntIntWrapper hashIntIntWrapper = new HashIntIntWrapper(colorsToIndexTubParts);
+        dest.writeParcelable(hashIntIntWrapper, 0);
+    }
+
     public float getCenterX() {
         return centerX;
     }
@@ -40,20 +70,20 @@ public abstract class AbsGridElement {
         return centerY;
     }
 
-    public void addTubePart(int color, TubePart tubePart) {
-        tubParts.put(color, tubePart);
+    public void addIndexTubePart(int color, int indexTubePart) {
+        colorsToIndexTubParts.put(color, indexTubePart);
     }
 
     public void removeColor(int color) {
-        tubParts.remove(color);
+        colorsToIndexTubParts.remove(color);
     }
 
-    public TubePart getTubePart(int color) {
-        return tubParts.get(color);
+    public int getIndexTubePart(int color) {
+        return colorsToIndexTubParts.containsKey(color)? colorsToIndexTubParts.get(color) : -1;
     }
 
     public boolean isEmpty() {
-        return tubParts.isEmpty();
+        return colorsToIndexTubParts.isEmpty();
     }
 
     public abstract int getColor();
@@ -62,12 +92,12 @@ public abstract class AbsGridElement {
 
     public void undo() {
         int oldColor = colorsInOrder.pollLast();
-        tubParts.remove(oldColor);
+        colorsToIndexTubParts.remove(oldColor);
     }
 
-    public void draw(Canvas canvas) {
-        for (TubePart tubePart : tubParts.values()) {
-            tubePart.draw(canvas);
+    public void draw(Canvas canvas, HashMap<Integer, Tube> colorToTubes) {
+        for (Map.Entry<Integer, Integer> colorAndIndex: colorsToIndexTubParts.entrySet()) {
+            colorToTubes.get(colorAndIndex.getKey()).getTubePart(colorAndIndex.getValue()).draw(canvas);
         }
     }
 
@@ -79,17 +109,22 @@ public abstract class AbsGridElement {
         this.centerY = centerY;
     }
 
-    public void updateSize(DrawState drawState, AbsGridElement[][] grid) {
-        for (TubePart tubePart : tubParts.values()) {
-            int color = tubePart.getColor();
-            TubePart tubePartPrevious = tubePart.getPrevious();
-            TubePart tubePartNext = tubePart.getNext();
-            if (tubePartPrevious != null) {
+    public void updateSize(DrawState drawState, AbsGridElement[][] grid, HashMap<Integer, Tube> colorToTubes) {
+        for (Map.Entry<Integer, Integer> entry : colorsToIndexTubParts.entrySet()) {
+            int color = entry.getKey();
+            int indexCurrentTubPart = entry.getValue();
+            Tube tube = colorToTubes.get(color);
+            TubePart tubePart = tube.getTubePart(indexCurrentTubPart);
+
+            if (indexCurrentTubPart - 1 >= 0 ) {
+                TubePart tubePartPrevious = tube.getTubePart(indexCurrentTubPart - 1);
                 tubePart.setGraphicalTubPrevious(drawState.createTubToBorder(tubePart.getI(), tubePart.getJ(),
                         tubePartPrevious.getI(), tubePartPrevious.getJ(), color, grid));
             }
 
-            if (tubePartNext != null) {
+
+            if (indexCurrentTubPart  < tube.getLastIndex()) {
+                TubePart tubePartNext = tube.getTubePart(indexCurrentTubPart + 1);
                 tubePart.setGraphicalTubNext(drawState.createTubToBorder(tubePart.getI(), tubePart.getJ(),
                         tubePartNext.getI(), tubePartNext.getJ(), color, grid));
             }

@@ -1,59 +1,63 @@
 package worktest.filou.flowfreev1;
 
 import android.graphics.Canvas;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by filou on 09/02/16.
  */
-public class TubePart {
-    private TubePart[] previousAndNext = null;
-    private Tube tube = null;
+public class TubePart implements Parcelable {
     private GraphicalTubPart[] graphicalTubParts = null;
     private int i, j, color;
 
-    public TubePart(int i, int j, int color, TubePart previous, Tube tube) {
-        previousAndNext = new TubePart[2];
-        previousAndNext[0] = previous;
-        previousAndNext[1] = null;
+    public static final Parcelable.Creator<TubePart> CREATOR = new Parcelable.Creator<TubePart>() {
+        @Override
+        public TubePart createFromParcel(Parcel source) {
+            return new TubePart(source);
+        }
+
+        @Override
+        public TubePart[] newArray(int size) {
+            return new TubePart[size];
+        }
+    };
+
+    public TubePart(Parcel in) {
+        i = in.readInt();
+        j = in.readInt();
+        color = in.readInt();
+        graphicalTubParts = new GraphicalTubPart[2];
+    }
+
+    public TubePart(int i, int j, int color) {
         graphicalTubParts = new GraphicalTubPart[2];
         graphicalTubParts[0] = null;
         graphicalTubParts[1] = null;
-        this.tube = tube;
         this.i = i;
         this.j = j;
         this.color = color;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(i);
+        dest.writeInt(j);
+        dest.writeInt(color);
     }
 
     public int getColor() {
         return color;
     }
 
-    public TubePart getNext() {
-        return previousAndNext[1];
-    }
-
-    public Tube getTube() {
-        return tube;
-    }
 
     public GraphicalTubPart[] getGraphicalTubParts() {
         return graphicalTubParts;
-    }
-
-    public TubePart getPrevious() {
-        return previousAndNext[0];
-    }
-
-    public void setNext(TubePart next) {
-        previousAndNext[1] = next;
-    }
-
-    public void setPrevious(TubePart previous) {
-        previousAndNext[0] = previous;
-    }
-
-    public void setTube(Tube tube) {
-        this.tube = tube;
     }
 
     public void setGraphicalTubParts(GraphicalTubPart[] graphicalTubParts) {
@@ -66,22 +70,6 @@ public class TubePart {
 
     public void setExit(GraphicalTubPart exit) {
         graphicalTubParts[1] = exit;
-    }
-
-    public void switchEntryAndExit() {
-        GraphicalTubPart tmp = graphicalTubParts[0];
-        graphicalTubParts[0] = graphicalTubParts[1];
-        graphicalTubParts[1] = tmp;
-    }
-
-    public void switchPreviousAndNext() {
-        TubePart tmp = previousAndNext[0];
-        previousAndNext[0] = previousAndNext[1];
-        previousAndNext[1] = tmp;
-    }
-
-    public Boolean isTail() {
-        return previousAndNext[1] == null;
     }
 
     public void draw(Canvas canvas) {
