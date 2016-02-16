@@ -28,6 +28,15 @@ public class FlowFreeSimpleGridView extends View {
     private GraphicalTubPart mvTub = null;
     private boolean isFirstUse = true;
     private HashMap<Integer, Tube> colorToTubes;
+    private OnTubEndedListener onTubEndedListener;
+
+    public interface OnTubEndedListener {
+        void onTubEnded(View view, int nbTubs);
+    }
+
+    public void setOnTubEndedListener(OnTubEndedListener onTubEndedListener) {
+        this.onTubEndedListener = onTubEndedListener;
+    }
 
     private void setupGrid() {
         float radius = Math.min(x_offset, y_offset)/3;
@@ -137,6 +146,11 @@ public class FlowFreeSimpleGridView extends View {
                         gameState.incTubSuperposed();
                     if (grid[i][j].isEmpty())
                         gameState.incNbOccupied();
+                    if (colorToTubes.get(color).isComplete()) {
+                        gameState.incnbTubs();
+                        if (onTubEndedListener != null)
+                            onTubEndedListener.onTubEnded(this, gameState.getNbTubs());
+                    }
                     grid[i][j].addIndexTubePart(color, colorToTubes.get(color).getLastIndex());
                     grid[i][j].setCurrentColor(color);
                     drawState.setCurrent_x(i);
