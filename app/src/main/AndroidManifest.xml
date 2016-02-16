@@ -10,8 +10,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,12 +27,10 @@
 
         <activity
             android:name=".ChooseSize"
-            android:label="@string/title_activity_choose_size"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/app_name" />
         <activity
             android:name=".ChooseLevel"
-            android:label="@string/title_activity_choose_level"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/app_name" />
         <activity android:name=".InGame"></activity>
     </application>
 
