@@ -148,6 +148,7 @@ public class FlowFreeSimpleGridView extends View {
                         gameState.incNbOccupied();
                     if (colorToTubes.get(color).isComplete()) {
                         gameState.incnbTubs();
+                        drawState.setInternalState(InternalDrawState.DRAWOFF);
                         if (onTubEndedListener != null)
                             onTubEndedListener.onTubEnded(this, gameState.getNbTubs());
                     }
