@@ -217,7 +217,7 @@ public class DrawState implements Parcelable {
         int i0 = getCurrent_x(), j0 = getCurrent_y();
         if (!grid[i][j].isColored())
             return true;
-        int colorOrg = grid[i0][j0].getColor();
+        int colorOrg = getCurrentColor();
         int colorDest = grid[i][j].getColor();
         int index = grid[i][j].getIndexTubePart(colorOrg);
         if (colorDest != colorOrg && index == -1) {
