@@ -34,5 +34,25 @@
     <string name="quit_question">Etes-vous sûr de vouloir quitter le jeu ?</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
+    <string name="title_activity_instructions">InstructionsActivity</string>
+
+    <!-- Instructions -->
+    <string name="instructions_text">
+        <![CDATA[
+        <h2>Règles du jeu du Flow free</h2>
+        <h3>Présentation</h3>
+        <p>Le plateau se compose d\'une grille carré 7x7 ou 8x8. Sur ce plateau sont posées des paires de jetons de couleur. Le but du jeu est de relier les deux jetons de chaque paire par des tubes de leur couleur, en utilisant chaque case de la grille et sans qu\'il y ait de superposition de deux (ou plus) tubes.</p>
+        <h3>Comment jouer ?</h3>
+        <p>Sélectionnez tout d\'abord la taille de la grille. Vous commencerez au niveau 1 de cette taille de grille. Lorsque la partie est lancée, appuyez longuement sur un des jetons de couleur et maintenez appuyé en déplaçant le doigt pour commencer à tracer. Les tubes ne peuvent être tracés que via des horizontales ou des verticales. Les diagonales ne sont pas autorisées. Vous pouvez à tout moment lever le doigt et reprendre le tracé sur une autre couleur ou sur l\'extrémité d\'un tube existant, si celui ci n\'est pas sur un jeton de couleur.</p>
+        <h3>Victoire</h3>
+        <p>Vous remportez le niveau lorsque les deux jetons de chacune des paires sont reliés, et que toutes les cases sont occupées sans superposition de deux tubes. Lorsque vous gagnez, le niveau suivant se débloque et vous pouvez alors choisir de passer au niveau suivant, de revenir au choix des niveaux, ou de recommencer le niveau.</p>
+        <h3>Défaite</h3>
+        <p>Vous perdez la partie si toutes les cases de la grille sont utilisées mais que des jetons d\'une même paire n\'ont pas été reliés ou que des tubes se superposent sur une (ou plus) case(s).</p>
+        <h3>Progression dans les niveaux</h3>
+        <p>Lorsque vous gagnez une partie, vous débloquez le niveau immédiatement supérieur dans la taille de grille choisie. Si vous remportez le dernier niveau d\'une taille de grille, vous pouvez passer au niveau 1 de la taille de grille supérieure. Gagner le niveau 1 d\'une taille de grille supérieure ne débloque cependant pas les niveaux de la taille de grille inférieure.</p>
+        <h3>Autres informations</h3>
+        <p>Vous pouvez à tout moment quitter le jeu en utilisant le menu dans la barre supérieure de l\'application.</p>
+        ]]>
+    </string>
 
 </resources>

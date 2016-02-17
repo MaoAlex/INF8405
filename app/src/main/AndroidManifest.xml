@@ -31,7 +31,10 @@
         <activity
             android:name=".ChooseLevel"
             android:label="@string/app_name" />
-        <activity android:name=".InGame"></activity>
+        <activity android:name=".InGame" />
+        <activity
+            android:name=".InstructionsActivity"
+            android:label="@string/app_name"/>
     </application>
 
 </manifest>
