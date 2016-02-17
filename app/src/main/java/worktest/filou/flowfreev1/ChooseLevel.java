@@ -57,6 +57,7 @@ public class ChooseLevel extends AppCompatActivity {
         int indexInLevels = btnToId.indexOf(id);
         if( !levels.getLevel(indexInLevels).isUnlocked())
             return;
+        levelsId = indexInLevels;
         Intent intent = new Intent(ChooseLevel.this, InGame.class);
         intent.putExtra("LevelId", indexInLevels);
         intent.putExtra("Level", levels.getLevel(indexInLevels));
@@ -65,7 +66,7 @@ public class ChooseLevel extends AppCompatActivity {
 
     private void reGoInGame(int id) {
         Intent intent = new Intent(ChooseLevel.this, InGame.class);
-
+        levelsId = id;
         Log.d(TAG, "valeur levelId transmis au choose level pour la fonction rechoose! : " + id);
         intent.putExtra("LevelId", id);
         intent.putExtra("Level", ChooseLevel.this.levels.getLevel(id));//faire attention a l'id qui est parfois celui dans le sens android
@@ -79,7 +80,9 @@ public class ChooseLevel extends AppCompatActivity {
         Level level = data.getParcelableExtra("Level");
         int levelId = data.getIntExtra("nouvelId", -1);
        // if(btnToId.isEmpty())
-         //   Log.d(TAG, "La liste est vide valeur levelId transmis au choose level pour la fonction onActivity! : " + levelId);
+        Log.d(TAG, "valeur de requestCode : " + requestCode);
+        Log.d(TAG, "valeur de level : " + level.getId());
+        Log.d(TAG, "valeur de levelId : " + levelId);
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
                 if(levelId<3) {
@@ -102,6 +105,9 @@ public class ChooseLevel extends AppCompatActivity {
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
                 //reGoInGame(levelId);
+                if(levelId > levelsId){
+                    levels.getLevel(levelId).unlocked();
+                }
             }
         }
     }//onActivityResult
