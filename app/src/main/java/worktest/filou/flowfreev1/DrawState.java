@@ -82,6 +82,10 @@ public class DrawState implements Parcelable {
         this.x_offset = x_offset;
     }
 
+    public void updateStrikeSize() {
+        setStrokeW(x_offset, y_offset);
+    }
+
     public int getY_offset() {
         return y_offset;
     }

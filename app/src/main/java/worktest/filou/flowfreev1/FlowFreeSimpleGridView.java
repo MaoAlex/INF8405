@@ -293,6 +293,9 @@ public class FlowFreeSimpleGridView extends View {
     private void changeOrientation(int w, int h) {
         lines = new GridLine[level.getHeight() + level.getWidth() + 2];
         setupDrawing();
+        drawState.setX_offset(x_offset);
+        drawState.setY_offset(y_offset);
+        drawState.updateStrikeSize();
 
         for (int i = 0; i < level.getWidth(); i++) {
             for (int j = 0; j < level.getHeight(); j++) {
