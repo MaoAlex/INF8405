@@ -184,6 +184,7 @@ public class FlowFreeSimpleGridView extends View {
                         gameState.pushPositionToHistory(i,j);
                     } else if (colorToTubes.get(grid[i][j].getColor()).getEnd().getI() == i
                             && colorToTubes.get(grid[i][j].getColor()).getEnd().getJ() == j) {
+                        drawState.setInternalState(InternalDrawState.DRAWOFF);
                         return true;
                     }
                     drawState.setCurrent_x(i);
@@ -193,10 +194,11 @@ public class FlowFreeSimpleGridView extends View {
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
+                if (drawState.getInternalState() == InternalDrawState.DRAWOFF)
+                    return true;
                 int i0 = drawState.getCurrent_x(), j0 = drawState.getCurrent_y(),
                         color = drawState.getCurrentColor() ;
                 if (drawState.validMove(i, j)
-                        && drawState.getInternalState() != InternalDrawState.DRAWOFF
                         && colorToTubes.get(color).isTail(i0, j0)
                         && drawState.isColorFriendly(i, j, grid, colorToTubes)) {
                     TubePart tubePart = colorToTubes.get(color).getTubePart(grid[i0][j0].getIndexTubePart(color));
