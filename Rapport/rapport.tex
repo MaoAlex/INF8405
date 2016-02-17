@@ -61,6 +61,18 @@
 
 \section{Introduction}
 \section{Présentation Technique}
+    \subsection{Fonctionnement de la Grille}
+    La grille de jeu est implémentée dans la classe \textit{FlowFreeSimpleGridView}, cette classe étant la classe \textit{View}
+afin de posséder toutes les fonctionnalités d'une vue, pour pouvoir intercepter les mouvements de l'utilisateur sur la surface.
+Cette vue possèdera un tableau à deux dimensions (nommé grid) représentant les différentes cases de la grille. On distingue deux
+types de cases, les cases classiques et les cases contenant un délimiteur. Les cases contenant un délimiteur dans la mesure où,
+elles possèdent un cercle de couleur et surtout leur couleur, à tout instant, est toujours du rond présent sur la case. Nous avons
+en effet considéré que qu'afin de pouvoir compléter le jeu, que les ronds soit accessibles à tout instant. En effet, dans le cas
+contraire, on pourrait se retrouver bloqué dans l'état inachevé car il nous serait impossible de tracer le dernier tube, et donc
+d'atteindre l'état de défaite. De ce fait nous voulions pouvoir stoquer deux classes distinctes au sein d'une même structure. De
+plus, ces classes on un fonctionnement très proche: elles doivent pouvoir stocker des éléments de tube de couleurs différentes
+tout en conservant l'ordre d'arrivée de ces derniers afin de présenter un un affichage cohérent ou le dernier morceau de tube
+arrivé sur la case serait celui dessiné en dernier (afin que graphiquement il apparaisse au-dessus de l'autre).
 \section{Difficultés rencontrées}
 \section{Critiques et suggestions}
 \end{document}
