@@ -1,5 +1,7 @@
 package worktest.filou.flowfreev1;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
@@ -30,12 +32,30 @@ public class MainActivity extends AppCompatActivity {
         }
         
         Button start_button = (Button) findViewById(R.id.start_app);
+        Button quit_button = (Button) findViewById(R.id.quit_app);
         start_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ChooseSize.class);
                 intent.putExtra("LevelsBySize", MainActivity.this.levelsBySize);
                 MainActivity.this.startActivity(intent);
+            }
+        });
+        quit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(v.getContext())
+                        .setTitle(v.getContext().getResources().getString(R.string.quit_title))
+                        .setMessage(v.getContext().getResources().getString(R.string.quit_question))
+                        .setPositiveButton(v.getContext().getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finishAffinity();
+                            }
+
+                        })
+                        .setNegativeButton(v.getContext().getResources().getString(R.string.no), null)
+                        .show();
             }
         });
     }
