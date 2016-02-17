@@ -1,8 +1,10 @@
 package worktest.filou.flowfreev1;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -51,10 +53,39 @@ public class ChooseLevel extends AppCompatActivity {
         Intent intent = new Intent(ChooseLevel.this, InGame.class);
         intent.putExtra("LevelId", indexInLevels);
         intent.putExtra("Level", levels.getLevel(indexInLevels));
-        ChooseLevel.this.startActivity(intent);
+        ChooseLevel.this.startActivityForResult(intent,1);
     }
 
+    private void reGoInGame(int id) {
+        Intent intent = new Intent(ChooseLevel.this, InGame.class);
 
+        Log.d(TAG, "valeur levelId transmis au choose level pour la fonction rechoose! : " + id);
+        intent.putExtra("LevelId", id);
+        intent.putExtra("Level", ChooseLevel.this.levels.getLevel(id));//faire attention a l'id qui est parfois celui dans le sens android
+        ChooseLevel.this.startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "On rentre dans onActivityREsultat ");
+
+        Level level = data.getParcelableExtra("Level");
+        int levelId = data.getIntExtra("nouvelId", -1);
+       // if(btnToId.isEmpty())
+         //   Log.d(TAG, "La liste est vide valeur levelId transmis au choose level pour la fonction onActivity! : " + levelId);
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                Log.d(TAG, "le niveau " + levelId + "est verouille ");
+                levels.getLevel(levelId).unlocked();
+                if(levels.getLevel(levelId).isUnlocked())
+                    Log.d(TAG, "le niveau " + levelId + "est deverouille ");
+                reGoInGame(levelId);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }//onActivityResult
     @Override
     public void onStart() {
         super.onStart();

@@ -1,15 +1,14 @@
 package worktest.filou.flowfreev1;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.content.Context;
-import android.util.AttributeSet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +29,7 @@ public class FlowFreeSimpleGridView extends View {
     private boolean isFirstUse = true;
     private HashMap<Integer, Tube> colorToTubes;
     private OnTubEndedListener onTubEndedListener;
+    private Victory.VictoryListener victoryListener;//declaration du listener
 
     public interface OnTubEndedListener {
         void onTubEnded(View view, int nbTubs);
@@ -225,6 +225,11 @@ public class FlowFreeSimpleGridView extends View {
                     if (gameState.isOver()) {
                         if (gameState.playerHasWon()) {
                             Log.d(TAG, "onTouchEvent: player has won");
+                            if(victoryListener!=null){
+                                victoryListener.showVictory();
+                            }
+                            Log.d(TAG, "onTouchEvent: player has won");//Partie gagne, affichage de la fenetre
+
                         } else {
                             Log.d(TAG, "onTouchEvent: player has lost");
                         }
@@ -363,4 +368,9 @@ public class FlowFreeSimpleGridView extends View {
         colorToTubes = new HashMap<>();
         gridSavedState.getHashIntTubeWrapper().fillMap(colorToTubes);
     }
+
+    public void setVictoryListener(Victory.VictoryListener listener) {
+        this.victoryListener = listener;
+    }
+
 }
