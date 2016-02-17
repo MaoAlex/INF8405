@@ -98,38 +98,9 @@ public class InGame extends AppCompatActivity {
         returnIntent.putExtra("Level", level);
         setResult(Activity.RESULT_CANCELED, returnIntent);
         finish();
-        super.onBackPressed();/*éffectue une animation de transition si y a en, avant de finir l'Activity*/
+        super.onBackPressed();/*ï¿½ffectue une animation de transition si y a en, avant de finir l'Activity*/
     }
-/*
-    private void VictoryDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Game Over");
-        builder.setMessage("you Won");
-        builder.setPositiveButton("Call Now",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
 
-                    }
-                });
-
-        builder.setNeutralButton("Setup",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-
-                    }
-                });
-
-        builder.setNegativeButton("Exit",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-
-                    }
-                });
-    }
-*/
     @Override
     protected Dialog onCreateDialog(int id) {
         switch (id) {
