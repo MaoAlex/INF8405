@@ -60,6 +60,24 @@
 
 
 \section{Introduction}
+	L'objectif de ce laboratoire était de développer une application permettant de joueur au jeu du Flow free sur Android. Le jeu de Flow free dispose de règles assez simple : des paires de jetons de couleur sont placés sur une grille carrée d'une taille donnée (ici pour notre application, 7x7 ou 8x8). Le joueur doit alors relier chaque paire de jetons de l'un à l'autre, en traçant des tubes avec le doigt. La partie est remportée si les jetons de chaque paire sont reliés, que toutes les cases sont occupées par un tube, et qu'il n'y a aucune superposition de tubes sur une même case. Dans le cas où toutes les cases ne sont pas utilisées, la partie est inachevée. Sinon, la partie est perdue.
+	\newline
+	Les contraintes techniques sur cette application étaient de pouvoir être utilisée sur les versions d'Android supportant l'API 18 (Android 4.3.1) et plus (jusqu'à 23 pour la version actuelle, Android 6). Le jeu devant être adapté pour des supports mobiles variés (tablettes, téléphones intelligents, ...), il doit de plus être jouable entièrement tactilement. Enfin, l'application doit être la plus facile d'accès possible, et proposer à la fois des comportements intuitifs pour les utilisateurs de dispositifs mobiles, et une navigation facile à travers les différentes options possibles.
+	\newline
+	Pour respecter ces requis non-fonctionnels, nous avons donc opté pour un certain nombre de considérations d'ergonomie, sur les règles du jeu, sur les possibilités offertes au joueur. Nous allons les examiner dans la section suivante.
+	
+\section{Présentation générale}
+	Nous allons présenter dans cette partie les choix que nous avons réalisés pour offrir aux utilisateurs de l'application une navigation et une expérience de jeu que nous espérons aisées et intuitives.
+	
+	\subsection{Menus de l'application}
+	Nous avons opté pour un menu d'accueil proposant trois options : \textit{démarrer} une partie, accéder aux \textit{instructions} et \textit{quitter} l'application.
+	Lorsque l'utilisateur choisit de démarrer la partie, un autre menu s'affiche et lui demande de choisir la taille de la grille, puis, une fois celle-ci choisie, l'utilisateur doit choisir le niveau qu'il va jouer. L'écran de jeu s'affiche alors et le joueur peut débuter. Sur les trois écrans mentionnés, l'utilisateur peut à tout moment quitter l'application en utilisant le menu dans la barre de l'application  (symbolisé sur Android 5 et 6 par les 3 points en haut à droite de la barre).
+	
+	\subsection{Quitter l'application}
+	Pour empêcher l'utilisateur de quitter de manière involontaire l'application, le choix de quitter dans les différents menus est soumis à une confirmation, qui se fait par l'intermédiaire d'une fenêtre pop-up offrant deux choix de réponses : Oui et Non.
+	
+	\subsection{}
+		 
 \section{Présentation Technique}
     \subsection{Affichage de la grille}
     Le dessin se fait en stockant des commandes qui tracent des lignes. Ainsi, nous avons une classe \textit{GridLine} qui
