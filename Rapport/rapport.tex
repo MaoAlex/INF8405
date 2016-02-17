@@ -1,9 +1,10 @@
-\documentclass[12pt, a4paper]{article}
+\documentclass[12pt, a4paper]{article}%{{{
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[a4paper,left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 \usepackage[frenchb]{babel}
 \usepackage{libertine}
+\usepackage{float}
 \usepackage{hyperref}
 \usepackage{amsfonts}
 \usepackage{amssymb}
@@ -55,7 +56,7 @@
 
   \end{center}
   \end{sffamily}
-\end{titlepage}
+\end{titlepage}%}}}
 
 
 \section{Introduction}
@@ -82,6 +83,7 @@
     une bonne dimension adaptée à l'écran du téléphone. Cela permet aussi d'avoir un affichage optimal quel que soit le mode
     (porttrait/paysage) dans lequel est le téléphone.
     \subsection{Fonctionnement de la grille}
+    \subsubsection{La grille}
     La grille de jeu est implémentée dans la classe \textit{FlowFreeSimpleGridView}, cette classe étant la classe \textit{View}
 afin de posséder toutes les fonctionnalités d'une vue, pour pouvoir intercepter les mouvements de l'utilisateur sur la surface.
 Cette vue possèdera un tableau à deux dimensions (nommé grid) représentant les différentes cases de la grille. On distingue deux
@@ -97,6 +99,28 @@ paru naturel de d'utiliser de l'héritage Avec une classe mère AbsGridElement d
 GridDelimiter (qui représente les cases avec un rond de couleur). La classe mère implémente toutes les fonctionalités qui
 permettent à une case de contenir un ou plusieurs tubes et de les gérer, tandis que les classes filles implémente la gestion des
 couleurs et les opérations à faire en cas de changement de taille (si on passe du mode portrait au mode paysage par exemple).
+    \subsubsection{Les élements de la grille}
+    Comme il a été dit auparavant, il y a deux catégorie d'éléments ceux avec un délimiteur (un rond de couleur) et ceux sans.
+    Chacun de ces deux éléments possède une pile de couleurs, dès qu'un trait de couleur (tube) passe sur la case, la couleur du
+    trait est empilée. On stocke alors la position de la partie du tube qui taverse la case dans une hasmap ordonnée
+    (couleur->Tube). Ainsi, lorqu'on voudra savoir la couleur courante d'une case, il suffira de vérifier que la pile de couleur
+    n'est pas vide, puis de renvoyer le dernier élément de cette pile. Notons que dans le cas des cases ayant un délimiteur, on
+    renverra toujours la couleur du délimiteur. Ces deux classes ont également une méthode \textit{draw} qui dessine à l'écran les
+    parties de tubes qui passent par la case courante. Les cases ayant un délimiteur traceront également leur rond à ce moment là.
+    Les méthodes \textit{updateSize} permettent de mettre à jour les dimensions: dans le cas des délimiteurs, on recalcule le
+    rayon du cercle, puis dans les deux cas, on met à jour les coordonnées des parties de tube présent sur la case. (Si la grille
+    a changé de taille, les extrémités des tubes doivent être mises à jour).
+    \subsubsection{Les tubes}
+    Les tubes ont un début et une fin, marqués par un rond. Tant que le joueur n'a pas appuyé sur l'un des ronds, chaque rond est
+    susceptible d'être un début de tube ou une fin. Un tube est complété quand les deux extrémités sont reliées. La classe tube
+    doit donc posséder les coordonnées de ses extrémités, une couleur et un moyen de savoir quelle extrimité est le début. 
+    Cette classe posséde donc deux taleaux l'un pour les délimiteurs, l'autre pour la suite de segments (passage d'un tube à
+    l'autre) qui le compose. La classe a également un index, qui détermine le délimiteur choisi comme début de tube.
+    Les segments (classe TubPart) sont mis à jour au fur et à mesure que le joueur bouge le doigt sur l'écran.
+    Le fait de  stocker les segments (TubPart) dans une liste permet de facilement savoir si le point où le joueur appuie
+    correspond bien au dernier élément du tube, ce qui empêche le joueur de tracer un prolongement de tubes depuis une position
+    interdite.
+    \subsection{Gestion du tracé}
 \section{Difficultés rencontrées}
 \section{Critiques et suggestions}
 \end{document}
