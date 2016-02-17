@@ -68,7 +68,7 @@ public abstract class AbsGridElement implements Parcelable {
     }
 
     public void setCurrentColor(int color) {
-        colorsInOrder.push(color);
+        colorsInOrder.add(color);
     }
 
     public float getCenterY() {
