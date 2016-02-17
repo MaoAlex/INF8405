@@ -32,12 +32,20 @@ public class MainActivity extends AppCompatActivity {
         }
         
         Button start_button = (Button) findViewById(R.id.start_app);
+        Button instructions_button = (Button) findViewById(R.id.instructions);
         Button quit_button = (Button) findViewById(R.id.quit_app);
         start_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ChooseSize.class);
                 intent.putExtra("LevelsBySize", MainActivity.this.levelsBySize);
+                MainActivity.this.startActivity(intent);
+            }
+        });
+        instructions_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, InstructionsActivity.class);
                 MainActivity.this.startActivity(intent);
             }
         });
