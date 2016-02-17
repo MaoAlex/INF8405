@@ -98,7 +98,7 @@ public class InGame extends AppCompatActivity {
         returnIntent.putExtra("Level", level);
         setResult(Activity.RESULT_CANCELED, returnIntent);
         finish();
-        super.onBackPressed();/*�ffectue une animation de transition si y a en, avant de finir l'Activity*/
+        super.onBackPressed();/*effectue une animation de transition si y a en, avant de finir l'Activity*/
     }
 
     @Override

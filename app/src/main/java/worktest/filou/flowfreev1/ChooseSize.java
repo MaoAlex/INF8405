@@ -66,16 +66,18 @@ public class ChooseSize extends AppCompatActivity {
         Levels levels = data.getParcelableExtra("newLevels");
         int levelId = data.getIntExtra("nouvelId", -1);
         LevelsBySize levelsBySizetemp = new LevelsBySize();
+        levelsBySizetemp.addLevels(levels);
+        levelsBySizetemp.addLevels(levelsBySize.getLastElement());
+        levelsBySize = levelsBySizetemp;
         // if(btnToId.isEmpty())
         //   Log.d(TAG, "La liste est vide valeur levelId transmis au choose level pour la fonction onActivity! : " + levelId);
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
                 if(levelId<3) {
                     Log.d(TAG, "le niveau " + levelId + "est verouille ");
-                    levelsBySizetemp.addLevels(levels);
-                    levelsBySizetemp.addLevels(levelsBySize.getLastElement());
-                    levels.getLevel(levelId).unlocked();
-                    levelsBySize = levelsBySizetemp;
+
+                    //levels.getLevel(levelId).unlocked();
+
                     reChooseLevels(levelId);
                 }
                 else{
