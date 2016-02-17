@@ -29,7 +29,12 @@
             android:text="@string/button_undo"
             android:id="@+id/undo_move"
             android:gravity="top"
-            android:clickable="true" />
+            android:clickable="true"
+            android:layout_weight="10"
+
+            />
+
+
 
         <Button
             android:layout_width="wrap_content"
@@ -37,7 +42,9 @@
             android:text="@string/button_restart"
             android:id="@+id/restart_move"
             android:gravity="top"
-            android:clickable="true" />
+            android:clickable="true"
+            android:layout_weight="10"
+            />
     </LinearLayout>
 
         <worktest.filou.flowfreev1.FlowFreeSimpleGridView

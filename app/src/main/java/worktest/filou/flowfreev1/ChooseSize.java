@@ -144,4 +144,13 @@ public class ChooseSize extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
     }
+
+    @Override
+    public void onBackPressed(){
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("niveau", levelsBySize);
+        Log.d(TAG, "Retour dans MainActivity depuis ChooseSize " + levelsBySize);
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+    }
 }

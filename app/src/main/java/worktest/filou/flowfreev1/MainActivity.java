@@ -1,5 +1,6 @@
 package worktest.filou.flowfreev1;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ChooseSize.class);
                 intent.putExtra("LevelsBySize", MainActivity.this.levelsBySize);
-                MainActivity.this.startActivity(intent);
+                MainActivity.this.startActivityForResult(intent, 1);
             }
         });
         instructions_button.setOnClickListener(new View.OnClickListener() {
@@ -78,4 +79,25 @@ public class MainActivity extends AppCompatActivity {
     public void onStop() {
         super.onStop();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        Log.d(TAG, "Retour dans onActivity ");
+        //levelsBySize =  data.getParcelableExtra("LevelsBySize");
+        Log.d(TAG, "Retour dans onActivity " + levelsBySize);
+        levelsBySize =  data.getParcelableExtra("niveau");
+
+        Log.d(TAG, "Retour dans onActivity " +levelsBySize);
+          if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+
+
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+
+            }
+        }
+    }//onActivityResult
 }

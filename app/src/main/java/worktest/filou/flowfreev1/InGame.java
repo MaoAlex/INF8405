@@ -56,6 +56,7 @@ public class InGame extends AppCompatActivity {
                 Log.d(TAG, "Show Victory: Il a bien gagne");
                 showDialog(DIALOG_ALERT);
             }
+
             @Override
             public void showDefeat() {
                 Log.d(TAG, "Dommage c'est perdu");
@@ -70,6 +71,7 @@ public class InGame extends AppCompatActivity {
             }
         });
 
+        //buttonUndo = (ImageButton) findViewById(R.id.undo_move);
         buttonUndo = (Button) findViewById(R.id.undo_move);
         buttonUndo.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -126,6 +126,8 @@ public class ChooseLevel extends AppCompatActivity {
         setResult(Activity.RESULT_CANCELED, returnIntent);
         finish();
     }
+
+
     @Override
     public void onStop() {
         super.onStop();
