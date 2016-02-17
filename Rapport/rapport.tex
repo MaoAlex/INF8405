@@ -61,7 +61,14 @@
 
 \section{Introduction}
 \section{Présentation Technique}
-    \subsection{Fonctionnement de la Grille}
+    \subsection{Affichage de la grille}
+    Le dessin se fait en stockant des commandes qui tracent des lignes. Ainsi, nous avons une classe \textit{GridLine} qui
+    contient les coordonnées des extrémités d'une ligne, lorsqu'on veut tracer la ligne, on appelle la méthode draw de cette
+    classe en lui passant le canvas sur lequel on désire tracer la ligne. Les lignes sont créées lors de l'appel à la méthode
+    onSizedChanged afin de connaître les dimensions de la place allouée pour la grille. On divise les dimensions par les
+    dimensions de la grille (en nombre de cases). Cela nous donne les dimensions en pixels de chaques cases. On peut alors boucler
+    pour tracer une droite à chaque multiple des offset sur les deux axes.
+    \subsection{Fonctionnement de la grille}
     La grille de jeu est implémentée dans la classe \textit{FlowFreeSimpleGridView}, cette classe étant la classe \textit{View}
 afin de posséder toutes les fonctionnalités d'une vue, pour pouvoir intercepter les mouvements de l'utilisateur sur la surface.
 Cette vue possèdera un tableau à deux dimensions (nommé grid) représentant les différentes cases de la grille. On distingue deux
@@ -71,8 +78,12 @@ en effet considéré que qu'afin de pouvoir compléter le jeu, que les ronds soi
 contraire, on pourrait se retrouver bloqué dans l'état inachevé car il nous serait impossible de tracer le dernier tube, et donc
 d'atteindre l'état de défaite. De ce fait nous voulions pouvoir stoquer deux classes distinctes au sein d'une même structure. De
 plus, ces classes on un fonctionnement très proche: elles doivent pouvoir stocker des éléments de tube de couleurs différentes
-tout en conservant l'ordre d'arrivée de ces derniers afin de présenter un un affichage cohérent ou le dernier morceau de tube
-arrivé sur la case serait celui dessiné en dernier (afin que graphiquement il apparaisse au-dessus de l'autre).
+tout en conservant l'ordre d'arrivée de ces derniers afin de présenter un un affichage cohérent où le dernier morceau de tube
+arrivé sur la case serait celui dessiné en dernier (afin que graphiquement il apparaisse au-dessus de l'autre). Il nous a donc
+paru naturel de d'utiliser de l'héritage Avec une classe mère AbsGridElement dont héritent deux classes GridElement et
+GridDelimiter (qui représente les cases avec un rond de couleur). La classe mère implémente toutes les fonctionalités qui
+permettent à une case de contenir un ou plusieurs tubes et de les gérer, tandis que les classes filles implémente la gestion des
+couleurs et les opérations à faire en cas de changement de taille (si on passe du mode portrait au mode paysage par exemple).
 \section{Difficultés rencontrées}
 \section{Critiques et suggestions}
 \end{document}
