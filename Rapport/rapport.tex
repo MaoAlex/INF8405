@@ -34,8 +34,7 @@
     { \huge \bfseries TP1 : FlowFree\\[0.4cm] }
 
     \HRule \\[2cm]
-    \includegraphics[scale=0.5]{Images/polytechnique_genie_gauche_fr_rgb.png}
-    \\[2cm]
+    \includegraphics[scale=1]{Images/logoFF.png}\\[2cm]
 
     % Author and supervisor
     \begin{minipage}{0.4\textwidth}
@@ -67,7 +66,21 @@
     classe en lui passant le canvas sur lequel on désire tracer la ligne. Les lignes sont créées lors de l'appel à la méthode
     onSizedChanged afin de connaître les dimensions de la place allouée pour la grille. On divise les dimensions par les
     dimensions de la grille (en nombre de cases). Cela nous donne les dimensions en pixels de chaques cases. On peut alors boucler
-    pour tracer une droite à chaque multiple des offset sur les deux axes.
+    pour tracer une droite à chaque multiple des offset sur les deux axes. Cette droite relirerait deux extrémités (verticales ou
+    horizontales).
+    \newline
+
+    Les différentes lignes sont alors stockées dans une liste, afin de les parcourir dans la méthode onDraw de la vue, pour
+    afficher la grille à chaque action de la part du joueur. Dans cette méthode sont également parcourus l'ensemble des éléments
+    de la grille afin de leur demander de se redessiner via leur méthode draw. Ces objets seront détaillés dans la section
+    suivante.
+    \newline
+
+    Il est important de souligner que l'ensemble des objets grahiques sont créés (ou mis à jour selon les cas) dans la méthode
+    onSizedChanged, leurs dimensions sont alors calculées à partir des nouvelles dimensions données par la méthode onSizedChanged
+    de ce fait, la grille prendra toujours toute la place possible et les divers objets graphique (ronds, traits) auront toujours
+    une bonne dimension adaptée à l'écran du téléphone. Cela permet aussi d'avoir un affichage optimal quel que soit le mode
+    (porttrait/paysage) dans lequel est le téléphone.
     \subsection{Fonctionnement de la grille}
     La grille de jeu est implémentée dans la classe \textit{FlowFreeSimpleGridView}, cette classe étant la classe \textit{View}
 afin de posséder toutes les fonctionnalités d'une vue, pour pouvoir intercepter les mouvements de l'utilisateur sur la surface.

@@ -152,6 +152,9 @@ public class FlowFreeSimpleGridView extends View {
         if (i >= level.getWidth())
             return level.getWidth() - 1;
 
+        if (i < 0)
+            return 0;
+
         return i;
     }
 
@@ -161,6 +164,9 @@ public class FlowFreeSimpleGridView extends View {
 
         if (j >= level.getHeight())
             return level.getHeight() - 1;
+
+        if (j < 0)
+            return 0;
 
         return j;
     }
