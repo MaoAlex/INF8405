@@ -35,6 +35,6 @@ public class GridElement extends AbsGridElement {
 
     @Override
     public int getColor() {
-        return colorsInOrder.getFirst();
+        return colorsInOrder.getLast();
     }
 }
