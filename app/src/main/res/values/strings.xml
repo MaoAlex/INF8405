@@ -23,6 +23,8 @@
 
     <!-- menu -->
     <string name="start">Démarrer</string>
+    <string name="instructions">Instructions</string>
+    <string name="help">Aide</string>
     <string name="button_select_7x7">7x7</string>
     <string name="button_select_8x8">8x8</string>
     <string name="quit">Quitter</string>
