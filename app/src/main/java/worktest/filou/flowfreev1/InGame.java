@@ -62,7 +62,7 @@ public class InGame extends AppCompatActivity {
                 showDialog(DIALOG_DEFEAT);
             }
         });
-        buttonRestart = (Button) findViewById(R.id.eraser_move);
+        buttonRestart = (Button) findViewById(R.id.restart_move);
         buttonRestart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +125,7 @@ public class InGame extends AppCompatActivity {
             case DIALOG_ALERT:
                 // Create out AlterDialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("Bravo  , vous avez réussi le niveau ! Vous pouvez passer au niveau suivant !");
+                builder.setMessage("Bravo, vous avez reussi le niveau ! Vous pouvez passer au niveau suivant !");
                 builder.setCancelable(true);
                 builder.setPositiveButton("Passez au niveau suivant", new OkOnClickListener());
                 builder.setNeutralButton("Recommencer la partie", new NeutralOnClickListener());
