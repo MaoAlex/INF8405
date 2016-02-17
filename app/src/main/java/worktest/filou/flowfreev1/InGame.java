@@ -89,6 +89,17 @@ public class InGame extends AppCompatActivity {
     public void onStop() {
         super.onStop();
     }
+
+    @Override
+    public void onBackPressed(){
+        //int niveauCourant = level.getId();
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("nouvelId", levelId);
+        returnIntent.putExtra("Level", level);
+        setResult(Activity.RESULT_CANCELED, returnIntent);
+        finish();
+        super.onBackPressed();/*éffectue une animation de transition si y a en, avant de finir l'Activity*/
+    }
 /*
     private void VictoryDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -140,15 +151,31 @@ public class InGame extends AppCompatActivity {
                 builderDefeat.setCancelable(true);
                 //builderDefeat.setPositiveButton("Passez au niveau suivant", new OkOnClickListener());
                 builderDefeat.setNeutralButton("Recommencer la partie", new NeutralOnClickListener());
-                builderDefeat.setNegativeButton("Retour au choix de niveaux", new CancelOnClickListener());
+                builderDefeat.setNegativeButton("Retour au choix de niveaux", new CancelOnClickListener1());
                 AlertDialog dialogDefeat = builderDefeat.create();
                 dialogDefeat.show();
+                break;
+
+            default:
         }
         return super.onCreateDialog(id);
     }
 
 
     private final class CancelOnClickListener implements
+            DialogInterface.OnClickListener {
+        public void onClick(DialogInterface dialog, int which) {
+            /*Toast.makeText(getApplicationContext(), "Bon courage",
+                    Toast.LENGTH_LONG).show();*/
+            levelId++;
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("nouvelId", levelId);
+            returnIntent.putExtra("Level", level);
+            setResult(Activity.RESULT_CANCELED, returnIntent);
+            finish();
+        }
+    }
+    private final class CancelOnClickListener1 implements
             DialogInterface.OnClickListener {
         public void onClick(DialogInterface dialog, int which) {
             /*Toast.makeText(getApplicationContext(), "Bon courage",
