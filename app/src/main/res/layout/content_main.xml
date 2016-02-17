@@ -24,6 +24,12 @@
             android:text="@string/start"
             android:id="@+id/start_app"
             android:clickable="true" />
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/quit"
+            android:id="@+id/quit_app"
+            android:clickable="true" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -125,16 +125,16 @@ public class ChooseSize extends AppCompatActivity {
 
             case R.id.menu_quit:
                 new AlertDialog.Builder(this)
-                        .setTitle("Quit Flow free V1")
-                        .setMessage("Do you really want to quit the game ?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setTitle(getResources().getString(R.string.quit_title))
+                        .setMessage(getResources().getString(R.string.quit_question))
+                        .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 finishAffinity();
                             }
 
                         })
-                        .setNegativeButton("No", null)
+                        .setNegativeButton(getResources().getString(R.string.no), null)
                         .show();
                 return true;
         }
