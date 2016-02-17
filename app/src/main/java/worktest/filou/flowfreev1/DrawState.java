@@ -114,8 +114,6 @@ public class DrawState implements Parcelable {
 
     public boolean validMove(int i, int j) {
         //check if the position has changed
-        if ( i < 0 || i < 0)
-            return false;
         boolean isValid = i != current_x || j != current_y;
         if (!isValid)
             return false;
