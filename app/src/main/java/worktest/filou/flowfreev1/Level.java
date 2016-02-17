@@ -52,6 +52,9 @@ public class Level implements Parcelable {
     public boolean isUnlocked() {
         return unlocked;
     }
+    public void unlocked() {
+        this.unlocked = true;
+    }//deverouillage du niveau
 
     public Level(int id, int width, int height, boolean unlocked) {
         this.id = id;

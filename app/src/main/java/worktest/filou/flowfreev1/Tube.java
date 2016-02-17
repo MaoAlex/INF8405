@@ -1,6 +1,5 @@
 package worktest.filou.flowfreev1;
 
-import android.graphics.Canvas;
 import android.os.Parcel;
 import android.os.Parcelable;
 

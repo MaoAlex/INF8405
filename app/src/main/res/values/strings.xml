@@ -22,4 +22,7 @@
     <string name="button_undo">Undo</string>
     <string name="text_score">Score: </string>
 
+    <!-- menu -->
+    <string name="quit">Quit</string>
+
 </resources>
