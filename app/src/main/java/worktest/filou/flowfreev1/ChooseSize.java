@@ -51,7 +51,7 @@ public class ChooseSize extends AppCompatActivity {
     private void gotoChooseLevels(int id) {
         Intent intent = new Intent(ChooseSize.this, ChooseLevel.class);
         intent.putExtra("id", btnToId.indexOf(id));
-        intent.putExtra("Levels", ChooseSize.this.levelsBySize.getLevels(btnToId.indexOf(id)));
+        intent.putExtra("Levels", levelsBySize.getLevels(btnToId.indexOf(id)));
         ChooseSize.this.startActivity(intent);
     }
 

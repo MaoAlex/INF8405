@@ -33,6 +33,11 @@ public abstract class AbsGridElement implements Parcelable {
         this.centerY = centerY;
     }
 
+    public void reset() {
+        colorsToIndexTubParts = new LinkedHashMap<>();
+        colorsInOrder = new LinkedList<>();
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -84,6 +89,10 @@ public abstract class AbsGridElement implements Parcelable {
 
     public boolean isEmpty() {
         return colorsToIndexTubParts.isEmpty();
+    }
+
+    public int nbTubPart() {
+        return colorsToIndexTubParts.size();
     }
 
     public abstract int getColor();

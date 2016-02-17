@@ -106,6 +106,8 @@ public class DrawState implements Parcelable {
         return colorHistory.getLast();
     }
 
+    public int pullCurrentColor() {return colorHistory.pollLast(); }
+
     public boolean validMove(int i, int j) {
         //check if the position has changed
         boolean isValid = i != current_x || j != current_y;
@@ -205,7 +207,9 @@ public class DrawState implements Parcelable {
         return fromBothSide;
     }
 
-    public boolean isColorFriendly(int i, int j, AbsGridElement[][] grid, HashMap<Integer, Tube> colorToTubes) {
+    public boolean isColorFriendly(int i, int j,
+                                   AbsGridElement[][] grid, HashMap<Integer,
+                                    Tube> colorToTubes) {
         int i0 = getCurrent_x(), j0 = getCurrent_y();
         if (!grid[i][j].isColored())
             return true;

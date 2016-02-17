@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,6 +22,8 @@ public class InGame extends AppCompatActivity {
     private FlowFreeSimpleGridView gameGrid;
     private FlowFreeSimpleGridView.OnTubEndedListener onTubEndedListener;
     private TextView textView;
+    private Button buttonRestart;
+    private Button buttonUndo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,22 @@ public class InGame extends AppCompatActivity {
         };
         gameGrid = (FlowFreeSimpleGridView)findViewById(R.id.game_grid);
         gameGrid.setOnTubEndedListener(onTubEndedListener);
+
+        buttonRestart = (Button) findViewById(R.id.eraser_move);
+        buttonRestart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gameGrid.restart();
+            }
+        });
+
+        buttonUndo = (Button) findViewById(R.id.undo_move);
+        buttonUndo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gameGrid.undo();
+            }
+        });
     }
 
     @Override

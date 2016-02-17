@@ -13,6 +13,7 @@ import android.util.AttributeSet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by filou on 07/02/16.
@@ -36,6 +37,67 @@ public class FlowFreeSimpleGridView extends View {
 
     public void setOnTubEndedListener(OnTubEndedListener onTubEndedListener) {
         this.onTubEndedListener = onTubEndedListener;
+    }
+
+    public void restart() {
+        drawState = new DrawState();
+        drawState.setStrokeW(x_offset, y_offset);
+        gameState = new GameState(level.getHeight()* level.getWidth());
+        mvTub = null;
+        isFirstUse = true;
+        for (int i = 0; i < level.getWidth(); i++) {
+            for (int j = 0; j < level.getHeight(); j++) {
+                grid[i][j].reset();
+            }
+        }
+        for (Map.Entry<Integer, Tube> tub: colorToTubes.entrySet()) {
+            tub.getValue().reset();
+        }
+
+        if (onTubEndedListener != null)
+            onTubEndedListener.onTubEnded(this, 0);
+
+        invalidate();
+    }
+
+    public void undo() {
+        if (!gameState.canUndo())
+            return;
+
+        int color = drawState.pullCurrentColor();
+        Position position = gameState.pullPositionFromHistory();
+        int i = position.getI();
+        int j = position.getJ();
+        grid[i][j].undo();
+        colorToTubes.get(color).undo();
+
+        if (grid[i][j].isEmpty())
+            gameState.descNbOccupied();
+        else if (grid[i][j].nbTubPart() == 1)
+            gameState.decTubSuperposed();
+
+        if (colorToTubes.get(color).isComplete()) {
+            gameState.decnbTubs();
+            colorToTubes.get(color).setIsComplete(false);
+            if (onTubEndedListener != null)
+                onTubEndedListener.onTubEnded(this, gameState.getNbTubs());
+        }
+
+        if (colorToTubes.get(color).isEmpty())
+            colorToTubes.get(color).resetDelimiter();
+
+        if (!gameState.canUndo()) {
+            drawState.changeDrawState(InternalDrawState.DRAWOFF);
+            invalidate();
+            return;
+        }
+
+        position = gameState.peekPositionFromHistory();
+        i = position.getI();
+        j = position.getJ();
+        drawState.setCurrent_x(i);
+        drawState.setCurrent_y(j);
+        invalidate();
     }
 
     private void setupGrid() {
@@ -119,9 +181,11 @@ public class FlowFreeSimpleGridView extends View {
                         grid[i][j].setCurrentColor(grid[i][j].getColor());
                         grid[i][j].addIndexTubePart(grid[i][j].getColor(), colorToTubes.get(grid[i][j].getColor()).getLastIndex());
                         gameState.incNbOccupied();
+                        gameState.pushPositionToHistory(i,j);
                     } else if (colorToTubes.get(grid[i][j].getColor()).getEnd().getI() == i
-                            && colorToTubes.get(grid[i][j].getColor()).getEnd().getJ() == j)
+                            && colorToTubes.get(grid[i][j].getColor()).getEnd().getJ() == j) {
                         return true;
+                    }
                     drawState.setCurrent_x(i);
                     drawState.setCurrent_y(j);
                     drawState.setCurrentColor(grid[i][j].getColor());
@@ -157,6 +221,7 @@ public class FlowFreeSimpleGridView extends View {
                     drawState.setCurrent_x(i);
                     drawState.setCurrent_y(j);
                     drawState.setCurrentColor(color);
+                    gameState.pushPositionToHistory(i,j);
                     if (gameState.isOver()) {
                         if (gameState.playerHasWon()) {
                             Log.d(TAG, "onTouchEvent: player has won");

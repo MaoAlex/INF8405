@@ -3,6 +3,8 @@ package worktest.filou.flowfreev1;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.LinkedList;
+
 /**
  * Created by filou on 10/02/16.
  */
@@ -10,6 +12,8 @@ public class GameState implements Parcelable {
     private int nbSquares = 0;
     private int nbOccupiedSquares = 0;
     private int nbSquaresWithManyTubs = 0;
+    private int nbTubs = 0;
+    private LinkedList<Position> positionHistory = new LinkedList<>();
 
     public static final Parcelable.Creator<GameState> CREATOR = new Parcelable.Creator<GameState>() {
         @Override
@@ -33,6 +37,7 @@ public class GameState implements Parcelable {
         dest.writeInt(nbSquares);
         dest.writeInt(nbOccupiedSquares);
         dest.writeInt(nbSquaresWithManyTubs);
+        dest.writeInt(nbTubs);
     }
 
     public GameState(int nbSquares) {
@@ -43,6 +48,11 @@ public class GameState implements Parcelable {
         nbSquares = in.readInt();
         nbOccupiedSquares = in.readInt();
         nbSquaresWithManyTubs = in.readInt();
+        nbTubs = in.readInt();
+    }
+
+    public int getNbTubs() {
+        return nbTubs;
     }
 
     public void incNbOccupied() {
@@ -61,6 +71,14 @@ public class GameState implements Parcelable {
         nbSquaresWithManyTubs--;
     }
 
+    public void incnbTubs() {
+        nbTubs++;
+    }
+
+    public void decnbTubs() {
+        nbTubs--;
+    }
+
     public boolean isOver() {
         return nbOccupiedSquares == nbSquares;
     }
@@ -69,5 +87,21 @@ public class GameState implements Parcelable {
         boolean hasWon = nbSquaresWithManyTubs == 0;
         hasWon = hasWon && nbSquares == nbOccupiedSquares;
         return hasWon;
+    }
+
+    public void pushPositionToHistory(int i, int j) {
+        positionHistory.add(new Position(i, j));
+    }
+
+    public Position pullPositionFromHistory() {
+        return positionHistory.pollLast();
+    }
+
+    public Position peekPositionFromHistory() {
+        return positionHistory.peekLast();
+    }
+
+    public boolean canUndo() {
+        return !positionHistory.isEmpty();
     }
 }

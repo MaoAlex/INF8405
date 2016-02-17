@@ -39,6 +39,14 @@ public class Tube implements Parcelable {
             currentPath[i] = new ArrayList<>();
     }
 
+    public void reset() {
+        indexCurrentDelimiter = -1;
+        isComplete = false;
+        currentPath =  new ArrayList[2];
+        for (int i = 0; i < currentPath.length; i++)
+            currentPath[i] = new ArrayList<>();
+    }
+
     public Tube(Parcel in) {
         color = in.readInt();
         isComplete = in.readInt() > 0 ? true : false;
@@ -128,12 +136,22 @@ public class Tube implements Parcelable {
         return next;
     }
 
-    public void removeTubePart(TubePart tubePart) {
-        /*TubePart currentp = tubePart.getPrevious();
-        TubePart currentn = tubePart.getNext();
-        currentp.setNext(null);
-        currentn.setPrevious(null);*/
+    public void undo() {
+        if (indexCurrentDelimiter == -1)
+            return;
+
+        currentPath[indexCurrentDelimiter].remove(getLastIndex());
+
+        if (getLastIndex() < 0 )
+            return;
+
+        currentPath[indexCurrentDelimiter].get(getLastIndex()).setGraphicalTubNext(null);
     }
+
+    public boolean isEmpty() {
+        return currentPath[indexCurrentDelimiter].isEmpty();
+    }
+
 
     @Override
     public boolean equals(Object o) {
