@@ -18,6 +18,7 @@ import android.widget.TextView;
 public class InGame extends AppCompatActivity {
     private static final String TAG = "InGame";
     private final static int DIALOG_ALERT=100; //id pour finir afficher la victoire
+    private final static int DIALOG_DEFEAT=101;
     public Level getLevel() {
         return level;
     }
@@ -54,6 +55,11 @@ public class InGame extends AppCompatActivity {
             public void showVictory() {
                 Log.d(TAG, "Show Victory: Il a bien gagne");
                 showDialog(DIALOG_ALERT);
+            }
+            @Override
+            public void showDefeat() {
+                Log.d(TAG, "Dommage c'est perdu");
+                showDialog(DIALOG_DEFEAT);
             }
         });
         buttonRestart = (Button) findViewById(R.id.eraser_move);
@@ -119,13 +125,24 @@ public class InGame extends AppCompatActivity {
             case DIALOG_ALERT:
                 // Create out AlterDialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("This will end the activity");
+                builder.setMessage("Bravo  , vous avez réussi le niveau ! Vous pouvez passer au niveau suivant !");
                 builder.setCancelable(true);
                 builder.setPositiveButton("Passez au niveau suivant", new OkOnClickListener());
                 builder.setNeutralButton("Recommencer la partie", new NeutralOnClickListener());
                 builder.setNegativeButton("Retour au choix de niveaux", new CancelOnClickListener());
                 AlertDialog dialog = builder.create();
                 dialog.show();
+                break;
+            case DIALOG_DEFEAT:
+                // Create out AlterDialog
+                AlertDialog.Builder builderDefeat = new AlertDialog.Builder(this);
+                builderDefeat.setMessage("Malheuresement vous avez perdu !");
+                builderDefeat.setCancelable(true);
+                //builderDefeat.setPositiveButton("Passez au niveau suivant", new OkOnClickListener());
+                builderDefeat.setNeutralButton("Recommencer la partie", new NeutralOnClickListener());
+                builderDefeat.setNegativeButton("Retour au choix de niveaux", new CancelOnClickListener());
+                AlertDialog dialogDefeat = builderDefeat.create();
+                dialogDefeat.show();
         }
         return super.onCreateDialog(id);
     }
@@ -136,7 +153,12 @@ public class InGame extends AppCompatActivity {
         public void onClick(DialogInterface dialog, int which) {
             /*Toast.makeText(getApplicationContext(), "Bon courage",
                     Toast.LENGTH_LONG).show();*/
-
+            int niveauCourant = level.getId();
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("nouvelId", levelId);
+            returnIntent.putExtra("Level", level);
+            setResult(Activity.RESULT_CANCELED, returnIntent);
+            finish();
         }
     }
     private final class NeutralOnClickListener implements
@@ -150,8 +172,7 @@ public class InGame extends AppCompatActivity {
     private final class OkOnClickListener implements
             DialogInterface.OnClickListener {
         public void onClick(DialogInterface dialog, int which) {
-            int niveauCourant = level.getId();
-            if(niveauCourant<3){
+
                 Log.d(TAG, "valeur level : " + level.getId());
                 level.setId(level.getId() + 1);
                 Log.d(TAG, "valeur level : " + level.getId());
@@ -159,9 +180,7 @@ public class InGame extends AppCompatActivity {
                 levelId++;
                 Log.d(TAG, "valeur levelId : " + levelId);
                 Log.d(TAG, "Niveau modifie");
-                 }else{
-                    //A completer
-            }
+
             Intent returnIntent = new Intent();
             returnIntent.putExtra("nouvelId", levelId);
             returnIntent.putExtra("Level", level);

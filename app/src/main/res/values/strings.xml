@@ -19,6 +19,7 @@
 
     <!-- in game -->
     <string name="button_erase">Erase</string>
+    <string name="button_restart">Restart</string>
     <string name="button_undo">Undo</string>
     <string name="text_score">Score: </string>
 

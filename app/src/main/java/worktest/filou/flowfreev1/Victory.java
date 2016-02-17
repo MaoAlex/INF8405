@@ -10,7 +10,7 @@ public class Victory {
         // These methods are the different events and
         // need to pass relevant arguments related to the event triggered
         public void showVictory();// or when data has been loaded
-
+        public void showDefeat();
     }
 
     // Constructor where listener events are ignored

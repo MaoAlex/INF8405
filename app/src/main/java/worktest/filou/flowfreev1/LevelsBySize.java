@@ -40,7 +40,6 @@ public class LevelsBySize implements Parcelable {
 
     public LevelsBySize() {
     }
-
     public LevelsBySize(Parcel in) {
         in.readTypedList(lisOfLevels, Levels.CREATOR);
     }
@@ -48,7 +47,7 @@ public class LevelsBySize implements Parcelable {
     public Levels getLevels(int index) {
         return lisOfLevels.get(index);
     }
-
+    public Levels getLastElement() {return lisOfLevels.get(lisOfLevels.size()-1);}
     public List<Levels> getList() {
         return lisOfLevels;
     }

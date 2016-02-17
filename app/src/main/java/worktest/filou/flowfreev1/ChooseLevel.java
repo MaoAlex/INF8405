@@ -2,7 +2,6 @@ package worktest.filou.flowfreev1;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,7 +32,6 @@ public class ChooseLevel extends AppCompatActivity {
         levelsId = getIntent().getIntExtra("id", -1);
         levels = getIntent().getParcelableExtra("Levels");
         LinearLayout layout = (LinearLayout) findViewById(R.id.choose_level_activity_layout);
-
         for (Level level : levels.getList()) {
             Button button = new Button(this);
             int id = View.generateViewId();
@@ -48,6 +46,9 @@ public class ChooseLevel extends AppCompatActivity {
                     gotoInGame(v.getId());
                 }
             });
+        }
+        if(levelsId==4) {
+            reGoInGame(0);
         }
 
     }
@@ -81,14 +82,26 @@ public class ChooseLevel extends AppCompatActivity {
          //   Log.d(TAG, "La liste est vide valeur levelId transmis au choose level pour la fonction onActivity! : " + levelId);
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
-                Log.d(TAG, "le niveau " + levelId + "est verouille ");
-                levels.getLevel(levelId).unlocked();
-                if(levels.getLevel(levelId).isUnlocked())
-                    Log.d(TAG, "le niveau " + levelId + "est deverouille ");
-                reGoInGame(levelId);
+                if(levelId<3) {
+                    Log.d(TAG, "le niveau " + levelId + "est verouille ");
+                    levels.getLevel(levelId).unlocked();
+                    if (levels.getLevel(levelId).isUnlocked())
+                        Log.d(TAG, "le niveau " + levelId + "est deverouille ");
+                    reGoInGame(levelId);
+                }
+                else{
+                    Intent returnIntent = new Intent();
+                    levelsId = getIntent().getIntExtra("id", -1);
+                    levels = getIntent().getParcelableExtra("Levels");
+                    returnIntent.putExtra("nouvelId", 1);//pour aller au premier niveau du 8x8
+                    returnIntent.putExtra("newLevels", levels);
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
+                //reGoInGame(levelId);
             }
         }
     }//onActivityResult

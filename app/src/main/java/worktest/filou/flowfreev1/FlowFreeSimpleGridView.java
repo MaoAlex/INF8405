@@ -234,6 +234,9 @@ public class FlowFreeSimpleGridView extends View {
 
                         } else {
                             Log.d(TAG, "onTouchEvent: player has lost");
+                            if(victoryListener!=null){
+                                victoryListener.showDefeat();
+                            }
                         }
                     }
                 } else if (drawState.getInternalState() != InternalDrawState.DRAWOFF

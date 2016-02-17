@@ -1,15 +1,11 @@
 package worktest.filou.flowfreev1;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,10 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ChooseSize extends AppCompatActivity {
     private static final String TAG = "ChooseSize";
@@ -58,8 +52,42 @@ public class ChooseSize extends AppCompatActivity {
         Intent intent = new Intent(ChooseSize.this, ChooseLevel.class);
         intent.putExtra("id", btnToId.indexOf(id));
         intent.putExtra("Levels", levelsBySize.getLevels(btnToId.indexOf(id)));
-        ChooseSize.this.startActivity(intent);
+        ChooseSize.this.startActivityForResult(intent,1);
     }
+
+    private void reChooseLevels(int id) {
+        Intent intent = new Intent(ChooseSize.this, ChooseLevel.class);
+        intent.putExtra("id", 4);
+        intent.putExtra("Levels", levelsBySize.getLevels(id));
+        ChooseSize.this.startActivityForResult(intent,1);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Levels levels = data.getParcelableExtra("newLevels");
+        int levelId = data.getIntExtra("nouvelId", -1);
+        LevelsBySize levelsBySizetemp = new LevelsBySize();
+        // if(btnToId.isEmpty())
+        //   Log.d(TAG, "La liste est vide valeur levelId transmis au choose level pour la fonction onActivity! : " + levelId);
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                if(levelId<3) {
+                    Log.d(TAG, "le niveau " + levelId + "est verouille ");
+                    levelsBySizetemp.addLevels(levels);
+                    levelsBySizetemp.addLevels(levelsBySize.getLastElement());
+                    levels.getLevel(levelId).unlocked();
+                    levelsBySize = levelsBySizetemp;
+                    reChooseLevels(levelId);
+                }
+                else{
+
+                }
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+                //reGoInGame(levelId);
+            }
+        }
+    }//onActivityResult
 
     @Override
     public void onStart() {
