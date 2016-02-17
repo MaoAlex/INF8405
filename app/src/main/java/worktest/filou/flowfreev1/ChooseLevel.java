@@ -116,7 +116,16 @@ public class ChooseLevel extends AppCompatActivity {
         super.onStart();
 
     }
-
+    @Override
+    public void onBackPressed(){
+        Intent returnIntent = new Intent();
+        levelsId = getIntent().getIntExtra("id", -1);
+        levels = getIntent().getParcelableExtra("Levels");
+        returnIntent.putExtra("nouvelId", 1);//pour aller au premier niveau du 8x8
+        returnIntent.putExtra("newLevels", levels);
+        setResult(Activity.RESULT_CANCELED, returnIntent);
+        finish();
+    }
     @Override
     public void onStop() {
         super.onStop();
