@@ -1,5 +1,8 @@
 package worktest.filou.flowfreev1;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Layout;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -64,5 +70,48 @@ public class ChooseSize extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
+    }
+
+    @Override
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        super.onCreateOptionsMenu(menu);
+
+        MenuInflater inflater = getMenuInflater();
+
+        //R.menu.menu est l'id de notre menu
+        inflater.inflate(R.menu.menu, menu);
+
+        return true;
+
+    }
+
+    @Override
+
+    public boolean onOptionsItemSelected (MenuItem item)
+    {
+
+        switch(item.getItemId())
+        {
+
+            case R.id.menu_quit:
+                new AlertDialog.Builder(this)
+                        .setTitle("Quit Flow free V1")
+                        .setMessage("Do you really want to quit the game ?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finishAffinity();
+                            }
+
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+
     }
 }
