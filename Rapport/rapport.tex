@@ -92,8 +92,8 @@
     contient les coordonnées des extrémités d'une ligne, lorsqu'on veut tracer la ligne, on appelle la méthode draw de cette
     classe en lui passant le canvas sur lequel on désire tracer la ligne. Les lignes sont créées lors de l'appel à la méthode
     onSizedChanged afin de connaître les dimensions de la place allouée pour la grille. On divise les dimensions par les
-    dimensions de la grille (en nombre de cases). Cela nous donne les dimensions en pixels de chaques cases. On peut alors boucler
-    pour tracer une droite à chaque multiple des offset sur les deux axes. Cette droite relirerait deux extrémités (verticales ou
+    dimensions de la grille (en nombre de cases). Cela nous donne les dimensions en pixels de chaque cases. On peut alors boucler
+    pour tracer une droite à chaque multiple des offset sur les deux axes. Cette droite relierait deux extrémités (verticales ou
     horizontales).
     \newline
 
@@ -103,11 +103,11 @@
     suivante.
     \newline
 
-    Il est important de souligner que l'ensemble des objets grahiques sont créés (ou mis à jour selon les cas) dans la méthode
+    Il est important de souligner que l'ensemble des objets graphiques sont créés (ou mis à jour selon les cas) dans la méthode
     onSizedChanged, leurs dimensions sont alors calculées à partir des nouvelles dimensions données par la méthode onSizedChanged
     de ce fait, la grille prendra toujours toute la place possible et les divers objets graphique (ronds, traits) auront toujours
     une bonne dimension adaptée à l'écran du téléphone. Cela permet aussi d'avoir un affichage optimal quel que soit le mode
-    (porttrait/paysage) dans lequel est le téléphone.
+    (portrait/paysage) dans lequel est le téléphone.
     \subsection{Fonctionnement de la grille}
     \subsubsection{La grille}
     La grille de jeu est implémentée dans la classe \textit{FlowFreeSimpleGridView}, cette classe étant la classe \textit{View}
@@ -115,9 +115,9 @@ afin de posséder toutes les fonctionnalités d'une vue, pour pouvoir intercepte
 Cette vue possèdera un tableau à deux dimensions (nommé grid) représentant les différentes cases de la grille. On distingue deux
 types de cases, les cases classiques et les cases contenant un délimiteur. Les cases contenant un délimiteur dans la mesure où,
 elles possèdent un cercle de couleur et surtout leur couleur, à tout instant, est toujours du rond présent sur la case. Nous avons
-en effet considéré que qu'afin de pouvoir compléter le jeu, que les ronds soit accessibles à tout instant. En effet, dans le cas
+en effet considéré qu'afin de pouvoir compléter le jeu, que les ronds soit accessibles à tout instant. En effet, dans le cas
 contraire, on pourrait se retrouver bloqué dans l'état inachevé car il nous serait impossible de tracer le dernier tube, et donc
-d'atteindre l'état de défaite. De ce fait nous voulions pouvoir stoquer deux classes distinctes au sein d'une même structure. De
+d'atteindre l'état de défaite. De ce fait nous voulions pouvoir stocker deux classes distinctes au sein d'une même structure. De
 plus, ces classes on un fonctionnement très proche: elles doivent pouvoir stocker des éléments de tube de couleurs différentes
 tout en conservant l'ordre d'arrivée de ces derniers afin de présenter un un affichage cohérent où le dernier morceau de tube
 arrivé sur la case serait celui dessiné en dernier (afin que graphiquement il apparaisse au-dessus de l'autre). Il nous a donc
@@ -125,11 +125,11 @@ paru naturel de d'utiliser de l'héritage Avec une classe mère AbsGridElement d
 GridDelimiter (qui représente les cases avec un rond de couleur). La classe mère implémente toutes les fonctionalités qui
 permettent à une case de contenir un ou plusieurs tubes et de les gérer, tandis que les classes filles implémente la gestion des
 couleurs et les opérations à faire en cas de changement de taille (si on passe du mode portrait au mode paysage par exemple).
-    \subsubsection{Les élements de la grille}
+    \subsubsection{Les éléments de la grille}
     Comme il a été dit auparavant, il y a deux catégorie d'éléments ceux avec un délimiteur (un rond de couleur) et ceux sans.
     Chacun de ces deux éléments possède une pile de couleurs, dès qu'un trait de couleur (tube) passe sur la case, la couleur du
-    trait est empilée. On stocke alors la position de la partie du tube qui taverse la case dans une hasmap ordonnée
-    (couleur->Tube). Ainsi, lorqu'on voudra savoir la couleur courante d'une case, il suffira de vérifier que la pile de couleur
+    trait est empilée. On stocke alors la position de la partie du tube qui traverse la case dans une hasmap ordonnée
+    (couleur->Tube). Ainsi, lorsqu'on voudra savoir la couleur courante d'une case, il suffira de vérifier que la pile de couleur
     n'est pas vide, puis de renvoyer le dernier élément de cette pile. Notons que dans le cas des cases ayant un délimiteur, on
     renverra toujours la couleur du délimiteur. Ces deux classes ont également une méthode \textit{draw} qui dessine à l'écran les
     parties de tubes qui passent par la case courante. Les cases ayant un délimiteur traceront également leur rond à ce moment là.
@@ -139,8 +139,8 @@ couleurs et les opérations à faire en cas de changement de taille (si on passe
     \subsubsection{Les tubes}
     Les tubes ont un début et une fin, marqués par un rond. Tant que le joueur n'a pas appuyé sur l'un des ronds, chaque rond est
     susceptible d'être un début de tube ou une fin. Un tube est complété quand les deux extrémités sont reliées. La classe tube
-    doit donc posséder les coordonnées de ses extrémités, une couleur et un moyen de savoir quelle extrimité est le début. 
-    Cette classe posséde donc deux taleaux l'un pour les délimiteurs, l'autre pour la suite de segments (passage d'un tube à
+    doit donc posséder les coordonnées de ses extrémités, une couleur et un moyen de savoir quelle extrémité est le début. 
+    Cette classe possède donc deux tableaux l'un pour les délimiteurs, l'autre pour la suite de segments (passage d'un tube à
     l'autre) qui le compose. La classe a également un index, qui détermine le délimiteur choisi comme début de tube.
     Les segments (classe TubPart) sont mis à jour au fur et à mesure que le joueur bouge le doigt sur l'écran.
     Le fait de  stocker les segments (TubPart) dans une liste permet de facilement savoir si le point où le joueur appuie
@@ -153,14 +153,14 @@ couleurs et les opérations à faire en cas de changement de taille (si on passe
     le délimiteur qui marque le début sera désigné au moment où l'utilisateur appuiera pour la première fois sur un rond de cette
     couleur. Qui sera alors désigné comme étant le délimiteur de début pour ce tube.
     \subsection{Gestion du tracé}
-    Lorsque l'utilisateur appuie sur l'écran, on recupère les coordonnées via l'event, on les divise par la largeur et la longueur
+    Lorsque l'utilisateur appuie sur l'écran, on récupère les coordonnées via l'event, on les divise par la largeur et la longueur
     d'une case via une division entière, cela nous donne les coordonnées de la case sous la forme (i,j). On peut alors directement
     accéder à la case choisie par l'utilisateur en utilisant le fait que les case sont contenues dans un tableau à deux
     dimensions. On met alors à jour le tube correspondant à la couleur actuelle (via la hashmap couleur -> tube). Cette mise à
     jour, passe par la création d'un objet TubPart qui caractérise le fait qu'un tube passe par une case. Cette objet sert de
     conteneur pour deux "morceaux" de tube. (Ces morceaux sont en réalité des segments graphiques reliant le centre de la case aux
     bords de la case suivante et de la case précédente dans le tube). Ainsi, un tube n'est qu'une succession de segment qui sont
-    tracés à la suite, la sensation de continuité povient du fait que les extrémités du dit segment se superposent.
+    tracés à la suite, la sensation de continuité provient du fait que les extrémités du dit segment se superposent.
     \newline
 
     Remarque; lors du tracé, il faut vérifier que le mouvement fait par l'utilisateur est cohérent, c'est-à-dire qu'il va sur une
@@ -177,15 +177,15 @@ couleurs et les opérations à faire en cas de changement de taille (si on passe
     \end{enumerate}
    Pour détecter une victoire, nous avons utilisé le principe suivant: nous avons une variable qui stocke le nombre de cases, Dès
    qu'un tube atteint une case vide on incrémente un compteur qui stocke le nombre de cases atteintes. Si la case atteinte n'est
-   pas vide, on incrémente le compteur de tubes superposés. Lorsqe toutes les cases sont parcourues (égalité entre le nombre de
+   pas vide, on incrémente le compteur de tubes superposés. Lorsque toutes les cases sont parcourues (égalité entre le nombre de
    cases et la variable case parcourue) on sait que la partie est terminée. Il ne reste plus qu'à tester si il n'y a pas de
-   doublon.
+   doublon tout en s'assurant que le nombre de tubes est égal au nombre de couleurs.
     \subsection{Représentation des niveaux}
     Les niveaux ont été représentés dans un fichier XML \textit{levels.xml} situés dans les ressources de l'application (dossier \textit{res/xml}). La structure du fichier XML est la suivante : la racine du fichier est la balise \textit{listOfLevels}, puis au niveau hiérarchique inférieur, on trouve les balises \textit{levelsOfSizeX} (ici X = 7 ou 8) qui permet de regrouper tous les niveaux d'une même taille dans un même niveau hiérarchique. Enfin, chaque niveau est décrit dans une balise \textit{level} avec un attribut \textit{id}.
     \newline
-    Plus en détail, chaque niveau dispose de quatre caractéristiques : \textit{unlock}, un booléen qui détermine si le niveau est débloqué ou non en premier lieu, \textit{width} et \textit{height}, respectivement la largeur et la longueur du niveau (en nombre de cases), et enfin un ensemble de composants \textit{listOfComponents}, qui va contenir les informations sur les jetons de départ. Chaque composant (balise \textit{component}) va contenir trois balises et représenter une paire de jetons d'une même couleur : \textit{color} contient bien évidemment la couleur, en hexadécimal ou en littéral. Enfin chacun des deux jetons de couleurs sera représenté par un noeud \textit{circle} qui comprend l'abscisse (\textit{x}) et l'ordonnée (\textit{y}) du jeton dans la grille de départ, la case en haut à gauche étant celle de coordonnées (0,0). Les abscisses sont croissantes vers la droite et les ordonnées vers le bas.
+    Plus en détail, chaque niveau dispose de quatre caractéristiques : \textit{unlock}, un booléen qui détermine si le niveau est débloqué ou non en premier lieu, \textit{width} et \textit{height}, respectivement la largeur et la longueur du niveau (en nombre de cases), et enfin un ensemble de composants \textit{listOfComponents}, qui va contenir les informations sur les jetons de départ. Chaque composant (balise \textit{component}) va contenir trois balises et représenter une paire de jetons d'une même couleur : \textit{color} contient bien évidemment la couleur, en hexadécimal ou en littéral. Enfin chacun des deux jetons de couleurs sera représenté par un nœud \textit{circle} qui comprend l'abscisse (\textit{x}) et l'ordonnée (\textit{y}) du jeton dans la grille de départ, la case en haut à gauche étant celle de coordonnées (0,0). Les abscisses sont croissantes vers la droite et les ordonnées vers le bas.
     \newline
-    Cette représentation des niveaux présente plusieurs avantages : la structure est assez rigoureusement définie et permet un parsage facile du fichier lors de sa lecture. C'est le mécanisme utilisé d'une part pour déterminer les tailles disponibles dans l'écran de sélection des tailles, ainsi que pour déterminer les niveaux disponibles pour une taille donnée. Ce système étant automatisé, il serait très facile d'ajouter, si on le souhaitait, des niveaux supplémentaires pour les tailles existantes, voire d'ajouter de nouvelles tailles de grille. Ceci rend l'application facilement extensible au besoin, et permet même à des gens qui ne connaissent pas Java ou ne disposent pas du code source de l'application de pouvoir faire du \textit{level-design}.
+    Cette représentation des niveaux présente plusieurs avantages : la structure est assez rigoureusement définie et permet un paysage facile du fichier lors de sa lecture. C'est le mécanisme utilisé d'une part pour déterminer les tailles disponibles dans l'écran de sélection des tailles, ainsi que pour déterminer les niveaux disponibles pour une taille donnée. Ce système étant automatisé, il serait très facile d'ajouter, si on le souhaitait, des niveaux supplémentaires pour les tailles existantes, voire d'ajouter de nouvelles tailles de grille. Ceci rend l'application facilement extensible au besoin, et permet même à des gens qui ne connaissent pas Java ou ne disposent pas du code source de l'application de pouvoir faire du \textit{level-design}.
     
     \subsection{Utilisation des ressources}
     \subsubsection{Utilisation dans l'application}
