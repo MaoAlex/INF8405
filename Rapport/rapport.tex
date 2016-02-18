@@ -216,6 +216,22 @@ Nous voyons donc l'importance de la communication d'une activité à une autre. 
   \subsection{La compréhension d'android}
   Le sujet qui nous a été proposé est très intéressant pour découvrir les fonctionnalités de base des applications Android. Nous avons pu mettre en œuvre la mise en place de vues dans une activité, les dialogues entre les vues et l'activité, etc...
 L'une des difficultés principales que nous avons eu lors du déroulement de notre projet a été de découvrir et de s'approprier les connaissances nécessaires à la bonne implémentation du jeu qui nous avait été demandé. En effet, Android étant aujourd'hui une plateforme très populaire, nous avons la chance de pouvoir accéder à de très nombreuses ressources et documentations sur les bases pour comprendre le développement sous android.
+  \subsection{Répartition des tâches}
+  Un défi majeur de ce TP aura été la répartition des tâches, en effet, une grosse partie du travail était au niveau de la grille,
+  de ce fait la personne ayant réalisé la grille aura de grandes chances de devoir faire le reste: gestion des mouvements, tests
+  de victoire, etc...
+  On peut donc se retrouver avec une disproportion de la charge de travail selon la personne. De plus, cela est frustrant pour les
+  autres car il leur est diffile de se trouver une place, de contribuer et de s'exécer à la programmation android.
 \section{Critiques et suggestions}
+  \subsection{Le Code}
+  \'A l'issue de ce tp, nous avons un programme fonctionnel, toutefois, il nous semble que notre programme est plus compliqué que
+  nécessaire. L'utilisation de deux arrayList dans les Tube, est totalement inutile est complique la compréhension ainsi que
+  l'ajout de fonctionnalités.
+  \newline
 
+  De plus la répartition des tâches est assez disproportionnée, nous avons une classe GridSimpleview qui possède la quasi totalité
+  de la logique de l'application, ce qui induit un code long, lourd et donc compliqué à comprendre. Il aurait été préferrable de
+  découper davantage en sous-classes. Par ailleurs, un découpage en plusieurs paquetages aurait pu être envisagé, nottamment pour
+  les classes servant d'utilitaire pour faciliter l'implémentation de parcelable d'en d'autre classes. ce qui aurait grandement
+  simplifié la compréhension du code.
 \end{document}
