@@ -137,8 +137,27 @@ couleurs et les opérations à faire en cas de changement de taille (si on passe
     Les segments (classe TubPart) sont mis à jour au fur et à mesure que le joueur bouge le doigt sur l'écran.
     Le fait de  stocker les segments (TubPart) dans une liste permet de facilement savoir si le point où le joueur appuie
     correspond bien au dernier élément du tube, ce qui empêche le joueur de tracer un prolongement de tubes depuis une position
-    interdite.
+    interdite. Cette manière de faire permet également de facilement savoir facilement si le tube est fini.
+    \newline
+
+    Sachant que l'utilisateur doit relier tous les ronds entre eux pour pouvoir gagner, et que donc à terme tous les tubes
+    existeront, ils sont tous créés lors de l'initialisation de la partie. En revanche, ils seront initialisés, c'est-à-dire que
+    le délimiteur qui marque le début sera désigné au moment où l'utilisateur appuiera pour la première fois sur un rond de cette
+    couleur. Qui sera alors désigné comme étant le délimiteur de début pour ce tube.
     \subsection{Gestion du tracé}
+    Lorsque l'utilisateur appuie sur l'écran, on recupère les coordonnées via l'event, on les divise par la largeur et la longueur
+    d'une case via une division entière, cela nous donne les coordonnées de la case sous la forme (i,j). On peut alors directement
+    accéder à la case choisie par l'utilisateur en utilisant le fait que les case sont contenues dans un tableau à deux
+    dimensions. On met alors à jour le tube correspondant à la couleur actuelle (via la hashmap couleur -> tube). Cette mise à
+    jour, passe par la création d'un objet TubPart qui caractérise le fait qu'un tube passe par une case. Cette objet sert de
+    conteneur pour deux "morceaux" de tube. (Ces morceaux sont en réalité des segments graphiques reliant le centre de la case aux
+    bords de la case suivante et de la case précédente dans le tube). Ainsi, un tube n'est qu'une succession de segment qui sont
+    tracés à la suite, la sensation de continuité povient du fait que les extrémités du dit segment se superposent.
+    \newline
+
+    Remarque; lors du tracé, il faut vérifier que le mouvement fait par l'utilisateur est cohérent, c'est-à-dire qu'il va sur une
+    case à côté de la case de départ, dont la couleur est différente de la case sauf s'il se rend sur le délimiteur qui ferme le
+    tube.
 \section{Difficultés rencontrées}
 \section{Critiques et suggestions}
 \end{document}
