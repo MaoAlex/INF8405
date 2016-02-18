@@ -167,6 +167,19 @@ couleurs et les opérations à faire en cas de changement de taille (si on passe
     case à côté de la case de départ, dont la couleur est différente de la case sauf s'il se rend sur le délimiteur qui ferme le
     tube.
     
+    \subsection{Gestion des Annulations/Undo}
+    Afin de pouvoir fournir au joueur la possibilité d'annuler le dernier mouvement fait, nous avons implémenter une
+    fonctionnalité d'annulation. Pour cela nous avons une pile de coordonnées (dans GameState). Ainsi lorsqu'on veut la dernière
+    opération, il nous suffit de retirer la dernière position de la pile des coordonnées, récupérer la classe présente à ces
+    coordonnées. Lorsqu'on arrive sur cette classe, on peut connaître la dernière couleur qui a été dessinée sur cette case via la
+    pile de couleurs contenues dans cette case. Dès qu'on a la couleur, on peut, retirer l'entrée correspondant à cette couleur de
+    la hashmap. Il ne reste alors plus qu'à retirer le dernier élément du tube de cette couleur.
+    \newline
+
+    Il faut juste, lorsqu'un fait cette opération, prendre garde à garder des scores cohérents, ainsi lorsqu'on quitte une case
+    il faut prendre garde à décrémenter le compteur nombre de cases. De même si on vient de supprimer un doublon sur une case.
+    De même, si on vient de déconnecter un tube de son dernier délimiteur, il faut le signaler à la logique du jeu afin que l'état
+    interne soit cohérent.
     \subsection{Représentation des niveaux}
     Les niveaux ont été représentés dans un fichier XML \textit{levels.xml} situés dans les ressources de l'application (dossier \textit{res/xml}). La structure du fichier XML est la suivante : la racine du fichier est la balise \textit{listOfLevels}, puis au niveau hiérarchique inférieur, on trouve les balises \textit{levelsOfSizeX} (ici X = 7 ou 8) qui permet de regrouper tous les niveaux d'une même taille dans un même niveau hiérarchique. Enfin, chaque niveau est décrit dans une balise \textit{level} avec un attribut \textit{id}.
     \newline
