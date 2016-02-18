@@ -9,13 +9,13 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-/**
- * Created by filou on 07/02/16.
- */
+//représente une case
 public abstract class AbsGridElement implements Parcelable {
    private int i, j;
     private float centerX, centerY;
+    //permet d'accéder au tubepar d'une certaine coukeur
     protected LinkedHashMap<Integer,Integer> colorsToIndexTubParts = new LinkedHashMap<>();
+    //pile de couleur
     protected LinkedList<Integer> colorsInOrder = new LinkedList<>();
 
     public int getI() {
@@ -104,6 +104,7 @@ public abstract class AbsGridElement implements Parcelable {
         colorsToIndexTubParts.remove(oldColor);
     }
 
+    //dessine tous les éléments
     public void draw(Canvas canvas, HashMap<Integer, Tube> colorToTubes) {
         for (Map.Entry<Integer, Integer> colorAndIndex: colorsToIndexTubParts.entrySet()) {
             colorToTubes.get(colorAndIndex.getKey()).getTubePart(colorAndIndex.getValue()).draw(canvas);
@@ -118,6 +119,7 @@ public abstract class AbsGridElement implements Parcelable {
         this.centerY = centerY;
     }
 
+    //recalcule les tailles
     public void updateSize(DrawState drawState, AbsGridElement[][] grid, HashMap<Integer, Tube> colorToTubes) {
         for (Map.Entry<Integer, Integer> entry : colorsToIndexTubParts.entrySet()) {
             int color = entry.getKey();
@@ -126,6 +128,7 @@ public abstract class AbsGridElement implements Parcelable {
             TubePart tubePart = tube.getTubePart(indexCurrentTubPart);
 
             if (indexCurrentTubPart - 1 >= 0 ) {
+                //recalcule le trait pour joindre la case précédente
                 TubePart tubePartPrevious = tube.getTubePart(indexCurrentTubPart - 1);
                 tubePart.setGraphicalTubPrevious(drawState.createTubToBorder(tubePart.getI(), tubePart.getJ(),
                         tubePartPrevious.getI(), tubePartPrevious.getJ(), color, grid));
@@ -133,6 +136,7 @@ public abstract class AbsGridElement implements Parcelable {
 
 
             if (indexCurrentTubPart  < tube.getLastIndex()) {
+                //recalcule le trait pour joindre la case suivante
                 TubePart tubePartNext = tube.getTubePart(indexCurrentTubPart + 1);
                 tubePart.setGraphicalTubNext(drawState.createTubToBorder(tubePart.getI(), tubePart.getJ(),
                         tubePartNext.getI(), tubePartNext.getJ(), color, grid));

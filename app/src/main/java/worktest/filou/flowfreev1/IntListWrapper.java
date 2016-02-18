@@ -5,9 +5,7 @@ import android.os.Parcelable;
 
 import java.util.LinkedList;
 
-/**
- * Created by filou on 12/02/16.
- */
+//Wrapper pour rendre des objets parcelable
 public class IntListWrapper implements Parcelable {
 
     private int[] colors;

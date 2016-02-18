@@ -3,9 +3,7 @@ package worktest.filou.flowfreev1;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by filou on 12/02/16.
- */
+//Wrapper pour rendre des objets parcelable
 public class GridWrapper implements Parcelable {
     private AbsGridElement[] flatGrid;
     private int wLevel, hLevel;

@@ -5,9 +5,7 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-/**
- * Created by filou on 06/02/16.
- */
+//liste de niveaux
 public class Levels implements Parcelable {
     public static final Parcelable.Creator<Levels> CREATOR = new Parcelable.Creator<Levels>() {
         @Override

@@ -6,6 +6,7 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
+//repésente un niveau de jeu
 public class Level implements Parcelable {
     
     public static final Parcelable.Creator<Level> CREATOR = new Parcelable.Creator<Level>() {

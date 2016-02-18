@@ -14,20 +14,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by filou on 07/02/16.
- */
+//la grille de jeu
 public class FlowFreeSimpleGridView extends View {
     private static final String TAG = "FlowFreeSimpleGridView";
+    //stocke les lignes pour tracer la ligne
     private GridLine[] lines;
     private Level level;
+    //représentation (la logique) de la grille sous forme matricielle
     private AbsGridElement[][] grid = null;
     private DrawState drawState;
     private GameState gameState;
     private int x_offset, y_offset;
+    //un segment pour tracer un trait de la dernière case à la podition du doigt
     private GraphicalTubPart mvTub = null;
+    //permet de savoir s'il faut recalculer les tailles (mode paysage/porttrait)
     private boolean isFirstUse = true;
+    //fait la correpondance ente une couleur et son tube
     private HashMap<Integer, Tube> colorToTubes;
+    //listener pour mettre à jour le nombre de tubes
     private OnTubEndedListener onTubEndedListener;
     private Victory.VictoryListener victoryListener;//declaration du listener
 
@@ -39,9 +43,13 @@ public class FlowFreeSimpleGridView extends View {
         this.onTubEndedListener = onTubEndedListener;
     }
 
+    //méthode à appeler pour réinitialiser la grille
     public void restart() {
+        //remet drawstate à l'état d'origine
         drawState = new DrawState();
+        //fixe la grosseur du trait
         drawState.setStrokeW(x_offset, y_offset);
+        //remet gamstate à l'état d'origine
         gameState = new GameState(level.getHeight()* level.getWidth());
         mvTub = null;
         isFirstUse = true;
@@ -50,10 +58,12 @@ public class FlowFreeSimpleGridView extends View {
                 grid[i][j].reset();
             }
         }
+        //reset les tubes
         for (Map.Entry<Integer, Tube> tub: colorToTubes.entrySet()) {
             tub.getValue().reset();
         }
 
+        //remet le score à zéro
         if (onTubEndedListener != null)
             onTubEndedListener.onTubEnded(this, 0);
 
@@ -61,21 +71,26 @@ public class FlowFreeSimpleGridView extends View {
     }
 
     public void undo() {
+        //évite les exceotions type: liste vide
         if (!gameState.canUndo())
             return;
 
+        //récupère la couleur courante
         int color = drawState.pullCurrentColor();
         Position position = gameState.pullPositionFromHistory();
         int i = position.getI();
         int j = position.getJ();
+        //retire de la case et du tube le dernier segment
         grid[i][j].undo();
         colorToTubes.get(color).undo();
 
+        //la case est maintenant vide, il faut décrémenter le compteur
         if (grid[i][j].isEmpty())
             gameState.descNbOccupied();
         else if (grid[i][j].nbTubPart() == 1)
             gameState.decTubSuperposed();
 
+        //le tube était complet, il ne l'est plus, on décrémente le score
         if (colorToTubes.get(color).isComplete()) {
             gameState.decnbTubs();
             colorToTubes.get(color).setIsComplete(false);
@@ -83,6 +98,7 @@ public class FlowFreeSimpleGridView extends View {
                 onTubEndedListener.onTubEnded(this, gameState.getNbTubs());
         }
 
+        //le tube est vide, on autorise l'utilisateur à changer de délimeur
         if (colorToTubes.get(color).isEmpty())
             colorToTubes.get(color).resetDelimiter();
 
@@ -92,6 +108,7 @@ public class FlowFreeSimpleGridView extends View {
             return;
         }
 
+        //on met à jour la position courante
         position = gameState.peekPositionFromHistory();
         i = position.getI();
         j = position.getJ();
@@ -137,6 +154,7 @@ public class FlowFreeSimpleGridView extends View {
         }
     }
 
+    //dessinne tous les entérieurs des cases
     private void drawElementsOnGrid(Canvas canvas) {
         for (int i = 0; i < level.getWidth(); i++) {
             for (int j = 0; j < level.getHeight(); j++) {
@@ -145,10 +163,13 @@ public class FlowFreeSimpleGridView extends View {
         }
     }
 
+    //donne le i au sens matriciel
     private int fromScreenToGridCoordX(float touchX) {
         int i = (int) touchX;
+        //division entière
         i /= x_offset;
 
+        //on vérifie la cohérence de la valeur (pour éviter quele trait sorte de la fenêtre
         if (i >= level.getWidth())
             return level.getWidth() - 1;
 
@@ -179,10 +200,13 @@ public class FlowFreeSimpleGridView extends View {
         int j = fromScreenToGridCoordY(touchY);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                //vérifie que l'utilisateur est sur une case colorée dont le tube n'est pas fini
                 if (grid[i][j].isColored() &&
                         !colorToTubes.get(grid[i][j].getColor()).isComplete()) {
                     if (!colorToTubes.get(grid[i][j].getColor()).hasStart()) {
+                        //le Tube n'a pas été initialisé, on doit donc le faire
                         colorToTubes.get(grid[i][j].getColor()).chooseADelimiter(i, j);
+                        //on ajoute un élément au tube
                         colorToTubes.get(grid[i][j].getColor()).addTubePart(new TubePart(i, j, grid[i][j].getColor()));
                         grid[i][j].setCurrentColor(grid[i][j].getColor());
                         grid[i][j].addIndexTubePart(grid[i][j].getColor(), colorToTubes.get(grid[i][j].getColor()).getLastIndex());
@@ -190,9 +214,11 @@ public class FlowFreeSimpleGridView extends View {
                         gameState.pushPositionToHistory(i,j);
                     } else if (colorToTubes.get(grid[i][j].getColor()).getEnd().getI() == i
                             && colorToTubes.get(grid[i][j].getColor()).getEnd().getJ() == j) {
+                        //l'utilisateur à posé son doigt sur une mauvaise extrémité
                         drawState.setInternalState(InternalDrawState.DRAWOFF);
                         return true;
                     }
+                    //On sauvegarde position et couleur
                     drawState.setCurrent_x(i);
                     drawState.setCurrent_y(j);
                     drawState.setCurrentColor(grid[i][j].getColor());
@@ -214,10 +240,13 @@ public class FlowFreeSimpleGridView extends View {
                     tubePart.setGraphicalTubNext(tubParts[0]);
                     newTubePart.setGraphicalTubPrevious(tubParts[1]);
                     colorToTubes.get(color).addTubePart(newTubePart);
+                    //si la case n'est pas vide, alors on a un tube superposé en plus
                     if (!grid[i][j].isEmpty() && color != grid[i][j].getColor())
                         gameState.incTubSuperposed();
+                    //si la case est vide, on la remplit
                     if (grid[i][j].isEmpty())
                         gameState.incNbOccupied();
+                    //si on vient de finir un tube on le signal à l'utilisateur
                     if (colorToTubes.get(color).isComplete()) {
                         gameState.incnbTubs();
                         drawState.setInternalState(InternalDrawState.DRAWOFF);
@@ -232,14 +261,11 @@ public class FlowFreeSimpleGridView extends View {
                     gameState.pushPositionToHistory(i,j);
                     if (gameState.isOver()) {
                         if (gameState.playerHasWon()) {
-                            Log.d(TAG, "onTouchEvent: player has won");
                             if(victoryListener!=null){
-                                victoryListener.showVictory();
+                                victoryListener.showVictory();//Partie gagne, affichage de la fenetre
                             }
-                            Log.d(TAG, "onTouchEvent: player has won");//Partie gagne, affichage de la fenetre
 
                         } else {
-                            Log.d(TAG, "onTouchEvent: player has lost");
                             if(victoryListener!=null){
                                 victoryListener.showDefeat();
                             }
@@ -247,6 +273,7 @@ public class FlowFreeSimpleGridView extends View {
                     }
                 } else if (drawState.getInternalState() != InternalDrawState.DRAWOFF
                         && colorToTubes.get(color).isTail(i0, j0) && !colorToTubes.get(color).isComplete()) {
+                    //trace le trait qui suit le doigt
                     mvTub = drawState.createTubToPos(i0, j0, touchX, touchY, color, grid);
                 }
                 break;
@@ -280,6 +307,7 @@ public class FlowFreeSimpleGridView extends View {
             setupGrid();
             drawState.setStrokeW(x_offset, y_offset);
         } else {
+            //on a besoin de recalculer les tailles de tous les éléments
             Log.d(TAG, "handleChanges: screen turned");
             changeOrientation(w, h);
             isFirstUse = true;
@@ -297,12 +325,13 @@ public class FlowFreeSimpleGridView extends View {
     }
 
     private void changeOrientation(int w, int h) {
+        //la taille a changé: nouvelles lignes, nouveaux offset
         lines = new GridLine[level.getHeight() + level.getWidth() + 2];
         setupDrawing();
         drawState.setX_offset(x_offset);
         drawState.setY_offset(y_offset);
         drawState.updateStrikeSize();
-
+        //met les coordonnées des centres à jour pour les prochains calculs
         for (int i = 0; i < level.getWidth(); i++) {
             for (int j = 0; j < level.getHeight(); j++) {
                 grid[i][j].setCenterX(i * x_offset + x_offset / 2);
@@ -310,6 +339,7 @@ public class FlowFreeSimpleGridView extends View {
             }
         }
 
+        //modifie les tailles en se basant sur les centres calculés au-dessus
         for (int i = 0; i < level.getWidth(); i++) {
             for (int j = 0; j < level.getHeight(); j++) {
                 grid[i][j].updateSize(drawState, grid, colorToTubes);
@@ -320,7 +350,6 @@ public class FlowFreeSimpleGridView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        Log.d(TAG, "onSizeChanged: start");
         handleChanges(w, h);
     }
 
@@ -344,15 +373,17 @@ public class FlowFreeSimpleGridView extends View {
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
-        //minus one to be sure lines don't conflict with layout border
+        //-1 pour que la grille soit toujours visible dans le layout
         int w = getWidth() - 1;
         int h = getHeight() - 1;
         x_offset = w/level.getWidth();
         y_offset = h/level.getHeight();
+        //crée les lignes verticales
         for (int i = 0; i <= level.getWidth(); i++) {
             lines[i] = new GridLine(i*x_offset, 0, i*x_offset, level.getWidth()*y_offset, paint);
         }
 
+        //crée les lignes horizontales
         for (int i = 0; i <= level.getHeight(); i++) {
             lines[i + 1 + level.getWidth()]= new GridLine(0, i*y_offset,
                     level.getHeight()*x_offset, i*y_offset, paint);

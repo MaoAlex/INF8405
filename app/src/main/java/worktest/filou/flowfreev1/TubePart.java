@@ -4,9 +4,8 @@ import android.graphics.Canvas;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by filou on 09/02/16.
- */
+//Morceaux de tube contient segment vers la case précédente et la case suivante
+//dans le tube
 public class TubePart implements Parcelable {
     private GraphicalTubPart[] graphicalTubParts = null;
     private int i, j, color;

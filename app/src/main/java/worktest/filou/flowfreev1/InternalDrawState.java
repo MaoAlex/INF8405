@@ -1,8 +1,6 @@
 package worktest.filou.flowfreev1;
 
-/**
- * Created by filou on 08/02/16.
- */
+//traduit si on peut dessiner ou non
 public enum InternalDrawState {
     DRAWOFF, DRAWON
 }

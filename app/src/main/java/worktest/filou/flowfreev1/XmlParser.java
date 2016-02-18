@@ -1,9 +1,6 @@
 package worktest.filou.flowfreev1;
 
-/**
- * Created by filou on 05/02/16.
- */
-
+//le parser pour le xml
 import android.content.res.XmlResourceParser;
 import android.util.Log;
 

@@ -6,12 +6,12 @@ import android.os.Parcelable;
 
 import java.util.HashMap;
 
-/**
- * Created by filou on 07/02/16.
- */
+//une case avec un délimiteur
 public class GridDelimiter extends AbsGridElement {
 
+    //la couleur du rond
     private int color;
+    //le rond
     private AbsGridDrawable gridDrawable;
 
 
@@ -38,6 +38,7 @@ public class GridDelimiter extends AbsGridElement {
         dest.writeInt(color);
     }
 
+    //On renvoie toujours la couleur du délimiteur
     @Override
     public boolean isColored() {
         return true;
@@ -55,6 +56,7 @@ public class GridDelimiter extends AbsGridElement {
         this.gridDrawable = gridDrawable;
     }
 
+    //Recalcule le cercle
     @Override
     public void updateSize(DrawState drawState, AbsGridElement[][] grid, HashMap<Integer, Tube> colorToTubes) {
         super.updateSize(drawState, grid, colorToTubes);

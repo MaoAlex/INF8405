@@ -5,14 +5,17 @@ import android.os.Parcelable;
 
 import java.util.LinkedList;
 
-/**
- * Created by filou on 10/02/16.
- */
+//état du jeu
 public class GameState implements Parcelable {
+    //nombre total de cases
     private int nbSquares = 0;
+    //nombre de cases parcourues oar un tube
     private int nbOccupiedSquares = 0;
+    //nombre de doublon
     private int nbSquaresWithManyTubs = 0;
+    //nombre de tubes
     private int nbTubs = 0;
+    //pile de position parcourue
     private LinkedList<Position> positionHistory = new LinkedList<>();
 
     public static final Parcelable.Creator<GameState> CREATOR = new Parcelable.Creator<GameState>() {
@@ -84,6 +87,7 @@ public class GameState implements Parcelable {
     }
 
     public boolean playerHasWon() {
+        //on gagne si on a parcouru toutes les cases sans doublon
         boolean hasWon = nbSquaresWithManyTubs == 0;
         hasWon = hasWon && nbSquares == nbOccupiedSquares;
         return hasWon;

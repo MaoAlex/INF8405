@@ -5,9 +5,7 @@ import android.os.Parcelable;
 
 import java.util.Map;
 
-/**
- * Created by filou on 12/02/16.
- */
+//Wrapper pour rendre des objets parcelable
 public class HashIntIntWrapper implements Parcelable {
 
     private int [] keys;

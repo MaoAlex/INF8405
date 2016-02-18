@@ -3,9 +3,7 @@ package worktest.filou.flowfreev1;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by filou on 07/02/16.
- */
+//encapsule la logique d'une case
 public class GridElement extends AbsGridElement {
 
     @Override

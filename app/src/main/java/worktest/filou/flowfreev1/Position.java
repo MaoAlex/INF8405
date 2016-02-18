@@ -3,9 +3,7 @@ package worktest.filou.flowfreev1;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by filou on 10/02/16.
- */
+//Englobe une position (i,j)
 public class Position implements Parcelable {
     int i, j;
 

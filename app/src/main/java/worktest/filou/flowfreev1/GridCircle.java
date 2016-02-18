@@ -3,9 +3,7 @@ package worktest.filou.flowfreev1;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-/**
- * Created by filou on 07/02/16.
- */
+//Encapsule un cercle pour les délimiteurs
 public class GridCircle extends AbsGridDrawable {
     float x, y, radius;
     Paint paint;

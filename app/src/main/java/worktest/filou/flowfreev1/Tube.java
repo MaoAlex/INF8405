@@ -6,13 +6,12 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
- * Created by filou on 09/02/16.
- */
+//les Tubes
 public class Tube implements Parcelable {
     private int color;
     private boolean isComplete = false;
     private Position[] posDelimiters;
+    //deux listes on utilise l'une ou l'autre selon le délimiteur choisi
     private ArrayList<TubePart>[] currentPath;
     private int indexCurrentDelimiter = -1;
 
@@ -38,6 +37,7 @@ public class Tube implements Parcelable {
             currentPath[i] = new ArrayList<>();
     }
 
+    //remet le tube à l'état initial utile pour le restart
     public void reset() {
         indexCurrentDelimiter = -1;
         isComplete = false;
@@ -56,6 +56,7 @@ public class Tube implements Parcelable {
         indexCurrentDelimiter = in.readInt();
     }
 
+    //Choisit le démlimiteur dont les coordonnées sont passées en paramêtres comme le départ d'un tube
     public void chooseADelimiter(int i, int j) {
         for (int k=0; k < 2; k++) {
             if (posDelimiters[k].getI() == i && posDelimiters[k].getJ() == j) {
@@ -135,12 +136,14 @@ public class Tube implements Parcelable {
         return next;
     }
 
+    //retire le dernier élément
     public void undo() {
         if (indexCurrentDelimiter == -1)
             return;
 
         currentPath[indexCurrentDelimiter].remove(getLastIndex());
 
+        //si on est sur le délimiteur de début il n'y a pas d'élément avant
         if (getLastIndex() < 0 )
             return;
 

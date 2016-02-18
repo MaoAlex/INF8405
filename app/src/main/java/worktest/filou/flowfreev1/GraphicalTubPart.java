@@ -4,9 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 
-/**
- * Created by filou on 08/02/16.
- */
+//segment pour relié des cases entre elles
 public class GraphicalTubPart extends AbsGridDrawable {
     private Paint paint;
     private Path path;

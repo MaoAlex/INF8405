@@ -6,9 +6,8 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by filou on 06/02/16.
- */
+
+//Contient des liste de niveaux classé par taille
 public class LevelsBySize implements Parcelable {
     public static final Parcelable.Creator<LevelsBySize> CREATOR = new Parcelable.Creator<LevelsBySize>() {
         @Override

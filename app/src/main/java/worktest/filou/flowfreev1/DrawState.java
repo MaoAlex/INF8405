@@ -8,9 +8,7 @@ import android.os.Parcelable;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-/**
- * Created by filou on 08/02/16.
- */
+//Gére les couleurs durant une partie
 public class DrawState implements Parcelable {
 
     public static final Parcelable.Creator<Level> CREATOR = new Parcelable.Creator<Level>() {
@@ -45,8 +43,11 @@ public class DrawState implements Parcelable {
 
     }
     private int current_x, current_y;
+    //Dit si on doit dessiner ou on
     private InternalDrawState internalState = InternalDrawState.DRAWOFF;
+    //pile de couleurs
     private LinkedList<Integer> colorHistory = new LinkedList<>();
+    //largeur du trait
     private int strokeW;
     private int x_offset, y_offset;
 
@@ -82,6 +83,7 @@ public class DrawState implements Parcelable {
         this.x_offset = x_offset;
     }
 
+    //utile en cas rotation d'écran
     public void updateStrikeSize() {
         setStrokeW(x_offset, y_offset);
     }
@@ -102,6 +104,7 @@ public class DrawState implements Parcelable {
         this.internalState = internalState;
     }
 
+    //rajoute une couleur à l'historique
     public void setCurrentColor(int currentColor) {
         colorHistory.add(currentColor);
     }
@@ -112,20 +115,22 @@ public class DrawState implements Parcelable {
 
     public int pullCurrentColor() {return colorHistory.pollLast(); }
 
+    //vérifie si un mouvement est valide
     public boolean validMove(int i, int j) {
-        //check if the position has changed
+        //vérifie qu'on se déplace
         boolean isValid = i != current_x || j != current_y;
         if (!isValid)
             return false;
 
-        //ensure we move in the neighborhood (with 1 as radius)
+        //on bouge dans un rayon de 1
         int absX = Math.abs(current_x - i), absY = Math.abs(current_y - j);
         isValid = absX  <= 1 && absY <= 1;
-        //ensure that only one of them is equals to 1
+        //mais on ne peut se déplacer de un dans toutes les directions
         isValid = isValid && (absX == 0 || absX - absY != 0);
         return isValid;
     }
 
+    //crée un couleur pour le trait
     public Paint setupPaint(int color, boolean filled) {
         Paint paint = new Paint();
         paint.setColor(color);
@@ -161,6 +166,7 @@ public class DrawState implements Parcelable {
         this.internalState = internalState;
     }
 
+    //crée un tube qui lie 2 cases
     public GraphicalTubPart createTubBetweenCases(int org_i, int org_j,
                                                    int dest_i, int dest_j,
                                                    int color, AbsGridElement[][] grid) {
@@ -172,6 +178,7 @@ public class DrawState implements Parcelable {
         return new GraphicalTubPart(paint, drawPath);
     }
 
+    //crée un tube jusqu'à la position courante
     public GraphicalTubPart createTubToPos(int org_i, int org_j,
                                                    float dest_x, float dest_y,
                                                    int color, AbsGridElement[][] grid) {
@@ -183,6 +190,7 @@ public class DrawState implements Parcelable {
         return new GraphicalTubPart(paint, drawPath);
     }
 
+    //crée un tube jusqu'à une bordure d'une autre  case
     public GraphicalTubPart createTubToBorder(int org_i, int org_j,
                                                    int dest_i, int dest_j,
                                                int color, AbsGridElement[][] grid) {
@@ -201,6 +209,7 @@ public class DrawState implements Parcelable {
         return new GraphicalTubPart(paint, drawPath);
     }
 
+    //Crée deux morceaux de tues reliant 2 cases adjacentes au niveau de la bordure commune
     public GraphicalTubPart[] createTubParts(int org_i, int org_j,
                                               int dest_i, int dest_j,
                                               int color, AbsGridElement[][] grid) {
@@ -211,20 +220,24 @@ public class DrawState implements Parcelable {
         return fromBothSide;
     }
 
+    //vérifie qu'on peut aller sur la case (i,j) du point de vue des couleurs
     public boolean isColorFriendly(int i, int j,
                                    AbsGridElement[][] grid, HashMap<Integer,
                                     Tube> colorToTubes) {
         int i0 = getCurrent_x(), j0 = getCurrent_y();
+        //la case est vide = ok
         if (!grid[i][j].isColored())
             return true;
         int colorOrg = getCurrentColor();
         int colorDest = grid[i][j].getColor();
         int index = grid[i][j].getIndexTubePart(colorOrg);
         if (colorDest != colorOrg && index == -1) {
+            // la case ne posséde pas e tube de la couleur courante = ok
             return true;
         } else if (colorDest == colorOrg) {
             Position position = colorToTubes.get(colorOrg).getEnd();
             if (position.getI() == i && position.getJ() == j) {
+                //on vient d'atteindre la fin du tube (l'autre délimiteur)
                 colorToTubes.get(colorOrg).setIsComplete(true);
                 return true;
             } else {

@@ -3,9 +3,7 @@ package worktest.filou.flowfreev1;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-/**
- * Created by filou on 07/02/16.
- */
+//encapsule une ligne graphique
 public class GridLine extends AbsGridDrawable {
     Canvas canvas;
     Paint paint;

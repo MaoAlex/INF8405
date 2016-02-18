@@ -4,9 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
 
-/**
- * Created by filou on 12/02/16.
- */
+//représente un résumé de FlowFreeSimpleView pour le passer à une autre activité
 public class GridSavedState extends View.BaseSavedState {
         private GridWrapper gridWrapper;
         private GameState gameState;
