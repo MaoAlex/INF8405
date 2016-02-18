@@ -109,22 +109,22 @@ public class InGame extends AppCompatActivity {
             case DIALOG_ALERT:
                 // Create out AlterDialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("Bravo, vous avez reussi le niveau ! Vous pouvez passer au niveau suivant !");
+                builder.setMessage(getResources().getString(R.string.victory_text));
                 builder.setCancelable(true);
-                builder.setPositiveButton("Passez au niveau suivant", new OkOnClickListener());
-                builder.setNeutralButton("Recommencer la partie", new NeutralOnClickListener());
-                builder.setNegativeButton("Retour au choix de niveaux", new CancelOnClickListener());
+                builder.setPositiveButton(getResources().getString(R.string.choice_next), new OkOnClickListener());
+                builder.setNeutralButton(getResources().getString(R.string.choice_restart), new NeutralOnClickListener());
+                builder.setNegativeButton(getResources().getString(R.string.choice_levels), new CancelOnClickListener());
                 AlertDialog dialog = builder.create();
                 dialog.show();
                 break;
             case DIALOG_DEFEAT:
                 // Create out AlterDialog
                 AlertDialog.Builder builderDefeat = new AlertDialog.Builder(this);
-                builderDefeat.setMessage("Malheuresement vous avez perdu !");
+                builderDefeat.setMessage(getResources().getString(R.string.defeat_text));
                 builderDefeat.setCancelable(true);
                 //builderDefeat.setPositiveButton("Passez au niveau suivant", new OkOnClickListener());
-                builderDefeat.setNeutralButton("Recommencer la partie", new NeutralOnClickListener());
-                builderDefeat.setNegativeButton("Retour au choix de niveaux", new CancelOnClickListener1());
+                builderDefeat.setNeutralButton(getResources().getString(R.string.choice_restart), new NeutralOnClickListener());
+                builderDefeat.setNegativeButton(getResources().getString(R.string.choice_levels), new CancelOnClickListener1());
                 AlertDialog dialogDefeat = builderDefeat.create();
                 dialogDefeat.show();
                 break;
@@ -214,17 +214,17 @@ public class InGame extends AppCompatActivity {
 
             case R.id.menu_quit:
                 new AlertDialog.Builder(this)
-                        .setTitle("Quit Flow free V1")
-                        .setMessage("Do you really want to quit the game ?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finishAffinity();
-                            }
+                        .setTitle(getResources().getString(R.string.quit_title))
+                                .setMessage(getResources().getString(R.string.quit_question))
+                                        .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                finishAffinity();
+                                            }
 
-                        })
-                        .setNegativeButton("No", null)
-                        .show();
+                                        })
+                                                .setNegativeButton(getResources().getString(R.string.no), null)
+                                                        .show();
                 return true;
         }
 
