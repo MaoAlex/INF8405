@@ -17,9 +17,9 @@
 
     <!-- in game -->
     <string name="button_erase">Erase</string>
-    <string name="button_restart">Restart</string>
-    <string name="button_undo">Undo</string>
-    <string name="text_score">Score: </string>
+    <string name="button_restart">Recommencer</string>
+    <string name="button_undo">Annuler</string>
+    <string name="text_score">Score : </string>
 
     <!-- menu -->
     <string name="start">Démarrer</string>
@@ -28,14 +28,18 @@
     <string name="button_select_7x7">7x7</string>
     <string name="button_select_8x8">8x8</string>
     <string name="quit">Quitter</string>
+    <string name="back_menu">Retour au menu</string>
 
     <!-- Dialogues -->
     <string name="quit_title">Quitter Flow free V1 ?</string>
     <string name="quit_question">Etes-vous sûr de vouloir quitter le jeu ?</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
-    <string name="title_activity_instructions">InstructionsActivity</string>
-
+    <string name="victory_text">Bravo, vous avez reussi le niveau ! Vous pouvez passer au niveau suivant !</string>
+    <string name="choice_next">Passez au niveau suivant</string>
+    <string name="choice_restart">Recommencer la partie</string>
+    <string name="choice_levels">Retour au choix de niveaux</string>
+    <string name="defeat_text">Malheureusement vous avez perdu !</string>
     <!-- Instructions -->
     <string name="instructions_text">
         <![CDATA[

@@ -166,7 +166,20 @@ couleurs et les opérations à faire en cas de changement de taille (si on passe
     Remarque; lors du tracé, il faut vérifier que le mouvement fait par l'utilisateur est cohérent, c'est-à-dire qu'il va sur une
     case à côté de la case de départ, dont la couleur est différente de la case sauf s'il se rend sur le délimiteur qui ferme le
     tube.
-    
+    \subsection{Détection de fin de partie}
+    Dans un jeux de ce type, il est important de détecter correctement que le joueur a gagné ou perdu. Rappelons les règles:
+    \begin{enumerate}
+        \item Le joueur a gagné s'il est passé par toutes les cases, sans que deux tubes se chevauchent, et que tous les tubes
+            sont complets. C'est-à-dire que les deux extrémités d'une même couleur sont reliées par un tube de cette même couleur.
+        \item Le joueur a perdu si toutes les cases sont occupées, toutes les extrémités reliées, mais qu'il y a au moins deux
+            tubes qui se chevauchent.
+        \item dans les autres cas, la partie est inachevée.
+    \end{enumerate}
+   Pour détecter une victoire, nous avons utilisé le principe suivant: nous avons une variable qui stocke le nombre de cases, Dès
+   qu'un tube atteint une case vide on incrémente un compteur qui stocke le nombre de cases atteintes. Si la case atteinte n'est
+   pas vide, on incrémente le compteur de tubes superposés. Lorsqe toutes les cases sont parcourues (égalité entre le nombre de
+   cases et la variable case parcourue) on sait que la partie est terminée. Il ne reste plus qu'à tester si il n'y a pas de
+   doublon.
     \subsection{Représentation des niveaux}
     Les niveaux ont été représentés dans un fichier XML \textit{levels.xml} situés dans les ressources de l'application (dossier \textit{res/xml}). La structure du fichier XML est la suivante : la racine du fichier est la balise \textit{listOfLevels}, puis au niveau hiérarchique inférieur, on trouve les balises \textit{levelsOfSizeX} (ici X = 7 ou 8) qui permet de regrouper tous les niveaux d'une même taille dans un même niveau hiérarchique. Enfin, chaque niveau est décrit dans une balise \textit{level} avec un attribut \textit{id}.
     \newline

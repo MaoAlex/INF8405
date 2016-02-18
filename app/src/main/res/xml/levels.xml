@@ -40,7 +40,7 @@
                     </circle>
                 </component>
                 <component>
-                    <color>green</color>
+                    <color>#00AF50</color>
                     <circle>
                         <x>0</x>
                         <y>5</y>
@@ -51,7 +51,7 @@
                     </circle>
                 </component>
                 <component>
-                    <color>#A52A2A</color>
+                    <color>#E26C09</color>
                     <circle>
                         <x>1</x>
                         <y>5</y>
@@ -102,7 +102,7 @@
                     </circle>
                 </component>
                 <component>
-                    <color>green</color>
+                    <color>#00AF50</color>
                     <circle>
                         <x>5</x>
                         <y>4</y>
@@ -113,7 +113,7 @@
                     </circle>
                 </component>
                 <component>
-                    <color>#A52A2A</color>
+                    <color>#E26C09</color>
                     <circle>
                         <x>3</x>
                         <y>5</y>
@@ -186,7 +186,7 @@
                     </circle>
                 </component>
                 <component>
-                    <color>green</color>
+                    <color>#00AF50</color>
                     <circle>
                         <x>1</x>
                         <y>3</y>
@@ -197,7 +197,7 @@
                     </circle>
                 </component>
                 <component>
-                    <color>#A52A2A</color>
+                    <color>#E26C09</color>
                     <circle>
                         <x>1</x>
                         <y>5</y>
@@ -261,7 +261,7 @@
                     </circle>
                 </component>
                 <component>
-                    <color>green</color>
+                    <color>#00AF50</color>
                     <circle>
                         <x>0</x>
                         <y>1</y>
@@ -272,7 +272,7 @@
                     </circle>
                 </component>
                 <component>
-                    <color>#A52A2A</color>
+                    <color>#E26C09</color>
                     <circle>
                         <x>3</x>
                         <y>4</y>
@@ -367,7 +367,7 @@
                     </circle>
                 </component>
                 <component>
-                    <color>green</color>
+                    <color>#00AF50</color>
                     <circle>
                         <x>6</x>
                         <y>1</y>
@@ -378,7 +378,7 @@
                     </circle>
                 </component>
                 <component>
-                    <color>#A52A2A</color>
+                    <color>#E26C09</color>
                     <circle>
                         <x>4</x>
                         <y>1</y>
@@ -451,7 +451,7 @@
                     </circle>
                 </component>
                 <component>
-                    <color>green</color>
+                    <color>#00AF50</color>
                     <circle>
                         <x>3</x>
                         <y>0</y>
@@ -462,7 +462,7 @@
                     </circle>
                 </component>
                 <component>
-                    <color>#A52A2A</color>
+                    <color>#E26C09</color>
                     <circle>
                         <x>3</x>
                         <y>1</y>
