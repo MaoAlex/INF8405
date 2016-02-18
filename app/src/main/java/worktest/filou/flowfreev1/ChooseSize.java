@@ -51,6 +51,8 @@ public class ChooseSize extends AppCompatActivity {
     private void gotoChooseLevels(int id) {
         Intent intent = new Intent(ChooseSize.this, ChooseLevel.class);
         intent.putExtra("id", btnToId.indexOf(id));
+        Log.d(TAG, "La liste est vide valeur levelId transmis au choose level pour la fonction onActivity! : " + btnToId.indexOf(id));
+
         intent.putExtra("Levels", levelsBySize.getLevels(btnToId.indexOf(id)));
         ChooseSize.this.startActivityForResult(intent,1);
     }
@@ -59,21 +61,22 @@ public class ChooseSize extends AppCompatActivity {
         Intent intent = new Intent(ChooseSize.this, ChooseLevel.class);
         intent.putExtra("id", 4);
         intent.putExtra("Levels", levelsBySize.getLevels(id));
-        ChooseSize.this.startActivityForResult(intent,1);
+        ChooseSize.this.startActivityForResult(intent,-1);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Levels levels = data.getParcelableExtra("newLevels");
         int levelId = data.getIntExtra("nouvelId", -1);
         LevelsBySize levelsBySizetemp = new LevelsBySize();
-        levelsBySizetemp.addLevels(levels);
-        levelsBySizetemp.addLevels(levelsBySize.getLastElement());
-        levelsBySize = levelsBySizetemp;
+
         // if(btnToId.isEmpty())
-        //   Log.d(TAG, "La liste est vide valeur levelId transmis au choose level pour la fonction onActivity! : " + levelId);
+          Log.d(TAG, "La liste est vide valeur levelId transmis au choose level pour la fonction onActivity! : " + levelId);
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
                 if(levelId<3) {
+                    levelsBySizetemp.addLevels(levels);
+                    levelsBySizetemp.addLevels(levelsBySize.getLastElement());
+                    levelsBySize = levelsBySizetemp;
                     Log.d(TAG, "le niveau " + levelId + "est verouille ");
 
                     //levels.getLevel(levelId).unlocked();
@@ -84,7 +87,7 @@ public class ChooseSize extends AppCompatActivity {
 
                 }
             }
-            if (resultCode == Activity.RESULT_CANCELED) {
+            else if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
                 //reGoInGame(levelId);
             }
