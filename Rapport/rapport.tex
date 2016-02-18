@@ -71,18 +71,42 @@
 	
 	\subsection{Menus de l'application}
 	Nous avons opté pour un menu d'accueil proposant trois options : \textit{démarrer} une partie, accéder aux \textit{instructions} et \textit{quitter} l'application.
-	Lorsque l'utilisateur choisit de démarrer la partie, un autre menu s'affiche et lui demande de choisir la taille de la grille, puis, une fois celle-ci choisie, l'utilisateur doit choisir le niveau qu'il va jouer. L'écran de jeu s'affiche alors et le joueur peut débuter. Sur les trois écrans mentionnés, l'utilisateur peut à tout moment quitter l'application en utilisant le menu dans la barre de l'application  (symbolisé sur Android 5 et 6 par les 3 points en haut à droite de la barre).
-	
+	Lorsque l'utilisateur choisit de démarrer la partie, un autre menu s'affiche et lui demande de choisir la taille de la grille, puis, une fois celle-ci choisie, l'utilisateur doit choisir le niveau qu'il va jouer. L'écran de jeu s'affiche alors et le joueur peut débuter. Sur les trois écrans mentionnés, l'utilisateur peut à tout moment quitter l'application en utilisant le menu dans la barre de l'application  (symbolisé sur Android 5 et 6 par les 3 points en haut à droite de la barre) [voir figures \ref{fig:menus} et \ref{fig:quitter}]
+	\begin{figure}
+	\includegraphics[width=5cm]{Images/nexus_1.png}\hfill
+	\includegraphics[width=5cm]{Images/nexus_3.png}\hfill
+	\includegraphics[width=5cm]{Images/nexus_4.png}
+	\caption{Menus sur un Google Nexus 5X (Android 6)}\label{fig:menus}
+\end{figure}
+
 	\subsection{Quitter l'application}
-	Pour empêcher l'utilisateur de quitter de manière involontaire l'application, le choix de quitter dans les différents menus est soumis à une confirmation, qui se fait par l'intermédiaire d'une fenêtre pop-up offrant deux choix de réponses : Oui et Non.
+	Pour empêcher l'utilisateur de quitter de manière involontaire l'application, le choix de quitter dans les différents menus est soumis à une confirmation, qui se fait par l'intermédiaire d'une fenêtre pop-up offrant deux choix de réponses : Oui et Non. [voir figure \ref{fig:quitter}]
+	
+\begin{figure}
+\includegraphics[width=11cm]{Images/s2_2.png}\hfill
+\includegraphics[width=5cm]{Images/nexus_7.png}
+\caption{Processus pour quitter sur un Samsung Galaxy Tab 2 et Google Nexus 5X}\label{fig:quitter}
+\end{figure}
 	
 	\subsection{Déroulement du jeu}
 	Une fois la partie lancée, les mécanismes impliqués pour que le joueur puisse jouer sont assez commun à beaucoup de jeux, et, nous l'espérons, intuitifs. Le joueur commence à tracer un tube d'une couleur en appuyant le doigt sur le jeton de départ qu'il a choisi, puis en maintenant appuyé pour tracer le tube de la couleur en question. Le tube en formation s'affiche au fur et à mesure que le joueur déplace son doigt. Lorsque le joueur relève le doigt, le tracé s'arrête, mais le joueur à la possibilité de continuer à tout moment le trait qu'il vient d'interrompre en appuyant le doigt sur l'extrémité actuelle du tube. Sinon, il peut passer à un autre jeton de départ (et une autre couleur) ou bien poursuivre un autre tracé.
 	\newline
 	Afin d'offrir un confort maximal et de permettre au joueur de ne pas avoir à recommencer à chaque erreur de tracé, une fonction d'annulation a été incluse. Elle permet d'effacer du plus récent au plus ancien les derniers morceaux de tubes qui ont été tracés. Une fonction de réinitialisation est également présente pour revenir à la configuration de départ du niveau.
 	
+	\begin{figure}
+\includegraphics[width=8cm]{Images/s2_3.png}\hfill
+\includegraphics[width=8cm]{Images/s2_4.png}
+\caption{Partie en cours et gagnée sur un Samsung Galaxy Tab 2}\label{fig:partie}
+\end{figure}
+	
+	\begin{figure}
+\includegraphics[width=11cm]{Images/s2_2.png}\hfill
+\includegraphics[width=5cm]{Images/nexus_2.png}
+\caption{Instructions sur un Samsung Galaxy Tab 2 et Google Nexus 5X}\label{fig:instructions}
+\end{figure}
+
 	\subsection{Instructions}
-	Pour présenter au joueur des informations utiles à son expérience de jeu, nous avons introduit dans le menu principal un accès aux instructions du jeu. Celle ci sont présentées dans un écran dédié, scrollable, et structurées en divers sections, présentant respectivement les règles et mécanismes du jeu, les conditions de victoire, les conditions de défaite, le schéma de progression et de navigation dans les niveaux. Enfin un petit mot est mis sur la possibilité de quitter le jeu via les menus dédiés.
+	Pour présenter au joueur des informations utiles à son expérience de jeu, nous avons introduit dans le menu principal un accès aux instructions du jeu. Celle ci sont présentées dans un écran dédié [voir figure \ref{fig:instructions}] , scrollable, et structurées en divers sections, présentant respectivement les règles et mécanismes du jeu, les conditions de victoire, les conditions de défaite, le schéma de progression et de navigation dans les niveaux. Enfin un petit mot est mis sur la possibilité de quitter le jeu via les menus dédiés.
 	\newline
 	Nous avons vu les principaux choix concernant l'ergonomie et les mécanismes de jeu offerts à l'utilisateur. Dans la section suivante, nous détaillerons les choix techniques effectués pour réaliser l'application.
 		 
