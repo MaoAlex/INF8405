@@ -15,6 +15,7 @@ public class GameState implements Parcelable {
     private int nbSquaresWithManyTubs = 0;
     //nombre de tubes
     private int nbTubs = 0;
+    private int nbColors;
     //pile de position parcourue
     private LinkedList<Position> positionHistory = new LinkedList<>();
 
@@ -35,16 +36,26 @@ public class GameState implements Parcelable {
         return 0;
     }
 
+    public int getNbColors() {
+        return nbColors;
+    }
+
+    public void setNbColors(int nbColors) {
+        this.nbColors = nbColors;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(nbSquares);
         dest.writeInt(nbOccupiedSquares);
         dest.writeInt(nbSquaresWithManyTubs);
         dest.writeInt(nbTubs);
+        dest.writeInt(nbColors);
     }
 
     public GameState(int nbSquares) {
         this.nbSquares = nbSquares;
+        this.nbColors = nbColors;
     }
 
     public GameState(Parcel in) {
@@ -52,6 +63,7 @@ public class GameState implements Parcelable {
         nbOccupiedSquares = in.readInt();
         nbSquaresWithManyTubs = in.readInt();
         nbTubs = in.readInt();
+        nbColors = in.readInt();
     }
 
     public int getNbTubs() {
@@ -90,6 +102,7 @@ public class GameState implements Parcelable {
         //on gagne si on a parcouru toutes les cases sans doublon
         boolean hasWon = nbSquaresWithManyTubs == 0;
         hasWon = hasWon && nbSquares == nbOccupiedSquares;
+        hasWon = hasWon && nbColors == nbTubs;
         return hasWon;
     }
 

@@ -152,6 +152,7 @@ public class FlowFreeSimpleGridView extends View {
                     y_center1, color,
                     new GridCircle(x_center1,  y_center1, radius, tmpPaint));
         }
+        gameState.setNbColors(colorToTubes.size());
     }
 
     //dessinne tous les entérieurs des cases
