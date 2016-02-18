@@ -28,7 +28,7 @@ public class ChooseSize extends AppCompatActivity {
         setContentView(R.layout.activity_choose_size);
         levelsBySize =  getIntent().getParcelableExtra("LevelsBySize");
         LinearLayout layout = (LinearLayout) findViewById(R.id.choose_size_activity_layout);
-
+        //Création des boutons pour le choix de la taille
         for (Levels levels : levelsBySize.getList()) {
             Button button = new Button(this);
             int id = View.generateViewId();
@@ -36,7 +36,6 @@ public class ChooseSize extends AppCompatActivity {
             btnToId.add(id);
             buttons.add(button);
             layout.addView(button);
-            //We can take the first element because each list should never be empty
             button.setText(levels.getLevel(0).getWidth() + "x" + levels.getLevel(0).getHeight());
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -47,7 +46,7 @@ public class ChooseSize extends AppCompatActivity {
 
         }
     }
-
+    //Fonction de création de la nouvelle activité après le choix de la taille
     private void gotoChooseLevels(int id) {
         Intent intent = new Intent(ChooseSize.this, ChooseLevel.class);
         intent.putExtra("id", btnToId.indexOf(id));
@@ -55,7 +54,7 @@ public class ChooseSize extends AppCompatActivity {
         intent.putExtra("Levels", levelsBySize.getLevels(btnToId.indexOf(id)));
         ChooseSize.this.startActivityForResult(intent,1);
     }
-
+    //Fonction de choix du niveau après un retour de l'activité Choose LEvel
     private void reChooseLevels(int id) {
         Intent intent = new Intent(ChooseSize.this, ChooseLevel.class);
         intent.putExtra("id", 4);
@@ -63,6 +62,7 @@ public class ChooseSize extends AppCompatActivity {
         ChooseSize.this.startActivityForResult(intent,-1);
     }
     @Override
+    //Fonction permettant la récupération des informations de l'activité fille
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Levels levels = data.getParcelableExtra("newLevels");
         int levelId = data.getIntExtra("nouvelId", -1);
@@ -72,23 +72,15 @@ public class ChooseSize extends AppCompatActivity {
             levelsBySizetemp.addLevels(levelsBySize.getLevels((levelId+1)%2));
         }else
         {
-
             levelsBySizetemp.addLevels(levelsBySize.getLevels((levelId+1)%2));
             levelsBySizetemp.addLevels(levels);
         }
-
-
         levelsBySize = levelsBySizetemp;
-        // if(btnToId.isEmpty())
           Log.d(TAG, "La liste est vide valeur levelId transmis au choose level pour la fonction onActivity! : " + levelId);
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
                 if(levelId<3) {
-
                     Log.d(TAG, "le niveau " + levelId + "est verouille ");
-
-                    //levels.getLevel(levelId).unlocked();
-
                     reChooseLevels(levelId);
                 }
                 else{
@@ -96,8 +88,6 @@ public class ChooseSize extends AppCompatActivity {
                 }
             }
             else if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
-                //reGoInGame(levelId);
             }
         }
     }//onActivityResult

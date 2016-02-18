@@ -18,7 +18,7 @@ import android.widget.TextView;
 public class InGame extends AppCompatActivity {
     private static final String TAG = "InGame";
     private final static int DIALOG_ALERT=100; //id pour finir afficher la victoire
-    private final static int DIALOG_DEFEAT=101;
+    private final static int DIALOG_DEFEAT=101; //id pour la defaite
     public Level getLevel() {
         return level;
     }
@@ -94,7 +94,6 @@ public class InGame extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        //int niveauCourant = level.getId();
         Intent returnIntent = new Intent();
         returnIntent.putExtra("nouvelId", levelId);
         returnIntent.putExtra("Level", level);
@@ -107,7 +106,7 @@ public class InGame extends AppCompatActivity {
     protected Dialog onCreateDialog(int id) {
         switch (id) {
             case DIALOG_ALERT:
-                // Create out AlterDialog
+                //Creation de la boite de dialogue apres avoir reussi le niveau
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage(getResources().getString(R.string.victory_text));
                 builder.setCancelable(true);
@@ -118,11 +117,10 @@ public class InGame extends AppCompatActivity {
                 dialog.show();
                 break;
             case DIALOG_DEFEAT:
-                // Create out AlterDialog
+                //creation de la boite de dialogue apres avoir perdu le niveau
                 AlertDialog.Builder builderDefeat = new AlertDialog.Builder(this);
                 builderDefeat.setMessage(getResources().getString(R.string.defeat_text));
                 builderDefeat.setCancelable(true);
-                //builderDefeat.setPositiveButton("Passez au niveau suivant", new OkOnClickListener());
                 builderDefeat.setNeutralButton(getResources().getString(R.string.choice_restart), new NeutralOnClickListener());
                 builderDefeat.setNegativeButton(getResources().getString(R.string.choice_levels), new CancelOnClickListener1());
                 AlertDialog dialogDefeat = builderDefeat.create();
@@ -134,12 +132,10 @@ public class InGame extends AppCompatActivity {
         return super.onCreateDialog(id);
     }
 
-
+    //Fonction permettant de retourner a l'activite precedente apres avoir gagne la partie
     private final class CancelOnClickListener implements
             DialogInterface.OnClickListener {
         public void onClick(DialogInterface dialog, int which) {
-            /*Toast.makeText(getApplicationContext(), "Bon courage",
-                    Toast.LENGTH_LONG).show();*/
             levelId++;
             Intent returnIntent = new Intent();
             returnIntent.putExtra("nouvelId", levelId);
@@ -148,12 +144,10 @@ public class InGame extends AppCompatActivity {
             finish();
         }
     }
+    //Fonction permettant de retourner a l'activite precedente apres avoir perdu la partie
     private final class CancelOnClickListener1 implements
             DialogInterface.OnClickListener {
         public void onClick(DialogInterface dialog, int which) {
-            /*Toast.makeText(getApplicationContext(), "Bon courage",
-                    Toast.LENGTH_LONG).show();*/
-            int niveauCourant = level.getId();
             Intent returnIntent = new Intent();
             returnIntent.putExtra("nouvelId", levelId);
             returnIntent.putExtra("Level", level);
@@ -161,26 +155,19 @@ public class InGame extends AppCompatActivity {
             finish();
         }
     }
+    //Fonction permettant de recommencer le niveau
     private final class NeutralOnClickListener implements
             DialogInterface.OnClickListener {
         public void onClick(DialogInterface dialog, int which) {
-            /*Toast.makeText(getApplicationContext(), "Bon courage",
-                    Toast.LENGTH_LONG).show();*/
             gameGrid.restart();
         }
     }
+    //Permet de passer au niveau suivant
     private final class OkOnClickListener implements
             DialogInterface.OnClickListener {
         public void onClick(DialogInterface dialog, int which) {
-
-                Log.d(TAG, "valeur level : " + level.getId());
-                level.setId(level.getId() + 1);
-                Log.d(TAG, "valeur level : " + level.getId());
-                Log.d(TAG, "valeur levelId : " + levelId);
+             level.setId(level.getId() + 1);
                 levelId++;
-                Log.d(TAG, "valeur levelId : " + levelId);
-                Log.d(TAG, "Niveau modifie");
-
             Intent returnIntent = new Intent();
             returnIntent.putExtra("nouvelId", levelId);
             returnIntent.putExtra("Level", level);
@@ -215,15 +202,15 @@ public class InGame extends AppCompatActivity {
             case R.id.menu_quit:
                 new AlertDialog.Builder(this)
                         .setTitle(getResources().getString(R.string.quit_title))
-                                .setMessage(getResources().getString(R.string.quit_question))
-                                        .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                finishAffinity();
+                        .setMessage(getResources().getString(R.string.quit_question))
+                        .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finishAffinity();
                                             }
 
-                                        })
-                                                .setNegativeButton(getResources().getString(R.string.no), null)
+                        })
+                        .setNegativeButton(getResources().getString(R.string.no), null)
                                                         .show();
                 return true;
         }

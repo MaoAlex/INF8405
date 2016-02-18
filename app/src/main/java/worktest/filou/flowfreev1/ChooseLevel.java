@@ -28,10 +28,10 @@ public class ChooseLevel extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_level);
-
         levelsId = getIntent().getIntExtra("id", -1);
         levels = getIntent().getParcelableExtra("Levels");
         LinearLayout layout = (LinearLayout) findViewById(R.id.choose_level_activity_layout);
+        //creation des differents boutons pour le choix des niveaux
         for (Level level : levels.getList()) {
             Button button = new Button(this);
             int id = View.generateViewId();
@@ -52,7 +52,7 @@ public class ChooseLevel extends AppCompatActivity {
         }
 
     }
-
+    //Choix du niveau apres le click du bouton
     private void gotoInGame(int id) {
         int indexInLevels = btnToId.indexOf(id);
         if( !levels.getLevel(indexInLevels).isUnlocked())
@@ -63,7 +63,7 @@ public class ChooseLevel extends AppCompatActivity {
         intent.putExtra("Level", levels.getLevel(indexInLevels));
         ChooseLevel.this.startActivityForResult(intent, 1);
     }
-
+    //Choix du niveau apres la reussite d'un niveau
     private void reGoInGame(int id) {
         Intent intent = new Intent(ChooseLevel.this, InGame.class);
         levelsId = id;
@@ -74,9 +74,9 @@ public class ChooseLevel extends AppCompatActivity {
     }
 
     @Override
+    //Récupération des informations de l'activité fille
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "On rentre dans onActivityREsultat ");
-
         Level level = data.getParcelableExtra("Level");
         int levelId = data.getIntExtra("nouvelId", -1);
        // if(btnToId.isEmpty())
@@ -117,6 +117,7 @@ public class ChooseLevel extends AppCompatActivity {
 
     }
     @Override
+    //recuperation du bouton sur le retour
     public void onBackPressed(){
         Intent returnIntent = new Intent();
         levelsId = getIntent().getIntExtra("id", -1);
