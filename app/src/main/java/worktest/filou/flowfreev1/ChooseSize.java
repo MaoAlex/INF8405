@@ -52,7 +52,6 @@ public class ChooseSize extends AppCompatActivity {
         Intent intent = new Intent(ChooseSize.this, ChooseLevel.class);
         intent.putExtra("id", btnToId.indexOf(id));
         Log.d(TAG, "La liste est vide valeur levelId transmis au choose level pour la fonction onActivity! : " + btnToId.indexOf(id));
-
         intent.putExtra("Levels", levelsBySize.getLevels(btnToId.indexOf(id)));
         ChooseSize.this.startActivityForResult(intent,1);
     }
@@ -68,15 +67,24 @@ public class ChooseSize extends AppCompatActivity {
         Levels levels = data.getParcelableExtra("newLevels");
         int levelId = data.getIntExtra("nouvelId", -1);
         LevelsBySize levelsBySizetemp = new LevelsBySize();
+        if(levelId==0){
+            levelsBySizetemp.addLevels(levels);
+            levelsBySizetemp.addLevels(levelsBySize.getLevels((levelId+1)%2));
+        }else
+        {
 
+            levelsBySizetemp.addLevels(levelsBySize.getLevels((levelId+1)%2));
+            levelsBySizetemp.addLevels(levels);
+        }
+
+
+        levelsBySize = levelsBySizetemp;
         // if(btnToId.isEmpty())
           Log.d(TAG, "La liste est vide valeur levelId transmis au choose level pour la fonction onActivity! : " + levelId);
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
                 if(levelId<3) {
-                    levelsBySizetemp.addLevels(levels);
-                    levelsBySizetemp.addLevels(levelsBySize.getLastElement());
-                    levelsBySize = levelsBySizetemp;
+
                     Log.d(TAG, "le niveau " + levelId + "est verouille ");
 
                     //levels.getLevel(levelId).unlocked();
