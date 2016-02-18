@@ -110,7 +110,7 @@ public class InGame extends AppCompatActivity {
                 // Create out AlterDialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage(getResources().getString(R.string.victory_text));
-                builder.setCancelable(true);
+                builder.setCancelable(false);
                 builder.setPositiveButton(getResources().getString(R.string.choice_next), new OkOnClickListener());
                 builder.setNeutralButton(getResources().getString(R.string.choice_restart), new NeutralOnClickListener());
                 builder.setNegativeButton(getResources().getString(R.string.choice_levels), new CancelOnClickListener());
