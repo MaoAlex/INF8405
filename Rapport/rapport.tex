@@ -71,18 +71,42 @@
 	
 	\subsection{Menus de l'application}
 	Nous avons opté pour un menu d'accueil proposant trois options : \textit{démarrer} une partie, accéder aux \textit{instructions} et \textit{quitter} l'application.
-	Lorsque l'utilisateur choisit de démarrer la partie, un autre menu s'affiche et lui demande de choisir la taille de la grille, puis, une fois celle-ci choisie, l'utilisateur doit choisir le niveau qu'il va jouer. L'écran de jeu s'affiche alors et le joueur peut débuter. Sur les trois écrans mentionnés, l'utilisateur peut à tout moment quitter l'application en utilisant le menu dans la barre de l'application  (symbolisé sur Android 5 et 6 par les 3 points en haut à droite de la barre).
-	
+	Lorsque l'utilisateur choisit de démarrer la partie, un autre menu s'affiche et lui demande de choisir la taille de la grille, puis, une fois celle-ci choisie, l'utilisateur doit choisir le niveau qu'il va jouer. L'écran de jeu s'affiche alors et le joueur peut débuter. Sur les trois écrans mentionnés, l'utilisateur peut à tout moment quitter l'application en utilisant le menu dans la barre de l'application  (symbolisé sur Android 5 et 6 par les 3 points en haut à droite de la barre) [voir figures \ref{fig:menus} et \ref{fig:quitter}]
+	\begin{figure}
+	\includegraphics[width=5cm]{Images/nexus_1.png}\hfill
+	\includegraphics[width=5cm]{Images/nexus_3.png}\hfill
+	\includegraphics[width=5cm]{Images/nexus_4.png}
+	\caption{Menus sur un Google Nexus 5X (Android 6)}\label{fig:menus}
+\end{figure}
+
 	\subsection{Quitter l'application}
-	Pour empêcher l'utilisateur de quitter de manière involontaire l'application, le choix de quitter dans les différents menus est soumis à une confirmation, qui se fait par l'intermédiaire d'une fenêtre pop-up offrant deux choix de réponses : Oui et Non.
+	Pour empêcher l'utilisateur de quitter de manière involontaire l'application, le choix de quitter dans les différents menus est soumis à une confirmation, qui se fait par l'intermédiaire d'une fenêtre pop-up offrant deux choix de réponses : Oui et Non. [voir figure \ref{fig:quitter}]
+	
+\begin{figure}
+\includegraphics[width=11cm]{Images/s2_2.png}\hfill
+\includegraphics[width=5cm]{Images/nexus_7.png}
+\caption{Processus pour quitter sur un Samsung Galaxy Tab 2 et Google Nexus 5X}\label{fig:quitter}
+\end{figure}
 	
 	\subsection{Déroulement du jeu}
 	Une fois la partie lancée, les mécanismes impliqués pour que le joueur puisse jouer sont assez commun à beaucoup de jeux, et, nous l'espérons, intuitifs. Le joueur commence à tracer un tube d'une couleur en appuyant le doigt sur le jeton de départ qu'il a choisi, puis en maintenant appuyé pour tracer le tube de la couleur en question. Le tube en formation s'affiche au fur et à mesure que le joueur déplace son doigt. Lorsque le joueur relève le doigt, le tracé s'arrête, mais le joueur à la possibilité de continuer à tout moment le trait qu'il vient d'interrompre en appuyant le doigt sur l'extrémité actuelle du tube. Sinon, il peut passer à un autre jeton de départ (et une autre couleur) ou bien poursuivre un autre tracé.
 	\newline
 	Afin d'offrir un confort maximal et de permettre au joueur de ne pas avoir à recommencer à chaque erreur de tracé, une fonction d'annulation a été incluse. Elle permet d'effacer du plus récent au plus ancien les derniers morceaux de tubes qui ont été tracés. Une fonction de réinitialisation est également présente pour revenir à la configuration de départ du niveau.
 	
+	\begin{figure}
+\includegraphics[width=8cm]{Images/s2_3.png}\hfill
+\includegraphics[width=8cm]{Images/s2_4.png}
+\caption{Partie en cours et gagnée sur un Samsung Galaxy Tab 2}\label{fig:partie}
+\end{figure}
+	
+	\begin{figure}
+\includegraphics[width=11cm]{Images/s2_2.png}\hfill
+\includegraphics[width=5cm]{Images/nexus_2.png}
+\caption{Instructions sur un Samsung Galaxy Tab 2 et Google Nexus 5X}\label{fig:instructions}
+\end{figure}
+
 	\subsection{Instructions}
-	Pour présenter au joueur des informations utiles à son expérience de jeu, nous avons introduit dans le menu principal un accès aux instructions du jeu. Celle ci sont présentées dans un écran dédié, scrollable, et structurées en divers sections, présentant respectivement les règles et mécanismes du jeu, les conditions de victoire, les conditions de défaite, le schéma de progression et de navigation dans les niveaux. Enfin un petit mot est mis sur la possibilité de quitter le jeu via les menus dédiés.
+	Pour présenter au joueur des informations utiles à son expérience de jeu, nous avons introduit dans le menu principal un accès aux instructions du jeu. Celle ci sont présentées dans un écran dédié [voir figure \ref{fig:instructions}] , scrollable, et structurées en divers sections, présentant respectivement les règles et mécanismes du jeu, les conditions de victoire, les conditions de défaite, le schéma de progression et de navigation dans les niveaux. Enfin un petit mot est mis sur la possibilité de quitter le jeu via les menus dédiés.
 	\newline
 	Nous avons vu les principaux choix concernant l'ergonomie et les mécanismes de jeu offerts à l'utilisateur. Dans la section suivante, nous détaillerons les choix techniques effectués pour réaliser l'application.
 		 
@@ -198,6 +222,7 @@ Nous voyons donc l'importance de la communication d'une activité à une autre. 
 \section{Difficultés rencontrées}
   \subsection{La compréhension d'android}
   Le sujet qui nous a été proposé est très intéressant pour découvrir les fonctionnalités de base des applications Android. Nous avons pu mettre en œuvre la mise en place de vues dans une activité, les dialogues entre les vues et l'activité, etc...
+<<<<<<< HEAD
   
 L'une des difficultés principales que nous avons eu lors du déroulement de notre projet a été de découvrir et de s'approprier les connaissances nécessaires à la bonne implémentation du jeu qui nous avait été demandé. En effet, Android étant aujourd'hui une plateforme très populaire, nous avons la chance de pouvoir accéder à de très nombreuses ressources et documentations sur les bases pour comprendre le développement sous android. Cependant nous avons aussi été face à la difficulté de trouver la bonne documentation pour ce que nous souhaitions réaliser. Et comme nous étions novices dans la programmation Android, et même pour certains peu connaisseurs du langage JAVA, cela nous a pris un peu de temps pour maîtriser les bases nécessaires pour obtenir une première version fonctionnelle du Flee Flow. 
 Lors de la phase d'implémentation de notre jeu, nous avons longtemps hésité entre utiliser des fichiers de sauvegarde pour mémoriser les informations sur la partie de l'utilisateur ou transmettre les données entre les activités, comme il a été finalement choisi. Il a été difficile de prendre en main correctement la transmission correcte entre une vue et une activité. C'est notamment ce qui nous a fait hésité à utiliser un fichier de sauvegarde annexe. Mais nous avons pu découvrir par une utilisation judicieuse des méthodes (startActivityOnResult, OnActivityResult) que nous pouvions communiquer assez aisément entre les différents éléments de notre application. Ce point a été le plus difficile à mettre en place, notamment sur les données à conserver entre chaque communication, et nous a pris un temps non-négligeable, ce qui ne nous a pas permis d'accentuer un peu plus nos efforts sur l'aspect graphique du jeu. Ce choix a posteriori de notre méthode communication entre les différents éléments a été donc difficile à mettre en place avec la structure que nous avions choisi pour représenter les différents éléments de la grille de jeu (Les tubes, les parties de tubes, les jetons délimiteurs,...). 
@@ -211,6 +236,25 @@ Comme nous découvrions la programmation pour application mobile Android, nous a
   Nous avons trouvé par ailleurs difficile, de placer comme nous voulions les différents layout et les différents éléments dans ceux-ci. Il serait notamment intéressant d'avoir des fichiers exemples fournis pour la réalisation du TP. Enfin, nous avons mal jugé le temps que nous prendrait le design de notre application. Nous avons sûrement sous-estimé la difficulté de placer et de dimensionner les éléments dans l'interface graphique.
 
  
+=======
+L'une des difficultés principales que nous avons eu lors du déroulement de notre projet a été de découvrir et de s'approprier les connaissances nécessaires à la bonne implémentation du jeu qui nous avait été demandé. En effet, Android étant aujourd'hui une plateforme très populaire, nous avons la chance de pouvoir accéder à de très nombreuses ressources et documentations sur les bases pour comprendre le développement sous android. Cependant nous avons aussi été face à la difficulté de trouver la bonne documentation pour ce que nous souhaitions réaliser. 
+  \subsection{Répartition des tâches}
+  Un défi majeur de ce TP aura été la répartition des tâches, en effet, une grosse partie du travail était au niveau de la grille,
+  de ce fait la personne ayant réalisé la grille aura de grandes chances de devoir faire le reste: gestion des mouvements, tests
+  de victoire, etc...
+  On peut donc se retrouver avec une disproportion de la charge de travail selon la personne. De plus, cela est frustrant pour les
+  autres car il leur est diffile de se trouver une place, de contribuer et de s'exécer à la programmation android.
+>>>>>>> c35efd1bfe432ab607a7ef6b1530265fddc52a9d
 \section{Critiques et suggestions}
+  \subsection{Le Code}
+  \'A l'issue de ce tp, nous avons un programme fonctionnel, toutefois, il nous semble que notre programme est plus compliqué que
+  nécessaire. L'utilisation de deux arrayList dans les Tube, est totalement inutile est complique la compréhension ainsi que
+  l'ajout de fonctionnalités.
+  \newline
 
+  De plus la répartition des tâches est assez disproportionnée, nous avons une classe GridSimpleview qui possède la quasi totalité
+  de la logique de l'application, ce qui induit un code long, lourd et donc compliqué à comprendre. Il aurait été préferrable de
+  découper davantage en sous-classes. Par ailleurs, un découpage en plusieurs paquetages aurait pu être envisagé, nottamment pour
+  les classes servant d'utilitaire pour faciliter l'implémentation de parcelable d'en d'autre classes. ce qui aurait grandement
+  simplifié la compréhension du code.
 \end{document}
