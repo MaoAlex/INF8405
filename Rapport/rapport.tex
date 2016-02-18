@@ -166,6 +166,24 @@ couleurs et les opérations à faire en cas de changement de taille (si on passe
     Remarque; lors du tracé, il faut vérifier que le mouvement fait par l'utilisateur est cohérent, c'est-à-dire qu'il va sur une
     case à côté de la case de départ, dont la couleur est différente de la case sauf s'il se rend sur le délimiteur qui ferme le
     tube.
+    
+    \subsection{Représentation des niveaux}
+    Les niveaux ont été représentés dans un fichier XML \textit{levels.xml} situés dans les ressources de l'application (dossier \textit{res/xml}). La structure du fichier XML est la suivante : la racine du fichier est la balise \textit{listOfLevels}, puis au niveau hiérarchique inférieur, on trouve les balises \textit{levelsOfSizeX} (ici X = 7 ou 8) qui permet de regrouper tous les niveaux d'une même taille dans un même niveau hiérarchique. Enfin, chaque niveau est décrit dans une balise \textit{level} avec un attribut \textit{id}.
+    \newline
+    Plus en détail, chaque niveau dispose de quatre caractéristiques : \textit{unlock}, un booléen qui détermine si le niveau est débloqué ou non en premier lieu, \textit{width} et \textit{height}, respectivement la largeur et la longueur du niveau (en nombre de cases), et enfin un ensemble de composants \textit{listOfComponents}, qui va contenir les informations sur les jetons de départ. Chaque composant (balise \textit{component}) va contenir trois balises et représenter une paire de jetons d'une même couleur : \textit{color} contient bien évidemment la couleur, en hexadécimal ou en littéral. Enfin chacun des deux jetons de couleurs sera représenté par un noeud \textit{circle} qui comprend l'abscisse (\textit{x}) et l'ordonnée (\textit{y}) du jeton dans la grille de départ, la case en haut à gauche étant celle de coordonnées (0,0). Les abscisses sont croissantes vers la droite et les ordonnées vers le bas.
+    \newline
+    Cette représentation des niveaux présente plusieurs avantages : la structure est assez rigoureusement définie et permet un parsage facile du fichier lors de sa lecture. C'est le mécanisme utilisé d'une part pour déterminer les tailles disponibles dans l'écran de sélection des tailles, ainsi que pour déterminer les niveaux disponibles pour une taille donnée. Ce système étant automatisé, il serait très facile d'ajouter, si on le souhaitait, des niveaux supplémentaires pour les tailles existantes, voire d'ajouter de nouvelles tailles de grille. Ceci rend l'application facilement extensible au besoin, et permet même à des gens qui ne connaissent pas Java ou ne disposent pas du code source de l'application de pouvoir faire du \textit{level-design}.
+    
+    \subsection{Utilisation des ressources}
+    \subsubsection{Utilisation dans l'application}
+    Nous avons essayé d'utiliser au maximum le mécanisme des ressources d'Android, notamment en ce qui concerne les \textit{strings}. Ainsi, par exemple, les chaînes de caractères présentées dans les boites de dialogue de confirmation, qui sont communes à toutes les activités, sont définies dans le fichier \textit{strings.xml}, ce qui permet de les changer facilement. De même, les textes des différents boutons du menu principal sont définis dans ce même fichier.
+    Nous avons également utilisé les ressources bien évidemment pour les layouts, qui sont relativement simples mais répondent bien aux caractéristiques que nous voulions avoir, ainsi que pour définir une icône pour l'application, qui est celle présentée sur la page de garde.
+     
+     \subsubsection{Cas particulier des instructions}
+     Les instructions ont représenté un cas particulier dans l'utilisation des ressources. Nous avons hésité entre deux approches, l'une consistant à créer différents paragraphes via des \textit{TextView}, avec certains d'entre eux ayant un style particulier pour représenter les titres de section. Nous avons préféré opté pour l'autre solution et tirer partie des possibilités offertes par Android d'utiliser du texte formaté en HTML. Nous avons donc défini, dans le fichier \textit{strings.xml}, une string un peu particulière, comprenant du HTML. Pour que celle-ci soit reconnue en tant que telle, il a fallu entourer son contenu (l'intérieur de la balise <string>), par \textbf{<![CDATA[} \textit{HTML} \textbf{]]>}, et transmettre cette valeur à la méthode \textit{Html.fromHtml} dans l'\textit{InstructionsActivity}, pour que le HTML soit parsé. L'objet \textit{Spanned} récupéré a ensuite pu être transmis à la méthode \textit{setText} du \textit{TextView}, que l'on a d'ailleurs rendu \textit{scrollable}.
+      
 \section{Difficultés rencontrées}
+
 \section{Critiques et suggestions}
+
 \end{document}
