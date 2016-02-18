@@ -13,6 +13,19 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/partie_basse"
+            >
+        <include layout="@layout/content_main"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="15dp"
+            />
+        </RelativeLayout>
+
 
 </android.support.design.widget.CoordinatorLayout>
