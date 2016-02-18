@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_instructions_demarrer"
+        android:title="@string/back_menu">
+    </item>
+    <item android:id="@+id/menu_instructions_quit"
+        android:title="@string/quit">
+    </item>
+</menu>

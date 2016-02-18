@@ -28,6 +28,7 @@
     <string name="button_select_7x7">7x7</string>
     <string name="button_select_8x8">8x8</string>
     <string name="quit">Quitter</string>
+    <string name="back_menu">Retour au menu</string>
 
     <!-- Dialogues -->
     <string name="quit_title">Quitter Flow free V1 ?</string>
