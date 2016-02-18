@@ -76,7 +76,15 @@
 	\subsection{Quitter l'application}
 	Pour empêcher l'utilisateur de quitter de manière involontaire l'application, le choix de quitter dans les différents menus est soumis à une confirmation, qui se fait par l'intermédiaire d'une fenêtre pop-up offrant deux choix de réponses : Oui et Non.
 	
-	\subsection{}
+	\subsection{Déroulement du jeu}
+	Une fois la partie lancée, les mécanismes impliqués pour que le joueur puisse jouer sont assez commun à beaucoup de jeux, et, nous l'espérons, intuitifs. Le joueur commence à tracer un tube d'une couleur en appuyant le doigt sur le jeton de départ qu'il a choisi, puis en maintenant appuyé pour tracer le tube de la couleur en question. Le tube en formation s'affiche au fur et à mesure que le joueur déplace son doigt. Lorsque le joueur relève le doigt, le tracé s'arrête, mais le joueur à la possibilité de continuer à tout moment le trait qu'il vient d'interrompre en appuyant le doigt sur l'extrémité actuelle du tube. Sinon, il peut passer à un autre jeton de départ (et une autre couleur) ou bien poursuivre un autre tracé.
+	\newline
+	Afin d'offrir un confort maximal et de permettre au joueur de ne pas avoir à recommencer à chaque erreur de tracé, une fonction d'annulation a été incluse. Elle permet d'effacer du plus récent au plus ancien les derniers morceaux de tubes qui ont été tracés. Une fonction de réinitialisation est également présente pour revenir à la configuration de départ du niveau.
+	
+	\subsection{Instructions}
+	Pour présenter au joueur des informations utiles à son expérience de jeu, nous avons introduit dans le menu principal un accès aux instructions du jeu. Celle ci sont présentées dans un écran dédié, scrollable, et structurées en divers sections, présentant respectivement les règles et mécanismes du jeu, les conditions de victoire, les conditions de défaite, le schéma de progression et de navigation dans les niveaux. Enfin un petit mot est mis sur la possibilité de quitter le jeu via les menus dédiés.
+	\newline
+	Nous avons vu les principaux choix concernant l'ergonomie et les mécanismes de jeu offerts à l'utilisateur. Dans la section suivante, nous détaillerons les choix techniques effectués pour réaliser l'application.
 		 
 \section{Présentation Technique}
     \subsection{Affichage de la grille}
