@@ -51,6 +51,7 @@ public class FlowFreeSimpleGridView extends View {
         drawState.setStrokeW(x_offset, y_offset);
         //remet gamstate à l'état d'origine
         gameState = new GameState(level.getHeight()* level.getWidth());
+        gameState.setNbColors(colorToTubes.size());
         mvTub = null;
         isFirstUse = true;
         for (int i = 0; i < level.getWidth(); i++) {
