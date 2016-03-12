@@ -4,6 +4,9 @@ package worktest.filou.activitymaptest;
  * Created by filou on 05/03/16.
  */
 
+/*
+ * gère l'envoie de données sur le serveur
+ */
 import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -52,6 +55,7 @@ public class ConnectedMapActivity extends AppCompatActivity implements
         this.buildGoogleApiClient();
         Log.d(TAG, "onCreate: google API started");
 
+        //start database
         myRemoteBD = new FireBaseBD(this);
         Log.d(TAG, "onCreate: BD started");
         super.onCreate(savedInstanceState);
@@ -97,6 +101,7 @@ public class ConnectedMapActivity extends AppCompatActivity implements
     // Google Location API CallBacks
     // =============================================================================================
 
+    //called when local location is changed
     @Override
     public void onLocationChanged(Location location) {
         Log.d(TAG, "Location Detected");
@@ -107,6 +112,7 @@ public class ConnectedMapActivity extends AppCompatActivity implements
             localUser.setLongi(mLatLng.longitude);
             Log.d(TAG, "new longitude " + localUser.getLongi());
             localUser.update();
+            //send new location to server
             myRemoteBD.updateLocationOnServer(localUser, localUser.getDataBaseId());
         }
     }

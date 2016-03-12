@@ -9,8 +9,8 @@
         <option name="gradleJvm" value="1.7" />
         <option name="modules">
           <set>
-            <option value="$USER_HOME$/Documents/Polymag/INF8405/TP/TP2/Samples/ActivityMapTest" />
-            <option value="$USER_HOME$/Documents/Polymag/INF8405/TP/TP2/Samples/ActivityMapTest/app" />
+            <option value="$USER_HOME$/Documents/Polymag/INF8405/TP/INF8405/ActivityMapTest" />
+            <option value="$USER_HOME$/Documents/Polymag/INF8405/TP/INF8405/ActivityMapTest/app" />
           </set>
         </option>
       </GradleProjectSettings>

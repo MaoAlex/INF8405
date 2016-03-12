@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$USER_HOME$/Documents/Polymag/INF8405/TP/TP2/Samples/ActivityMapTest/ActivityMapTest.iml" filepath="$USER_HOME$/Documents/Polymag/INF8405/TP/TP2/Samples/ActivityMapTest/ActivityMapTest.iml" />
-      <module fileurl="file://$USER_HOME$/Documents/Polymag/INF8405/TP/TP2/Samples/ActivityMapTest/app/app.iml" filepath="$USER_HOME$/Documents/Polymag/INF8405/TP/TP2/Samples/ActivityMapTest/app/app.iml" />
+      <module fileurl="file://$USER_HOME$/Documents/Polymag/INF8405/TP/INF8405/ActivityMapTest/ActivityMapTest.iml" filepath="$USER_HOME$/Documents/Polymag/INF8405/TP/INF8405/ActivityMapTest/ActivityMapTest.iml" />
+      <module fileurl="file://$USER_HOME$/Documents/Polymag/INF8405/TP/INF8405/ActivityMapTest/app/app.iml" filepath="$USER_HOME$/Documents/Polymag/INF8405/TP/INF8405/ActivityMapTest/app/app.iml" />
     </modules>
   </component>
 </project>

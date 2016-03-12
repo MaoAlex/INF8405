@@ -16,6 +16,7 @@ public class FireBaseBD implements RemoteBD {
     Firebase myFireBaseRef;
 
     public FireBaseBD(Context context) {
+        //connection to BD
         Firebase.setAndroidContext(context);
         myFireBaseRef = new Firebase(context.getString(R.string.myFireBaseUrl));
     }
@@ -44,6 +45,7 @@ public class FireBaseBD implements RemoteBD {
         userBD.setValue(id);
     }
 
+    //update user when modified on server
     @Override
     public void listenToChangeOnUser(final User user, final String userBDID) {
         myFireBaseRef.child("users").child(userBDID).addValueEventListener(new ValueEventListener() {
