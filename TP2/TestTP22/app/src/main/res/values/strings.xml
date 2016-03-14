@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">TestTP2</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="logo">LOGO</string>
+    <string name="sign_in_register">SIGN IN</string>
+    <string name="register">REGISTER</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to Register -->
+    <string name="group_name">Nom du groupe</string>
+    <string name="action_register">Register</string>
+
+    <!-- Strings related to login -->
+
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="title_activity_register">Register</string>
+
+    <!--partie test !-->
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="image_content_description">Un Android avec un chien</string>
+    <string name="create_account">Créer un compte</string>
+    <string name="email">Adresse email</string>
+    <string name="password">Mot de passe</string>
+    <string name="connect">Se connecter</string>
+</resources>
