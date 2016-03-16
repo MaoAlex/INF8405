@@ -41,7 +41,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     private void addUserToID(String id, String mailAdr) {
-        Firebase userBD = myFireBaseRef.child("userToID").child(mailAdr);
+        Firebase userBD = myFireBaseRef.child("userToID").child(mailAdr.replace('.', ')'));
         userBD.setValue(id);
     }
 
@@ -98,7 +98,7 @@ public class FireBaseBD implements RemoteBD {
 
     @Override
     public void getUserFromMail(String mailAdr, final LocalUser user) {
-        Firebase groupBD = myFireBaseRef.child("userToID").child(mailAdr);
+        Firebase groupBD = myFireBaseRef.child("userToID").child(mailAdr.replace(')', '.'));
         groupBD.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {

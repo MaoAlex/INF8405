@@ -42,32 +42,53 @@ public class GroupTestActivity extends ConnectedMapActivity implements OnMapRead
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        getLocalUser().setChangeListener(new LocalUser.ChangeListener() {
-            @Override
-            public void onPositionChanged(LocalUser localUser) {
-                addMarker(localUser);
-            }
-        });
+
+        setupGroup(myLocalGroup);
     }
 
     private void setupGroup(MyLocalGroup myLocalGroup) {
         List<String> ids = myLocalGroup.getMembersID();
         RemoteBD remoteBD = getMyRemoteBD();
         for (String id : ids) {
-            LocalUser localUser = new LocalUser();
-            localUser.setDataBaseId(id);
 
-            localUser.setChangeListener(new LocalUser.ChangeListener() {
-                @Override
-                public void onPositionChanged(LocalUser localUser) {
-                    addMarker(localUser);
-                }
-            });
+            if (id.equals(getLocalUser().getDataBaseId())) {
+                localUser.setChangeListener(new LocalUser.ChangeListener() {
+                    @Override
+                    public void onPositionChanged(LocalUser localUser) {
+                        addMarker(localUser);
+                    }
+                });
+                localUsers.add(localUser);
+            } else {
+                LocalUser localUserFromRemote = new LocalUser();
+                localUserFromRemote.setDataBaseId(id);
 
-            remoteBD.getUser(id, localUser);
-            remoteBD.listenToChangeOnUser(localUser, id);
-            localUsers.add(localUser);
+                localUserFromRemote.setChangeListener(new LocalUser.ChangeListener() {
+                    @Override
+                    public void onPositionChanged(LocalUser localUser) {
+                        onUserCreated(localUser);
+                    }
+                });
+
+                remoteBD.getUser(id, localUserFromRemote);
+                localUsers.add(localUserFromRemote);
+            }
         }
+    }
+
+    //called when an user is ready
+    private void onUserCreated(LocalUser localUser) {
+        RemoteBD remoteBD = getMyRemoteBD();
+        localUser.setChangeListener(new LocalUser.ChangeListener() {
+            @Override
+            public void onPositionChanged(LocalUser localUser) {
+                addMarker(localUser);
+            }
+        });
+
+        remoteBD.listenToChangeOnUser(localUser, localUser.getDataBaseId());
+
+        addMarker(localUser);
     }
 
     @Override
