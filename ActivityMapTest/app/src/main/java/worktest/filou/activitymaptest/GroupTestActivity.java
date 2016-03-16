@@ -2,6 +2,7 @@ package worktest.filou.activitymaptest;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public class GroupTestActivity extends ConnectedMapActivity implements OnMapReadyCallback {
+    private final String TAG = "GroupTestActivity";
     private GoogleMap mMap;
     private Map<String, Marker> idToMarkers;
     private MyLocalGroup myLocalGroup;
@@ -33,6 +35,7 @@ public class GroupTestActivity extends ConnectedMapActivity implements OnMapRead
             @Override
             public void onChange(MyLocalGroup myLocalGroup) {
                 setupGroup(myLocalGroup);
+                Log.d(TAG, "onChange: " + "group change");
             }
         });
 
@@ -43,14 +46,14 @@ public class GroupTestActivity extends ConnectedMapActivity implements OnMapRead
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        setupGroup(myLocalGroup);
+        RemoteBD remoteBD = getMyRemoteBD();
+        remoteBD.getGroup(myLocalGroup.getDatabaseID(), myLocalGroup);
     }
 
     private void setupGroup(MyLocalGroup myLocalGroup) {
         List<String> ids = myLocalGroup.getMembersID();
         RemoteBD remoteBD = getMyRemoteBD();
         for (String id : ids) {
-
             if (id.equals(getLocalUser().getDataBaseId())) {
                 localUser.setChangeListener(new LocalUser.ChangeListener() {
                     @Override
@@ -59,6 +62,7 @@ public class GroupTestActivity extends ConnectedMapActivity implements OnMapRead
                     }
                 });
                 localUsers.add(localUser);
+                remoteBD.listenToChangeOnUser(localUser, localUser.getDataBaseId());
             } else {
                 LocalUser localUserFromRemote = new LocalUser();
                 localUserFromRemote.setDataBaseId(id);
@@ -70,6 +74,7 @@ public class GroupTestActivity extends ConnectedMapActivity implements OnMapRead
                     }
                 });
 
+                remoteBD.listenToChangeOnUser(localUserFromRemote, localUserFromRemote.getDataBaseId());
                 remoteBD.getUser(id, localUserFromRemote);
                 localUsers.add(localUserFromRemote);
             }

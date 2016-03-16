@@ -12,7 +12,7 @@ public interface RemoteBD {
     String addUser(User user);
     void getUser(String id, User user);
     void getUserFromMail(String mailAdr, LocalUser user);
-    void listenToChangeOnUser(final User user, final String userBDID);
+    void listenToChangeOnUser(final LocalUser user, final String userBDID);
     String addGroup(MyGroup myGroup);
     void getGroup(String groupID, MyGroup myGroup);
     void getGroupFromName(String name, MyGroup myGroup);

@@ -80,7 +80,7 @@ public class MainActivity extends ConnectedMapActivity {
     }
 
     private void gotoGroupTest(String myLocalGroupID) {
-        Intent intent = new Intent(MainActivity.this, MapActivity.class);
+        Intent intent = new Intent(MainActivity.this, GroupTestActivity.class);
         intent.putExtra("localUser", localUser);
         intent.putExtra("groupID", myLocalGroupID);
         startActivity(intent);

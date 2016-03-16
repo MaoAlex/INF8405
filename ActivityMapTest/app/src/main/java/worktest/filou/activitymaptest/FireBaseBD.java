@@ -47,7 +47,7 @@ public class FireBaseBD implements RemoteBD {
 
     //update user when modified on server
     @Override
-    public void listenToChangeOnUser(final User user, final String userBDID) {
+    public void listenToChangeOnUser(final LocalUser user, final String userBDID) {
         myFireBaseRef.child("users").child(userBDID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -57,6 +57,7 @@ public class FireBaseBD implements RemoteBD {
                 Log.d("onDataChange: ", "new latitude " + user.getLat());
                 user.setLongi(userFromBD.getLongi());
                 Log.d("onDataChange: ", "new longitude " + user.getLongi());
+                user.update();
             }
 
             @Override
