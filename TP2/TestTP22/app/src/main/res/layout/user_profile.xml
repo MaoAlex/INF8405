@@ -1,0 +1,89 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/layout_padding_top"
+    android:weightSum="66">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="33">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/earth"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/email"
+        android:textColor="@color/black_color"
+        android:textSize="@dimen/big_text_size"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/email_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="@string/hint_mail"
+        android:textColor="@color/black_color"
+        android:textSize="@dimen/big_text_size" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/normal_padding"
+        android:text="@string/password"
+        android:textColor="@color/black_color"
+        android:textSize="@dimen/big_text_size"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/password_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="@string/hint_pass"
+        android:textColor="@color/black_color"
+        android:textSize="@dimen/big_text_size" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nom du groupe"
+        android:textColor="@color/black_color"
+        android:textSize="@dimen/big_text_size"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/group_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="Ici les différents groupes"
+        android:textColor="@color/black_color"
+        android:textSize="@dimen/big_text_size" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Preferences"
+        android:textColor="@color/black_color"
+        android:textSize="@dimen/big_text_size"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/preference"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="Ici les différentes preferences"
+        android:textColor="@color/black_color"
+        android:textSize="@dimen/big_text_size" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Modifier"/>
+</LinearLayout>
