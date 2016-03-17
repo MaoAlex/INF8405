@@ -81,13 +81,14 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void getUser(String id, final User user) {
+    public void getUser(String id, final LocalUser user) {
         Firebase userBD = myFireBaseRef.child("users").child(id);
         userBD.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 User userSnapshot = snapshot.getValue(User.class);
                 user.update(userSnapshot);
+                user.update();
             }
 
             @Override
@@ -157,6 +158,7 @@ public class FireBaseBD implements RemoteBD {
                 System.out.println("group of id: " + groupBDID + " modified");
                 MyGroup groupFromBD = snapshot.getValue(MyGroup.class);
                 group.setMembersID(groupFromBD.getMembersID());
+                group.setGroupName(groupFromBD.getGroupName());
             }
 
             @Override

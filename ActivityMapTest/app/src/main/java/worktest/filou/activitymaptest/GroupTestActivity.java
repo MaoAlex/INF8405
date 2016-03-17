@@ -62,7 +62,6 @@ public class GroupTestActivity extends ConnectedMapActivity implements OnMapRead
                     }
                 });
                 localUsers.add(localUser);
-                remoteBD.listenToChangeOnUser(localUser, localUser.getDataBaseId());
             } else {
                 LocalUser localUserFromRemote = new LocalUser();
                 localUserFromRemote.setDataBaseId(id);
@@ -74,8 +73,9 @@ public class GroupTestActivity extends ConnectedMapActivity implements OnMapRead
                     }
                 });
 
-                remoteBD.listenToChangeOnUser(localUserFromRemote, localUserFromRemote.getDataBaseId());
                 remoteBD.getUser(id, localUserFromRemote);
+                remoteBD.listenToChangeOnUser(localUser, localUser.getDataBaseId());
+
                 localUsers.add(localUserFromRemote);
             }
         }
@@ -90,8 +90,6 @@ public class GroupTestActivity extends ConnectedMapActivity implements OnMapRead
                 addMarker(localUser);
             }
         });
-
-        remoteBD.listenToChangeOnUser(localUser, localUser.getDataBaseId());
 
         addMarker(localUser);
     }

@@ -113,7 +113,7 @@ public class ConnectedMapActivity extends AppCompatActivity implements
             Log.d(TAG, "new longitude " + localUser.getLongi());
             localUser.update();
             //send new location to server
-            myRemoteBD.updateLocationOnServer(localUser, localUser.getDataBaseId());
+            myRemoteBD.updateLocationOnServer((User) localUser, localUser.getDataBaseId());
         }
     }
 

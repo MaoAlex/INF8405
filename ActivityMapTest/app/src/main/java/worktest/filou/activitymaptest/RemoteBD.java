@@ -10,7 +10,7 @@ public interface RemoteBD {
     void updateLocationOnServer(User user, String id) ;
     String getLastDataFromServer(String path);
     String addUser(User user);
-    void getUser(String id, User user);
+    void getUser(String id, LocalUser user);
     void getUserFromMail(String mailAdr, LocalUser user);
     void listenToChangeOnUser(final LocalUser user, final String userBDID);
     String addGroup(MyGroup myGroup);

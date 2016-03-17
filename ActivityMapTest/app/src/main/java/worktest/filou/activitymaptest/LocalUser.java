@@ -3,9 +3,13 @@ package worktest.filou.activitymaptest;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by filou on 09/03/16.
  */
+
+@JsonIgnoreProperties({"dataBaseId", "changeListener"})
 public class LocalUser extends User {
     private String dataBaseId;
     public interface ChangeListener{

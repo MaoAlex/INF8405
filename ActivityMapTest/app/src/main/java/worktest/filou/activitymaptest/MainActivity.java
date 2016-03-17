@@ -40,7 +40,6 @@ public class MainActivity extends ConnectedMapActivity {
     private void testCreateUser() {
         localUser = new LocalUser("fifi", "test", "exemple@polymtl.ca");
         RemoteBD remoteBD = getMyRemoteBD();
-        saveID(localUser.getDataBaseId());
         String userBDID = remoteBD.addUser((User) localUser);
         localUser.setDataBaseId(userBDID);
         localUser.setChangeListener(new LocalUser.ChangeListener() {
@@ -87,37 +86,7 @@ public class MainActivity extends ConnectedMapActivity {
     }
 
     private void prepareUser() {
-        String potentialID = getIDIfSaved();
-        if (potentialID != null) {
-            Log.d(TAG, "prepareUser: " + "id detected");
-            setUserFromBD(potentialID);
-            localUser.setChangeListener(new LocalUser.ChangeListener() {
-                @Override
-                public void onPositionChanged(LocalUser localUser) {
-                    getMyRemoteBD().updateLocationOnServer( (User) localUser, localUser.getDataBaseId());
-                }
-            });
-        } else {
             Log.d(TAG, "prepareUser: " + "creation of id");
             testCreateUser();
-        }
-    }
-
-    private void saveID (String id) {
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("remoteID", id);
-        editor.commit();
-    }
-
-    private String getIDIfSaved() {
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        return sharedPref.getString("remoteID", null);
-    }
-
-    private void setUserFromBD(String id) {
-        LocalUser userFromBD = new LocalUser(id);
-        getMyRemoteBD().getUser(id, userFromBD);
-        setLocalUser(userFromBD);
     }
 }
