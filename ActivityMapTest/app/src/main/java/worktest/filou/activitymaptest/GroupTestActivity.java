@@ -3,6 +3,8 @@ package worktest.filou.activitymaptest;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -22,12 +24,16 @@ public class GroupTestActivity extends ConnectedMapActivity implements OnMapRead
     private Map<String, Marker> idToMarkers;
     private MyLocalGroup myLocalGroup;
     private List<LocalUser> localUsers;
+    private Button testBarycentreButton;
+    private int groupSize = -1;
+    private int actualGroupSize = 0;
+    private Marker baeycentreMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLocalUser((LocalUser) getIntent().getParcelableExtra("localUser"));
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_group_test);
 
         myLocalGroup = new MyLocalGroup();
         myLocalGroup.setDatabaseID(getIntent().getStringExtra("groupID"));
@@ -45,6 +51,13 @@ public class GroupTestActivity extends ConnectedMapActivity implements OnMapRead
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        testBarycentreButton = (Button) findViewById(R.id.test_barycentre);
+        testBarycentreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBarycentre();
+            }
+        });
 
         RemoteBD remoteBD = getMyRemoteBD();
         remoteBD.getGroup(myLocalGroup.getDatabaseID(), myLocalGroup);
@@ -53,6 +66,7 @@ public class GroupTestActivity extends ConnectedMapActivity implements OnMapRead
     private void setupGroup(MyLocalGroup myLocalGroup) {
         List<String> ids = myLocalGroup.getMembersID();
         RemoteBD remoteBD = getMyRemoteBD();
+        groupSize = 0;
         for (String id : ids) {
             if (id.equals(getLocalUser().getDataBaseId())) {
                 localUser.setChangeListener(new LocalUser.ChangeListener() {
@@ -61,6 +75,7 @@ public class GroupTestActivity extends ConnectedMapActivity implements OnMapRead
                         addMarker(localUser);
                     }
                 });
+                actualGroupSize++;
                 localUsers.add(localUser);
             } else {
                 LocalUser localUserFromRemote = new LocalUser();
@@ -78,6 +93,7 @@ public class GroupTestActivity extends ConnectedMapActivity implements OnMapRead
 
                 localUsers.add(localUserFromRemote);
             }
+            groupSize++;
         }
     }
 
@@ -90,7 +106,7 @@ public class GroupTestActivity extends ConnectedMapActivity implements OnMapRead
                 addMarker(localUser);
             }
         });
-
+        actualGroupSize++;
         addMarker(localUser);
     }
 
@@ -123,5 +139,23 @@ public class GroupTestActivity extends ConnectedMapActivity implements OnMapRead
                 .title(user.getFirstName() + " " + user.getLastName()));
 
         return marker;
+    }
+
+    private void showBarycentre() {
+        double mlat = 0;
+        double mlong = 0;
+
+        if (groupSize == actualGroupSize) {
+            for (User user : localUsers) {
+                mlat += user.getLat();
+                mlong += user.getLongi();
+            }
+            mlat /= actualGroupSize;
+            mlong /= actualGroupSize;
+
+            baeycentreMarker = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(mlat, mlong))
+                    .title("Barycentre"));
+        }
     }
 }
