@@ -25,6 +25,8 @@ public class RegisterActivity extends AppCompatActivity{
         final EditText login = (EditText) findViewById(R.id.user_email);
         final EditText pass = (EditText) findViewById(R.id.user_password);
         final EditText group = (EditText) findViewById(R.id.group_name);
+
+
         loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigationModel
+  ns = "http://schemas.android.com?import=com.android.tools.idea.editors.navigation.model.*">
+  <locations  
+    class = "java.util.ArrayList">
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.example.alexmao.tp2.MainActivity"/>
+      <point      
+        x = "2292"      
+        y = "444"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.example.alexmao.tp2.LoginActivity"/>
+      <point      
+        x = "2184"      
+        y = "460"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.example.alexmao.tp2.UserProfileActivity"/>
+      <point      
+        x = "2844"      
+        y = "560"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.example.alexmao.tp2.MainActivity_Home"/>
+      <point      
+        x = "2624"      
+        y = "384"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.example.alexmao.tp2.PhotoActivity"/>
+      <point      
+        x = "1688"      
+        y = "452"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.example.alexmao.tp2.RegisterInformation"/>
+      <point      
+        x = "2444"      
+        y = "344"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.example.alexmao.tp2.RegisterActivity"/>
+      <point      
+        x = "1740"      
+        y = "476"/>
+    </statePointEntry>
+  </locations>
+</navigationModel>
