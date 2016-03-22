@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TestPlaces</string>
+    <string name="title_activity_places">Places Test Activity</string>
+</resources>
