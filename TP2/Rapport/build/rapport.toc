@@ -1,0 +1,15 @@
+\select@language {french}
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}
+\contentsline {section}{\numberline {2}Pr\IeC {\'e}sentation g\IeC {\'e}n\IeC {\'e}rale}{3}{section.2}
+\contentsline {subsection}{\numberline {2.1}Menus de l'application}{3}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Quitter l'application}{3}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}}{3}{subsection.2.3}
+\contentsline {section}{\numberline {3}Pr\IeC {\'e}sentation Technique}{3}{section.3}
+\contentsline {subsection}{\numberline {3.1}Affichage de la grille}{3}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Fonctionnement de la grille}{4}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}La grille}{4}{subsubsection.3.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2}Les \IeC {\'e}lements de la grille}{4}{subsubsection.3.2.2}
+\contentsline {subsubsection}{\numberline {3.2.3}Les tubes}{5}{subsubsection.3.2.3}
+\contentsline {subsection}{\numberline {3.3}Gestion du trac\IeC {\'e}}{5}{subsection.3.3}
+\contentsline {section}{\numberline {4}Difficult\IeC {\'e}s rencontr\IeC {\'e}es}{5}{section.4}
+\contentsline {section}{\numberline {5}Critiques et suggestions}{5}{section.5}
