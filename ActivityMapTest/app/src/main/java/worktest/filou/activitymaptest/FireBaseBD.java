@@ -46,6 +46,26 @@ public class FireBaseBD implements RemoteBD {
         return userBD.getKey();
     }
 
+    @Override
+    public void addUserToGroup(final String groupID, final String userID) {
+        final Firebase groupBD = myFireBaseRef.child("groups").child(groupID);
+        groupBD.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                MyGroup groupSnapshot = snapshot.getValue(MyGroup.class);
+                groupSnapshot.addMember(userID);
+                groupBD.setValue(groupSnapshot);
+                Firebase userToGroup = myFireBaseRef.child("usersToGroup").child(userID);
+                userToGroup.setValue(groupID);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("error");
+            }
+        });
+    }
+
     private void addUserToID(String id, String mailAdr) {
         Firebase userBD = myFireBaseRef.child("userToID").child(mailAdr.replace('.', ')'));
         userBD.setValue(id);
@@ -351,5 +371,35 @@ public class FireBaseBD implements RemoteBD {
                 System.out.println("error");
             }
         });
+    }
+
+    @Override
+    public void addMeeting(MeetingFinalChoice meetingFinalChoice, String groupID) {
+        Firebase meetingBD = myFireBaseRef.child("meetings").child(groupID).push();
+        meetingBD.setValue(meetingFinalChoice);
+    }
+
+    @Override
+    public void addPlaceProposal(MeetingPlace meetingPlace, String groupID) {
+        Firebase meetingBD = myFireBaseRef.child("meetingProposal").child(groupID).push();
+        meetingBD.setValue(meetingPlace);
+    }
+
+    @Override
+    public void addTimeProposal(TimeSlot timeSlot, String groupID) {
+        Firebase meetingBD = myFireBaseRef.child("timeProposal").child(groupID).push();
+        meetingBD.setValue(timeSlot);
+    }
+
+    @Override
+    public void setPlaceChoice(int index, String userID) {
+        Firebase meetingBD = myFireBaseRef.child("placeChoice").child(userID);
+        meetingBD.setValue(index);
+    }
+
+    @Override
+    public void setTimeChoice(int index, String userID) {
+        Firebase meetingBD = myFireBaseRef.child("timeChoice").child(userID);
+        meetingBD.setValue(index);
     }
 }

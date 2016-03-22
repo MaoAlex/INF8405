@@ -13,6 +13,7 @@ public interface RemoteBD {
     void getUserFromMail(String mailAdr, LocalUser user);
     void listenToChangeOnUser(final LocalUser user, final String userBDID);
     String addGroup(MyGroup myGroup);
+    void addUserToGroup(String groupID, String userID);
     void getGroup(String groupID, MyGroup myGroup);
     void getGroupFromName(String name, MyGroup myGroup);
     void listenToChangeOnGroup(final MyGroup group, final String groupBDID);
@@ -28,4 +29,9 @@ public interface RemoteBD {
     void listenToTimeRespond(String userID);
     void listenToPlaceRespond(String userID);
     void listenToAvailabilities(String userID);
+    void addMeeting(MeetingFinalChoice meetingFinalChoice, String groupID);
+    void addPlaceProposal(MeetingPlace meetingPlace, String groupID);
+    void addTimeProposal(TimeSlot timeSlot, String groupID);
+    void setPlaceChoice(int index, String userID);
+    void setTimeChoice(int index, String userID);
 }

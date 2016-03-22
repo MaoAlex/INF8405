@@ -3,6 +3,8 @@ package worktest.filou.activitymaptest;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 /**
  * Created by filou on 06/03/16.
  */
@@ -12,6 +14,7 @@ public class User implements Parcelable {
     private String mailAdr;
     private double lat;
     private double longi;
+    private ArrayList<String> preferences;
 
     public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>()
     {
@@ -43,6 +46,15 @@ public class User implements Parcelable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.mailAdr = mailAdr;
+        preferences = new ArrayList<>();
+    }
+
+    public void addPreference(String pref) {
+        preferences.add(pref);
+    }
+
+    public ArrayList<String> getPreferences() {
+        return preferences;
     }
 
     public String getFirstName() {

@@ -9,6 +9,7 @@ import java.util.List;
 public class MyGroup {
     private String groupName;
     private List<String> membersID;
+    private List<Boolean> isOrganiser;
 
     public MyGroup() {
     }
@@ -16,12 +17,21 @@ public class MyGroup {
     public MyGroup(String groupName, String organiser) {
         this.groupName = groupName;
         membersID = new LinkedList<>();
+        isOrganiser = new LinkedList<>();
         membersID.add(organiser);
     }
 
     public void update(MyGroup myGroup) {
         groupName = myGroup.getGroupName();
         membersID = myGroup.getMembersID();
+    }
+
+    public void addUser(String id) {
+        membersID.add(id);
+    }
+
+    public void addIsOrganiser(boolean b) {
+        isOrganiser.add(b);
     }
 
     public String getGroupName() {
