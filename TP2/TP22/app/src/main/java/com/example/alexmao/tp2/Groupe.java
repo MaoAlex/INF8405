@@ -8,33 +8,40 @@ import java.util.ArrayList;
 public class Groupe {
     private ArrayList<User> users_;
     private String nomGroupe_;
-    private ArrayList<User> organisateur_;
+    private ArrayList<Boolean> organisateur_;
 
+    public Groupe(){
+        users_ = new ArrayList<User>();
+        organisateur_ = new ArrayList<Boolean>();
+        nomGroupe_="";
+    };
     public Groupe(String nomGroupe_){
+        users_ = new ArrayList<User>();
         this.nomGroupe_ = nomGroupe_;
+        organisateur_ = new ArrayList<Boolean>();
     }
 
-    public String getNomGroupe_() {
+    public String getNomGroupe() {
         return nomGroupe_;
-    }
+ }
 
-    public void setNomGroupe_(String nomGroupe_) {
+    public void setNomGroupe(String nomGroupe_) {
         this.nomGroupe_ = nomGroupe_;
     }
 
-    public ArrayList<User> getOrganisateur_() {
+    public ArrayList<Boolean> getOrganisateur() {
         return organisateur_;
     }
 
-    public void setOrganisateur_(ArrayList<User> organisateur_) {
+    public void setOrganisateur(ArrayList<Boolean> organisateur_) {
         this.organisateur_ = organisateur_;
     }
 
-    public ArrayList<User> getUsers_() {
+    public ArrayList<User> getUsers() {
         return users_;
     }
 
-    public void setUsers_(ArrayList<User> users_) {
+    public void setUsers(ArrayList<User> users_) {
         this.users_ = users_;
     }
 }

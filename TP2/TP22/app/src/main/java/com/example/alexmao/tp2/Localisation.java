@@ -7,6 +7,10 @@ public class Localisation {
     private float positionX_;
     private float positionY_;
 
+    public Localisation(float x, float y){
+        positionX_=x;
+        positionY_=y;
+    }
     public float getPositionX_() {
         return positionX_;
     }
@@ -21,5 +25,9 @@ public class Localisation {
 
     public void setPositionY_(float positionY_) {
         this.positionY_ = positionY_;
+    }
+
+    public String toString(){
+        return positionX_ + ", " + positionY_;
     }
 }

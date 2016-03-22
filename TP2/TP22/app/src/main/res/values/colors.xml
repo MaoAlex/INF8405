@@ -24,4 +24,12 @@
 
     <color name="lime">#CDDC39</color>
 
+
+    <color name="footer_background">#d96859</color>
+    <color name="header_background">#5fd976</color>
+    <color name="body_background">#56aaca</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="list_item_bg">#ffffff</color>
+    <color name="view_divider_color">#BABABA</color>
 </resources>

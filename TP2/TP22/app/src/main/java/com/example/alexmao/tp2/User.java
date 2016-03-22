@@ -36,7 +36,8 @@ public class User {
         localisation_=null;
 
     }
-    public User(String nom_, String prenom_, Uri photo_, String mail_, boolean estOrganisateur_, ArrayList<String> preference_, Localisation localisation_){
+    public User(String nom_, String prenom_,  String mail_, Uri photo_,
+                boolean estOrganisateur_, ArrayList<String> preference_, Localisation localisation_){
         this.nom_ = nom_;
         this.prenom_ = prenom_;
         this. mail_ = mail_;
@@ -45,19 +46,19 @@ public class User {
         this.localisation_ = localisation_;
     }
 
-    public String getNom_() {
+    public String getNom() {
         return nom_;
     }
 
-    public void setNom_(String nom_) {
+    public void setNom(String nom_) {
         this.nom_ = nom_;
     }
 
-    public String getPrenom_() {
+    public String getPrenom() {
         return prenom_;
     }
 
-    public void setPrenom_(String prenom_) {
+    public void setPrenom(String prenom_) {
         this.prenom_ = prenom_;
     }
 
@@ -93,7 +94,7 @@ public class User {
         this.preference_=preference_;
     }
 
-    public String ToString(){
+    public String toString(){
         return "Nom : "+ nom_ + " Prenom : " + " Id : " + id_;
     }
 
@@ -104,4 +105,6 @@ public class User {
     public void setId(int id) {
         this.id_ = id;
     }
+
+
 }
