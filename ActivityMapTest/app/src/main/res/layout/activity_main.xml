@@ -22,6 +22,11 @@
             android:layout_height="wrap_content"
             android:text="test group"
             android:id="@+id/goto_group_test"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="test mdp"
+            android:id="@+id/goto_mdp_test"/>
     </LinearLayout>
 
 </RelativeLayout>

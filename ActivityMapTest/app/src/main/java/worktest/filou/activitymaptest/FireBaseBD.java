@@ -12,7 +12,10 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.util.List;
+
 public class FireBaseBD implements RemoteBD {
+    private static String TAG = "FireBaseBD";
     Firebase myFireBaseRef;
 
     public FireBaseBD(Context context) {
@@ -35,6 +38,9 @@ public class FireBaseBD implements RemoteBD {
     public String addUser(User user) {
         Firebase userBD = myFireBaseRef.child("users").push();
         userBD.setValue(user);
+
+        Firebase requestBD = myFireBaseRef.child("requests").child(userBD.getKey());
+        requestBD.setValue("none");
 
         addUserToID(userBD.getKey(), user.getMailAdr());
         return userBD.getKey();
@@ -100,7 +106,7 @@ public class FireBaseBD implements RemoteBD {
 
     @Override
     public void getUserFromMail(String mailAdr, final LocalUser user) {
-        Firebase groupBD = myFireBaseRef.child("userToID").child(mailAdr.replace(')', '.'));
+        Firebase groupBD = myFireBaseRef.child("userToID").child(mailAdr.replace('.', ')'));
         groupBD.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -167,5 +173,183 @@ public class FireBaseBD implements RemoteBD {
             }
         });
 
+    }
+
+    @Override
+    public void addMdpToUser(String mail, String mdp) {
+        Firebase mdpOnBD = myFireBaseRef.child("mdp").child(mail.replace('.', ')'));
+        mdpOnBD.setValue(mdp);
+    }
+
+    @Override
+    public void addUserPref(String id, List<String> pref) {
+        Firebase prefOnBD = myFireBaseRef.child("preferences").child(id);
+        prefOnBD.setValue(pref);
+    }
+
+    @Override
+    public void getMdp(String mail, final MdpWrapper mdpWrapper) {
+        Firebase mdpBD = myFireBaseRef.child("mdp").child(mail.replace('.', ')'));
+        mdpBD.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                String mdp = null;
+                if (snapshot.exists()) {
+                    mdp = (String) snapshot.getValue();
+                }
+                mdpWrapper.update(mdp);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("error");
+            }
+        });
+    }
+
+    @Override
+    public void getExistGroup(String name, final ExistWrapper existWrapper) {
+        Firebase groups = myFireBaseRef.child("groups").child(name);
+        groups.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                boolean exist = false;
+                if (snapshot.exists()) {
+                    exist = true;
+                }
+                existWrapper.update(exist);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("error");
+            }
+        });
+
+    }
+
+    @Override
+    public void getExistUser(String mailADR, final ExistWrapper existWrapper) {
+        Firebase usersBD = myFireBaseRef.child("userToID").child(mailADR);
+        usersBD.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                boolean exist = false;
+                if (snapshot.exists()) {
+                    exist = true;
+                }
+                existWrapper.update(exist);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("error");
+            }
+        });
+    }
+
+    @Override
+    public void requestAvailabilities(String userID) {
+        Firebase requestBD = myFireBaseRef.child("requests").child(userID);
+        requestBD.setValue("AvailibilitiesRequest");
+    }
+
+    @Override
+    public void requestChoicePlace(String userID) {
+        Firebase requestBD = myFireBaseRef.child("requests").child(userID);
+        requestBD.setValue("PlaceRequest");
+    }
+
+    @Override
+    public void requestChoiceTime(String userID) {
+        Firebase requestBD = myFireBaseRef.child("requests").child(userID);
+        requestBD.setValue("TimeRequest");
+    }
+
+    @Override
+    public void listenToRequest(String userID) {
+        final Firebase requestBD = myFireBaseRef.child("requests").child(userID);
+        requestBD.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (!snapshot.exists())
+                    return;
+                String requestType = (String) snapshot.getValue();
+                switch (requestType) {
+                    case "AvailibilitiesRequest":
+                        Log.d(TAG, "listenToRequest onDataChange: " + "availabilities");
+
+                        break;
+                    case "PlaceRequest":
+                        Log.d(TAG, "listenToRequest onDataChange: " + "PlaceRequest");
+
+                        break;
+                    case "TimeRequest":
+                        Log.d(TAG, "listenToRequest onDataChange: " + "TimeRequest");
+
+                        break;
+                    default:
+                        System.out.println("none or invalid");
+                        Log.d(TAG, "listenToRequest onDataChange: " + "none or invalid");
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("error");
+            }
+        });
+    }
+
+    @Override
+    public void listenToTimeRespond(String userID) {
+        Firebase timeBD = myFireBaseRef.child("timeChoice").child(userID);
+        timeBD.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                int choice = (int) snapshot.getValue();
+                System.out.println(choice);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("error");
+            }
+        });
+    }
+
+    @Override
+    public void listenToPlaceRespond(String userID) {
+        Firebase placeBD = myFireBaseRef.child("placeChoice").child(userID);
+        placeBD.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                int choice = (int) snapshot.getValue();
+                System.out.println(choice);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("error");
+            }
+        });
+
+    }
+
+    @Override
+    public void listenToAvailabilities(String userID) {
+        Firebase timeBD = myFireBaseRef.child("availabilities").child(userID);
+        timeBD.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                int choice = (int) snapshot.getValue();
+                System.out.println(choice);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("error");
+            }
+        });
     }
 }

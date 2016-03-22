@@ -161,5 +161,6 @@ public class ConnectedMapActivity extends AppCompatActivity implements
 
     public void setLocalUser(LocalUser localUser) {
         this.localUser = localUser;
+        myRemoteBD.listenToRequest(localUser.getDataBaseId());
     }
 }

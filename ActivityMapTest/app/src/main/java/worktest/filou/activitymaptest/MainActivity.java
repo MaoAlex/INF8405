@@ -15,6 +15,7 @@ public class MainActivity extends ConnectedMapActivity {
     private static final String TAG = "MainActivity";
     private Button gotoMapButton;
     private Button gotoGroupTest;
+    private Button gotoMDPTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,14 @@ public class MainActivity extends ConnectedMapActivity {
                 gotoGroupTest(prepareGroupTest());
             }
         });
+        gotoMDPTest = (Button) findViewById(R.id.goto_mdp_test);
+        gotoMDPTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoMDPTest();
+            }
+        });
+
         prepareUser();
     }
 
@@ -41,6 +50,7 @@ public class MainActivity extends ConnectedMapActivity {
         localUser = new LocalUser("fifi", "test", "exemple@polymtl.ca");
         RemoteBD remoteBD = getMyRemoteBD();
         String userBDID = remoteBD.addUser((User) localUser);
+        remoteBD.addMdpToUser(localUser.getMailAdr().trim(), "fifi");
         localUser.setDataBaseId(userBDID);
         localUser.setChangeListener(new LocalUser.ChangeListener() {
             @Override
@@ -48,6 +58,7 @@ public class MainActivity extends ConnectedMapActivity {
                 getMyRemoteBD().updateLocationOnServer((User) localUser, localUser.getDataBaseId());
             }
         });
+        setLocalUser(localUser);
     }
 
     private String prepareGroupTest() {
@@ -82,6 +93,11 @@ public class MainActivity extends ConnectedMapActivity {
         Intent intent = new Intent(MainActivity.this, GroupTestActivity.class);
         intent.putExtra("localUser", localUser);
         intent.putExtra("groupID", myLocalGroupID);
+        startActivity(intent);
+    }
+
+    private void gotoMDPTest() {
+        Intent intent = new Intent(MainActivity.this, MDPTestActivity.class);
         startActivity(intent);
     }
 
