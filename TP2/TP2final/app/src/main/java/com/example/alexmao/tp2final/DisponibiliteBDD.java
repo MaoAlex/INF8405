@@ -95,7 +95,7 @@ public class DisponibiliteBDD extends AbstractBDD {
         while (cursor.moveToNext()){
 
             //User user = new User();
-            Log.d("query", "Recup√©ration de l'id de l'utilisateur");
+            Log.d("query", "Recuperation de l'id de l'utilisateur");
 
 
             Disponibilite disponibilite = new Disponibilite();
@@ -103,7 +103,7 @@ public class DisponibiliteBDD extends AbstractBDD {
             dateDebut += " " + cursor.getString(1);
             String dateFin = cursor.getString(0);
             dateFin += " " + cursor.getString(2);
-            SimpleDateFormat test = new SimpleDateFormat("dd/MM/yy hh:mi");//Format ‡ changer
+            SimpleDateFormat test = new SimpleDateFormat("dd/MM/yy h:m:s");
             try {
                 Date dateD = test.parse(dateDebut);
             } catch (ParseException e) {
