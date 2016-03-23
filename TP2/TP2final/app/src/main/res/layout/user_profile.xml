@@ -85,5 +85,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Modifier"/>
+        android:text="Modifier"
+        android:id="@+id/modifier"/>
+
 </LinearLayout>
