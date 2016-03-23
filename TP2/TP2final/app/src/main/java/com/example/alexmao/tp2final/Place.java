@@ -10,6 +10,7 @@ public class Place {
     private double latitude;
     private double longitude;
     private String nom;
+    private String type;
 
     public Place(JSONObject currentObj) {
         try {
@@ -51,5 +52,13 @@ public class Place {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
