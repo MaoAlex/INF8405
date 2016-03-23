@@ -1,6 +1,5 @@
 package com.example.alexmao.tp2final;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,13 +11,15 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.alexmao.tp2final.firebase.ConnectedMapActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by alexMAO on 22/03/2016.
  */
-public class UserProfileActivityModify extends Activity{
+public class UserProfileActivityModify extends ConnectedMapActivity{
     private static final String DEBUG_TAG = "UserProfileModify";
     private String[] tableauChoix = {"", "restaurant", "bar", "pizzeria", "pub", "cafe" };
     private Spinner liste1 = null;

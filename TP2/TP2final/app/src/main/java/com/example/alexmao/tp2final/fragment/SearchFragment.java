@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.example.alexmao.tp2final.IObserver;
 import com.example.alexmao.tp2final.Place;
 import com.example.alexmao.tp2final.SearchCriteria;
 import com.google.android.gms.maps.model.LatLng;
@@ -22,13 +23,18 @@ import java.util.ArrayList;
 
 /**
  * Created by Fabien on 23/03/2016.
+ * Les observateurs (par exemple l'activité qui lance ce fragment) doivent implémenter IObserver et
+ * s'attacher à ce fragment, afin d'être notifiés lorsque la recherche par préférences est finie.
  */
 public class SearchFragment extends Fragment {
     private ArrayList<Place> listPlaces;
+    private ArrayList<IObserver> listObservers;
+    private int counter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        listObservers = new ArrayList<IObserver>();
         setRetainInstance(true);
     }
 
@@ -36,8 +42,28 @@ public class SearchFragment extends Fragment {
         this.listPlaces = listPlaces;
     }
 
+    public void attach(IObserver observer) {
+        listObservers.add(observer);
+    }
+
+    public void detach(IObserver observer) {
+        listObservers.remove(observer);
+    }
+
+    public void notifyObservers() {
+        for(IObserver observer : listObservers) {
+            observer.update(this.listPlaces);
+        }
+    }
+
     public ArrayList<Place> getListPlaces() {
         return this.listPlaces;
+    }
+
+    public void doResearchByPreferences(LatLng centre, int radius, String[] types) {
+        for(String type : types) {
+            initiateSearch(centre, radius, type);
+        }
     }
 
     public void initiateSearch(LatLng centre, int radius, String type) {
@@ -45,6 +71,7 @@ public class SearchFragment extends Fragment {
         SearchCriteria criteria = new SearchCriteria(centre, radius, type, "AIzaSyDrc1KaMS_FKuphctJRk6ttUPFWvD1Ksic");
         task.execute(criteria);
     }
+
     public void parseJSON(String jsonResponse, String type) {
         JSONObject jsonObject = null;
         try {
@@ -71,12 +98,19 @@ public class SearchFragment extends Fragment {
                 }
             }
         }
+
+        counter--;
+
+        if(counter == 0) {
+            notifyObservers();
+        }
     }
 
     private class SearchPlacesTask extends AsyncTask<SearchCriteria, Void, String> {
         private String type;
 
         protected String doInBackground(SearchCriteria... criteres) {
+            counter++;
             int count = criteres.length;
             if(count==1) {
                 StringBuilder stringBuilder = new StringBuilder();

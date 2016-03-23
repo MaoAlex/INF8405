@@ -90,7 +90,7 @@ public class VoteBDD extends  AbstractBDD {
         //
         //on insère l'objet dans la BDD via le ContentValues
         while (cursor.moveToNext()) {
-            Log.d("UsersBDD", cursor.getInt(0) + ", : " + cursor.getInt(
+            Log.d(DEBUG_TAG, cursor.getInt(0) + ", : " + cursor.getInt(
                     1)
                     + ", " + cursor.getInt(2) + ", : " + cursor.getString(3)
                     + ", " + cursor.getString(4));

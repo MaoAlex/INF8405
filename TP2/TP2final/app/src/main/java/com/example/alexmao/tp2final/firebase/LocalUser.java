@@ -1,6 +1,7 @@
 package com.example.alexmao.tp2final.firebase;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -25,15 +26,17 @@ public class LocalUser extends UserFirebase {
 
     public LocalUser() {
     }
-    public LocalUser(String firstName, String lastName, String mailAdr, ArrayList<String> pref) {
-        super(firstName, lastName, mailAdr, pref);
+
+    public ChangeListener getChangeListener() {
+        return changeListener;
     }
+
     public LocalUser(String dataBaseId) {
-;
+
         this.dataBaseId = dataBaseId;
     }
 
-    public static final Creator<LocalUser> CREATOR = new Creator<LocalUser>()
+    public static final Parcelable.Creator<LocalUser> CREATOR = new Parcelable.Creator<LocalUser>()
     {
         @Override
         public LocalUser createFromParcel(Parcel source)
@@ -62,6 +65,9 @@ public class LocalUser extends UserFirebase {
         super(firstName, lastName, mailAdr);
     }
 
+    public LocalUser(String firstName, String lastName, String mailAdr, ArrayList<String> pref) {
+        super(firstName, lastName, mailAdr, pref);
+    }
     public LocalUser(UserFirebase user) {
         super(user.getFirstName(), user.getLastName(), user.getMailAdr());
     }

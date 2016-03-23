@@ -22,7 +22,7 @@ public class RegisterInformation extends ConnectedMapActivity {
     private Spinner liste1 = null;
     private Spinner liste2 = null;
     private Spinner liste3 = null;
-
+    private boolean dejaAffiche = false;
     final String EXTRA_PREFERENCE1 = "preference_1";
     final String EXTRA_PREFERENCE2 = "preference_2";
     final String EXTRA_PREFERENCE3 = "preference_3";
@@ -32,17 +32,18 @@ public class RegisterInformation extends ConnectedMapActivity {
     final String EXTRA_GROUP = "user_group";
     boolean estOrganisateur = false;
 
-    private String[] tableauChoix = {"", "restaurant", "bar", "pizzeria", "pub", "cafe" };
+    private String[] tableauChoix = {"", "Bar", "Café", "Restaurant", "Parc", "Cinéma", "Musée" };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        dejaAffiche = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_information);
         final UsersBDD userBDD = new UsersBDD(this);
-        GroupeBDD groupeBDD = new GroupeBDD(this);
-
+        final GroupeBDD groupeBDD = new GroupeBDD(this);
+        final PreferenceBDD preferenceBDD = new PreferenceBDD(this);
         userBDD.open();
         groupeBDD.open();
+        preferenceBDD.open();
         User user = new User("Jean", "Paul");
 
         userBDD.insertUser(user);
@@ -83,6 +84,7 @@ public class RegisterInformation extends ConnectedMapActivity {
         final String radioButtonSelected;
         switch (checkedRadioButton) {
             case R.id.radioNo : radioButtonSelected = "No";
+                estOrganisateur=false;
                 break;
             case R.id.radioYes : radioButtonSelected = "Yes";
                 estOrganisateur = true;
@@ -139,14 +141,14 @@ public class RegisterInformation extends ConnectedMapActivity {
                 Intent intent = new Intent(RegisterInformation.this, PhotoActivity.class);
                 String login = getIntent().getStringExtra(EXTRA_LOGIN);
                 String password = getIntent().getStringExtra(EXTRA_PASSWORD);
-                String group = getIntent().getStringExtra(EXTRA_GROUP);
+                String groupName = getIntent().getStringExtra(EXTRA_GROUP);
                 User user;
                 String pref1 = liste1.getSelectedItem().toString();
                 String pref2 = liste2.getSelectedItem().toString();
                 String pref3 = liste3.getSelectedItem().toString();
                 intent.putExtra(EXTRA_LOGIN, login);
                 intent.putExtra(EXTRA_PASSWORD, password);
-                intent.putExtra(EXTRA_GROUP, group);
+                intent.putExtra(EXTRA_GROUP, groupName);
                 intent.putExtra(EXTRA_EST_ORGANISATEUR, checkedRadioButton);
                 intent.putExtra(EXTRA_PREFERENCE1, pref1);
                 intent.putExtra(EXTRA_PREFERENCE2, pref2);
@@ -155,12 +157,6 @@ public class RegisterInformation extends ConnectedMapActivity {
                 //creation de la liste de preference
                 ArrayList<String> preference = new ArrayList<String>();
 
-                if(pref1!="")
-                    preference.add(pref1);
-                if(pref2!="" && pref2!=pref1)
-                    preference.add(pref2);
-                if(pref3!="" && pref3!=pref2 && pref3 != pref1)
-                    preference.add(pref3);
 
 
                 if (estOrganisateur)
@@ -170,14 +166,31 @@ public class RegisterInformation extends ConnectedMapActivity {
                 int id = (int) userBDD.insertUser(user);
                 userBDD.affichageUsers();
                 user.setId(id);
+                if(pref1!="") {
+                    preference.add(pref1);
+                    preferenceBDD.insertPreference(id,pref1);
+                }
+                if(pref2!="" && pref2!=pref1) {
+                    preference.add(pref2);
+                    preferenceBDD.insertPreference(id, pref2);
+                }
+                if(pref3!="" && pref3!=pref2 && pref3 != pref1) {
+                    preference.add(pref3);
+                    preferenceBDD.insertPreference(id, pref3);;
+                }
+                preferenceBDD.affichagePreferences();
                 Log.d(DEBUG_TAG, "Insertion reussi de " + user.getNom() + "" + user.toString());
-                userBDD.connexion(user);
-                userBDD.affichageUtilisateurConnecte();
-                LocalUser userFirebase = new LocalUser("test", "uep", login, preference);
-                String idFirebase = getMyRemoteBD().addUser(userFirebase);
-                getMyRemoteBD().addMdpToUser(user.getMail_(), password);
+                if(!dejaAffiche) {
+                    userBDD.affichageUtilisateurConnecte();
+                    LocalUser userFirebase = new LocalUser("test", "uep", login, preference);
+                    String idFirebase = getMyRemoteBD().addUser(userFirebase);
+                    userBDD.deconnexion();
+                    userBDD.connexion(user);
+                    groupeBDD.insertInGroup(groupName, id, estOrganisateur );
+                    getMyRemoteBD().addMdpToUser(user.getMail_(), password);
+                }
                 startActivity(intent);
-                userBDD.close();
+                //userBDD.close();
             }
         });
 
