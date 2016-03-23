@@ -53,6 +53,7 @@ public class BenchMarkActivity extends ConnectedMapActivity {
         int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
         batterypercentbef = batteryLevel / (float)scale;
+        batterypercentbef *= 100;
         tvBatteryBefore.setText("" + batterypercentbef);
     }
 
@@ -63,7 +64,10 @@ public class BenchMarkActivity extends ConnectedMapActivity {
         int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
         batterypercentaft = batteryLevel / (float)scale;
+        batterypercentaft *= 100;
         tvBatteryAfter.setText("" + batterypercentaft);
+        //block the update
+        actualGroupSize++;
     }
 
     void groupBatteryTest() {

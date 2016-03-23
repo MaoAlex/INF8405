@@ -146,4 +146,9 @@ public class User implements Parcelable {
         dest.writeByte((byte) (estOrganisateur_ ? 1 : 0));
         dest.writeStringList(preference_);
     }
+
+    /*@Override
+    public boolean equals(User u){
+        return
+    }*/
 }

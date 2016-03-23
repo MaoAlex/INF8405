@@ -137,6 +137,7 @@ import java.io.File;
 public class PhotoActivity extends ActionBarActivity {
     Button b1,b2;
     ImageView iv;
+    private static int RESULT_LOAD_IMAGE = 1;
     File mFichier;
     Bitmap bp;
 
@@ -146,6 +147,7 @@ public class PhotoActivity extends ActionBarActivity {
         setContentView(R.layout.photo);
 
         b1=(Button)findViewById(R.id.button);
+        b2=(Button)findViewById(R.id.gallery);
         iv = (ImageView) findViewById(R.id.imageView);
         bp = null;
         //deux lignes suivantes à modifier
@@ -161,6 +163,15 @@ public class PhotoActivity extends ActionBarActivity {
             }
         });
 
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                //ligne suivante inutile pour le moment
+                //intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+                startActivityForResult(intent, RESULT_LOAD_IMAGE);
+            }
+        });
         final Button next = (Button) findViewById(R.id.next);
         next.setOnClickListener(new View.OnClickListener() {
 

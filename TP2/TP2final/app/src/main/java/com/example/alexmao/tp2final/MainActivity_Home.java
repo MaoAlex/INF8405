@@ -11,14 +11,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
 
+import java.util.ArrayList;
+
 public class MainActivity_Home extends AppCompatActivity {
 
+    private static final String DEBUG_TAG = "MainActivity";
     MaterialViewPager materialViewPager;
     View headerLogo;
     ImageView headerLogoContent;
@@ -29,7 +33,29 @@ public class MainActivity_Home extends AppCompatActivity {
         setContentView(R.layout.activity_main_activity__home);
 
         //5 onglets
-        final int tabCount = 5;
+        final int tabCount = 4;
+        UsersBDD userBDD = new UsersBDD(this);
+        GroupeBDD groupeBDD = new GroupeBDD(this);
+        userBDD.open();
+        groupeBDD.open();
+        User user = new User("Jean", "Paul", "jean.paul@gmail.com", null, true, null, null  );
+        User user2 = new User("Ah", "DA", "daz@gmail.com", null, true, null, null  );
+        User user3 = new User("B", "OK", "doh@gmail.com", null, true, null, null  );
+        User user4 = new User("C", "CETA", "oij@gmail.com", null, true, null, null  );
+        /*userBDD.insertUser(user);
+        userBDD.insertUser(user2);
+        userBDD.insertUser(user3);
+        userBDD.insertUser(user4);*/
+        userBDD.affichageUsers();
+        ArrayList<User> lUser = userBDD.getUsers();
+        /*for(User u : lUser){
+            groupeBDD.insertInGroup("equipe2", u.getId(), true);
+
+        }*/
+/*
+        groupeBDD.insertInGroup("equipe2", lUser.get(0).getId(), true);
+        groupeBDD.insertInGroup("equipe2", lUser.get(1).getId(), true);*/
+        groupeBDD.affichageGroupes();
 
         //les vues définies dans @layout/header_logo
         headerLogo = findViewById(R.id.headerLogo);
@@ -44,15 +70,20 @@ public class MainActivity_Home extends AppCompatActivity {
             @Override
             public Fragment getItem(int position) {
                 //je créé pour chaque onglet un RecyclerViewFragment
-                switch (position % 5) {
-                    //case 0:
-                    //    return RecyclerViewFragment.newInstance();
-                    //case 1:
-                    //    return RecyclerViewFragment.newInstance();
-                    //case 2:
-                    //    return WebViewFragment.newInstance();
+                Log.d(DEBUG_TAG, " on recupere la position :  " + position );
+
+                switch (position % 4) {
+                    case 0:
+                        Log.d(DEBUG_TAG, " on est a la position 000000 et  :  " + position );
+
+                        return RecyclerViewFragment.newInstance(0);
+                    case 1:
+                        //return RecyclerViewFragment.newInstance();
+                    case 2:
+                        //return WebViewFragment.newInstance();
                     default:
-                        return RecyclerViewFragment.newInstance(groupeBDD);
+                        Log.d(DEBUG_TAG, " on recupere la position dans getItem:  " + position );
+                        return RecyclerViewFragment.newInstance(42);
                 }
             }
 
@@ -73,8 +104,8 @@ public class MainActivity_Home extends AppCompatActivity {
                         return getResources().getString(R.string.localisation);
                     case 3:
                         return getResources().getString(R.string.profil);
-                    case 4:
-                        return getResources().getString(R.string.parametres);
+                   /* case 4:
+                        return getResources().getString(R.string.parametres);*/
                     default:
                         return "Page " + position;
                 }
@@ -178,5 +209,7 @@ public class MainActivity_Home extends AppCompatActivity {
         this.materialViewPager.getViewPager().setOffscreenPageLimit(tabCount);
         //relie les tabs au viewpager
         this.materialViewPager.getPagerTitleStrip().setViewPager(this.materialViewPager.getViewPager());
+        userBDD.close();
+        groupeBDD.close();
     }
 }

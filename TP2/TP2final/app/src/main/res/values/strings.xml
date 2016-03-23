@@ -60,6 +60,10 @@
     <string name="reset">Reset</string>
     <string name="cancel">Cancel</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--firebase string-->
+    <string name="myFireBaseUrl">https://shining-heat-3886.firebaseio.com/</string>
+    <string name="goto_map">goto map</string>
+    <string name="test_user">Test User</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

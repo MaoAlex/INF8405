@@ -3,7 +3,6 @@ package com.example.alexmao.tp2final;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -17,6 +16,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +26,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.alexmao.tp2final.firebase.ConnectedMapActivity;
+import com.example.alexmao.tp2final.firebase.MdpWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,20 +40,15 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends ConnectedMapActivity implements LoaderCallbacks<Cursor> {
 
     /**
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
+    private boolean authentificationReussi = false;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
+    private static final String DEBUG_TAG = "LoginActivity" ;
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -145,6 +143,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
      */
     private void attemptLogin() {
         if (mAuthTask != null) {
+
+            //launchTest();
             return;
         }
 
@@ -198,7 +198,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 3;
     }
 
     /**
@@ -316,13 +316,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
+            /*for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
                     return pieces[1].equals(mPassword);
                 }
-            }
+            }*/
+
+            launchTest();
+
 
             // TODO: register the new account here.
             return true;
@@ -334,9 +337,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
 
             if (success) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity_Home.class);
 
-                startActivity(intent);
+                authentificationReussi = false;
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -347,7 +349,41 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+
         }
+    }
+    void launchTest() {
+        String mail = mEmailView.getText().toString().trim();
+        Log.d(DEBUG_TAG, "launchTest: mail " + mail);
+        String mdp = mPasswordView.getText().toString().trim();
+        Log.d(DEBUG_TAG, "launchTest: mdp " + mdp);
+        final MdpWrapper mdpWrapper = new MdpWrapper(mdp);
+        mdpWrapper.setOnRetrieveListener(new MdpWrapper.onRetrieveListener() {
+            @Override
+            public void onRetrieve(String mdp) {
+                if (mdp != null && mdp.equals(mdpWrapper.getMdp())) {
+                    succes();
+                    authentificationReussi = true;
+                    if(authentificationReussi){
+                        Intent intent = new Intent(LoginActivity.this, MainActivity_Home.class);
+                        startActivity(intent);
+                    }
+                } else {
+                    failure();
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }
+            }
+        });
+        getMyRemoteBD().getMdp(mail, mdpWrapper);
+    }
+
+    void succes() {
+        Log.d(DEBUG_TAG, "succes: ");
+    }
+
+    void failure() {
+        Log.d(DEBUG_TAG, "failure: ");
     }
 }
 

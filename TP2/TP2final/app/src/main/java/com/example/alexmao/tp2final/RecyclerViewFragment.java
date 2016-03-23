@@ -14,7 +14,9 @@ import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import com.github.florent37.materialviewpager.adapter.RecyclerViewMaterialAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by alexMAO on 14/03/2016.
@@ -26,8 +28,12 @@ public class RecyclerViewFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private static AbstractBDD aBdd;
-    public static RecyclerViewFragment newInstance(AbstractBDD bdd) {
-        aBdd = bdd;
+    private static int indiceTab;
+    private static User userCourant = new User();
+    public static RecyclerViewFragment newInstance(int indice) {
+        Log.d(DEBUG_TAG, " On met a jour l'indice a : " + indiceTab);
+
+        indiceTab = indice;
         return new RecyclerViewFragment();
     }
 
@@ -45,25 +51,50 @@ public class RecyclerViewFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-
         GroupeBDD groupeBDD = new GroupeBDD(getContext());
         groupeBDD.open();
-        groupeBDD.affichageGroupes();
-        List<User> test = groupeBDD.getGroupeBDD("equipe1!").getUsers();
-        //10 faux contenu
         List<Object> mContentItems = new ArrayList<>();
-        Log.d(DEBUG_TAG, " taille de la liste a afficher : " + test.size());
+        Log.d(DEBUG_TAG, " INDICE TAB EST A  : " + indiceTab);
+
+        if(indiceTab == 0){
+
+            List<User> test;
+
+            groupeBDD.affichageGroupes();
+            test = new ArrayList<>(groupeBDD.getGroupeBDD("equipe1!").getUsers());
+            Log.d(DEBUG_TAG, " taille de la liste a afficher : " + test.size());
+            for (int i = 0; i<test.size(); i++)
+                mContentItems.add(test.get(i));
 
         /*for (int i = 0; i < 10; ++i)
             mContentItems.add(new Object());*/
-        for (int i = 0; i<test.size(); i++)
-            mContentItems.add(test.get(i));
+
+        }else {
+            int compteGroupe = 0;
+            HashMap<String, Groupe> groupesDansBDD =  groupeBDD.getGroupesBDD();
+            for(Map.Entry<String, Groupe> entry : groupesDansBDD.entrySet()) {
+                for (User u : entry.getValue().getUsers()){
+                    //if(u.getId() == userCourant.getId()){
+
+                    //}
+                }
+                mContentItems.add(entry.getValue());
+                compteGroupe++;
+
+            }
+            Log.d(DEBUG_TAG, " taille de la liste de Groupe a afficher : " + compteGroupe);
+
+        }
+
+
+
+
 
         //penser à passer notre Adapter (ici : TestRecyclerViewAdapter) à un RecyclerViewMaterialAdapter
 
-        mAdapter = new RecyclerViewMaterialAdapter(new TestRecyclerViewAdapter(getContext(), mContentItems));
+        mAdapter = new RecyclerViewMaterialAdapter(new TestRecyclerViewAdapter(getContext(), mContentItems, indiceTab));
         mRecyclerView.setAdapter(mAdapter);
-
+        groupeBDD.close();
         //notifier le MaterialViewPager qu'on va utiliser une RecyclerView
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
     }

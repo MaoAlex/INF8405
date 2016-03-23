@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        //Création d'une instance de ma classe usersBDD
+        //Creation d'une instance de ma classe usersBDD
         UsersBDD userBDD = new UsersBDD(this);
         GroupeBDD groupeBDD = new GroupeBDD(this);
         DisponibiliteBDD disponibiliteBDD = new DisponibiliteBDD(this);

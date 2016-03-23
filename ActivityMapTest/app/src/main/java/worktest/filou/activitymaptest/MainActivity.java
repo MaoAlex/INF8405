@@ -18,6 +18,7 @@ public class MainActivity extends ConnectedMapActivity {
     private Button gotoMDPTest;
     private Button gotoProposalTest;
     private Button gotoUpdate;
+    private Button gotoBenchmark;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,13 @@ public class MainActivity extends ConnectedMapActivity {
             @Override
             public void onClick(View v) {
                 gotoUpdateTest(prepareUpdate());
+            }
+        });
+        gotoBenchmark = (Button) findViewById(R.id.goto_benchmark_activity);
+        gotoBenchmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoBenchmark(prepareBenchmark());
             }
         });
 
@@ -148,4 +156,16 @@ public class MainActivity extends ConnectedMapActivity {
         startActivity(intent);
     }
 
+    private String prepareBenchmark() {
+        String myLocalGroupID = prepareGroupTest();
+
+        return myLocalGroupID;
+    }
+
+    private void gotoBenchmark(String groupID) {
+        Intent intent = new Intent(MainActivity.this, BenchMarkActivity.class);
+        intent.putExtra("localUser", localUser);
+        intent.putExtra("groupID", groupID);
+        startActivity(intent);
+    }
 }
