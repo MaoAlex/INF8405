@@ -22,7 +22,7 @@ public class MainActivity_Home extends AppCompatActivity {
     MaterialViewPager materialViewPager;
     View headerLogo;
     ImageView headerLogoContent;
-
+    GroupeBDD groupeBDD;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +52,7 @@ public class MainActivity_Home extends AppCompatActivity {
                     //case 2:
                     //    return WebViewFragment.newInstance();
                     default:
-                        return RecyclerViewFragment.newInstance();
+                        return RecyclerViewFragment.newInstance(groupeBDD);
                 }
             }
 
