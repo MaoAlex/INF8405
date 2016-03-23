@@ -66,6 +66,8 @@ public class BenchMarkActivity extends ConnectedMapActivity {
         batterypercentaft = batteryLevel / (float)scale;
         batterypercentaft *= 100;
         tvBatteryAfter.setText("" + batterypercentaft);
+        //block the update
+        actualGroupSize++;
     }
 
     void groupBatteryTest() {
