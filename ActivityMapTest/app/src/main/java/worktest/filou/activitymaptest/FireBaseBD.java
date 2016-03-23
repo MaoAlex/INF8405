@@ -102,7 +102,7 @@ public class FireBaseBD implements RemoteBD {
     public String addGroup(MyGroup myGroup) {
         Firebase groupBD = myFireBaseRef.child("groups").push();
         groupBD.setValue(myGroup);
-
+        addGroupNameToID(myGroup.getGroupName(), groupBD.getKey());
         return groupBD.getKey();
     }
 
@@ -181,6 +181,11 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
+    private void addGroupNameToID(String groupName, String groupID) {
+        Firebase groupBD = myFireBaseRef.child("groupToID").child(groupName);
+        groupBD.setValue(groupID);
+    }
+
     @Override
     public void listenToChangeOnGroup(final MyGroup group, final String groupBDID) {
         myFireBaseRef.child("groups").child(groupBDID).addValueEventListener(new ValueEventListener() {
@@ -197,7 +202,6 @@ public class FireBaseBD implements RemoteBD {
                 System.out.println("The read failed: " + firebaseError.getMessage());
             }
         });
-
     }
 
     @Override
