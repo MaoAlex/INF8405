@@ -10,17 +10,17 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.alexmao.tp2final.firebase.ConnectedMapActivity;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 
 import java.util.ArrayList;
 
-public class MainActivity_Home extends AppCompatActivity {
+public class MainActivity_Home extends ConnectedMapActivity {
 
     private static final String DEBUG_TAG = "MainActivity";
     MaterialViewPager materialViewPager;

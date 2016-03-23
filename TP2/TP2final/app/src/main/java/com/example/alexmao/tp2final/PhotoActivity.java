@@ -127,14 +127,15 @@ public class PhotoActivity extends Activity {
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.alexmao.tp2final.firebase.ConnectedMapActivity;
+
 import java.io.File;
 
-public class PhotoActivity extends ActionBarActivity {
+public class PhotoActivity extends ConnectedMapActivity {
     Button b1,b2;
     ImageView iv;
     private static int RESULT_LOAD_IMAGE = 1;
