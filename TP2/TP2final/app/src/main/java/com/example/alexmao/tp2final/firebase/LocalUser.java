@@ -4,12 +4,14 @@ import android.os.Parcel;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.ArrayList;
+
 /**
  * Created by filou on 09/03/16.
  */
 
 @JsonIgnoreProperties({"dataBaseId", "changeListener"})
-public class LocalUser extends User {
+public class LocalUser extends UserFirebase {
     private String dataBaseId;
     public interface ChangeListener{
         void onPositionChanged(LocalUser localUser);
@@ -23,9 +25,11 @@ public class LocalUser extends User {
 
     public LocalUser() {
     }
-
+    public LocalUser(String firstName, String lastName, String mailAdr, ArrayList<String> pref) {
+        super(firstName, lastName, mailAdr, pref);
+    }
     public LocalUser(String dataBaseId) {
-
+;
         this.dataBaseId = dataBaseId;
     }
 
@@ -58,7 +62,7 @@ public class LocalUser extends User {
         super(firstName, lastName, mailAdr);
     }
 
-    public LocalUser(User user) {
+    public LocalUser(UserFirebase user) {
         super(user.getFirstName(), user.getLastName(), user.getMailAdr());
     }
 

@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 
 //Ne pas oublier d'appeler la fonction pour que le mot de passe soit pris en compte
-public class User implements Parcelable {
+public class UserFirebase implements Parcelable {
     private String firstName;
     private String lastName;
     private String mailAdr;
@@ -18,22 +18,22 @@ public class User implements Parcelable {
     private double longi;
     private ArrayList<String> preferences;
 
-    public static final Creator<User> CREATOR = new Creator<User>()
+    public static final Creator<UserFirebase> CREATOR = new Creator<UserFirebase>()
     {
         @Override
-        public User createFromParcel(Parcel source)
+        public UserFirebase createFromParcel(Parcel source)
         {
-            return new User(source);
+            return new UserFirebase(source);
         }
 
         @Override
-        public User[] newArray(int size)
+        public UserFirebase[] newArray(int size)
         {
-            return new User[size];
+            return new UserFirebase[size];
         }
     };
 
-    public User(Parcel in) {
+    public UserFirebase(Parcel in) {
         firstName = in.readString();
         lastName = in.readString();
         mailAdr = in.readString();
@@ -41,16 +41,22 @@ public class User implements Parcelable {
         longi = in.readDouble();
     }
 
-    public User() {
+    public UserFirebase() {
     }
 
-    public User(String firstName, String lastName, String mailAdr) {
+    public UserFirebase(String firstName, String lastName, String mailAdr) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.mailAdr = mailAdr;
         preferences = new ArrayList<>();
     }
 
+    public UserFirebase(String firstName, String lastName, String mailAdr, ArrayList<String> pref) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.mailAdr = mailAdr;
+        preferences = new ArrayList<>(pref);
+    }
     public void addPreference(String pref) {
         preferences.add(pref);
     }
@@ -71,7 +77,7 @@ public class User implements Parcelable {
         return mailAdr;
     }
 
-    public void update(User userFromRemote) {
+    public void update(UserFirebase userFromRemote) {
         firstName = userFromRemote.getFirstName();
         lastName = userFromRemote.getLastName();
         mailAdr = userFromRemote.getMailAdr();

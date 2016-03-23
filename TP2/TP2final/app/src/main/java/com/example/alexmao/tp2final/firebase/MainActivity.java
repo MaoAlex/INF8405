@@ -46,13 +46,13 @@ public class MainActivity extends ConnectedMapActivity {
     private void testCreateUser() {
         localUser = new LocalUser("fifi", "test", "exemple@polymtl.ca");
         RemoteBD remoteBD = getMyRemoteBD();
-        String userBDID = remoteBD.addUser((User) localUser);
+        String userBDID = remoteBD.addUser((UserFirebase) localUser);
         remoteBD.addMdpToUser(localUser.getMailAdr().trim(), "fifi");
         localUser.setDataBaseId(userBDID);
         localUser.setChangeListener(new LocalUser.ChangeListener() {
             @Override
             public void onPositionChanged(LocalUser localUser) {
-                getMyRemoteBD().updateLocationOnServer((User) localUser, localUser.getDataBaseId());
+                getMyRemoteBD().updateLocationOnServer((UserFirebase) localUser, localUser.getDataBaseId());
             }
         });
         setLocalUser(localUser);
@@ -61,19 +61,19 @@ public class MainActivity extends ConnectedMapActivity {
     private String prepareGroupTest() {
         RemoteBD remoteBD = getMyRemoteBD();
         localUser = new LocalUser("fifi", "test1", "exemple1@polymtl.ca");
-        String userBDID = remoteBD.addUser((User) localUser);
+        String userBDID = remoteBD.addUser((UserFirebase) localUser);
         localUser.setDataBaseId(userBDID);
         MyLocalGroup myLocalGroup = new MyLocalGroup("test group", localUser.getDataBaseId());
 
 
         localUser = new LocalUser("fifi", "test2", "exemple2@polymtl.ca");
-        userBDID = remoteBD.addUser((User) localUser);
+        userBDID = remoteBD.addUser((UserFirebase) localUser);
         localUser.setDataBaseId(userBDID);
         myLocalGroup.addMember(userBDID);
 
 
         localUser = new LocalUser("fifi", "test3", "exemple3@polymtl.ca");
-        userBDID = remoteBD.addUser((User) localUser);
+        userBDID = remoteBD.addUser((UserFirebase) localUser);
         localUser.setDataBaseId(userBDID);
         myLocalGroup.addMember(userBDID);
 

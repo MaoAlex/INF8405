@@ -6,9 +6,9 @@ import java.util.List;
  * Created by filou on 05/03/16.
  */
 public interface RemoteBD {
-    void updateLocationOnServer(User user, String id) ;
+    void updateLocationOnServer(UserFirebase user, String id) ;
     String getLastDataFromServer(String path);
-    String addUser(User user);
+    String addUser(UserFirebase user);
     void getUser(String id, LocalUser user);
     void getUserFromMail(String mailAdr, LocalUser user);
     void listenToChangeOnUser(final LocalUser user, final String userBDID);

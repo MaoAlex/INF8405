@@ -146,7 +146,7 @@ public class GroupTestActivity extends ConnectedMapActivity implements OnMapRead
         double mlong = 0;
 
         if (groupSize == actualGroupSize) {
-            for (User user : localUsers) {
+            for (UserFirebase user : localUsers) {
                 mlat += user.getLat();
                 mlong += user.getLongi();
             }

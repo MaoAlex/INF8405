@@ -26,7 +26,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void updateLocationOnServer(User user, String id) {
+    public void updateLocationOnServer(UserFirebase user, String id) {
         myFireBaseRef.child("users" ).child(id).setValue(user);
     }
 
@@ -36,7 +36,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public String addUser(User user) {
+    public String addUser(UserFirebase user) {
         Firebase userBD = myFireBaseRef.child("users").push();
         userBD.setValue(user);
 
@@ -79,7 +79,7 @@ public class FireBaseBD implements RemoteBD {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Log.d("onDataChanged", "Child of id: " + userBDID + " modified");
-                User userFromBD = snapshot.getValue(User.class);
+                UserFirebase userFromBD = snapshot.getValue(UserFirebase.class);
                 user.setLat(userFromBD.getLat());
                 Log.d("onDataChange: ", "new latitude " + user.getLat());
                 user.setLongi(userFromBD.getLongi());
@@ -113,7 +113,7 @@ public class FireBaseBD implements RemoteBD {
         userBD.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                User userSnapshot = snapshot.getValue(User.class);
+                UserFirebase userSnapshot = snapshot.getValue(UserFirebase.class);
                 user.update(userSnapshot);
                 user.update();
             }
