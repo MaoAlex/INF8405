@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         User userFromBdd = userBDD.getUserWithNom("Jean");
         groupeBDD.insertInGroup("equipe1!", userFromBdd.getId(), true);
 
-        Log.d(DEBUG_TAG, "valeur de l'id de l'utilisateur " + userFromBdd.getNom() + " : " + userFromBdd.getId() + " et la valeur de a : " + a);
+            Log.d(DEBUG_TAG, "valeur de l'id de l'utilisateur " + userFromBdd.getNom() + " : " + userFromBdd.getId() + " et la valeur de a : " + a);
         groupeBDD.affichageGroupes();
         //userBDD.updateUser(user.getId(), );
         Log.d(DEBUG_TAG, "affichage des elements");

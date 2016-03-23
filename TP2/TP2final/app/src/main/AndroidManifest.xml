@@ -35,11 +35,12 @@
     <activity
         android:name=".RegisterActivity"
         android:label="@string/title_activity_register" />
-    <activity android:name=".MainActivity_Home" />
+    <activity android:name=".MainActivity" />
     <activity android:name=".UserProfileActivityModify" />
     <activity android:name=".RegisterInformation" />
     <activity android:name=".PhotoActivity" />
     <activity android:name=".Calendar"></activity>
+    <uses-library android:name="com.google.android.maps" />
 </application>
 
 </manifest>

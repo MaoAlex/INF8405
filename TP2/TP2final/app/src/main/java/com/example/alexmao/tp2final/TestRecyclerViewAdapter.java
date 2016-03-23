@@ -14,18 +14,29 @@ import java.util.List;
 /**
  * Created by alexMAO on 14/03/2016.
  */
-public class TestRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerViewAdapter.ViewHolder> {
 
     private static final String DEBUG_TAG =  "TestRecyclerViewAdapter";
     List<Object> contents;
     private Context context;
-    private class ViewHolder {
-        TextView userIdTxt;
-        TextView userNameTxt;
-        TextView userDobTxt;
-        TextView userSalaryTxt;
-        TextView userDeptNameTxt;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
+        //public TextView mTextView;
+        protected static TextView vName;
+        protected static TextView vSurname;
+        protected static TextView vEmail;
+        protected static TextView vTitle;
+        public ViewHolder(View convertView) {
+            super(convertView);
+            //mTextView = convertView;
+            vName =  (TextView) convertView.findViewById(R.id.txtName);
+            vSurname = (TextView)  convertView.findViewById(R.id.txtSurname);
+            vEmail = (TextView)  convertView.findViewById(R.id.txtEmail);
+            vTitle = (TextView) convertView.findViewById(R.id.title);
+        }
     }
+
+
     public TestRecyclerViewAdapter(Context context, List<Object> contents) {
         this.contents = contents;
         this.context = context;
@@ -37,10 +48,10 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_card, parent, false);
-        return new RecyclerView.ViewHolder(view) {
+        return new ViewHolder(view) {
 
         };
     }
@@ -51,8 +62,9 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.list_item, null);
-            holder = new ViewHolder();
-            holder.userNameTxt = (TextView) convertView
+            holder = new ViewHolder(convertView);
+            Log.d(DEBUG_TAG, "On est dans getView");
+            /*holder.vN = (TextView) convertView
                     .findViewById(R.id.txt_user_id);
             holder.userNameTxt = (TextView) convertView
                     .findViewById(R.id.txt_user_name);
@@ -61,14 +73,23 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             holder.userSalaryTxt = (TextView) convertView
                     .findViewById(R.id.txt_user_salary);
             holder.userDeptNameTxt = (TextView) convertView
-                    .findViewById(R.id.txt_user_dept);
+                    .findViewById(R.id.txt_user_dept);*/
+            /*holder.vName =  (TextView) convertView.findViewById(R.id.txtName);
+            holder.vSurname = (TextView)  convertView.findViewById(R.id.txtSurname);
+            holder.vEmail = (TextView)  convertView.findViewById(R.id.txtEmail);
+            holder.vTitle = (TextView) convertView.findViewById(R.id.title);*/
+            /*User ci = (User) contents.get(position);
 
+            ViewHolder.vName.setText(ci.getNom());
+            ViewHolder.vSurname.setText(ci.getPrenom());
+            ViewHolder.vEmail.setText(ci.getMail_());
+            ViewHolder.vTitle.setText("");*/
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         User users = new User("Jean", "Paul", "jean.paul@gmail.com", null, true, null, null  );
-        holder.userIdTxt.setText(users.getId() + "");
+        //holder.vName.setText(users.getId() + "");
         //holder.userNameTxt.setText(users.getName());
         //holder.userSalaryTxt.setText(users.getSalary() + "");
         //holder.userDeptNameTxt.setText(users.getDepartment().getName());
@@ -78,6 +99,13 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         return convertView;
     }
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        User ci = (User) contents.get(position);
+
+        holder.vName.setText(ci.getNom());
+        holder.vSurname.setText(ci.getPrenom());
+        holder.vEmail.setText(ci.getMail_());
+        holder.vTitle.setText(ci.getNom() + " " + ci.getPrenom());
+
     }
 }

@@ -1,10 +1,11 @@
 package com.example.alexmao.tp2final;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +21,13 @@ import java.util.List;
  */
 public class RecyclerViewFragment extends Fragment {
 
+    private static final String DEBUG_TAG = "RecyclerViewFragment";
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-
-    public static RecyclerViewFragment newInstance() {
+    private RecyclerView.LayoutManager mLayoutManager;
+    private static AbstractBDD aBdd;
+    public static RecyclerViewFragment newInstance(AbstractBDD bdd) {
+        aBdd = bdd;
         return new RecyclerViewFragment();
     }
 
@@ -42,10 +46,18 @@ public class RecyclerViewFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
+        GroupeBDD groupeBDD = new GroupeBDD(getContext());
+        groupeBDD.open();
+        groupeBDD.affichageGroupes();
+        List<User> test = groupeBDD.getGroupeBDD("equipe1!").getUsers();
         //10 faux contenu
         List<Object> mContentItems = new ArrayList<>();
-        for (int i = 0; i < 10; ++i)
-            mContentItems.add(new Object());
+        Log.d(DEBUG_TAG, " taille de la liste a afficher : " + test.size());
+
+        /*for (int i = 0; i < 10; ++i)
+            mContentItems.add(new Object());*/
+        for (int i = 0; i<test.size(); i++)
+            mContentItems.add(test.get(i));
 
         //penser à passer notre Adapter (ici : TestRecyclerViewAdapter) à un RecyclerViewMaterialAdapter
 
@@ -55,4 +67,6 @@ public class RecyclerViewFragment extends Fragment {
         //notifier le MaterialViewPager qu'on va utiliser une RecyclerView
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
     }
+
+
 }

@@ -65,7 +65,7 @@ public class UserListAdapter extends ArrayAdapter<User> {
                 convertView = inflater.inflate(R.layout.list_item, null);
                 holder = new ViewHolder();
 
-                holder.empIdTxt = (TextView) convertView
+                /*holder.empIdTxt = (TextView) convertView
                         .findViewById(R.id.txt_emp_id);
                 holder.empNameTxt = (TextView) convertView
                         .findViewById(R.id.txt_emp_name);
@@ -74,7 +74,7 @@ public class UserListAdapter extends ArrayAdapter<User> {
                 holder.empSalaryTxt = (TextView) convertView
                         .findViewById(R.id.txt_emp_salary);
                 holder.empDeptNameTxt = (TextView) convertView
-                        .findViewById(R.id.txt_emp_dept);
+                        .findViewById(R.id.txt_emp_dept);*/
 
                 convertView.setTag(holder);
             } else {
