@@ -138,6 +138,8 @@ public class PhotoActivity extends ActionBarActivity {
     Button b1,b2;
     ImageView iv;
     File mFichier;
+    Bitmap bp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,6 +147,7 @@ public class PhotoActivity extends ActionBarActivity {
 
         b1=(Button)findViewById(R.id.button);
         iv = (ImageView) findViewById(R.id.imageView);
+        bp = null;
         //deux lignes suivantes à modifier
         //mFichier = new File(Environment.getExternalStorageDirectory(), "photo.jpg");
         //final Uri fileUri = Uri.fromFile(mFichier);
@@ -173,8 +176,24 @@ public class PhotoActivity extends ActionBarActivity {
         // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
 
-        Bitmap bp = (Bitmap) data.getExtras().get("data");
+        bp = (Bitmap) data.getExtras().get("data");
         iv.setImageBitmap(bp);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("bp", bp);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        bp = savedInstanceState.getParcelable("bp");
+
+        if(bp!=null) {
+            iv.setImageBitmap(bp);
+        }
     }
 
     @Override
