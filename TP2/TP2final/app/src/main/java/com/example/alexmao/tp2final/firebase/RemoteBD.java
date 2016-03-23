@@ -9,11 +9,14 @@ public interface RemoteBD {
     String addUser(UserFirebase user);
     void getUser(String id, LocalUser user);
     void getUserFromMail(String mailAdr, LocalUser user);
+    //Mise à jour de l'utilisateur
     void listenToChangeOnUser(final LocalUser user, final String userBDID);
     String addGroup(MyGroup myGroup);
     void addUserToGroup(String groupID, String userID);
+
     void getGroup(String groupID, MyGroup myGroup);
     void getGroupFromName(String name, MyGroup myGroup);
+
     void listenToChangeOnGroup(final MyGroup group, final String groupBDID);
     void addMdpToUser(String mail, String mdp);
     void getMdp(String mail, MdpWrapper mdpWrapper);
@@ -31,6 +34,7 @@ public interface RemoteBD {
     void setTimeChoice(int index, String userID);
     void getUserPref(String id, LocalUserPreferences preferences);
     void changeMail(LocalUser localUser, String newMail);
+    //Recuperation de l'utilisateur, des groupes auxquels il appartient et mise à jour.
     void update(LocalUser localUser, MyLocalGroup myLocalGroup,
                 LocalUserPreferences localUserPreferences,
                 OnUpdateComplete onUpdateComplete);
