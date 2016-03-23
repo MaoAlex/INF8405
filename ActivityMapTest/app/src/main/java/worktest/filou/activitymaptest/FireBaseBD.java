@@ -16,7 +16,12 @@ import java.util.List;
 
 public class FireBaseBD implements RemoteBD {
     private static String TAG = "FireBaseBD";
-    Firebase myFireBaseRef;
+    private Firebase myFireBaseRef;
+    private OnQuery onQuery;
+
+    public void setOnQuery(OnQuery onQuery) {
+        this.onQuery = onQuery;
+    }
 
     public FireBaseBD(Context context) {
         //connection to BD
@@ -94,10 +99,34 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
+    public void changeGroupName(MyLocalGroup myLocalGroup, String newName) {
+        String oldName = myLocalGroup.getGroupName();
+        myLocalGroup.setGroupName(newName);
+        Firebase groupBD = myFireBaseRef.child("groups").child(myLocalGroup.getDatabaseID());
+        groupBD.setValue(myLocalGroup);
+        Firebase groupNameToIDBD = myFireBaseRef.child("groupToID").child(oldName);
+        groupNameToIDBD.setValue(null);
+        groupNameToIDBD = myFireBaseRef.child("groupToID").child(newName);
+        groupNameToIDBD.setValue(myLocalGroup.getDatabaseID());
+    }
+
+    @Override
+    public void changeMail(LocalUser localUser, String newMail) {
+        String oldMail = localUser.getMailAdr();
+        localUser.setMailAdr(newMail);
+        Firebase userBD = myFireBaseRef.child("users").child(localUser.getDataBaseId());
+        userBD.setValue(localUser);
+        Firebase userToID = myFireBaseRef.child("userToID").child(oldMail.replace(".", ")"));
+        userToID.setValue(null);
+        userToID = myFireBaseRef.child("userToID").child(newMail.replace(".", ")"));
+        userToID.setValue(localUser.getDataBaseId());
+    }
+
+    @Override
     public String addGroup(MyGroup myGroup) {
         Firebase groupBD = myFireBaseRef.child("groups").push();
         groupBD.setValue(myGroup);
-
+        addGroupNameToID(myGroup.getGroupName(), groupBD.getKey());
         return groupBD.getKey();
     }
 
@@ -176,6 +205,11 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
+    private void addGroupNameToID(String groupName, String groupID) {
+        Firebase groupBD = myFireBaseRef.child("groupToID").child(groupName);
+        groupBD.setValue(groupID);
+    }
+
     @Override
     public void listenToChangeOnGroup(final MyGroup group, final String groupBDID) {
         myFireBaseRef.child("groups").child(groupBDID).addValueEventListener(new ValueEventListener() {
@@ -192,7 +226,6 @@ public class FireBaseBD implements RemoteBD {
                 System.out.println("The read failed: " + firebaseError.getMessage());
             }
         });
-
     }
 
     @Override
@@ -202,7 +235,74 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void addUserPref(String id, List<String> pref) {
+    public void getUserPref(String id, final LocalUserPreferences preferences) {
+        Firebase mdpBD = myFireBaseRef.child("preferences").child(id);
+        mdpBD.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                UserPreferences userPreferencesBD = snapshot.getValue(UserPreferences.class);
+                for (String pref : userPreferencesBD.getPreferences()) {
+                    preferences.addPreference(pref);
+                }
+                preferences.update();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("error");
+            }
+        });
+    }
+
+    @Override
+    public void update(final LocalUser localUser, final MyLocalGroup myLocalGroup, final LocalUserPreferences localUserPreferences, final OnUpdateComplete onUpdateComplete) {
+        final IntWrapper i = new IntWrapper(0);
+        final LocalUser.ChangeListener changeListener = localUser.getChangeListener();
+        final MyLocalGroup.ChangeListener changeListenerGroup = myLocalGroup.getChangeListener();
+        final LocalUserPreferences.OnRetrieve onRetrieve = localUserPreferences.getOnRetrieve();
+
+        localUser.setChangeListener(new LocalUser.ChangeListener() {
+            @Override
+            public void onPositionChanged(LocalUser localUser) {
+                i.setI(i.getI() + 1);
+                changeListener.onPositionChanged(localUser);
+                if ( i.getI() == 3) {
+                    onUpdateComplete.onUpdateComplete(localUser, myLocalGroup, localUserPreferences);
+                    localUser.setChangeListener(changeListener);
+                }
+            }
+        });
+        getUser(localUser.getDataBaseId(), localUser);
+
+        myLocalGroup.setChangeListener(new MyLocalGroup.ChangeListener() {
+            @Override
+            public void onChange(MyLocalGroup myLocalGroup) {
+                i.setI(i.getI() + 1);
+                changeListenerGroup.onChange(myLocalGroup);
+                if (i.getI() == 3) {
+                    onUpdateComplete.onUpdateComplete(localUser, myLocalGroup, localUserPreferences);
+                    myLocalGroup.setChangeListener(changeListenerGroup);
+                }
+            }
+        });
+        getGroup(myLocalGroup.getDatabaseID(), myLocalGroup);
+
+        localUserPreferences.setOnRetrieve(new LocalUserPreferences.OnRetrieve() {
+            @Override
+            public void onRetrieve(LocalUserPreferences localUserPreferences) {
+                i.setI(i.getI() + 1);
+                onRetrieve.onRetrieve(localUserPreferences);
+                if (i.getI() == 3) {
+                    onUpdateComplete.onUpdateComplete(localUser, myLocalGroup, localUserPreferences);
+                    localUserPreferences.setOnRetrieve(onRetrieve);
+                }
+            }
+        });
+        getUserPref(localUser.getDataBaseId(), localUserPreferences);
+    }
+
+    @Override
+    public void addUserPref(String id, UserPreferences pref) {
         Firebase prefOnBD = myFireBaseRef.child("preferences").child(id);
         prefOnBD.setValue(pref);
     }
@@ -302,7 +402,8 @@ public class FireBaseBD implements RemoteBD {
                         break;
                     case "PlaceRequest":
                         Log.d(TAG, "listenToRequest onDataChange: " + "PlaceRequest");
-
+                        if (onQuery != null)
+                            onQuery.onPlaceQuery();
                         break;
                     case "TimeRequest":
                         Log.d(TAG, "listenToRequest onDataChange: " + "TimeRequest");
@@ -380,15 +481,27 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void addPlaceProposal(MeetingPlace meetingPlace, String groupID) {
-        Firebase meetingBD = myFireBaseRef.child("meetingProposal").child(groupID).push();
-        meetingBD.setValue(meetingPlace);
+    public void addTimeProposal(TimeSlots timeSlots, String groupID) {
+        Firebase meetingBD = myFireBaseRef.child("timeProposal").child(groupID).push();
+        meetingBD.setValue(timeSlots);
     }
 
     @Override
-    public void addTimeProposal(TimeSlot timeSlot, String groupID) {
-        Firebase meetingBD = myFireBaseRef.child("timeProposal").child(groupID).push();
-        meetingBD.setValue(timeSlot);
+    public void getTimeProposal(final LocalTimeSlots timeSlots, String groupID) {
+        Firebase timeProposal = myFireBaseRef.child("timeProposal").child(groupID);
+        timeProposal.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                TimeSlots proposalsBD = dataSnapshot.getValue(TimeSlots.class);
+                timeSlots.update(proposalsBD);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
     }
 
     @Override
@@ -401,5 +514,31 @@ public class FireBaseBD implements RemoteBD {
     public void setTimeChoice(int index, String userID) {
         Firebase meetingBD = myFireBaseRef.child("timeChoice").child(userID);
         meetingBD.setValue(index);
+    }
+
+    @Override
+    public void addPlacesProposal(PlaceProposals meetingPlace, String groupID) {
+        Firebase meetingBD = myFireBaseRef.child("meetingProposal").child(groupID);
+        meetingBD.setValue(meetingPlace);
+    }
+
+    @Override
+    public void getPlaceProposal(String groupID, final LocalPlaceProposals placeProposals) {
+        Firebase placeProposalBD = myFireBaseRef.child("meetingProposal").child(groupID);
+        placeProposalBD.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                PlaceProposals proposalsBD = dataSnapshot.getValue(PlaceProposals.class);
+                for (MeetingPlace meetingPlace : proposalsBD.getPlaces()) {
+                    placeProposals.addPlace(meetingPlace);
+                }
+                placeProposals.update();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 }

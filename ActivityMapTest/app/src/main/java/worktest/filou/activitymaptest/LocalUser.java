@@ -25,6 +25,10 @@ public class LocalUser extends User {
     public LocalUser() {
     }
 
+    public ChangeListener getChangeListener() {
+        return changeListener;
+    }
+
     public LocalUser(String dataBaseId) {
 
         this.dataBaseId = dataBaseId;

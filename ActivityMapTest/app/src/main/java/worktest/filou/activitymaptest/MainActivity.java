@@ -16,6 +16,9 @@ public class MainActivity extends ConnectedMapActivity {
     private Button gotoMapButton;
     private Button gotoGroupTest;
     private Button gotoMDPTest;
+    private Button gotoProposalTest;
+    private Button gotoUpdate;
+    private Button gotoBenchmark;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,28 @@ public class MainActivity extends ConnectedMapActivity {
             @Override
             public void onClick(View v) {
                 gotoMDPTest();
+            }
+        });
+        gotoProposalTest = (Button) findViewById(R.id.goto_proposal_test);
+        gotoProposalTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id = prepareGroupTest();
+                gotoProposalTest(id);
+            }
+        });
+        gotoUpdate = (Button) findViewById(R.id.goto_update_test);
+        gotoUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoUpdateTest(prepareUpdate());
+            }
+        });
+        gotoBenchmark = (Button) findViewById(R.id.goto_benchmark_activity);
+        gotoBenchmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoBenchmark(prepareBenchmark());
             }
         });
 
@@ -96,6 +121,13 @@ public class MainActivity extends ConnectedMapActivity {
         startActivity(intent);
     }
 
+    private void gotoProposalTest(String myLocalGroupID) {
+        Intent intent = new Intent(MainActivity.this, TestProposalActivity.class);
+        intent.putExtra("localUser", localUser);
+        intent.putExtra("groupID", myLocalGroupID);
+        startActivity(intent);
+    }
+
     private void gotoMDPTest() {
         Intent intent = new Intent(MainActivity.this, MDPTestActivity.class);
         startActivity(intent);
@@ -104,5 +136,36 @@ public class MainActivity extends ConnectedMapActivity {
     private void prepareUser() {
             Log.d(TAG, "prepareUser: " + "creation of id");
             testCreateUser();
+    }
+
+    private String prepareUpdate() {
+        String myLocalGroupID = prepareGroupTest();
+        UserPreferences userPreferences = new UserPreferences();
+        userPreferences.addPreference("cafe");
+        userPreferences.addPreference("pizza");
+        userPreferences.addPreference("bar");
+        getMyRemoteBD().addUserPref(getLocalUser().getDataBaseId(), userPreferences);
+
+        return myLocalGroupID;
+    }
+
+    private void gotoUpdateTest(String myLocalGroupID) {
+        Intent intent = new Intent(MainActivity.this, TestUpdateActivity.class);
+        intent.putExtra("localUser", localUser);
+        intent.putExtra("groupID", myLocalGroupID);
+        startActivity(intent);
+    }
+
+    private String prepareBenchmark() {
+        String myLocalGroupID = prepareGroupTest();
+
+        return myLocalGroupID;
+    }
+
+    private void gotoBenchmark(String groupID) {
+        Intent intent = new Intent(MainActivity.this, BenchMarkActivity.class);
+        intent.putExtra("localUser", localUser);
+        intent.putExtra("groupID", groupID);
+        startActivity(intent);
     }
 }

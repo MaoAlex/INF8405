@@ -29,4 +29,8 @@ public class MeetingPlace {
         this.lat = lat;
         this.longi = longi;
     }
+
+    public String getType() {
+        return type;
+    }
 }

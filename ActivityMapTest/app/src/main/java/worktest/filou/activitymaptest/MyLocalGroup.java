@@ -1,8 +1,11 @@
 package worktest.filou.activitymaptest;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by filou on 10/03/16.
  */
+@JsonIgnoreProperties({"dataBaseId", "changeListener"})
 public class MyLocalGroup extends MyGroup {
     public interface ChangeListener {
         void onChange(MyLocalGroup myLocalGroup);
@@ -18,8 +21,15 @@ public class MyLocalGroup extends MyGroup {
     public MyLocalGroup() {
     }
 
-    public String getDatabaseID() {
+    public MyLocalGroup(String databaseID) {
+        this.databaseID = databaseID;
+    }
 
+    public ChangeListener getChangeListener() {
+        return changeListener;
+    }
+
+    public String getDatabaseID() {
         return databaseID;
     }
 
