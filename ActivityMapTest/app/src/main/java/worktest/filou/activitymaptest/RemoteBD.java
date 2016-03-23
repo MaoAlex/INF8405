@@ -34,7 +34,8 @@ public interface RemoteBD {
     void listenToAvailabilities(String userID);
     void addMeeting(MeetingFinalChoice meetingFinalChoice, String groupID);
     void addPlacesProposal(PlaceProposals meetingPlace, String groupID);
-    void addTimeProposal(TimeSlot timeSlot, String groupID);
+    void addTimeProposal(TimeSlots timeSlots, String groupID);
+    void getTimeProposal(LocalTimeSlots timeSlots, String groupID);
     void setPlaceChoice(int index, String userID);
     void setTimeChoice(int index, String userID);
     void update(LocalUser localUser, MyLocalGroup myLocalGroup,

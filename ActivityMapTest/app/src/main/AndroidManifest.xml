@@ -29,7 +29,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".MapActivity" />
-        <activity android:name=".GroupTestActivity"></activity>
+        <activity android:name=".GroupTestActivity" />
+        <activity android:name=".TestProposalActivity" />
+        <activity android:name=".TestUpdateActivity"></activity>
     </application>
 
 </manifest>

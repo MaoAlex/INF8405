@@ -6,10 +6,17 @@ package worktest.filou.activitymaptest;
 public class TimeSlot {
     private int beginHour;
     private int endHour;
+    private String date;
 
-    public TimeSlot(int beginHour, int endHour) {
+    public String getDate() {
+        return date;
+    }
+
+    public TimeSlot(int beginHour, int endHour, String date) {
         this.beginHour = beginHour;
         this.endHour = endHour;
+        this.date = date;
+
     }
 
     public int getBeginHour() {

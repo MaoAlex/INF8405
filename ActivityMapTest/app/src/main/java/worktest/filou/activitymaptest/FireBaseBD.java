@@ -453,9 +453,27 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void addTimeProposal(TimeSlot timeSlot, String groupID) {
+    public void addTimeProposal(TimeSlots timeSlots, String groupID) {
         Firebase meetingBD = myFireBaseRef.child("timeProposal").child(groupID).push();
-        meetingBD.setValue(timeSlot);
+        meetingBD.setValue(timeSlots);
+    }
+
+    @Override
+    public void getTimeProposal(final LocalTimeSlots timeSlots, String groupID) {
+        Firebase timeProposal = myFireBaseRef.child("timeProposal").child(groupID);
+        timeProposal.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                TimeSlots proposalsBD = dataSnapshot.getValue(TimeSlots.class);
+                timeSlots.update(proposalsBD);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
     }
 
     @Override
