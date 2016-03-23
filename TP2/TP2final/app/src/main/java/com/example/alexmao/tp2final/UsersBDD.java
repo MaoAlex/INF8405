@@ -9,6 +9,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 public class UsersBDD extends AbstractBDD {
 
     //private static final int VERSION_BDD = 1;
@@ -142,5 +144,73 @@ public class UsersBDD extends AbstractBDD {
            Log.d("UsersBDD", "L'id de l'utilisateur est : " + cursor.getInt(0) + ", son nom est : " + cursor.getString(1)
                    + ", son prenom est : " + cursor.getString(2) + ", et son mail est : " + cursor.getString(3));
        }
+    }
+
+    public ArrayList<User> getUsers() {
+        ArrayList<User> listUser = new ArrayList<>();
+        String query = "SELECT *"
+                + " FROM "
+                + TABLE_USERS ;
+
+        //String query = "SELECT * FROM " + maBaseSQLite_.TABLE_LIEU;
+
+        Log.d("query", query);
+        Cursor c = database_.rawQuery(query, null);
+        //
+        //on insère l'objet dans la BDD via le ContentValues
+        while (c.moveToNext()) {
+
+            //On créé un utilisateur
+            User utilisateur = new User();
+            //on lui affecte toutes les infos grâce aux infos contenues dans le Cursor
+            utilisateur.setId(c.getInt(0));
+            utilisateur.setNom(c.getString(1));
+            utilisateur.setPrenom(c.getString(2));
+            utilisateur.setMail_(c.getString(3));
+            listUser.add(utilisateur);
+            Log.d("UsersBDD", "L'id de l'utilisateur est : " + c.getInt(0) + ", son nom est : " + c.getString(1)
+                    + ", son prenom est : " + c.getString(2) + ", et son mail est : " + c.getString(3));
+        }
+        return listUser;
+    }
+
+    public void connexion(User user) {
+        //La mise à jour d'un utilisateur dans la BDD fonctionne plus ou moins comme une insertion
+        //il faut simplement préciser quel utilisateur on doit mettre à jour grâce à l'ID
+        ContentValues values = new ContentValues();
+        values.put(COL_NOM, user.getNom());
+        values.put(COL_PRENOM, user.getPrenom());
+        values.put(COL_MAIL, user.getMail_());
+        values.put(COL_PHOTO, "");
+        database_.insert(maBaseSQLite_.TABLE_CURRENT_USER, null, values);
+    }
+
+    public void deconnexion() {
+        database_.delete(maBaseSQLite_.TABLE_CURRENT_USER, null, null);
+    }
+
+    public User getProfil(){
+        //Récupère dans un Cursor les valeurs correspondant à un utilisateur contenu dans la BDD (ici on sélectionne le utilisateur grâce à son nom)
+        Cursor c = database_.query(maBaseSQLite_.TABLE_CURRENT_USER, new String[] {maBaseSQLite_.COL_ID, COL_NOM, COL_PRENOM, COL_MAIL}, null, null, null, null, null);
+        return cursorToUser(c);
+    }
+
+
+    public void affichageUtilisateurConnecte() {
+        String query = "SELECT " + maBaseSQLite_.COL_ID + ","
+                + COL_NOM + "," + COL_PRENOM + ", " + COL_MAIL
+                + " FROM "
+                + maBaseSQLite_.TABLE_CURRENT_USER ;
+
+        //String query = "SELECT * FROM " + maBaseSQLite_.TABLE_LIEU;
+
+        Log.d("query", query);
+        Cursor cursor = database_.rawQuery(query, null);
+        //
+        //on insère l'objet dans la BDD via le ContentValues
+        while (cursor.moveToNext()) {
+            Log.d("UsersBDD", "L'id de l'utilisateur est : " + cursor.getInt(0) + ", son nom est : " + cursor.getString(1)
+                    + ", son prenom est : " + cursor.getString(2) + ", et son mail est : " + cursor.getString(3));
+        }
     }
 }

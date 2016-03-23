@@ -22,6 +22,7 @@ public class LoginTest extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginTest.this, UserProfileActivity.class);
+
                 startActivity(intent);
             }
         });

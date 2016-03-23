@@ -19,6 +19,7 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerVi
     private static final String DEBUG_TAG =  "TestRecyclerViewAdapter";
     List<Object> contents;
     private Context context;
+    private int indiceClasse;
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         //public TextView mTextView;
@@ -26,6 +27,7 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerVi
         protected static TextView vSurname;
         protected static TextView vEmail;
         protected static TextView vTitle;
+        protected static TextView vAddress;
         public ViewHolder(View convertView) {
             super(convertView);
             //mTextView = convertView;
@@ -33,11 +35,13 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerVi
             vSurname = (TextView)  convertView.findViewById(R.id.txtSurname);
             vEmail = (TextView)  convertView.findViewById(R.id.txtEmail);
             vTitle = (TextView) convertView.findViewById(R.id.title);
+            vAddress = (TextView) convertView.findViewById(R.id.txtAdd);
         }
     }
 
 
-    public TestRecyclerViewAdapter(Context context, List<Object> contents) {
+    public TestRecyclerViewAdapter(Context context, List<Object> contents, int indiceClasseRecu) {
+        this.indiceClasse = indiceClasseRecu;
         this.contents = contents;
         this.context = context;
     }
@@ -100,12 +104,25 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerVi
     }
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        User ci = (User) contents.get(position);
+        if(indiceClasse == 0) {
+            User ci = (User) contents.get(position);
+            holder.vName.setText(ci.getNom());
+            holder.vSurname.setText(ci.getPrenom());
+            holder.vEmail.setText(ci.getMail_());
+            holder.vTitle.setText(ci.getNom() + " " + ci.getPrenom());
+            holder.vAddress.setText(position+"");
+        }else{
+            Groupe g = (Groupe) contents.get(position);
 
-        holder.vName.setText(ci.getNom());
-        holder.vSurname.setText(ci.getPrenom());
-        holder.vEmail.setText(ci.getMail_());
-        holder.vTitle.setText(ci.getNom() + " " + ci.getPrenom());
+            String surname = "Nombre d'utilisateurs : " + g.getUsers().size();
+            holder.vAddress.setText(surname);
+            holder.vName.setText(g.getNomGroupe());
+            holder.vSurname.setText(position+"");
+            String email = "Pas d'email car groupe";
+            holder.vEmail.setText(email);
+            String title = "Position " + position;
+            holder.vTitle.setText(g.getNomGroupe());
+        }
 
     }
 }

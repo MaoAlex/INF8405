@@ -29,12 +29,29 @@ public class EvenementBDD extends AbstractBDD{
         ContentValues values = new ContentValues();
         //on lui ajoute une valeur associée à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
         values.put(COL_EVENEMENT_NAME, evenement.getNomEvenement());
-        values.put(COL_EVENEMENT_ID, evenement.getEvenementId());
         values.put(COL_GROUP_NAME, evenement.getGroupName());
         //on insère l'objet dans la BDD via le ContentValues
-
-        database_.insert(TABLE_EVENEMENT, null, values);
-
+        String query = "SELECT " + COL_EVENEMENT_ID
+                + " FROM "
+                + maBaseSQLite_.TABLE_EVENEMENT ;
+        Cursor cursor = database_.rawQuery(query, null);
+        Log.d("query", query);
+        cursor.moveToLast();
+        if (cursor!=null){
+            values.put(COL_EVENEMENT_ID, cursor.getInt(0) + 1);
+            database_.insert(TABLE_EVENEMENT, null, values);
+        }
+        else {
+            database_.insert(TABLE_EVENEMENT, null, values);
+            query = "SELECT "
+                    + maBaseSQLite_.COL_KEY
+                    + " FROM "
+                    + maBaseSQLite_.TABLE_EVENEMENT ;
+            cursor = database_.rawQuery(query, null);
+            cursor.moveToLast();
+            values.put(COL_EVENEMENT_ID, cursor.getInt(0));
+            database_.update(TABLE_EVENEMENT,  values, maBaseSQLite_.COL_KEY + " = " + cursor.getInt(0), null );
+        }
         //database_.execSQL("INSERT INTO table_groupe(est_organisateur,user_id,nom_du_groupe, id) VALUES (1,1,'Teiouiug', 90)");
         Log.d(DEBUG_TAG, "Insertion du evenement faite ");
 

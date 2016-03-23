@@ -137,6 +137,7 @@ public class RegisterInformation extends Activity {
                 String login = getIntent().getStringExtra(EXTRA_LOGIN);
                 String password = getIntent().getStringExtra(EXTRA_PASSWORD);
                 String group = getIntent().getStringExtra(EXTRA_GROUP);
+                User user;
 
                 intent.putExtra(EXTRA_LOGIN, login);
                 intent.putExtra(EXTRA_PASSWORD, password);
@@ -146,21 +147,21 @@ public class RegisterInformation extends Activity {
                 intent.putExtra(EXTRA_PREFERENCE2, liste2.getSelectedItem().toString());
                 intent.putExtra(EXTRA_PREFERENCE3, liste3.getSelectedItem().toString());
                 //Création de l'utilisateur et stockage dans la bdd
-                User user;
                 //creation de la liste de preference
                 ArrayList<String> preference = new ArrayList<String>();
                 preference.add(liste1.getSelectedItem().toString());
                 preference.add(liste2.getSelectedItem().toString());
                 preference.add(liste3.getSelectedItem().toString());
                 if (estOrganisateur)
-                    user = new User("Test", "BOIs", login, null, true, preference, null);
+                    user = new User("a", "BOIs", login, null, true, preference, null);
                 else
-                    user = new User("Test", "BOIs", login, null, false, preference, null);
-                userBDD.insertUser(user);
+                    user = new User("sij", "BOIs", login, null, false, preference, null);
+                int id = (int) userBDD.insertUser(user);
                 userBDD.affichageUsers();
-
+                user.setId(id);
                 Log.d(DEBUG_TAG, "Insertion reussi de " +user.getNom() + ""+ user.toString());
-
+                userBDD.connexion(user);
+                userBDD.affichageUtilisateurConnecte();
                 startActivity(intent);
                 userBDD.close();
             }

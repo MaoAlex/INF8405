@@ -187,7 +187,7 @@ public class GroupeBDD extends AbstractBDD {
 
         //Building query using INNER JOIN keyword
         String query = "SELECT "
-                + maBaseSQLite_.COL_GROUP_NAME
+                + maBaseSQLite_.COL_GROUP_NAME+ ", "
                 + maBaseSQLite_.COL_EST_ORGANISATEUR + "," + maBaseSQLite_.COL_USER_ID
                 + "," + maBaseSQLite_.COL_NOM + ","
                 + maBaseSQLite_.COL_PRENOM +

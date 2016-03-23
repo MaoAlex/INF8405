@@ -2,45 +2,59 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.alexmao.tp2final">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <!-- Permission pour acceder à la caméra! -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-<uses-permission android:name="android.permission.INTERNET" />
-<!-- To auto-complete the email text field in the login form with the user's emails -->
-<uses-permission android:name="android.permission.GET_ACCOUNTS" />
-<uses-permission android:name="android.permission.READ_PROFILE" />
-<uses-permission android:name="android.permission.READ_CONTACTS" />
-<!-- Permission pour acceder à la caméra! -->
-<uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
-<uses-feature android:name="android.hardware.camera" />
-<uses-feature android:name="android.hardware.camera.autofocus" />
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/logo"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
 
-<uses-permission android:name="android.permision.WRITE_EXTERNAL_STORAGE" />
+        <!-- Google API Key -->
 
-<application
-    android:allowBackup="true"
-    android:icon="@mipmap/logo"
-    android:label="@string/app_name"
-    android:supportsRtl="true"
-    android:theme="@style/AppTheme">
-    <activity android:name=".fragment.testActivity">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
-    <activity
-        android:name=".LoginActivity"
-        android:label="@string/title_activity_login" />
-    <activity
-        android:name=".RegisterActivity"
-        android:label="@string/title_activity_register" />
-    <activity android:name=".MainActivity" />
-    <activity android:name=".UserProfileActivityModify" />
-    <activity android:name=".RegisterInformation" />
-    <activity android:name=".PhotoActivity" />
-    <activity android:name=".Calendar"></activity>
-    <uses-library android:name="com.google.android.maps" />
-</application>
+        <uses-library android:name="com.google.android.maps" />
+
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".RegisterActivity"
+            android:label="@string/title_activity_register" />
+        <activity android:name=".firebase.MainActivity" />
+        <activity android:name=".MainActivity_Home" />
+        <activity android:name=".UserProfileActivityModify" />
+        <activity android:name=".RegisterInformation" />
+        <activity android:name=".PhotoActivity" />
+        <activity android:name=".Calendar" />
+        <activity android:name=".firebase.ConnectedMapActivity" />
+        <activity android:name=".firebase.GroupTestActivity" />
+        <activity android:name=".firebase.MapActivity" />
+        <activity android:name=".firebase.MDPTestActivity" />
+    </application>
 
 </manifest>
