@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.alexmao.tp2final.R;
+
 import java.util.LinkedList;
 import java.util.List;
 

@@ -9,14 +9,21 @@ public class SearchCriteria {
     private int radius;
     private String type;
     private String APIKey;
-    private float color;
+
 
     public SearchCriteria(LatLng latLng, int radius, String type, String APIKey, float color) {
         this.latLng = latLng;
         this.radius = radius;
         this.type = type;
         this.APIKey = APIKey;
-        this.color = color;
+    }
+
+    public SearchCriteria(LatLng latLng, int radius, String type, String APIKey) {
+        this.latLng = latLng;
+        this.radius = radius;
+        this.type = type;
+        this.APIKey = APIKey;
+
     }
 
     public LatLng getLatLng() {
@@ -35,7 +42,6 @@ public class SearchCriteria {
         return APIKey;
     }
 
-    public float getColor() { return color; }
 
     public void setLatLng(LatLng latLng) {
         this.latLng = latLng;
@@ -53,8 +59,5 @@ public class SearchCriteria {
         this.APIKey = APIKey;
     }
 
-    public void setColor(float color) {
-        this.color = color;
-    }
 }
 
