@@ -1,0 +1,11 @@
+Comme tous les projets intéressants, celui-ci n'a pas été sans écueils. Ce projet comporte de nombreuses facettes, il doit
+posséder une base de données internes, un serveur et pouvoir communiquer avec les API google afin de récupérer des données sur la
+position de l'utilisateur courant et sur les lieux (cafés, restaurants, bars) proches d'une certaine position. Il y a donc des
+domaines différents à explorer. Le plus simple est alors de répartir ces domaines entre les membres du groupe. Mais s'il chacun
+travaille trop de son côté, il devient compliquer d'intégrer les différents travaux respectifs. Le problème est donc avant tout un
+problème de communication.
+\newline
+
+Cette difficulté est d'autant plus accentuée que ces facettes ne sont pas indépendantes: la base de données doit connaître les
+positions afin d'informer les autres utilisateurs lorsqu'ils en font la demande. De ce fait, Les différentes facettes seront très
+liées. Et leur code respectif vont, à terme, s'entrecroiser. Ce qui rend leur intégration beaucoup plus compliquée.

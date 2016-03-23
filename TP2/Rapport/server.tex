@@ -19,3 +19,23 @@ du groupe n'aurait qu'à écouter ces coordonnées sur le serveur afin d'être i
 
 Cette approche est un peu gourmande en terme de réseau, aussi il est possible de mettre à jour les données que à des moments jugés
 opportuns. On obtient alors une meilleure utilisation du réseau mais on perd le temps réel.
+\newline
+
+Nous voulions abstraire au maximum le fonctionnement du serveur ainsi que la récupération des données géographiques. Aussi, nous
+encapsulons ces mécanismes dans une classe \textit{ConnectedMap}. Cette classe se charge d'implémenter les \textit{callback}
+récupérant les informations de position. Elle se charge également d'instancier la classe \textit{firebaseBD}.
+\newline
+
+Cette classe, se charge d'interfacer l'API \textit{firebase} afin de fournir simplement toutes les fonctionnalités nécessaires pour
+ce projet. Elle permet entre autres, de récupérer un utilisateur ou un groupe depuis le serveur. Les réponses de la base de
+données étant asynchrones, le comportement attendu lors de la récupération des données doit être encapsulé dans une
+\textit{callback} (qui sera appelée après récupération des données). Par exemple, si on veut récupérer un utilisateur, si on a une
+classe \textit{User} qui contient tous les attributs nécessaires pour identifier l'utilisateur. On encapsulera sûrement cette
+classe dans une autre, disons \textit{LocalUser}. La récupération se fera alors en plusieurs étapes:
+\begin{enumerate}
+    \item création d'un objet \textit{LocalUser}
+    \item création et assignation d'une \textit{callback} à l'objet précédemment créée.
+    \item appel d'une méthode du type \textit{getUser(id, localUser)}
+    \item lorsque l'objet est récupéré du serveur,  la \textit{callback} est appellée (on peut par exemple afficher une fenêtre
+        qui indique que les données ont bien été sauvegardées)
+\end{enumerate}
