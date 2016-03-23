@@ -16,6 +16,7 @@ public class MainActivity extends ConnectedMapActivity {
     private Button gotoMapButton;
     private Button gotoGroupTest;
     private Button gotoMDPTest;
+    private Button gotoProposalTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,14 @@ public class MainActivity extends ConnectedMapActivity {
             @Override
             public void onClick(View v) {
                 gotoMDPTest();
+            }
+        });
+        gotoProposalTest = (Button) findViewById(R.id.goto_proposal_test);
+        gotoProposalTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id = prepareGroupTest();
+                gotoProposalTest(id);
             }
         });
 
@@ -91,6 +100,13 @@ public class MainActivity extends ConnectedMapActivity {
 
     private void gotoGroupTest(String myLocalGroupID) {
         Intent intent = new Intent(MainActivity.this, GroupTestActivity.class);
+        intent.putExtra("localUser", localUser);
+        intent.putExtra("groupID", myLocalGroupID);
+        startActivity(intent);
+    }
+
+    private void gotoProposalTest(String myLocalGroupID) {
+        Intent intent = new Intent(MainActivity.this, TestProposalActivity.class);
         intent.putExtra("localUser", localUser);
         intent.putExtra("groupID", myLocalGroupID);
         startActivity(intent);

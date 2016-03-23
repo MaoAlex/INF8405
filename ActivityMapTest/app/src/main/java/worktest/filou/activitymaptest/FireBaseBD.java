@@ -16,7 +16,12 @@ import java.util.List;
 
 public class FireBaseBD implements RemoteBD {
     private static String TAG = "FireBaseBD";
-    Firebase myFireBaseRef;
+    private Firebase myFireBaseRef;
+    private OnQuery onQuery;
+
+    public void setOnQuery(OnQuery onQuery) {
+        this.onQuery = onQuery;
+    }
 
     public FireBaseBD(Context context) {
         //connection to BD
@@ -302,7 +307,8 @@ public class FireBaseBD implements RemoteBD {
                         break;
                     case "PlaceRequest":
                         Log.d(TAG, "listenToRequest onDataChange: " + "PlaceRequest");
-
+                        if (onQuery != null)
+                            onQuery.onPlaceQuery();
                         break;
                     case "TimeRequest":
                         Log.d(TAG, "listenToRequest onDataChange: " + "TimeRequest");
@@ -380,12 +386,6 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void addPlaceProposal(MeetingPlace meetingPlace, String groupID) {
-        Firebase meetingBD = myFireBaseRef.child("meetingProposal").child(groupID).push();
-        meetingBD.setValue(meetingPlace);
-    }
-
-    @Override
     public void addTimeProposal(TimeSlot timeSlot, String groupID) {
         Firebase meetingBD = myFireBaseRef.child("timeProposal").child(groupID).push();
         meetingBD.setValue(timeSlot);
@@ -401,5 +401,31 @@ public class FireBaseBD implements RemoteBD {
     public void setTimeChoice(int index, String userID) {
         Firebase meetingBD = myFireBaseRef.child("timeChoice").child(userID);
         meetingBD.setValue(index);
+    }
+
+    @Override
+    public void addPlacesProposal(PlaceProposals meetingPlace, String groupID) {
+        Firebase meetingBD = myFireBaseRef.child("meetingProposal").child(groupID);
+        meetingBD.setValue(meetingPlace);
+    }
+
+    @Override
+    public void getPlaceProposal(String groupID, final LocalPlaceProposals placeProposals) {
+        Firebase placeProposalBD = myFireBaseRef.child("meetingProposal").child(groupID);
+        placeProposalBD.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                PlaceProposals proposalsBD = dataSnapshot.getValue(PlaceProposals.class);
+                for (MeetingPlace meetingPlace : proposalsBD.getPlaces()) {
+                    placeProposals.addPlace(meetingPlace);
+                }
+                placeProposals.update();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 }
