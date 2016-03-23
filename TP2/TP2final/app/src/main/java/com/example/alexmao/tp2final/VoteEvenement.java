@@ -8,6 +8,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class VoteEvenement extends Activity {
     private ListView mListLieu = null;
     /** Affichage de la liste des lieux pour le vote **/
@@ -15,24 +20,42 @@ public class VoteEvenement extends Activity {
     /** Bouton pour envoyer le vote **/
     private Button mSend = null;
     /** Contient les lieux **/
-    private String[] mLieu = {"ici", "la bas"};
+    private ArrayList<String> mLieu = null;
 
     /** Contient différents langages de programmation **/
 
-    private String[] mLangages = null;
+    private ArrayList<String> mDispo = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vote_evenement);
         //On récupère les trois vues définies dans notre layout
+        PreferenceBDD preferenceBDD = new PreferenceBDD(this);
+        preferenceBDD.open();
+        preferenceBDD.affichagePreferences();
+        HashMap<String, ArrayList<User>> pref = preferenceBDD.getPreferences();
+        ArrayList<String> preferenceOrdonne = new ArrayList<>();
+        HashMap<String, Integer> classementPref = new HashMap<>();
+        for (Map.Entry<String, ArrayList<User>> p : pref.entrySet()){
+            if(pref.containsKey(p.getKey())) {
+                classementPref.put(p.getKey(), p.getValue().size());
+                for(String s : preferenceOrdonne)
+                {
+                    if(preferenceOrdonne.size()==0)
+                        preferenceOrdonne.add(String)
+                }
+            }
+            //On ne fait rien sinon car on propose déjà l'activité
+
+        }
 
         mListLieu = (ListView) findViewById(R.id.listLieu);
 
         mListDisponibilite = (ListView) findViewById(R.id.listHoraire);
 
         mSend = (Button) findViewById(R.id.envoyer);
-
-        mLangages = new String[]{"Restaurant", "Bar", "Cafe", "Cinema"};
+        String choix1;
+        mDispo = new String[]{"Restaurant", "Bar", "Cafe", "Cinema"};
 
 
         //On ajoute un adaptateur qui affiche des boutons radio (c'est l'affichage à considérer quand on ne peut
@@ -49,7 +72,7 @@ public class VoteEvenement extends Activity {
 
         //autant d'éléments qu'on veut dans une liste)
 
-        mListDisponibilite.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, mLangages));
+        mListDisponibilite.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, mDispo));
 
         //On déclare qu'on sélectionne de base le second élément ()
 
@@ -71,7 +94,7 @@ public class VoteEvenement extends Activity {
                 //On déclare qu'on ne peut plus sélectionner d'élément
                 mListDisponibilite.setChoiceMode(ListView.CHOICE_MODE_NONE);
                 //On affiche un layout qui ne permet pas de sélection
-                mListDisponibilite.setAdapter(new ArrayAdapter<String>(VoteEvenement.this, android.R.layout.simple_list_item_1, mLangages));
+                mListDisponibilite.setAdapter(new ArrayAdapter<String>(VoteEvenement.this, android.R.layout.simple_list_item_1, mDispo));
                 //On désactive le bouton
                 mSend.setEnabled(false);
             }

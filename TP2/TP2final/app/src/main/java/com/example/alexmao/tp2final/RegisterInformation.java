@@ -32,7 +32,7 @@ public class RegisterInformation extends ConnectedMapActivity {
     final String EXTRA_GROUP = "user_group";
     boolean estOrganisateur = false;
 
-    private String[] tableauChoix = {"", "restaurant", "bar", "pizzeria", "pub", "cafe" };
+    private String[] tableauChoix = {"", "Bar", "Café", "Restaurant", "Parc", "Cinéma", "Musée" };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         dejaAffiche = true;

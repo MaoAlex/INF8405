@@ -179,7 +179,7 @@ public class PhotoActivity extends ConnectedMapActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PhotoActivity.this, MainActivity_Home.class);
-                startActivity(intent);
+                startActivityForResult(intent, RESULT_LOAD_IMAGE);
             }
         });
     }
