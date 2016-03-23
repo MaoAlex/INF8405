@@ -40,6 +40,7 @@
     <activity android:name=".RegisterInformation" />
     <activity android:name=".PhotoActivity" />
     <activity android:name=".Calendar"></activity>
+    <uses-library android:name="com.google.android.maps" />
 </application>
 
 </manifest>
