@@ -207,7 +207,74 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void addUserPref(String id, List<String> pref) {
+    public void getUserPref(String id, final LocalUserPreferences preferences) {
+        Firebase mdpBD = myFireBaseRef.child("preferences").child(id);
+        mdpBD.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                UserPreferences userPreferencesBD = snapshot.getValue(UserPreferences.class);
+                for (String pref : userPreferencesBD.getPreferences()) {
+                    preferences.addPreference(pref);
+                }
+                preferences.update();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("error");
+            }
+        });
+    }
+
+    @Override
+    public void update(final LocalUser localUser, final MyLocalGroup myLocalGroup, final LocalUserPreferences localUserPreferences, final OnUpdateComplete onUpdateComplete) {
+        final IntWrapper i = new IntWrapper(0);
+        final LocalUser.ChangeListener changeListener = localUser.getChangeListener();
+        final MyLocalGroup.ChangeListener changeListenerGroup = myLocalGroup.getChangeListener();
+        final LocalUserPreferences.OnRetrieve onRetrieve = localUserPreferences.getOnRetrieve();
+
+        localUser.setChangeListener(new LocalUser.ChangeListener() {
+            @Override
+            public void onPositionChanged(LocalUser localUser) {
+                i.setI(i.getI() + 1);
+                changeListener.onPositionChanged(localUser);
+                if ( i.getI() == 3) {
+                    onUpdateComplete.onUpdateComplete(localUser, myLocalGroup, localUserPreferences);
+                    localUser.setChangeListener(changeListener);
+                }
+            }
+        });
+        getUser(localUser.getDataBaseId(), localUser);
+
+        myLocalGroup.setChangeListener(new MyLocalGroup.ChangeListener() {
+            @Override
+            public void onChange(MyLocalGroup myLocalGroup) {
+                i.setI(i.getI() + 1);
+                changeListenerGroup.onChange(myLocalGroup);
+                if (i.getI() == 3) {
+                    onUpdateComplete.onUpdateComplete(localUser, myLocalGroup, localUserPreferences);
+                    myLocalGroup.setChangeListener(changeListenerGroup);
+                }
+            }
+        });
+        getGroup(myLocalGroup.getDatabaseID(), myLocalGroup);
+
+        localUserPreferences.setOnRetrieve(new LocalUserPreferences.OnRetrieve() {
+            @Override
+            public void onRetrieve(LocalUserPreferences localUserPreferences) {
+                i.setI(i.getI() + 1);
+                onRetrieve.onRetrieve(localUserPreferences);
+                if (i.getI() == 3) {
+                    onUpdateComplete.onUpdateComplete(localUser, myLocalGroup, localUserPreferences);
+                    localUserPreferences.setOnRetrieve(onRetrieve);
+                }
+            }
+        });
+        getUserPref(localUser.getDataBaseId(), localUserPreferences);
+    }
+
+    @Override
+    public void addUserPref(String id, UserPreferences pref) {
         Firebase prefOnBD = myFireBaseRef.child("preferences").child(id);
         prefOnBD.setValue(pref);
     }

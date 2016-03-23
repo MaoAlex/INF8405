@@ -17,6 +17,7 @@ public class MainActivity extends ConnectedMapActivity {
     private Button gotoGroupTest;
     private Button gotoMDPTest;
     private Button gotoProposalTest;
+    private Button gotoUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,13 @@ public class MainActivity extends ConnectedMapActivity {
             public void onClick(View v) {
                 String id = prepareGroupTest();
                 gotoProposalTest(id);
+            }
+        });
+        gotoUpdate = (Button) findViewById(R.id.goto_update_test);
+        gotoUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoUpdateTest(prepareUpdate());
             }
         });
 
@@ -121,4 +129,23 @@ public class MainActivity extends ConnectedMapActivity {
             Log.d(TAG, "prepareUser: " + "creation of id");
             testCreateUser();
     }
+
+    private String prepareUpdate() {
+        String myLocalGroupID = prepareGroupTest();
+        UserPreferences userPreferences = new UserPreferences();
+        userPreferences.addPreference("cafe");
+        userPreferences.addPreference("pizza");
+        userPreferences.addPreference("bar");
+        getMyRemoteBD().addUserPref(getLocalUser().getDataBaseId(), userPreferences);
+
+        return myLocalGroupID;
+    }
+
+    private void gotoUpdateTest(String myLocalGroupID) {
+        Intent intent = new Intent(MainActivity.this, TestUpdateActivity.class);
+        intent.putExtra("localUser", localUser);
+        intent.putExtra("groupID", myLocalGroupID);
+        startActivity(intent);
+    }
+
 }

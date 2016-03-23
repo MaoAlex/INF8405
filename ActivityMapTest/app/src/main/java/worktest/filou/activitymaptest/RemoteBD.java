@@ -18,7 +18,8 @@ public interface RemoteBD {
     void getGroup(String groupID, MyGroup myGroup);
     void getGroupFromName(String name, MyGroup myGroup);
     void listenToChangeOnGroup(final MyGroup group, final String groupBDID);
-    void addUserPref(String id, List<String> pref);
+    void addUserPref(String id, UserPreferences pref);
+    void getUserPref(String id, LocalUserPreferences preferences);
     void addMdpToUser(String mail, String mdp);
     void getMdp(String mail, MdpWrapper mdpWrapper);
     void getPlaceProposal(String groupID, LocalPlaceProposals placeProposals);
@@ -36,4 +37,6 @@ public interface RemoteBD {
     void addTimeProposal(TimeSlot timeSlot, String groupID);
     void setPlaceChoice(int index, String userID);
     void setTimeChoice(int index, String userID);
+    void update(LocalUser localUser, MyLocalGroup myLocalGroup,
+                LocalUserPreferences localUserPreferences, OnUpdateComplete onUpdateComplete);
 }

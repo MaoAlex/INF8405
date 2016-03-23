@@ -18,8 +18,15 @@ public class MyLocalGroup extends MyGroup {
     public MyLocalGroup() {
     }
 
-    public String getDatabaseID() {
+    public MyLocalGroup(String databaseID) {
+        this.databaseID = databaseID;
+    }
 
+    public ChangeListener getChangeListener() {
+        return changeListener;
+    }
+
+    public String getDatabaseID() {
         return databaseID;
     }
 

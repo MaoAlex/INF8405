@@ -32,6 +32,12 @@
             android:layout_height="wrap_content"
             android:text="test proposal"
             android:id="@+id/goto_proposal_test"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="test update"
+            android:id="@+id/goto_update_test"/>
     </LinearLayout>
 
 </RelativeLayout>
