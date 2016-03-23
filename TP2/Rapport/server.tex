@@ -1,0 +1,21 @@
+Les différents utilisateurs doivent communiquer entre eux afin de pouvoir voter, mais aussi pour connaître la position de chacun
+des utilisateurs. Une telle communication nécessite la présence d'un serveur connu de tous. Pour mettre en place une serveur nous
+avons choisi d'utiliser le service cloud \textit{firebase}. Les données sont stockées sous le format jason sur le serveur. On peut
+alors les récupérer via leur id (générés par l'API firebase).
+\newline
+
+Cette solution a plusieurs avantages:
+\begin{enumerate}
+    \item la présence d'une API déjà testée et éprouvée, ce qui limite le nombre de bugs. Et permet de ne pas réinventer la roue.
+    \item la présence de mécanismes de pour écouter des données sur le serveur et être informé en cas de modification.
+    \item une grande communauté d'utilisateurs, ce qui facilite la recherche d'information en cas de débogguage.
+\end{enumerate}
+
+Ainsi, les coordonnées (longitude/latitude) de chaque utilisateur peuvent être mises à jour sur le serveur en temps réel (ou
+presque). Il suffit pour cela d'envoyer ces nouvelles coordonnées sur le serveur à chaque fois que la \textit{callback} associée
+au changement de position dans \textit{maps} est appelée. (L'envoie se ferait dans la dite \textit{callback}). Les autres membres
+du groupe n'aurait qu'à écouter ces coordonnées sur le serveur afin d'être informé de tous changements de position.
+\newline
+
+Cette approche est un peu gourmande en terme de réseau, aussi il est possible de mettre à jour les données que à des moments jugés
+opportuns. On obtient alors une meilleure utilisation du réseau mais on perd le temps réel.
