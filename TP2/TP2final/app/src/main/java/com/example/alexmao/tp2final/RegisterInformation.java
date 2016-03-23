@@ -177,7 +177,7 @@ public class RegisterInformation extends ConnectedMapActivity {
                 String idFirebase = getMyRemoteBD().addUser(userFirebase);
                 getMyRemoteBD().addMdpToUser(user.getMail_(), password);
                 startActivity(intent);
-                userBDD.close();
+                //userBDD.close();
             }
         });
 
