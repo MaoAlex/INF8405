@@ -8,12 +8,14 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.alexmao.tp2final.fragment.SearchFragment;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
-public class VoteEvenement extends Activity {
+public class VoteEvenement extends Activity implements IObserver {
     private ListView mListLieu = null;
     /** Affichage de la liste des lieux pour le vote **/
     private ListView mListDisponibilite = null;
@@ -21,12 +23,13 @@ public class VoteEvenement extends Activity {
     private Button mSend = null;
     /** Contient les lieux **/
     private ArrayList<String> mLieu = null;
-
+    private ArrayList<Lieu> lieuCalcule = null;
     /** Contient différents langages de programmation **/
 
     private ArrayList<String> mDispo = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SearchFragment sF = new SearchFragment();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vote_evenement);
         //On récupère les trois vues définies dans notre layout
@@ -36,6 +39,8 @@ public class VoteEvenement extends Activity {
         HashMap<String, ArrayList<User>> pref = preferenceBDD.getPreferences();
         ArrayList<String> preferenceOrdonne = new ArrayList<>();
         HashMap<String, Integer> classementPref = new HashMap<>();
+
+
         for (Map.Entry<String, ArrayList<User>> p : pref.entrySet()){
             if(pref.containsKey(p.getKey())) {
                 classementPref.put(p.getKey(), p.getValue().size());
@@ -48,7 +53,8 @@ public class VoteEvenement extends Activity {
             //On ne fait rien sinon car on propose déjà l'activité
 
         }
-
+        sF.attach(this);
+        sF.doResearchByPreferences();//Mettre les bons arguments
         mListLieu = (ListView) findViewById(R.id.listLieu);
 
         mListDisponibilite = (ListView) findViewById(R.id.listHoraire);
@@ -100,6 +106,13 @@ public class VoteEvenement extends Activity {
             }
 
         });
+
+    }
+
+    @Override
+    public void update(ArrayList<Place> listPlaces) {
+        Random r1 = new Random();
+        int choix1 = r1.nextInt(listPlaces.size());
 
     }
 }
