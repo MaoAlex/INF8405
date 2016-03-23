@@ -99,6 +99,30 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
+    public void changeGroupName(MyLocalGroup myLocalGroup, String newName) {
+        String oldName = myLocalGroup.getGroupName();
+        myLocalGroup.setGroupName(newName);
+        Firebase groupBD = myFireBaseRef.child("groups").child(myLocalGroup.getDatabaseID());
+        groupBD.setValue(myLocalGroup);
+        Firebase groupNameToIDBD = myFireBaseRef.child("groupToID").child(oldName);
+        groupNameToIDBD.setValue(null);
+        groupNameToIDBD = myFireBaseRef.child("groupToID").child(newName);
+        groupNameToIDBD.setValue(myLocalGroup.getDatabaseID());
+    }
+
+    @Override
+    public void changeMail(LocalUser localUser, String newMail) {
+        String oldMail = localUser.getMailAdr();
+        localUser.setMailAdr(newMail);
+        Firebase userBD = myFireBaseRef.child("users").child(localUser.getDataBaseId());
+        userBD.setValue(localUser);
+        Firebase userToID = myFireBaseRef.child("userToID").child(oldMail.replace(".", ")"));
+        userToID.setValue(null);
+        userToID = myFireBaseRef.child("userToID").child(newMail.replace(".", ")"));
+        userToID.setValue(localUser.getDataBaseId());
+    }
+
+    @Override
     public String addGroup(MyGroup myGroup) {
         Firebase groupBD = myFireBaseRef.child("groups").push();
         groupBD.setValue(myGroup);

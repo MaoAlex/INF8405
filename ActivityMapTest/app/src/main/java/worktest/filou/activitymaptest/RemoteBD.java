@@ -16,9 +16,11 @@ public interface RemoteBD {
     String addGroup(MyGroup myGroup);
     void addUserToGroup(String groupID, String userID);
     void getGroup(String groupID, MyGroup myGroup);
+    void changeGroupName(MyLocalGroup myLocalGroup, String newName);
     void getGroupFromName(String name, MyGroup myGroup);
     void listenToChangeOnGroup(final MyGroup group, final String groupBDID);
     void addUserPref(String id, UserPreferences pref);
+    void changeMail(LocalUser localUser, String newMail);
     void getUserPref(String id, LocalUserPreferences preferences);
     void addMdpToUser(String mail, String mdp);
     void getMdp(String mail, MdpWrapper mdpWrapper);
