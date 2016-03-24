@@ -42,4 +42,5 @@ public interface RemoteBD {
     void getPlaceProposal(String groupID, final LocalPlaceProposals placeProposals);
     void getTimeProposal(final LocalTimeSlots timeSlots, String groupID);
     void changeGroupName(MyLocalGroup myLocalGroup, String newName);
+    void setOnQuery(OnQuery onQuery);
     }
