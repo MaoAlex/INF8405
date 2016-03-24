@@ -1,13 +1,14 @@
 package com.example.alexmao.tp2final;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.alexmao.tp2final.firebase.ConnectedMapActivity;
 import com.example.alexmao.tp2final.fragment.SearchFragment;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -17,8 +18,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class VoteEvenement extends Activity implements IObserver {
+public class VoteEvenement extends ConnectedMapActivity implements IObserver {
+    private static final String DEBUG_TAG = "VoteEvenement" ;
     private ListView mListLieu = null;
+    private static SearchFragment searchFragment;
     /** Affichage de la liste des lieux pour le vote **/
     private ListView mListDisponibilite = null;
     /** Bouton pour envoyer le vote **/
@@ -35,12 +38,41 @@ public class VoteEvenement extends Activity implements IObserver {
     private ArrayList<String> mDispo = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SearchFragment sF = new SearchFragment();
+        searchFragment = new SearchFragment();
+        Log.d(DEBUG_TAG, "On serachFragment est lancé");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vote_evenement);
         //On récupère les trois vues définies dans notre layout
         PreferenceBDD preferenceBDD = new PreferenceBDD(this);
         preferenceBDD.open();
+        preferenceBDD.affichagePreferences();
+        UsersBDD usersBDD = new UsersBDD(this);
+        usersBDD.open();
+        usersBDD.affichageUtilisateurConnecte();
+        usersBDD.affichageUtilisateurConnecte();
+        Log.d(DEBUG_TAG, "Affichage des utilisateurs");
+
+        usersBDD.affichageUsers();
+        User userTest = usersBDD.getProfil();
+        Log.d(DEBUG_TAG, "L'id du de l'utilisateur courant est : " + userTest.getId());
+
+        User userCourant;
+        if(userTest!=null)
+            userCourant = new User(userTest);
+        else {
+            Log.d(DEBUG_TAG, "Il n'y a pas d'utilisateur connecte");
+            userCourant = new User(userTest);
+
+        }
+
+        LocalisationBDD localisationBDD = new LocalisationBDD(this);
+        localisationBDD.open();
+        //userCourant.setLocalisation_(localisationBDD.getlocalisationUser(userCourant.getId()));
+        Localisation loc = new Localisation(41.756, 12.456);
+
+        //Localisation loc = new Localisation(getmLatLng().latitude, getmLatLng().longitude);
+        userCourant.setLocalisation_(loc);
         preferenceBDD.affichagePreferences();
         HashMap<String, ArrayList<User>> pref = preferenceBDD.getPreferences();
         ArrayList<Integer> preferenceOrdonne = new ArrayList<>();
@@ -66,17 +98,35 @@ public class VoteEvenement extends Activity implements IObserver {
         if (classement.get(2) != null) {
             prefTab[2] = classementPref.get(classement.get(2));
         }
-        sF.attach(this);
-            LatLng centre = new LatLng(latitude, longitude);
+        VoteEvenement.searchFragment.attach(VoteEvenement.this);
+        LatLng centre = new LatLng(userCourant.getLocalisation_().getPositionX_(), userCourant.getLocalisation_().getPositionY_());
 
-        sF.doResearchByPreferences(centre,rayon,prefTab);//Mettre les bons arguments
+        if(prefTab.length <1)
+            Log.d(DEBUG_TAG, "Le talbeau des preferences est vide");
+        Log.d(DEBUG_TAG, "taille du tableau prefTab : " + prefTab.length);
+
+
+        VoteEvenement.searchFragment.doResearchByPreferences(centre, rayon, prefTab);//Mettre les bons arguments
+        update(VoteEvenement.searchFragment.getListPlaces());
         mListLieu = (ListView) findViewById(R.id.listLieu);
 
         mListDisponibilite = (ListView) findViewById(R.id.listHoraire);
 
+        Log.d(DEBUG_TAG, "taille du tableau placeCalcule : " + placeCalcule.length);
+        if(placeCalcule[0]==null){
+            Log.d(DEBUG_TAG, "Le tableau placeCacule contient des eleemtns nuls : " + placeCalcule.length);
+        }
+
         mSend = (Button) findViewById(R.id.envoyer);
-        String choix1;
+        String choix;
+        mLieu = new ArrayList<>();
+        for(int i =0; i< placeCalcule.length; i++) {
+            choix = placeCalcule[0].getNom() + " - " + placeCalcule[0].getType();
+            mLieu.add(choix);
+        }
         //mDispo = new String[]{"Restaurant", "Bar", "Cafe", "Cinema"};
+
+
 
 
         //On ajoute un adaptateur qui affiche des boutons radio (c'est l'affichage à considérer quand on ne peut
@@ -132,29 +182,29 @@ public class VoteEvenement extends Activity implements IObserver {
         int choix1 = r1.nextInt(listPlaces.size());
         int choix2 = r2.nextInt(listPlaces.size());
         int choix3 = r3.nextInt(listPlaces.size());
-        Place choixPotentiel1 = listPlaces.get(choix1);
-        Place choixPotentiel2 = listPlaces.get(choix2);
-        Place choixPotentiel3 = listPlaces.get(choix3);
+        Place choixPotentiel1 = new Place(listPlaces.get(choix1));
+        Place choixPotentiel2 = new Place(listPlaces.get(choix2));
+        Place choixPotentiel3 = new Place(listPlaces.get(choix3));
         while(choixPotentiel1!= null && prefTab[0]!= null && choixPotentiel1.getType()!=prefTab[0]) {
             choix2 = (new Random()).nextInt();
             choixPotentiel2 = listPlaces.get(choix2);
 
         }
         if(placeCalcule[1]!=null)
-          placeCalcule[1] = choixPotentiel1;
+          placeCalcule[1] = new Place(choixPotentiel1);
         while(choixPotentiel2 != null && choixPotentiel2.getType()==choixPotentiel3.getType()){
             choix2 = (new Random()).nextInt();
             choixPotentiel2 = listPlaces.get(choix2);
         }
         if (placeCalcule[2]!=null)
-            placeCalcule[2] = choixPotentiel2;
+            placeCalcule[2] = new Place(choixPotentiel2);
         while(choixPotentiel3 != null && choixPotentiel1.getType()==choixPotentiel3.getType()
                 && choixPotentiel1.getType()==choixPotentiel3.getType()){
-            choix2 = (new Random()).nextInt();
-            choixPotentiel3 = listPlaces.get(choix2);
+            choix3 = (new Random()).nextInt();
+            choixPotentiel3 = listPlaces.get(choix3);
         }
         if (placeCalcule[3]!=null)
-            placeCalcule[3] = choixPotentiel3;
+            placeCalcule[3] = new Place(choixPotentiel3);
 
 
     }

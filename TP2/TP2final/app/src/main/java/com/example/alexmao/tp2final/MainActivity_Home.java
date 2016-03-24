@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -55,12 +56,19 @@ public class MainActivity_Home extends ConnectedMapActivity {
 /*
         groupeBDD.insertInGroup("equipe2", lUser.get(0).getId(), true);
         groupeBDD.insertInGroup("equipe2", lUser.get(1).getId(), true);*/
-        groupeBDD.affichageGroupes();
-
+        //groupeBDD.affichageGroupes();
+        userBDD.affichageUtilisateurConnecte();
         //les vues définies dans @layout/header_logo
         headerLogo = findViewById(R.id.headerLogo);
         headerLogoContent = (ImageView) findViewById(R.id.headerLogoContent);
+        headerLogo.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity_Home.this, UserProfileActivity.class);
+                startActivity(intent);
+            }
+        });;
         //le MaterialViewPager
         this.materialViewPager = (MaterialViewPager) findViewById(R.id.materialViewPager);
 
@@ -131,28 +139,24 @@ public class MainActivity_Home extends ConnectedMapActivity {
                             //Pour récupérer l'image depuis l'url
                             imageUrl = "http://www.skyscanner.fr/sites/default/files/image_import/fr/micro.jpg";
                             color = getResources().getColor(R.color.purple);
-                            newDrawable = getResources().getDrawable(R.drawable.ticket);
+                            newDrawable = getResources().getDrawable(R.drawable.people);
                             break;
                         case 1:
                             imageUrl = "http://www.larousse.fr/encyclopedie/data/images/1311904-Balle_de_tennis_et_filet.jpg";
                             color = getResources().getColor(R.color.orange);
-                            newDrawable = getResources().getDrawable(R.drawable.tennis);
+                            newDrawable = getResources().getDrawable(R.drawable.groupe);
                             break;
                         case 2:
                             imageUrl = "http://soocurious.com/fr/wp-content/uploads/2014/03/8-facettes-de-notre-cerveau-qui-ont-evolue-avec-la-technologie8.jpg";
                             color = getResources().getColor(R.color.cyan);
-                            newDrawable = getResources().getDrawable(R.drawable.light);
+                            newDrawable = getResources().getDrawable(R.drawable.tool);
                             break;
                         case 3:
                             imageUrl = "http://graduate.carleton.ca/wp-content/uploads/prog-banner-masters-international-affairs-juris-doctor.jpg";
-                            color = getResources().getColor(R.color.green);
-                            newDrawable = getResources().getDrawable(R.drawable.earth);
+                            color = getResources().getColor(R.color.blue);
+                            newDrawable = getResources().getDrawable(R.drawable.profil);
                             break;
-                        case 4:
-                            imageUrl = "http://graduate.carleton.ca/wp-content/uploads/prog-banner-masters-international-affairs-juris-doctor.jpg";
-                            color = getResources().getColor(R.color.green);
-                            newDrawable = getResources().getDrawable(R.drawable.earth);
-                            break;
+
                     }
 
                     //puis modifier les images/couleurs

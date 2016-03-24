@@ -36,6 +36,23 @@ public class LocalisationBDD extends  AbstractBDD {
         //on insère l'objet dans la BDD via le ContentValues
 
         database_.insert(maBaseSQLite_.TABLE_LOCALISATION, null, values);
+        Log.d(DEBUG_TAG, "Insertion de la localisation faite ");
+
+
+    }
+
+    public void updateLocalisation(Localisation localisation, int userId) {
+
+        ContentValues values = new ContentValues();
+
+        values.put(COL_POSITION_X, localisation.getPositionX_());
+        values.put(COL_POSITION_Y, localisation.getPositionY_());
+        values.put(maBaseSQLite_.COL_USER_ID, userId);
+
+        //on insère l'objet dans la BDD via le ContentValues
+
+        database_.update(maBaseSQLite_.TABLE_LOCALISATION, values, maBaseSQLite_.COL_ID + " = " + userId, null);
+
         Log.d(DEBUG_TAG, "Insertion faite ");
 
 

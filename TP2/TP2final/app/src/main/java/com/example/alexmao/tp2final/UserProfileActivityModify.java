@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class UserProfileActivityModify extends ConnectedMapActivity{
     private static final String DEBUG_TAG = "UserProfileModify";
-    private String[] tableauChoix = {"", "restaurant", "bar", "pizzeria", "pub", "cafe" };
+    private String[] tableauChoix = {"", "Bar", "Café", "Restaurant", "Parc", "Cinéma", "Musée" };
     private Spinner liste1 = null;
     private Spinner liste2 = null;
     private Spinner liste3 = null;
