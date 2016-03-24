@@ -1,0 +1,17 @@
+Une première fonctionalité, qui nous semblait importante est la capacité de s'authentifier sur n'importe quel mobile. C'est-à-dire
+que l'utilisateur peut posséder  plusieurs appareils mobiles (plusieurs portables ou encore un portable et un tablette), et il
+pourra s'authentifier avec le même compte sur tous ces appareils. L'utilisateur peut, sur la page de login, s'identifier va un
+motde passe et l'adresse mail associée à son compte. Lors de la création du compte, ses derniers sont stockés sur le serveur.
+Au moment du login, on interroge la base de données pour savoir si le mot de passe rentré par l'utilisateur est bien celui qui est
+associé à ce compte. Si l'utilisateur utilise un nouvel appareil, ses données seront téléchargées depuis le serveur.
+\newline
+
+Il est également possible de créer, sur la page associée au groupe, un nouveau groupe et de le sauvegarder sur le serveur. Ce
+serveur contient toutes les données relatives aux utilisateurs est aux groupes. Cela permet potentiellement à chaque utilisateur
+de récupérer les préférences de tous les autres et donc d'organiser des rencontres en fonction des préférences de chacun.
+\newline
+
+Afin, dans une certaine mesure, de permettre le fonctionnement hors-ligne, une base de données sql lite est également présente.
+Elle permet de récupérer les données des autrres utilisateurs afin de potentiellement consulter leur profil ou encore la fiche de
+description des groupes. De même, elle permettrait de consulter les événements déjà prévus pour un groupe, ainsi que de consulter
+leur description (si celle-ci a été rentrée). Cette fonctionnalité permettrait de mieux se préparer pour les événements à venir.
