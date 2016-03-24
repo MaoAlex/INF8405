@@ -6,6 +6,8 @@ package com.example.alexmao.tp2final;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -39,4 +41,16 @@ public class AffichageGroupe extends Activity {
 
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        super.onCreateOptionsMenu(menu);
+
+        MenuInflater inflater = getMenuInflater();
+
+        //R.menu.menu est l'id de notre menu
+        inflater.inflate(R.menu.menu_connecte, menu);
+
+        return true;
+
+    }
 }

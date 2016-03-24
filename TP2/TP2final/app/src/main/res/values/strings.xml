@@ -66,4 +66,9 @@
     <string name="goto_map">goto map</string>
     <string name="test_user">Test User</string>
     <string name="title_activity_maps">Map</string>
+
+    <!--Menus-->
+    <string name="action_user_profile">Profil utilisateur</string>
+    <string name="action_logout">Déconnecter</string>
+    <string name="action_home_connecte">Menu principal</string>
 </resources>

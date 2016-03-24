@@ -3,6 +3,8 @@ package com.example.alexmao.tp2final;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -142,6 +144,19 @@ public class UserProfileActivityModify extends ConnectedMapActivity{
                 // rien du tout
             }
         });
+
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        super.onCreateOptionsMenu(menu);
+
+        MenuInflater inflater = getMenuInflater();
+
+        //R.menu.menu est l'id de notre menu
+        inflater.inflate(R.menu.menu_connecte, menu);
+
+        return true;
 
     }
 }
