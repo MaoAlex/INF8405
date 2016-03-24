@@ -30,6 +30,13 @@ public class Place {
         }
     }
 
+    public Place(Place place) {
+        this.latitude = place.getLatitude();
+        this.longitude = place.getLongitude();
+        this.type = place.getType();
+        this.nom = place.getNom();
+    }
+
     public double getLatitude() {
         return latitude;
     }

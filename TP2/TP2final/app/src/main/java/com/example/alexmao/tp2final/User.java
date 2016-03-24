@@ -70,6 +70,15 @@ public class User implements Parcelable {
         }
     };
 
+    public User(User profil) {
+        this.nom_ = profil.getNom();
+        this.prenom_ = profil.getPrenom();
+        this. mail_ = profil.getMail_();
+        this.photo_ = profil.getPhoto();
+        this.estOrganisateur_ = profil.isEstOrganisateur_();
+        this.localisation_ = profil.getLocalisation_();
+    }
+
     public String getNom() {
         return nom_;
     }
@@ -145,6 +154,14 @@ public class User implements Parcelable {
         dest.writeParcelable(photo_, flags);
         dest.writeByte((byte) (estOrganisateur_ ? 1 : 0));
         dest.writeStringList(preference_);
+    }
+
+    public Localisation getLocalisation_() {
+        return localisation_;
+    }
+
+    public void setLocalisation_(Localisation localisation_) {
+        this.localisation_ = localisation_;
     }
 
     /*@Override

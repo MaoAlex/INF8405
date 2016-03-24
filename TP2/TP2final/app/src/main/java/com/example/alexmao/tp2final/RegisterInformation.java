@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.alexmao.tp2final.firebase.ConnectedMapActivity;
 import com.example.alexmao.tp2final.firebase.LocalUser;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,14 +36,16 @@ public class RegisterInformation extends ConnectedMapActivity {
     private String[] tableauChoix = {"", "Bar", "Café", "Restaurant", "Parc", "Cinéma", "Musée" };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        dejaAffiche = true;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_information);
         final UsersBDD userBDD = new UsersBDD(this);
         final GroupeBDD groupeBDD = new GroupeBDD(this);
         final PreferenceBDD preferenceBDD = new PreferenceBDD(this);
+        final LocalisationBDD localisationBDD = new LocalisationBDD(this);
         userBDD.open();
         groupeBDD.open();
+        localisationBDD.open();
         preferenceBDD.open();
         User user = new User("Jean", "Paul");
 
@@ -186,8 +189,13 @@ public class RegisterInformation extends ConnectedMapActivity {
                     String idFirebase = getMyRemoteBD().addUser(userFirebase);
                     userBDD.deconnexion();
                     userBDD.connexion(user);
-                    groupeBDD.insertInGroup(groupName, id, estOrganisateur );
+                    groupeBDD.insertInGroup(groupName, id, estOrganisateur);
                     getMyRemoteBD().addMdpToUser(user.getMail_(), password);
+                    LatLng posUtilisateurCourant = getmLatLng();
+                    localisationBDD.open();
+                    localisationBDD.insertLocalisation(new Localisation((float)posUtilisateurCourant.latitude,(float) posUtilisateurCourant.longitude), id);
+                    localisationBDD.affichageLocalisations();
+                    dejaAffiche = true;
                 }
                 startActivity(intent);
                 //userBDD.close();

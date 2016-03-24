@@ -4,26 +4,26 @@ package com.example.alexmao.tp2final;
  * Created by alexMAO on 13/03/2016.
  */
 public class Localisation {
-    private float positionX_;
-    private float positionY_;
+    private double positionX_;
+    private double positionY_;
 
-    public Localisation(float x, float y){
+    public Localisation(double x, double y){
         positionX_=x;
         positionY_=y;
     }
-    public float getPositionX_() {
+    public double getPositionX_() {
         return positionX_;
     }
 
-    public void setPositionX_(float positionX_) {
+    public void setPositionX_(double positionX_) {
         this.positionX_ = positionX_;
     }
 
-    public float getPositionY_() {
+    public double getPositionY_() {
         return positionY_;
     }
 
-    public void setPositionY_(float positionY_) {
+    public void setPositionY_(double positionY_) {
         this.positionY_ = positionY_;
     }
 
