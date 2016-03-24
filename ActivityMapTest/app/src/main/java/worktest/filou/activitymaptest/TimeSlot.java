@@ -8,8 +8,16 @@ public class TimeSlot {
     private int endHour;
     private String date;
 
+    public TimeSlot() {
+    }
+
     public String getDate() {
+
         return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public TimeSlot(int beginHour, int endHour, String date) {
