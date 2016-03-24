@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.alexmao.tp2final.IObserver;
 import com.example.alexmao.tp2final.Place;
@@ -33,6 +34,8 @@ public class SearchFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d("Search Fragment", "Creation du compteur");
+
         super.onCreate(savedInstanceState);
         listObservers = new ArrayList<IObserver>();
         setRetainInstance(true);
@@ -43,6 +46,9 @@ public class SearchFragment extends Fragment {
     }
 
     public void attach(IObserver observer) {
+        if(listObservers==null)
+            listObservers = new ArrayList<>();
+
         listObservers.add(observer);
     }
 
@@ -51,6 +57,7 @@ public class SearchFragment extends Fragment {
     }
 
     public void notifyObservers() {
+        Log.d("Search Fragment", "aiojdoadozijdoajiz");
         for(IObserver observer : listObservers) {
             observer.update(this.listPlaces);
         }
@@ -61,12 +68,15 @@ public class SearchFragment extends Fragment {
     }
 
     public void doResearchByPreferences(LatLng centre, int radius, String[] types) {
+        if(listPlaces==null)
+            listObservers= new ArrayList<>();
         for(String type : types) {
             initiateSearch(centre, radius, type);
         }
     }
 
     public void initiateSearch(LatLng centre, int radius, String type) {
+
         SearchPlacesTask task = new SearchPlacesTask();
         SearchCriteria criteria = new SearchCriteria(centre, radius, type, "AIzaSyDrc1KaMS_FKuphctJRk6ttUPFWvD1Ksic");
         task.execute(criteria);
@@ -100,7 +110,7 @@ public class SearchFragment extends Fragment {
         }
 
         counter--;
-
+        Log.d("Search Fragment", "Decrementation du compteur");
         if(counter == 0) {
             notifyObservers();
         }

@@ -7,17 +7,39 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * Created by alexMAO on 14/03/2016.
  */
 public class UserProfileActivity extends Activity {
+    private TextView mail;
+    private TextView nom;
+    private TextView groupName;
+    private TextView pref1;
+    private TextView pref2;
+    private TextView pref3;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_profile);
+        UsersBDD usersBDD = new UsersBDD(this);
+        usersBDD.open();
+        GroupeBDD groupeBDD = new GroupeBDD(this);
+        groupeBDD.open();
+        PreferenceBDD preferenceBDD = new PreferenceBDD(this);
+        preferenceBDD.open();
+        preferenceBDD.getPreferences();
+        User user = usersBDD.getProfil();
+        mail =  (TextView) findViewById(R.id.email_display);
+        nom = (TextView)  findViewById(R.id.nom);
+        groupName = (TextView)  findViewById(R.id.group_name);
+        pref1 = (TextView) findViewById(R.id.preference);
 
+        mail.setHint(user.getMail_());
+        nom.setHint(user.getNom());
+        
         final Button loginButton = (Button) findViewById(R.id.modifier);
         loginButton.setOnClickListener(new View.OnClickListener() {
 

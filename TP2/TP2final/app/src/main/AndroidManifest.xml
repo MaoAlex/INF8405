@@ -35,7 +35,7 @@
 
         <uses-library android:name="com.google.android.maps" />
 
-        <activity android:name=".VoteEvenement">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -58,6 +58,9 @@
         <activity android:name=".firebase.GroupTestActivity" />
         <activity android:name=".firebase.MapActivity" />
         <activity android:name=".firebase.MDPTestActivity" />
+        <activity android:name=".UserProfileActivity" />
+
+        UserProfileActivity
     </application>
 
 </manifest>

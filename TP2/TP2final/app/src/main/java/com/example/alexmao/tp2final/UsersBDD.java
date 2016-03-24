@@ -205,6 +205,7 @@ public class UsersBDD extends AbstractBDD {
         //String query = "SELECT * FROM " + maBaseSQLite_.TABLE_LIEU;
 
         Log.d("query", query);
+        Log.d(DEBUG_TAG, "Affichage des utilisateurs connectés");
         Cursor cursor = database_.rawQuery(query, null);
         //
         //on insère l'objet dans la BDD via le ContentValues

@@ -6,7 +6,6 @@
     android:layout_height="0dp"
     android:layout_weight="0.5"
     style="@style/text_view_style"
-    android:background="@color/footer_background"
 
-    android:text="footer"
+    android:text=""
     ></TextView>

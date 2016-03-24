@@ -1,0 +1,6 @@
+La gestion de la batterie a été prise en compte, nous avons mesuré l'impact énergétique d'une requête (Dans notre cas, nous nous
+sommes intéressés à la récupération d'un groupe depuis le serveur). Il en résulte que le dit impact n'est pas mesurable, la
+variation de la batterie pour une seule requête est trop infime pour être mesuré. Cela vient du fait que les échanges de données
+entre les utilisateurs et le serveur représente de petits paquets. On est loin du traffic lié au visionnage d'une vidéo sur
+internet par exemple, aussi, pour que l'impact soit perceptible il faudrait récupérer beaucoup plus de données. Ce qui n'est pas
+réaliste dans le cadre de notre application.
