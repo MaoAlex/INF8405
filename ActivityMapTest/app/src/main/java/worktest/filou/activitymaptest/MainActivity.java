@@ -14,6 +14,7 @@ public class    MainActivity extends ConnectedMapActivity {
     private Button gotoProposalTest;
     private Button gotoUpdate;
     private Button gotoBenchmark;
+    private Button gotoExtractmark;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,13 @@ public class    MainActivity extends ConnectedMapActivity {
             }
         });
 
+        gotoExtractmark = (Button) findViewById(R.id.goto_extractTime_activity);
+        gotoExtractmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoTimeExtract();
+            }
+        });
         prepareUser();
     }
 
@@ -161,6 +169,11 @@ public class    MainActivity extends ConnectedMapActivity {
         Intent intent = new Intent(MainActivity.this, BenchMarkActivity.class);
         intent.putExtra("localUser", localUser);
         intent.putExtra("groupID", groupID);
+        startActivity(intent);
+    }
+
+    private void gotoTimeExtract() {
+        Intent intent = new Intent(MainActivity.this, TestExtractTimeActivity.class);
         startActivity(intent);
     }
 }

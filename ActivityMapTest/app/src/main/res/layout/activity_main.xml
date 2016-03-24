@@ -43,6 +43,11 @@
             android:layout_height="wrap_content"
             android:text="launch benchmark"
             android:id="@+id/goto_benchmark_activity"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="test time extractor"
+            android:id="@+id/goto_extractTime_activity"/>
     </LinearLayout>
 
 </RelativeLayout>

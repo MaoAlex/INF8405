@@ -1,11 +1,9 @@
 package worktest.filou.activitymaptest;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by filou on 23/03/16.
@@ -66,14 +64,22 @@ public class DisponibilitiesExtractor {
     }
 
     private void filterOK() {
+        Map<String, List<CustomTimeSlot>> dateToDispoDef = new HashMap<>();
         for (String date : dateToTimeslot.keySet()) {
             List<CustomTimeSlot> disposGeneral = dateToDispo.get(date);
             for (CustomTimeSlot customTimeSlot: disposGeneral) {
-                if (!customTimeSlot.isOKforEvery()) {
-                    disposGeneral.remove(customTimeSlot);
+                if (customTimeSlot.isOKforEvery()) {
+                    List<CustomTimeSlot> lt = dateToDispoDef.get(date);
+                    if (lt == null) {
+                        lt = new LinkedList<>();
+                        dateToDispoDef.put(date, lt);
+                    }
+                    lt.add(customTimeSlot);
                 }
             }
         }
+
+        dateToDispo = dateToDispoDef;
     }
 
     public  Map<String, List<CustomTimeSlot>> extractFreeTimeSlot() {
