@@ -1,7 +1,7 @@
-Une première fonctionalité, qui nous semblait importante est la capacité de s'authentifier sur n'importe quel mobile. C'est-à-dire
+Une première fonctionnalité, qui nous semblait importante est la capacité de s'authentifier sur n'importe quel mobile. C'est-à-dire
 que l'utilisateur peut posséder  plusieurs appareils mobiles (plusieurs portables ou encore un portable et un tablette), et il
 pourra s'authentifier avec le même compte sur tous ces appareils. L'utilisateur peut, sur la page de login, s'identifier va un
-motde passe et l'adresse mail associée à son compte. Lors de la création du compte, ses derniers sont stockés sur le serveur.
+mot de passe et l'adresse mail associée à son compte. Lors de la création du compte, ses derniers sont stockés sur le serveur.
 Au moment du login, on interroge la base de données pour savoir si le mot de passe rentré par l'utilisateur est bien celui qui est
 associé à ce compte. Si l'utilisateur utilise un nouvel appareil, ses données seront téléchargées depuis le serveur.
 \newline
@@ -12,6 +12,20 @@ de récupérer les préférences de tous les autres et donc d'organiser des renc
 \newline
 
 Afin, dans une certaine mesure, de permettre le fonctionnement hors-ligne, une base de données sql lite est également présente.
-Elle permet de récupérer les données des autrres utilisateurs afin de potentiellement consulter leur profil ou encore la fiche de
+Elle permet de récupérer les données des autres utilisateurs afin de potentiellement consulter leur profil ou encore la fiche de
 description des groupes. De même, elle permettrait de consulter les événements déjà prévus pour un groupe, ainsi que de consulter
 leur description (si celle-ci a été rentrée). Cette fonctionnalité permettrait de mieux se préparer pour les événements à venir.
+\newline
+
+\subsection{Fonctionnalités disponibles}
+Les fonctionnalités disponibles sont : 
+\begin{itemize}
+\item La possibilité de s'identifier avec un login(adresse mail) et un mot de passe si nous avons un compte déjà créé.
+\item La possibilité de créer un compte, en passant dans la partie inscription qui nous permet de créer un compte avec en rentrant différentes informations (nom, prénom, adresse mail, nom du groupe, les préférences, la possibilité de mettre une photo ou d'en prendre une), en sachant que si le groupe n'existe pas un nouveau groupe est créé.
+\item Toutes les fonctionnalités liées aux groupes : inscription des utilisateurs dans un groupe, affichage des informations etc. On peut voir dans la partie Localisation une carte présentant notre position, celle des utilisateurs du groupe (un marqueur de couleur différente par personne).
+\item Dans le profil, les informations sont disponibles et modifiables : nom, courriel, préférences et photo.
+\item Sur l'écran d'un événement, on voit la description de l'événement, le nom des participants, et un bouton est présent pour que l'organisateur puisse créer et modifier la description de l'événement
+\item Les cartes sont cliquables sur le groupe.
+\item Pour se déconnecter, un bouton est disponible dans le profil.
+\item Le système de vote est accessible en cliquant sur un événement. Un bug que nous n'avons pas réussi à résoudre est présent. Nous avons donc créé un affichage par défaut pour le moment.
+\end{itemize}
