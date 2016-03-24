@@ -9,8 +9,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.alexmao.tp2final.fragment.SearchFragment;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -24,8 +26,12 @@ public class VoteEvenement extends Activity implements IObserver {
     /** Contient les lieux **/
     private ArrayList<String> mLieu = null;
     private ArrayList<Lieu> lieuCalcule = null;
+    private String[] prefTab;
+    private Place[] placeCalcule = new Place[3];
+    private double latitude;
+    private double longitude;
     /** Contient différents langages de programmation **/
-
+    private final int rayon = 10000;//10km de rayon de recherche
     private ArrayList<String> mDispo = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,31 +43,40 @@ public class VoteEvenement extends Activity implements IObserver {
         preferenceBDD.open();
         preferenceBDD.affichagePreferences();
         HashMap<String, ArrayList<User>> pref = preferenceBDD.getPreferences();
-        ArrayList<String> preferenceOrdonne = new ArrayList<>();
-        HashMap<String, Integer> classementPref = new HashMap<>();
-
-
+        ArrayList<Integer> preferenceOrdonne = new ArrayList<>();
+        HashMap<Integer, String> classementPref = new HashMap<>();
+        ArrayList<Integer> classement = new ArrayList<>();
         for (Map.Entry<String, ArrayList<User>> p : pref.entrySet()){
-            if(pref.containsKey(p.getKey())) {
-                classementPref.put(p.getKey(), p.getValue().size());
-                for(String s : preferenceOrdonne)
-                {
-                    if(preferenceOrdonne.size()==0)
-                        preferenceOrdonne.add(String)
-                }
-            }
+                classementPref.put(p.getValue().size(), p.getKey());
+                classement.add(p.getValue().size());
             //On ne fait rien sinon car on propose déjà l'activité
-
+        }
+        Collections.sort(classement);
+        if(classement.size()>2) {
+            prefTab = new String[3];
+        }else {
+            prefTab = new String[classement.size()];
+        }
+        if(classement.get(0)!=null) {
+            prefTab[0] = classementPref.get(classement.get(0));
+        }
+        if (classement.get(1) != null) {
+            prefTab[1] = classementPref.get(classement.get(1));
+        }
+        if (classement.get(2) != null) {
+            prefTab[2] = classementPref.get(classement.get(2));
         }
         sF.attach(this);
-        sF.doResearchByPreferences();//Mettre les bons arguments
+            LatLng centre = new LatLng(latitude, longitude);
+
+        sF.doResearchByPreferences(centre,rayon,prefTab);//Mettre les bons arguments
         mListLieu = (ListView) findViewById(R.id.listLieu);
 
         mListDisponibilite = (ListView) findViewById(R.id.listHoraire);
 
         mSend = (Button) findViewById(R.id.envoyer);
         String choix1;
-        mDispo = new String[]{"Restaurant", "Bar", "Cafe", "Cinema"};
+        //mDispo = new String[]{"Restaurant", "Bar", "Cafe", "Cinema"};
 
 
         //On ajoute un adaptateur qui affiche des boutons radio (c'est l'affichage à considérer quand on ne peut
@@ -112,7 +127,35 @@ public class VoteEvenement extends Activity implements IObserver {
     @Override
     public void update(ArrayList<Place> listPlaces) {
         Random r1 = new Random();
+        Random r2 = new Random();
+        Random r3 = new Random();
         int choix1 = r1.nextInt(listPlaces.size());
+        int choix2 = r2.nextInt(listPlaces.size());
+        int choix3 = r3.nextInt(listPlaces.size());
+        Place choixPotentiel1 = listPlaces.get(choix1);
+        Place choixPotentiel2 = listPlaces.get(choix2);
+        Place choixPotentiel3 = listPlaces.get(choix3);
+        while(choixPotentiel1!= null && prefTab[0]!= null && choixPotentiel1.getType()!=prefTab[0]) {
+            choix2 = (new Random()).nextInt();
+            choixPotentiel2 = listPlaces.get(choix2);
+
+        }
+        if(placeCalcule[1]!=null)
+          placeCalcule[1] = choixPotentiel1;
+        while(choixPotentiel2 != null && choixPotentiel2.getType()==choixPotentiel3.getType()){
+            choix2 = (new Random()).nextInt();
+            choixPotentiel2 = listPlaces.get(choix2);
+        }
+        if (placeCalcule[2]!=null)
+            placeCalcule[2] = choixPotentiel2;
+        while(choixPotentiel3 != null && choixPotentiel1.getType()==choixPotentiel3.getType()
+                && choixPotentiel1.getType()==choixPotentiel3.getType()){
+            choix2 = (new Random()).nextInt();
+            choixPotentiel3 = listPlaces.get(choix2);
+        }
+        if (placeCalcule[3]!=null)
+            placeCalcule[3] = choixPotentiel3;
+
 
     }
 }
