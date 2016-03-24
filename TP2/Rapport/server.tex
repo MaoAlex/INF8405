@@ -1,23 +1,23 @@
 Les différents utilisateurs doivent communiquer entre eux afin de pouvoir voter, mais aussi pour connaître la position de chacun
 des utilisateurs. Une telle communication nécessite la présence d'un serveur connu de tous. Pour mettre en place une serveur nous
-avons choisi d'utiliser le service cloud \textit{firebase}. Les données sont stockées sous le format jason sur le serveur. On peut
-alors les récupérer via leur id (générés par l'API firebase).
+avons choisi d'utiliser le service cloud \textit{Firebase}. Les données sont stockées sous le format JSON sur le serveur. On peut
+alors les récupérer via leur id (générés par l'API Firebase).
 \newline
 
 Cette solution a plusieurs avantages:
 \begin{enumerate}
     \item la présence d'une API déjà testée et éprouvée, ce qui limite le nombre de bugs. Et permet de ne pas réinventer la roue.
-    \item la présence de mécanismes de pour écouter des données sur le serveur et être informé en cas de modification.
-    \item une grande communauté d'utilisateurs, ce qui facilite la recherche d'information en cas de débogguage.
+    \item la présence de mécanismes pour écouter des données sur le serveur et être informé en cas de modifications.
+    \item une grande communauté d'utilisateurs, ce qui facilite la recherche d'information en cas de déboguage.
 \end{enumerate}
 
 Ainsi, les coordonnées (longitude/latitude) de chaque utilisateur peuvent être mises à jour sur le serveur en temps réel (ou
-presque). Il suffit pour cela d'envoyer ces nouvelles coordonnées sur le serveur à chaque fois que la \textit{callback} associée
-au changement de position dans \textit{maps} est appelée. (L'envoie se ferait dans la dite \textit{callback}). Les autres membres
-du groupe n'aurait qu'à écouter ces coordonnées sur le serveur afin d'être informé de tous changements de position.
+presque). Il suffit pour cela d'envoyer ces nouvelles coordonnées sur le serveur à chaque fois que le \textit{callback} associée
+au changement de position dans \textit{Google Maps} est appelée (l'envoi se ferait dans le dit \textit{callback}). Les autres membres
+du groupe n'auraient qu'à écouter ces coordonnées sur le serveur afin d'être informé de tout changement de position.
 \newline
 
-Cette approche est un peu gourmande en terme de réseau, aussi il est possible de mettre à jour les données que à des moments jugés
+Cette approche est un peu gourmande en terme de réseau, aussi il est possible de mettre à jour les données uniquement à des moments jugés
 opportuns. On obtient alors une meilleure utilisation du réseau mais on perd le temps réel.
 \newline
 
@@ -26,7 +26,7 @@ encapsulons ces mécanismes dans une classe \textit{ConnectedMap}. Cette classe 
 récupérant les informations de position. Elle se charge également d'instancier la classe \textit{firebaseBD}.
 \newline
 
-Cette classe, se charge d'interfacer l'API \textit{firebase} afin de fournir simplement toutes les fonctionnalités nécessaires pour
+Cette classe, se charge d'interfacer l'API \textit{Firebase} afin de fournir simplement toutes les fonctionnalités nécessaires pour
 ce projet. Elle permet entre autres, de récupérer un utilisateur ou un groupe depuis le serveur. Les réponses de la base de
 données étant asynchrones, le comportement attendu lors de la récupération des données doit être encapsulé dans une
 \textit{callback} (qui sera appelée après récupération des données). Par exemple, si on veut récupérer un utilisateur, si on a une
