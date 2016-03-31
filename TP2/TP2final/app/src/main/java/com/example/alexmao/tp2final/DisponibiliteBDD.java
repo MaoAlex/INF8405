@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 /**
  * Created by alexMAO on 15/03/2016.
+ * Classe permettant le stockage des données dans la base interne sqlite
  */
 public class DisponibiliteBDD extends AbstractBDD {
     private static final String TABLE_DISPONIBILITITE = "table_disponibilite";
@@ -30,7 +31,6 @@ public class DisponibiliteBDD extends AbstractBDD {
 
     public void insertDisponibilite(int id_user, String date, String heureDebut, String heureFin ) {
         //Création d'un ContentValues (fonctionne comme une HashMap)
-        //database_ = maBaseSQLite_.getWritableDatabase();
         ContentValues values = new ContentValues();
         //on lui ajoute une valeur associée à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
 
@@ -39,37 +39,28 @@ public class DisponibiliteBDD extends AbstractBDD {
         values.put(COL_DISPONIBILITE_HEURE_DEBUT, heureDebut);
         values.put(COL_DISPONIBILITE_HEURE_FIN, heureFin);
         //on insère l'objet dans la BDD via le ContentValues
-
         database_.insert(maBaseSQLite_.TABLE_DISPONIBILITITE, null, values);
-        //database_.execSQL("INSERT INTO table_groupe(est_organisateur,user_id,nom_du_groupe, id) VALUES (1,1,'Teiouiug', 90)");
-        Log.d(DEBUG_TAG, "Insertion disponibilite faite ");
 
 
     }
 
     public void removeDisponibiliteUser(long id_user) {
-        //Suppression d'un utilisateur de la table Groupe de la BDD grâce à l'ID
+        //Suppression grâce à l'ID
         database_.delete(maBaseSQLite_.TABLE_DISPONIBILITITE, COL_USER_ID + " = " + id_user, null);
-        Log.d(DEBUG_TAG, "retrait fait ");
 
     }
 
     public void removeDisponibilite(String disponibilite, String heureDebut, String heureFin) {
-        //Suppression d'un g de la BDD grâce au nom
         database_.delete(maBaseSQLite_.TABLE_DISPONIBILITITE, COL_DISPONIBILITE_DATE + " = ?"
                 + " AND " + COL_DISPONIBILITE_HEURE_DEBUT + " = ?" + " AND " + COL_DISPONIBILITE_HEURE_FIN + " = ?", new String[]{disponibilite, heureDebut, heureFin});
-        Log.d(DEBUG_TAG, "retraits faits ");
     }
     public void removeDisponibilite(String disponibilite) {
         //Suppression d'un g de la BDD grâce au nom
         database_.delete(maBaseSQLite_.TABLE_DISPONIBILITITE, COL_DISPONIBILITE_DATE + " = ?"
                 , new String[]{disponibilite});
-        Log.d(DEBUG_TAG, "retraits faits ");
     }
 
-    // METHOD 1
-    // Uses rawQuery() to query multiple tables
-    //Permet d'obtenir une hashmap permettant de connaitre la liste des utilisateurs selon la disponibilite(key)
+      //Permet d'obtenir une hashmap permettant de les disponibilités des utilisateurs(key)
     public HashMap<Integer,ArrayList<Disponibilite>> getDisponibilites() {
     // A faire en faisant attention au linkage
         HashMap<Integer, ArrayList<Disponibilite>> disponibilites = new HashMap<Integer, ArrayList<Disponibilite>>();
@@ -83,22 +74,10 @@ public class DisponibiliteBDD extends AbstractBDD {
                 + maBaseSQLite_.TABLE_DISPONIBILITITE + " d ON " + "u." + maBaseSQLite_.COL_ID
                 +" = " + "d." + maBaseSQLite_.COL_USER_ID;// +" ;" ;
 
-
-        //String query = "SELECT * FROM " + maBaseSQLite_.TABLE_GROUPE;
-
-        Log.d("query", query);
         Cursor cursor = database_.rawQuery(query, null);
-
-        //ArrayList<User> userTemp = new ArrayList<User>();
-        //ArrayList<Boolean> estOrganisateurTemp = new ArrayList<Boolean>();
         cursor.moveToFirst();
         while (cursor.moveToNext()){
-
-            //User user = new User();
-            Log.d("query", "Recuperation de l'id de l'utilisateur");
-
-
-            Disponibilite disponibilite = new Disponibilite();
+             Disponibilite disponibilite = new Disponibilite();
             String dateDebut = cursor.getString(0);
             dateDebut += " " + cursor.getString(1);
             String dateFin = cursor.getString(0);
@@ -124,14 +103,8 @@ public class DisponibiliteBDD extends AbstractBDD {
         String query = "SELECT *"
                 + " FROM "
                 + TABLE_DISPONIBILITITE ;
-
-        //String query = "SELECT * FROM " + maBaseSQLite_.TABLE_LIEU;
-
-        Log.d("query", query);
-        Cursor cursor = database_.rawQuery(query, null);
-        //
-        //on insère l'objet dans la BDD via le ContentValues
-        while (cursor.moveToNext()) {
+    Cursor cursor = database_.rawQuery(query, null);
+       while (cursor.moveToNext()) {
             Log.d(DEBUG_TAG, cursor.getInt(0) + ", : " + cursor.getString(1)
                     + ", " + cursor.getString(2) + ", et son mail est : " + cursor.getString(3) + ", " + cursor.getString(4));
         }

@@ -7,6 +7,7 @@ package com.example.alexmao.tp2final;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -65,16 +66,11 @@ public class UsersBDD extends AbstractBDD {
         values.put(COL_NOM, user.getNom());
         values.put(COL_PRENOM, user.getPrenom());
         values.put(COL_MAIL, user.getMail_());
-        values.put(COL_PHOTO, "");
+        if(user.getPhoto()!=null)
+            values.put(COL_PHOTO, user.getPhoto().toString());
+        else
+            values.put(COL_PHOTO, "");
         //on insère l'objet dans la BDD via le ContentValues
-        //on lui ajoute une valeur associée à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
-
-        //on insère l'objet dans la BDD via le ContentValues
-
-
-        //Log.d(DEBUG_TAG, "valeur du précédent index ajouté :" + database_.last_insert_rowid());
-
-        //database_.execSQL("INSERT INTO table_groupe(est_organisateur,user_id,nom_du_groupe, id) VALUES (1,1,'Teiouiug', 90)");
         return database_.insert(maBaseSQLite_.TABLE_USERS, null, values);
     }
 
@@ -85,7 +81,10 @@ public class UsersBDD extends AbstractBDD {
         values.put(COL_NOM, user.getNom());
         values.put(COL_PRENOM, user.getPrenom());
         values.put(COL_MAIL, user.getMail_());
-        values.put(COL_PHOTO, "");
+        if(user.getPhoto()!=null)
+            values.put(COL_PHOTO, user.getPhoto().toString());
+        else
+            values.put(COL_PHOTO, "");
         return database_.update(maBaseSQLite_.TABLE_USERS, values, maBaseSQLite_.COL_ID + " = " + id, null);
     }
 
@@ -96,13 +95,13 @@ public class UsersBDD extends AbstractBDD {
 
     public User getUserWithNom(String nom){
         //Récupère dans un Cursor les valeurs correspondant à un utilisateur contenu dans la BDD (ici on sélectionne le utilisateur grâce à son nom)
-        Cursor c = database_.query(maBaseSQLite_.TABLE_USERS, new String[] {maBaseSQLite_.COL_ID, COL_NOM, COL_PRENOM, COL_MAIL}, COL_NOM + " LIKE \"" + nom +"\"", null, null, null, null);
+        Cursor c = database_.query(maBaseSQLite_.TABLE_USERS, null, COL_NOM + " LIKE \"" + nom +"\"", null, null, null, null);
         return cursorToUser(c);
     }
 
     public User getUserWithMail(String mail){
         //Récupère dans un Cursor les valeurs correspondant à un utilisateur contenu dans la BDD (ici on sélectionne le utilisateur grâce à son nom)
-        Cursor c = database_.query(maBaseSQLite_.TABLE_USERS, new String[] {maBaseSQLite_.COL_ID, COL_NOM, COL_PRENOM, COL_MAIL}, COL_MAIL + " LIKE \"" + mail +"\"", null, null, null, null);
+        Cursor c = database_.query(maBaseSQLite_.TABLE_USERS, null, COL_MAIL + " LIKE \"" + mail +"\"", null, null, null, null);
         return cursorToUser(c);
     }
     //Cette méthode permet de convertir un cursor en un utilisateur
@@ -120,7 +119,8 @@ public class UsersBDD extends AbstractBDD {
         utilisateur.setNom(c.getString(NUM_COL_NOM));
         utilisateur.setPrenom(c.getString(NUM_COL_PRENOM));
         utilisateur.setMail_(c.getString(3));
-
+        if(c.getString(5)!=""||c.getString(5)!=null)
+            utilisateur.setPhoto(Uri.parse(c.getString(5)));
         //On ferme le cursor
         c.close();
 
@@ -169,7 +169,8 @@ public class UsersBDD extends AbstractBDD {
             utilisateur.setMail_(c.getString(3));
             listUser.add(utilisateur);
             Log.d("UsersBDD", "L'id de l'utilisateur est : " + c.getInt(0) + ", son nom est : " + c.getString(1)
-                    + ", son prenom est : " + c.getString(2) + ", et son mail est : " + c.getString(3));
+                    + ", son prenom est : " + c.getString(2) + ", et son mail est : " + c.getString(3)
+                    + "Son ID Firebase : " + c.getString(4) + "Son URI : " + c.getString(5)  );
         }
         return listUser;
     }
@@ -181,7 +182,10 @@ public class UsersBDD extends AbstractBDD {
         values.put(COL_NOM, user.getNom());
         values.put(COL_PRENOM, user.getPrenom());
         values.put(COL_MAIL, user.getMail_());
-        values.put(COL_PHOTO, "");
+        if(user.getPhoto()!=null)
+            values.put(COL_PHOTO, user.getPhoto().toString());
+        else
+            values.put(COL_PHOTO, "");
         database_.insert(maBaseSQLite_.TABLE_CURRENT_USER, null, values);
     }
 
@@ -191,15 +195,13 @@ public class UsersBDD extends AbstractBDD {
 
     public User getProfil(){
         //Récupère dans un Cursor les valeurs correspondant à un utilisateur contenu dans la BDD (ici on sélectionne le utilisateur grâce à son nom)
-        Cursor c = database_.query(maBaseSQLite_.TABLE_CURRENT_USER, new String[] {maBaseSQLite_.COL_ID, COL_NOM, COL_PRENOM, COL_MAIL}, null, null, null, null, null);
+        Cursor c = database_.query(maBaseSQLite_.TABLE_CURRENT_USER, null, null, null, null, null, null);
         return cursorToUser(c);
     }
 
 
     public void affichageUtilisateurConnecte() {
-        String query = "SELECT " + maBaseSQLite_.COL_ID + ","
-                + COL_NOM + "," + COL_PRENOM + ", " + COL_MAIL
-                + " FROM "
+        String query = "SELECT *" + " FROM "
                 + maBaseSQLite_.TABLE_CURRENT_USER ;
 
         //String query = "SELECT * FROM " + maBaseSQLite_.TABLE_LIEU;
@@ -211,7 +213,8 @@ public class UsersBDD extends AbstractBDD {
         //on insère l'objet dans la BDD via le ContentValues
         while (cursor.moveToNext()) {
             Log.d("UsersBDD", "L'id de l'utilisateur est : " + cursor.getInt(0) + ", son nom est : " + cursor.getString(1)
-                    + ", son prenom est : " + cursor.getString(2) + ", et son mail est : " + cursor.getString(3));
+                    + ", son prenom est : " + cursor.getString(2) + ", et son mail est : " + cursor.getString(3)
+                    + "Son ID Firebase : " + cursor.getString(4) + "Son URI : " + cursor.getString(5)  );
         }
     }
 }

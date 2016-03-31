@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 /**
  * Created by alexMAO on 19/03/2016.
+ *  * Classe permettant d'un evenement dans la base interne sqlite
  */
 public class EvenementBDD extends AbstractBDD{
 
@@ -24,18 +25,13 @@ public class EvenementBDD extends AbstractBDD{
     }
 
     public void insertEvenement(Evenement evenement) {
-        //Création d'un ContentValues (fonctionne comme une HashMap)
-        //database_ = maBaseSQLite_.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        //on lui ajoute une valeur associée à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
+         ContentValues values = new ContentValues();
         values.put(COL_EVENEMENT_NAME, evenement.getNomEvenement());
         values.put(COL_GROUP_NAME, evenement.getGroupName());
-        //on insère l'objet dans la BDD via le ContentValues
         String query = "SELECT " + COL_EVENEMENT_ID
                 + " FROM "
                 + maBaseSQLite_.TABLE_EVENEMENT ;
         Cursor cursor = database_.rawQuery(query, null);
-        Log.d("query", query);
         cursor.moveToLast();
         if (cursor!=null){
             values.put(COL_EVENEMENT_ID, cursor.getInt(0) + 1);
@@ -52,34 +48,25 @@ public class EvenementBDD extends AbstractBDD{
             values.put(COL_EVENEMENT_ID, cursor.getInt(0));
             database_.update(TABLE_EVENEMENT,  values, maBaseSQLite_.COL_KEY + " = " + cursor.getInt(0), null );
         }
-        //database_.execSQL("INSERT INTO table_groupe(est_organisateur,user_id,nom_du_groupe, id) VALUES (1,1,'Teiouiug', 90)");
-        Log.d(DEBUG_TAG, "Insertion du evenement faite ");
-
-
     }
 
     public void removeEvenement(String nomEvenement) {
-        //Suppression d'un utilisateur de la table Groupe de la BDD grâce à l'ID
+        //Suppression d'un evenement de la BDD grâce au nom
         database_.delete(TABLE_EVENEMENT, COL_EVENEMENT_NAME + " =  ?", new String[]{nomEvenement});
     }
 
     public void removeEvenementGroup(String groupName) {
-        //Suppression d'un g de la BDD grâce au nom
+        //Suppression des evenements liés à un groupe
         database_.delete(TABLE_EVENEMENT, COL_GROUP_NAME + " = ?" , new String[]{groupName});
     }
 
-    // METHOD 1
-    // Uses rawQuery() to query multiple tables
+
     public int getEvenement(String evenementName){
-        //Building query using INNER JOIN keyword
         String query = "SELECT " + COL_EVENEMENT_ID + ", "
                 + COL_EVENEMENT_NAME + ", " + COL_GROUP_NAME
                 + " FROM "
                 + TABLE_EVENEMENT + " e WHERE e." + COL_EVENEMENT_NAME + " = ?" ;
 
-        //String query = "SELECT * FROM " + maBaseSQLite_.TABLE_EVENEMENT;
-
-        Log.d("query", query);
         Cursor cursor = database_.rawQuery(query, new String[]{evenementName});
         cursor.moveToFirst();
         if (cursor!=null)
@@ -97,24 +84,12 @@ public class EvenementBDD extends AbstractBDD{
                 + COL_EVENEMENT_NAME
                 + " FROM "
                 + TABLE_EVENEMENT + " e WHERE e." + COL_GROUP_NAME + " = ?" ;
-        //String query = "SELECT * FROM " + TABLE_EVENEMENT + ";";
-
-        Log.d("query select", query);
-        //Cursor cursor = database_.rawQuery(query, new String[] {groupName});
-        Cursor cursor = database_.rawQuery(query, new String[]{groupName});
-        //ArrayList<User> userTemp = new ArrayList<User>();
-        //ArrayList<Boolean> estOrganisateurTemp = new ArrayList<Boolean>();
-        //Log.d("GroupeBDD", "Id de l'utilisateur : " + cursor.getInt(3) + " nom du groupe : " + cursor.getString(1).toString() + " estOrganisateur : " + cursor.getInt(2));
-        // Log.d("dzd", cursor.getColumnCount() + "  alooooooooo " + cursor.getInt(0));
-
-        while(cursor.moveToNext()){
+         Cursor cursor = database_.rawQuery(query, new String[]{groupName});
+       while(cursor.moveToNext()){
             Evenement evenement = new Evenement();
             evenement.setEvenementId(cursor.getInt(0));
-            Log.d("query", "Recupération du evenement");
             evenement.setNomEvenement(cursor.getString(1));
             evenements.add(evenement);
-            Log.d("EvenementBDD", " : " + cursor.getInt(3) + " nom du groupe : " + cursor.getString(1).toString() + " estOrganisateur : " + cursor.getInt(2));
-
         }
         return evenements;
     }
@@ -123,11 +98,7 @@ public class EvenementBDD extends AbstractBDD{
         String query = "SELECT *"
                 + " FROM "
                 + maBaseSQLite_.TABLE_EVENEMENT ;
-
-        //String query = "SELECT * FROM " + maBaseSQLite_.TABLE_LIEU;
-
-        Log.d("query", query);
-        Cursor cursor = database_.rawQuery(query, null);
+          Cursor cursor = database_.rawQuery(query, null);
         //on insère l'objet dans la BDD via le ContentValues
         while (cursor.moveToNext()) {
             Log.d(DEBUG_TAG, cursor.getInt(0) + ", " + cursor.getString(1)

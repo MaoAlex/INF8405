@@ -26,19 +26,12 @@ public class LieuChoisiBDD extends  AbstractBDD {
 
     public void insertLieuChoisi(LieuChoisi lieuChoisi) {
         ContentValues values = new ContentValues();
-
         values.put(COL_POSITION_X, lieuChoisi.getPositionLieu().getPositionX_());
         values.put(COL_POSITION_Y, lieuChoisi.getPositionLieu().getPositionY_());
         values.put(COL_DESCRIPTION, lieuChoisi.getDescription());
-        //values.put(COL_PHOTO, lieuChoisi.getPhoto().toString());
         values.put(COL_PHOTO, "");
-
         values.put(COL_EVEVENEMENT_ID, lieuChoisi.getEvenementId());
-
         database_.insert(maBaseSQLite_.TABLE_LIEU_CHOISI, null, values);
-        Log.d(DEBUG_TAG, "Insertion lieu choisi pour id evenement : " + lieuChoisi.getEvenementId());
-
-
     }
 
     public void removeLieuChoisi(int eveId) {
@@ -46,11 +39,7 @@ public class LieuChoisiBDD extends  AbstractBDD {
         database_.delete(maBaseSQLite_.TABLE_LIEU_CHOISI, COL_EVEVENEMENT_ID + " = " + eveId, null);
     }
 
-
-    // METHOD 1
-    // Uses rawQuery() to query multiple tables
-
-    public LieuChoisi getLieuChoisi(int eveId) {
+      public LieuChoisi getLieuChoisi(int eveId) {
 
         LieuChoisi lieuChoisi = new LieuChoisi();
         //Building query using INNER JOIN keyword

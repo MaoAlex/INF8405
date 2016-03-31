@@ -36,11 +36,7 @@
         <uses-library android:name="com.google.android.maps" />
 
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"
@@ -49,18 +45,28 @@
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register" />
         <activity android:name=".firebase.MainActivity" />
-        <activity android:name=".MainActivity_Home" />
-        <activity android:name=".UserProfileActivityModify" />
+        <activity android:name=".MainActivity_Home" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".UserProfileActivityModify"
+            android:screenOrientation="portrait"/>
         <activity android:name=".RegisterInformation" />
-        <activity android:name=".PhotoActivity" />
         <activity android:name=".Calendar" />
         <activity android:name=".firebase.ConnectedMapActivity" />
         <activity android:name=".firebase.GroupTestActivity" />
         <activity android:name=".firebase.MapActivity" />
         <activity android:name=".firebase.MDPTestActivity" />
+        <activity android:name=".PhotoActivity" />
         <activity android:name=".UserProfileActivity" />
+        <activity android:name=".fragment.testActivity" >
 
-        UserProfileActivity
+        </activity>
+
+
     </application>
 
 </manifest>

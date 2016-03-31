@@ -7,6 +7,7 @@ import java.util.Date;
 
 /**
  * Created by alexMAO on 15/03/2016.
+ * Classe permettant de stocker les disponibilités de l'utilisateur
  */
 public class Disponibilite implements Parcelable {
 
@@ -17,8 +18,7 @@ public class Disponibilite implements Parcelable {
 
     protected Disponibilite(Parcel in) {
         super();
-        //this.dateDebut_ = Date(in.readString());
-        //this.dateFin_ = Date(in.readString());
+
     }
 
     public static final Creator<Disponibilite> CREATOR = new Creator<Disponibilite>() {

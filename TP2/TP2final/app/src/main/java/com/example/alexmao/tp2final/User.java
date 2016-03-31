@@ -4,6 +4,8 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.alexmao.tp2final.firebase.LocalUser;
+
 import java.util.ArrayList;
 
 /**
@@ -77,6 +79,15 @@ public class User implements Parcelable {
         this.photo_ = profil.getPhoto();
         this.estOrganisateur_ = profil.isEstOrganisateur_();
         this.localisation_ = profil.getLocalisation_();
+    }
+
+    public User(LocalUser user) {
+        this.nom_ = user.getLastName();
+        this.prenom_ = user.getFirstName();
+        this. mail_ = user.getMailAdr();
+        this.photo_ = null;
+        this.estOrganisateur_ = false;
+        this.localisation_ = new Localisation(user.getLat(), user.getLongi());
     }
 
     public String getNom() {

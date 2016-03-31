@@ -32,8 +32,8 @@ public class CustomUserDialogFragment extends DialogFragment {
     private static final String DEBUG_TAG = "CustomUserDialog";
     // UI references
     private EditText userNameEtxt;
-    private EditText userSalaryEtxt;
-    private EditText userDobEtxt;
+    private EditText userPrenomEtxt;
+    private EditText userMailEtxt;
     private Spinner deptSpinner;
     private LinearLayout submitLayout;
 
@@ -74,9 +74,9 @@ public class CustomUserDialogFragment extends DialogFragment {
         builder.setView(customDialogView);
 
         userNameEtxt = (EditText) customDialogView.findViewById(R.id.etxt_name);
-        userSalaryEtxt = (EditText) customDialogView
+        userPrenomEtxt = (EditText) customDialogView
                 .findViewById(R.id.etxt_salary);
-        userDobEtxt = (EditText) customDialogView.findViewById(R.id.etxt_dob);
+        userMailEtxt = (EditText) customDialogView.findViewById(R.id.etxt_dob);
         deptSpinner = (Spinner) customDialogView
                 .findViewById(R.id.spinner_dept);
         submitLayout = (LinearLayout) customDialogView
@@ -90,7 +90,7 @@ public class CustomUserDialogFragment extends DialogFragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         /*try {
-                            //user.setDateOfBirth(formatter.parse(userDobEtxt.getText().toString()));
+                            //user.setDateOfBirth(formatter.parse(userMailEtxt.getText().toString()));
                             user.setMail_("test@gmail.com");
                         } catch (ParseException e) {
                             Toast.makeText(getActivity(),
@@ -99,7 +99,7 @@ public class CustomUserDialogFragment extends DialogFragment {
                             return;
                         }*/
                         user.setNom(userNameEtxt.getText().toString());
-                        //user.setSalary(Double.parseDouble(userSalaryEtxt
+                        //user.setPrenom(Double.parseDouble(userPrenomEtxt
                         //        .getText().toString()));
                         Groupe dept = (Groupe) adapter
                                 .getItem(deptSpinner.getSelectedItemPosition());
@@ -133,14 +133,14 @@ public class CustomUserDialogFragment extends DialogFragment {
         groupeBDD.open();
         List<Groupe> groupes = null ;
                 groupeBDD.getGroupes();
-        //adapter = new ArrayAdapter<Groupe>(getActivity(), android.R.layout.simple_list_item_1, null);
-        //deptSpinner.setAdapter(adapter);
-        /*int pos = adapter.getPosition(user.getGroupe());
+       /* adapter = new ArrayAdapter<Groupe>(getActivity(), android.R.layout.simple_list_item_1, null);
+        deptSpinner.setAdapter(adapter);
+        int pos = adapter.getPosition(user.getId());
 
         if (user != null) {
-            userNameEtxt.setText(user.getName());
-            userSalaryEtxt.setText(user.getSalary() + "");
-            userDobEtxt.setText(formatter.format(user.getDateOfBirth()));
+            userNameEtxt.setText(user.getNom());
+            userPrenomEtxt.setText(user.getPrenom() + "");
+            userMailEtxt.setText(user.getMail_());
             deptSpinner.setSelection(pos);
         }*/
     }

@@ -10,6 +10,8 @@ import java.util.HashMap;
 
 /**
  * Created by alexMAO on 19/03/2016.
+ *
+ * Classe gérant les différentes préférences stockées dans la BDD interne
  */
 public class PreferenceBDD extends AbstractBDD {
     private static final String TABLE_PREFERENCE = "table_preference";
@@ -47,6 +49,28 @@ public class PreferenceBDD extends AbstractBDD {
         database_.delete(maBaseSQLite_.TABLE_PREFERENCE, COL_PREFERENCE + " = ?", new String[]{preference});
     }
 
+    public ArrayList<String> getPreferencesForUser(int id) {
+
+        ArrayList<String> preferences = new ArrayList<>();
+        //Building query using INNER JOIN keyword
+        String query = "SELECT " + COL_PREFERENCE
+                + " FROM "
+                + maBaseSQLite_.TABLE_PREFERENCE + " WHERE " + maBaseSQLite_.COL_USER_ID
+                +" = " + id;// +" ;" ;
+
+        Log.d("query", query);
+        Cursor cursor = database_.rawQuery(query, null);
+
+        while (cursor.moveToNext()){
+
+            String pref = cursor.getString(0);
+            Log.d("query", "Recupération des preferences de l'utilisateur : "+ pref);
+            preferences.add(pref);
+        }
+        Log.d("PreferenceBDD", "Renvoie des preference");
+
+        return preferences;
+    }
     // METHOD 1
     // Uses rawQuery() to query multiple tables
     //Permet d'obtenir une hashmap permettant de connaitre la liste des utilisateurs selon la preference(key)
@@ -62,22 +86,17 @@ public class PreferenceBDD extends AbstractBDD {
                 + maBaseSQLite_.TABLE_PREFERENCE + " p ON " + "u." + maBaseSQLite_.COL_ID
                 +" = " + "p." + maBaseSQLite_.COL_USER_ID;// +" ;" ;
 
-
-        //String query = "SELECT * FROM " + maBaseSQLite_.TABLE_GROUPE;
-
-        Log.d("query", query);
+      Log.d("query", query);
         Cursor cursor = database_.rawQuery(query, null);
-        //ArrayList<User> userTemp = new ArrayList<User>();
-        //ArrayList<Boolean> estOrganisateurTemp = new ArrayList<Boolean>();
 
         while (cursor.moveToNext()){
 
             User user = new User();
             Log.d("query", "Recupération de l'id de l'utilisateur");
 
-            user.setId(cursor.getInt(2));
-            //user.setNom(cursor.getString(3));
-            //user.setPrenom(cursor.getString(4));
+            user.setId(cursor.getInt(1));
+            user.setNom(cursor.getString(2));
+            user.setPrenom(cursor.getString(3));
 
             //Achat d'une nouvelle liste avec le nom du groupe non existant
             String preference = cursor.getString(0);

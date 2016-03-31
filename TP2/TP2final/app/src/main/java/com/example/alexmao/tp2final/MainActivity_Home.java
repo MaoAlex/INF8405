@@ -17,46 +17,40 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.alexmao.tp2final.firebase.ConnectedMapActivity;
+import com.example.alexmao.tp2final.firebase.GroupTestActivity;
+import com.example.alexmao.tp2final.firebase.LocalUser;
+import com.example.alexmao.tp2final.firebase.MDPTestActivity;
+import com.example.alexmao.tp2final.firebase.MapActivity;
+import com.example.alexmao.tp2final.firebase.MyGroup;
+import com.example.alexmao.tp2final.firebase.MyLocalGroup;
+import com.example.alexmao.tp2final.firebase.RemoteBD;
+import com.example.alexmao.tp2final.firebase.UserFirebase;
+import com.example.alexmao.tp2final.fragment.testActivity;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 
 import java.util.ArrayList;
 
 public class MainActivity_Home extends ConnectedMapActivity {
 
-    private static final String DEBUG_TAG = "MainActivity";
+    private static final String DEBUG_TAG = "MainActivity_Home";
     MaterialViewPager materialViewPager;
     View headerLogo;
     ImageView headerLogoContent;
+    private int positionCourante;
     GroupeBDD groupeBDD;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_activity__home);
 
-        //5 onglets
+        //4 onglets
         final int tabCount = 4;
         UsersBDD userBDD = new UsersBDD(this);
         GroupeBDD groupeBDD = new GroupeBDD(this);
         userBDD.open();
         groupeBDD.open();
-        User user = new User("Jean", "Paul", "jean.paul@gmail.com", null, true, null, null  );
-        User user2 = new User("Ah", "DA", "daz@gmail.com", null, true, null, null  );
-        User user3 = new User("B", "OK", "doh@gmail.com", null, true, null, null  );
-        User user4 = new User("C", "CETA", "oij@gmail.com", null, true, null, null  );
-        /*userBDD.insertUser(user);
-        userBDD.insertUser(user2);
-        userBDD.insertUser(user3);
-        userBDD.insertUser(user4);*/
         userBDD.affichageUsers();
         ArrayList<User> lUser = userBDD.getUsers();
-        /*for(User u : lUser){
-            groupeBDD.insertInGroup("equipe2", u.getId(), true);
-
-        }*/
-/*
-        groupeBDD.insertInGroup("equipe2", lUser.get(0).getId(), true);
-        groupeBDD.insertInGroup("equipe2", lUser.get(1).getId(), true);*/
-        //groupeBDD.affichageGroupes();
         userBDD.affichageUtilisateurConnecte();
         //les vues définies dans @layout/header_logo
         headerLogo = findViewById(R.id.headerLogo);
@@ -65,8 +59,25 @@ public class MainActivity_Home extends ConnectedMapActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity_Home.this, UserProfileActivity.class);
-                startActivity(intent);
+                if (positionCourante == 2) {
+                    Intent intent = new Intent(com.example.alexmao.tp2final.MainActivity_Home.this, MapActivity.class);
+                    intent.putExtra("localUser", localUser);
+                    startActivity(intent);
+                }else if(positionCourante == 0) {
+                    Intent intent = new Intent(com.example.alexmao.tp2final.MainActivity_Home.this, testActivity.class);
+                    intent.putExtra("localUser", localUser);
+                    startActivity(intent);
+                }
+                else{
+                    if (positionCourante == 3) {
+                        Intent intent = new Intent(com.example.alexmao.tp2final.MainActivity_Home.this, testActivity.class);
+                        intent.putExtra("localUser", localUser);
+                        startActivity(intent);
+                    }
+                    Intent intent = new Intent(com.example.alexmao.tp2final.MainActivity_Home.this, UserProfileActivity.class);
+                    startActivity(intent);
+                }
+
             }
         });;
         //le MaterialViewPager
@@ -78,20 +89,16 @@ public class MainActivity_Home extends ConnectedMapActivity {
             @Override
             public Fragment getItem(int position) {
                 //je créé pour chaque onglet un RecyclerViewFragment
-                Log.d(DEBUG_TAG, " on recupere la position :  " + position );
+                Log.d(DEBUG_TAG, " on recupere la position :  " + position);
 
                 switch (position % 4) {
                     case 0:
-                        Log.d(DEBUG_TAG, " on est a la position 000000 et  :  " + position );
-
-                        return RecyclerViewFragment.newInstance(0);
                     case 1:
                         //return RecyclerViewFragment.newInstance();
                     case 2:
                         //return WebViewFragment.newInstance();
                     default:
-                        Log.d(DEBUG_TAG, " on recupere la position dans getItem:  " + position );
-                        return RecyclerViewFragment.newInstance(42);
+                        return RecyclerViewFragment.newInstance(positionCourante);
                 }
             }
 
@@ -128,7 +135,7 @@ public class MainActivity_Home extends ConnectedMapActivity {
                 //seulement si la page est différente
                 if (oldItemPosition != position) {
                     oldItemPosition = position;
-
+                    positionCourante = position;
                     //définir la nouvelle couleur et les nouvelles images
                     String imageUrl = null;
                     int color = Color.BLACK;
@@ -140,6 +147,7 @@ public class MainActivity_Home extends ConnectedMapActivity {
                             imageUrl = "http://www.skyscanner.fr/sites/default/files/image_import/fr/micro.jpg";
                             color = getResources().getColor(R.color.purple);
                             newDrawable = getResources().getDrawable(R.drawable.people);
+
                             break;
                         case 1:
                             imageUrl = "http://www.larousse.fr/encyclopedie/data/images/1311904-Balle_de_tennis_et_filet.jpg";
@@ -167,7 +175,7 @@ public class MainActivity_Home extends ConnectedMapActivity {
                 }
             }
 
-            private void toggleLogo(final Drawable newLogo, final int newColor, int duration){
+            private void toggleLogo(final Drawable newLogo, final int newColor, int duration) {
 
                 //animation de disparition
                 final AnimatorSet animatorSetDisappear = new AnimatorSet();
@@ -213,7 +221,69 @@ public class MainActivity_Home extends ConnectedMapActivity {
         this.materialViewPager.getViewPager().setOffscreenPageLimit(tabCount);
         //relie les tabs au viewpager
         this.materialViewPager.getPagerTitleStrip().setViewPager(this.materialViewPager.getViewPager());
+        prepareUser();
         userBDD.close();
         groupeBDD.close();
+    }
+
+
+    private void testCreateUser() {
+        localUser = new LocalUser("fifi", "test", "exemple@polymtl.ca");
+        RemoteBD remoteBD = getMyRemoteBD();
+        String userBDID = remoteBD.addUser((UserFirebase) localUser);
+        remoteBD.addMdpToUser(localUser.getMailAdr().trim(), "fifi");
+        localUser.setDataBaseId(userBDID);
+        localUser.setChangeListener(new LocalUser.ChangeListener() {
+            @Override
+            public void onPositionChanged(LocalUser localUser) {
+                getMyRemoteBD().updateLocationOnServer((UserFirebase) localUser, localUser.getDataBaseId());
+            }
+        });
+        setLocalUser(localUser);
+    }
+
+    private String prepareGroupTest() {
+        RemoteBD remoteBD = getMyRemoteBD();
+        localUser = new LocalUser("fifi", "test1", "exemple1@polymtl.ca");
+        String userBDID = remoteBD.addUser((UserFirebase) localUser);
+        localUser.setDataBaseId(userBDID);
+        MyLocalGroup myLocalGroup = new MyLocalGroup("test group", localUser.getDataBaseId());
+
+
+        localUser = new LocalUser("fifi", "test2", "exemple2@polymtl.ca");
+        userBDID = remoteBD.addUser((UserFirebase) localUser);
+        localUser.setDataBaseId(userBDID);
+        myLocalGroup.addMember(userBDID);
+
+
+        localUser = new LocalUser("fifi", "test3", "exemple3@polymtl.ca");
+        userBDID = remoteBD.addUser((UserFirebase) localUser);
+        localUser.setDataBaseId(userBDID);
+        myLocalGroup.addMember(userBDID);
+
+        return remoteBD.addGroup((MyGroup) myLocalGroup);
+    }
+
+    private void gotoMap() {
+        Intent intent = new Intent(MainActivity_Home.this, MapActivity.class);
+        intent.putExtra("localUser", localUser);
+        startActivity(intent);
+    }
+
+    private void gotoGroupTest(String myLocalGroupID) {
+        Intent intent = new Intent(MainActivity_Home.this, GroupTestActivity.class);
+        intent.putExtra("localUser", localUser);
+        intent.putExtra("groupID", myLocalGroupID);
+        startActivity(intent);
+    }
+
+    private void gotoMDPTest() {
+        Intent intent = new Intent(MainActivity_Home.this, MDPTestActivity.class);
+        startActivity(intent);
+    }
+
+    private void prepareUser() {
+        Log.d(DEBUG_TAG, "prepareUser: " + "creation of id");
+        testCreateUser();
     }
 }

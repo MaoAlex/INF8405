@@ -20,6 +20,7 @@ import java.util.Map;
 
 /**
  * Created by alexMAO on 14/03/2016.
+ * Classe permettant l'affichage des différentes cartes
  */
 public class RecyclerViewFragment extends Fragment {
 
@@ -56,7 +57,7 @@ public class RecyclerViewFragment extends Fragment {
         List<Object> mContentItems = new ArrayList<>();
         Log.d(DEBUG_TAG, " INDICE TAB EST A  : " + indiceTab);
 
-        if(indiceTab == 0){
+        if(indiceTab == -1){
 
             List<User> test;
 
@@ -93,6 +94,7 @@ public class RecyclerViewFragment extends Fragment {
         //penser à passer notre Adapter (ici : TestRecyclerViewAdapter) à un RecyclerViewMaterialAdapter
 
         mAdapter = new RecyclerViewMaterialAdapter(new TestRecyclerViewAdapter(getContext(), mContentItems, indiceTab));
+        mRecyclerView.removeAllViews();
         mRecyclerView.setAdapter(mAdapter);
         groupeBDD.close();
         //notifier le MaterialViewPager qu'on va utiliser une RecyclerView

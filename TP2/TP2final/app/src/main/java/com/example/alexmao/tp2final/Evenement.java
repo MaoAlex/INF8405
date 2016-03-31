@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 /**
  * Created by alexMAO on 13/03/2016.
+ *  * Classe decrivant un evenement
  */
 public class Evenement implements Parcelable{
     private ArrayList<Lieu> listeLieu;

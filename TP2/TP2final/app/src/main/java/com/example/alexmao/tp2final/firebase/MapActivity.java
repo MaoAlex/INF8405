@@ -65,4 +65,5 @@ public class MapActivity extends ConnectedMapActivity implements OnMapReadyCallb
 
         return marker;
     }
+
 }

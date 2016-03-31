@@ -35,13 +35,7 @@ public class CardActivity extends FragmentActivity implements CustomUserDialogFr
         Log.d(DEBUG_TAG, "Création du fragment réussi");
         UsersBDD usersBDD = new UsersBDD(this);
         GroupeBDD groupeBDD = new GroupeBDD(this);
-        /*groupeBDD.open();
-        usersBDD.open();*/
-        //Groupe groupeFromBdd = groupeBDD.getGroupeBDD("T1");
-        //groupeBDD.affichageGroupes();
-        //Initially loads departments
-       /* if(groupeBDD.getGroupes().size() <= 0)
-            groupeBDD.loadGroupes();*/
+
         Log.d(DEBUG_TAG, "récupération des groupes réussis");
 		/*
 		 * This is called when orientation is changed.

@@ -7,6 +7,7 @@ import android.util.Log;
 
 /**
  * Created by alexMAO on 20/03/2016.
+ * Classe non utilisée
  */
 public class IndexTables extends AbstractBDD {
 

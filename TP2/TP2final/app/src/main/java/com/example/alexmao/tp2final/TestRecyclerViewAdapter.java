@@ -13,13 +13,20 @@ import java.util.List;
 
 /**
  * Created by alexMAO on 14/03/2016.
+ * Classe gérant l'affichage des informations dans les cartes
  */
-public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerViewAdapter.ViewHolder> {
+public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerViewAdapter.ViewHolder> implements View.OnClickListener {
 
     private static final String DEBUG_TAG =  "TestRecyclerViewAdapter";
     List<Object> contents;
     private Context context;
     private int indiceClasse;
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         //public TextView mTextView;
@@ -55,6 +62,7 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerVi
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_card, parent, false);
+        view.setOnClickListener(this);
         return new ViewHolder(view) {
 
         };
@@ -68,48 +76,46 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerVi
             convertView = inflater.inflate(R.layout.list_item, null);
             holder = new ViewHolder(convertView);
             Log.d(DEBUG_TAG, "On est dans getView");
-            /*holder.vN = (TextView) convertView
-                    .findViewById(R.id.txt_user_id);
-            holder.userNameTxt = (TextView) convertView
-                    .findViewById(R.id.txt_user_name);
-            holder.userDobTxt = (TextView) convertView
-                    .findViewById(R.id.txt_user_dob);
-            holder.userSalaryTxt = (TextView) convertView
-                    .findViewById(R.id.txt_user_salary);
-            holder.userDeptNameTxt = (TextView) convertView
-                    .findViewById(R.id.txt_user_dept);*/
-            /*holder.vName =  (TextView) convertView.findViewById(R.id.txtName);
-            holder.vSurname = (TextView)  convertView.findViewById(R.id.txtSurname);
-            holder.vEmail = (TextView)  convertView.findViewById(R.id.txtEmail);
-            holder.vTitle = (TextView) convertView.findViewById(R.id.title);*/
-            /*User ci = (User) contents.get(position);
 
-            ViewHolder.vName.setText(ci.getNom());
-            ViewHolder.vSurname.setText(ci.getPrenom());
-            ViewHolder.vEmail.setText(ci.getMail_());
-            ViewHolder.vTitle.setText("");*/
+            if(indiceClasse == -1) {
+                Log.d(DEBUG_TAG, "qsdqsdqsd");
+
+                User ci = (User) contents.get(position);
+                holder.vName.setText("");
+                holder.vSurname.setText(ci.getPrenom());
+                holder.vEmail.setText(ci.getMail_());
+                holder.vTitle.setText(" Yes");
+                holder.vAddress.setText(position+"");
+            }else{
+                Log.d(DEBUG_TAG, "dazdazdzad");
+
+                Groupe g = (Groupe) contents.get(position);
+
+                String surname = "Nombre d'utilisateurs : " + g.getUsers().size();
+                holder.vAddress.setText(surname);
+                holder.vName.setText(g.getNomGroupe());
+                holder.vSurname.setText(position+"");
+                String email = "Pas d'email car groupe";
+                holder.vEmail.setText(email);
+                String title = "Position " + position;
+                holder.vTitle.setText(g.getNomGroupe());
+            }
+
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        User users = new User("Jean", "Paul", "jean.paul@gmail.com", null, true, null, null  );
-        //holder.vName.setText(users.getId() + "");
-        //holder.userNameTxt.setText(users.getName());
-        //holder.userSalaryTxt.setText(users.getSalary() + "");
-        //holder.userDeptNameTxt.setText(users.getDepartment().getName());
-
-        //holder.userDobTxt.setText(formatter.format(users.getDateOfBirth()));
 
         return convertView;
     }
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if(indiceClasse == 0) {
+        if(indiceClasse == -1) {
             User ci = (User) contents.get(position);
-            holder.vName.setText(ci.getNom());
+            holder.vName.setText("");
             holder.vSurname.setText(ci.getPrenom());
             holder.vEmail.setText(ci.getMail_());
-            holder.vTitle.setText(ci.getNom() + " " + ci.getPrenom());
+            holder.vTitle.setText(" ");
             holder.vAddress.setText(position+"");
         }else{
             Groupe g = (Groupe) contents.get(position);
@@ -123,6 +129,5 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerVi
             String title = "Position " + position;
             holder.vTitle.setText(g.getNomGroupe());
         }
-
     }
 }

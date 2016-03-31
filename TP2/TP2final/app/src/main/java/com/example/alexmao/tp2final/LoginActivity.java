@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.alexmao.tp2final.firebase.ConnectedMapActivity;
+import com.example.alexmao.tp2final.firebase.LocalUser;
 import com.example.alexmao.tp2final.firebase.MdpWrapper;
 
 import java.util.ArrayList;
@@ -85,11 +86,20 @@ public class    LoginActivity extends ConnectedMapActivity implements LoaderCall
             @Override
             public void onClick(View view) {
                 attemptLogin();
+                LocalUser lTemp = new LocalUser();
+                getMyRemoteBD().getUserFromMail(mEmailView.getText().toString(), lTemp);
+                UsersBDD usersBDD = new UsersBDD(getBaseContext());
+                usersBDD.open();
+                User u = new User(lTemp);
+                usersBDD.connexion(u);
+
             }
         });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+
     }
 
     private void populateAutoComplete() {
@@ -192,12 +202,10 @@ public class    LoginActivity extends ConnectedMapActivity implements LoaderCall
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 3;
     }
 
@@ -339,6 +347,8 @@ public class    LoginActivity extends ConnectedMapActivity implements LoaderCall
             if (success) {
 
                 authentificationReussi = false;
+
+
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

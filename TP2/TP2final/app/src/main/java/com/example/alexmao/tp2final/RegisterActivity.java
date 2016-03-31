@@ -8,12 +8,14 @@ import android.widget.Button;
 import android.widget.EditText;
 
 /**
- * A login screen that offers login via email/password.
+ * Activité permettant l'inscription d'un utilisateur
  */
 public class RegisterActivity extends AppCompatActivity{
-    final String EXTRA_LOGIN = "user_login";
+    final String EXTRA_MAIL = "user_mail";
     final String EXTRA_PASSWORD = "user_password";
     final String EXTRA_GROUP = "user_group";
+    final String EXTRA_NOM = "user_nom";
+    final String EXTRA_PRENOM = "user_prenom";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -25,17 +27,19 @@ public class RegisterActivity extends AppCompatActivity{
         final EditText login = (EditText) findViewById(R.id.user_email);
         final EditText pass = (EditText) findViewById(R.id.user_password);
         final EditText group = (EditText) findViewById(R.id.group_name);
-
+        final EditText nom = (EditText) findViewById(R.id.nom);
+        final EditText prenom = (EditText) findViewById(R.id.prenom);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RegisterActivity.this, RegisterInformation.class);
-                intent.putExtra(EXTRA_LOGIN, login.getText().toString());
+                intent.putExtra(EXTRA_MAIL, login.getText().toString());
                 intent.putExtra(EXTRA_PASSWORD, pass.getText().toString());
                 intent.putExtra(EXTRA_GROUP, group.getText().toString());
-
+                intent.putExtra(EXTRA_NOM, nom.getText().toString());
+                intent.putExtra(EXTRA_PRENOM, prenom.getText().toString());
                 startActivity(intent);
             }
         });
