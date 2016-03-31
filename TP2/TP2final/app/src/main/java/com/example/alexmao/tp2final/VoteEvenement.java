@@ -125,34 +125,17 @@ public class VoteEvenement extends ConnectedMapActivity implements IObserver {
             mLieu.add(choix);
         }
         //mDispo = new String[]{"Restaurant", "Bar", "Cafe", "Cinema"};
-
-
-
-
         //On ajoute un adaptateur qui affiche des boutons radio (c'est l'affichage à considérer quand on ne peut
-
         //sélectionner qu'un élément d'une liste)
-
         mListLieu.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, mLieu));
-
         //On déclare qu'on sélectionne de base le premier élément ()
-
         mListLieu.setItemChecked(0, true);
-
         //On ajoute un adaptateur qui affiche des cases à cocher (c'est l'affichage à considérer quand on peut sélectionner
-
         //autant d'éléments qu'on veut dans une liste)
-
         mListDisponibilite.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, mDispo));
-
         //On déclare qu'on sélectionne de base le second élément ()
-
         mListDisponibilite.setItemChecked(1, true);
-
-
-
         //Que se passe-t-il dès qu'on clique sur le bouton ?
-
         mSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,7 +154,6 @@ public class VoteEvenement extends ConnectedMapActivity implements IObserver {
             }
 
         });
-
     }
 
     @Override
@@ -205,8 +187,6 @@ public class VoteEvenement extends ConnectedMapActivity implements IObserver {
         }
         if (placeCalcule[3]!=null)
             placeCalcule[3] = new Place(choixPotentiel3);
-
-
     }
 }
 
