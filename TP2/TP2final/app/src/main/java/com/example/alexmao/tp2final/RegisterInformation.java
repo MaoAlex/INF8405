@@ -138,7 +138,7 @@ public class RegisterInformation extends ConnectedMapActivity {
                 Intent intent = new Intent(RegisterInformation.this, PhotoActivity.class);
                 String login = getIntent().getStringExtra(EXTRA_MAIL);
                 String password = getIntent().getStringExtra(EXTRA_PASSWORD);
-                String groupName = getIntent().getStringExtra(EXTRA_GROUP);
+                final String groupName = getIntent().getStringExtra(EXTRA_GROUP);
                 String nom = getIntent().getStringExtra(EXTRA_NOM);
                 String prenom = getIntent().getStringExtra(EXTRA_PRENOM);
                 User user;
@@ -178,7 +178,8 @@ public class RegisterInformation extends ConnectedMapActivity {
                     final String idFirebase = getMyRemoteBD().addUser(userFirebase);
                     userFirebase.setDataBaseId(idFirebase);
                     setLocalUser(userFirebase);
-                    final MyLocalGroup myGroup = new MyLocalGroup("TODO write name");
+                    final MyLocalGroup myGroup = new MyLocalGroup();
+                    myGroup.setGroupName(groupName);
                     ExistWrapper existWrapper = new ExistWrapper();
                     existWrapper.setOnConnectedListener(new ExistWrapper.OnConnectedListener() {
                         @Override
@@ -192,9 +193,9 @@ public class RegisterInformation extends ConnectedMapActivity {
                                         getMyRemoteBD().addUserToGroup(myLocalGroup.getDatabaseID(), idFirebase);
                                     }
                                 });
-                                getMyRemoteBD().getGroupFromName("TODO write name", myGroup);
+                                getMyRemoteBD().getGroupFromName(groupName, myGroup);
                             } else {
-                                myGroup.setGroupName("TODO write group name");
+                                myGroup.setGroupName(groupName);
                                 myGroup.addMember(idFirebase);
                                 myGroup.setDatabaseID(getMyRemoteBD().addGroup(myGroup));
                             }
