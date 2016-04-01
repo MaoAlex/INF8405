@@ -16,7 +16,7 @@ public class UserFirebase implements Parcelable {
     private String firstName;
     private String lastName;
     private String mailAdr;
-    private Picture profilPic;
+
     private double lat;
     private double longi;
     private ArrayList<String> preferences;
@@ -34,14 +34,6 @@ public class UserFirebase implements Parcelable {
             return new UserFirebase[size];
         }
     };
-
-    public Picture getProfilPic() {
-        return profilPic;
-    }
-
-    public void setProfilPic(Picture profilPic) {
-        this.profilPic = profilPic;
-    }
 
     public UserFirebase(Parcel in) {
         firstName = in.readString();

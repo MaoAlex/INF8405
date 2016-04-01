@@ -45,6 +45,8 @@ public interface RemoteBD {
     void changeGroupName(MyLocalGroup myLocalGroup, String newName);
     void addEvents(Events events, String groupID);
     void getEvents(String groupID, MyLocalEvent events);
+    void addPicToUser(String userID, Picture picture);
+    void getUserPIc(LocalUser localUser, String userID);
 
     //Set une callback pour les demandes
     void setOnQuery(OnQuery onQuery);

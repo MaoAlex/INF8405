@@ -11,12 +11,13 @@ import java.util.ArrayList;
  * Created by filou on 09/03/16.
  */
 
-@JsonIgnoreProperties({"dataBaseId", "changeListener"})
+@JsonIgnoreProperties({"dataBaseId", "changeListener", "profilPic"})
 public class LocalUser extends UserFirebase {
     private String dataBaseId;
     public interface ChangeListener{
         void onPositionChanged(LocalUser localUser);
     }
+    private Picture profilPic;
 
     private ChangeListener changeListener;
 
@@ -34,6 +35,14 @@ public class LocalUser extends UserFirebase {
     public LocalUser(String dataBaseId) {
 
         this.dataBaseId = dataBaseId;
+    }
+
+    public Picture getProfilPic() {
+        return profilPic;
+    }
+
+    public void setProfilPic(Picture profilPic) {
+        this.profilPic = profilPic;
     }
 
     public static final Parcelable.Creator<LocalUser> CREATOR = new Parcelable.Creator<LocalUser>()
