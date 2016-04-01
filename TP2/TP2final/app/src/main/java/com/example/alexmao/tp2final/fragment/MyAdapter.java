@@ -21,8 +21,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.UserViewHolder> {
 
     private List<User> userList;
 
-    public MyAdapter(List<User> userList) {
+    private String groupName;
+
+    public MyAdapter(List<User> userList, String groupName) {
         this.userList = userList;
+        this.groupName = groupName;
     }
 
     @Override
@@ -40,8 +43,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.UserViewHolder> {
         Log.d("testActivity", "prenom : " + ci.getPrenom());
         UserViewHolder.vEmail.setText(ci.getMail_());
         Log.d("testActivity", "adresseMail : " + ci.getMail_());
-        UserViewHolder.vTitle.setText("Panda");
-        UserViewHolder.vAdress.setText(ci.getMail_());
+
+        UserViewHolder.vTitle.setText(groupName);
+        if(ci.isEstOrganisateur_())
+            UserViewHolder.vAdress.setText("Organisateur");
+        else
+            UserViewHolder.vAdress.setText("Non organisateur");
         Log.d("testActivity", "adresseMail : " + ci.getMail_());
 
     }

@@ -70,6 +70,8 @@ public class GroupeBDD extends AbstractBDD {
         return groupes;
     }
 
+
+
     public HashMap<String,Groupe> getGroupes() {
         HashMap<String, Groupe> groupes = new HashMap<String, Groupe>();
         //Building query using INNER JOIN keyword

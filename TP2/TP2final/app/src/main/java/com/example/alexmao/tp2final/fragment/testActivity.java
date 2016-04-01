@@ -1,18 +1,22 @@
 package com.example.alexmao.tp2final.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.alexmao.tp2final.Groupe;
 import com.example.alexmao.tp2final.GroupeBDD;
 import com.example.alexmao.tp2final.R;
 import com.example.alexmao.tp2final.User;
 import com.example.alexmao.tp2final.UsersBDD;
+import com.example.alexmao.tp2final.VoteEvenement;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,8 +61,18 @@ public class testActivity extends Activity {
             test1 = groupeBDD.getGroupeBDD(userInGroupe.get(0)).getUsers();
         }
         //if(test1.isEmpty())
-        mAdapter = new MyAdapter(test1);
+        mAdapter = new MyAdapter(test1, listGroupUser.get(0));
         mRecyclerView.setAdapter(mAdapter);
+
+        final Button evenementButton = (Button) findViewById(R.id.evenement);
+        evenementButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(testActivity.this, VoteEvenement.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

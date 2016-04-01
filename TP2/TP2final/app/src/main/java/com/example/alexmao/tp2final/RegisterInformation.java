@@ -207,9 +207,10 @@ public class RegisterInformation extends ConnectedMapActivity {
                         getMyRemoteBD().addMdpToUser(user.getMail_(), password);
                         LatLng posUtilisateurCourant = getmLatLng();
                         localisationBDD.open();
-                        while(posUtilisateurCourant==null) {
+                        /*while(posUtilisateurCourant==null) {
 
-                        }
+                        }*/
+
                         localisationBDD.insertLocalisation(new Localisation((float) posUtilisateurCourant.latitude, (float) posUtilisateurCourant.longitude), id);
                         localisationBDD.affichageLocalisations();
 

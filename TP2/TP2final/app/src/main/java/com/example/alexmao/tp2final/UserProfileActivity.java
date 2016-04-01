@@ -30,11 +30,12 @@ public class UserProfileActivity extends Activity {
         setContentView(R.layout.user_profile);
         UsersBDD usersBDD = new UsersBDD(this);
         usersBDD.open();
+        User u = usersBDD.getProfil();
         GroupeBDD groupeBDD = new GroupeBDD(this);
         groupeBDD.open();
         PreferenceBDD preferenceBDD = new PreferenceBDD(this);
         preferenceBDD.open();
-
+        ArrayList<String > listNomGroupe = groupeBDD.getGroupesByUserId(u.getId());
         User user = usersBDD.getProfil();
         ArrayList<String> p = preferenceBDD.getPreferencesForUser(user.getId());
         mail =  (TextView) findViewById(R.id.email_display);
@@ -53,13 +54,33 @@ public class UserProfileActivity extends Activity {
             Log.d("User", pref);
         }
 
+        String groupN = "";
+        for(String s : listNomGroupe){
+            groupN.concat(" ");
+            groupN.concat(s);
+            Log.d("groupe nom ",pref);
+        }
         pref1.setHint(pref);
-        final Button loginButton = (Button) findViewById(R.id.modifier);
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        groupName.setHint(groupN);
+        final Button modifierButton = (Button) findViewById(R.id.modifier);
+        modifierButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UserProfileActivity.this, UserProfileActivityModify.class);
+                startActivity(intent);
+            }
+
+        });
+
+        final Button deconnexionButton = (Button) findViewById(R.id.deconnexion);
+        deconnexionButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserProfileActivity.this, MainActivity.class);
+                //startActivity(intent);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
 
