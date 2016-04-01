@@ -5,9 +5,11 @@ package com.example.alexmao.tp2final;
  */
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -51,6 +53,33 @@ public class AffichageGroupe extends Activity {
         inflater.inflate(R.menu.menu_connecte, menu);
 
         return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item)
+    {
+
+        switch(item.getItemId())
+        {
+            case R.id.action_user_profile:
+                Intent intentUP = new Intent(getApplicationContext(), UserProfileActivity.class);
+                intentUP.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intentUP);
+                return true;
+            case R.id.action_logout:
+                Intent intentLO = new Intent(getApplicationContext(), MainActivity.class);
+                intentLO.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intentLO);
+                return true;
+            case R.id.action_home_connecte:
+                Intent intentHC = new Intent(getApplicationContext(), MainActivity_Home.class);
+                intentHC.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intentHC);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
 
     }
 }
