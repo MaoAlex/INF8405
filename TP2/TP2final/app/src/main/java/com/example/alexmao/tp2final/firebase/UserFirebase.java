@@ -1,6 +1,5 @@
 package com.example.alexmao.tp2final.firebase;
 
-import android.graphics.Picture;
 import android.os.Parcel;
 import android.os.Parcelable;
 
