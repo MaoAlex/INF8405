@@ -174,6 +174,8 @@ public class RegisterInformation extends ConnectedMapActivity {
                     userBDD.affichageUtilisateurConnecte();
                     LocalUser userFirebase = new LocalUser(nom, prenom, login, preference);
                     String idFirebase = getMyRemoteBD().addUser(userFirebase);
+                    userFirebase.setDataBaseId(idFirebase);
+                    setLocalUser(userFirebase);
                     userBDD.deconnexion();
                     userBDD.connexion(user);
                     groupeBDD.insertInGroup(groupName, id, estOrganisateur);
