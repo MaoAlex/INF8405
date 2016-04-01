@@ -13,7 +13,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.example.alexmao.tp2final.firebase.FireBaseBD;
 import com.example.alexmao.tp2final.firebase.LocalUser;
+import com.example.alexmao.tp2final.firebase.Picture;
+import com.example.alexmao.tp2final.firebase.RemoteBD;
 
 import java.io.File;
 //Classe permettant la prise de photo et le stockage de la photo
@@ -25,12 +28,14 @@ public class PhotoActivity extends Activity {
     File mFichier;
     Bitmap bp;
     private LocalUser mLocalUser;
+    private RemoteBD mRemoteBD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photo);
         mLocalUser = getIntent().getParcelableExtra("localUser");
+        mRemoteBD = new FireBaseBD(this);
 
         b1=(ImageButton)findViewById(R.id.button);
         b2=(Button) findViewById(R.id.gallery);
@@ -76,12 +81,13 @@ public class PhotoActivity extends Activity {
             super.onActivityResult(requestCode, resultCode, data);
             if (data.getExtras() != null) {
                 bp = (Bitmap) data.getExtras().get("data");
-//                mLocalUser.setProfilPic(new Picture(bp));
                 UsersBDD usersBDD = new UsersBDD(this);
                 usersBDD.open();
                 User uT = usersBDD.getProfil();
                 if (bp != null) {
                     uT.setPhoto(data.getData());
+                    mLocalUser.setProfilPic(new Picture(bp));
+                    mRemoteBD.addPicToUser(mLocalUser.getDataBaseId(), mLocalUser.getProfilPic());
                     iv.setImageBitmap(bp);
                 } else {
                     Uri u = data.getData();
