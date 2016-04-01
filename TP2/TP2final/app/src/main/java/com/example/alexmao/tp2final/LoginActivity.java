@@ -363,7 +363,7 @@ public class    LoginActivity extends ConnectedMapActivity implements LoaderCall
         }
     }
     void launchTest() {
-        String mail = mEmailView.getText().toString().trim();
+        final String mail = mEmailView.getText().toString().trim();
         Log.d(DEBUG_TAG, "launchTest: mail " + mail);
         String mdp = mPasswordView.getText().toString().trim();
         Log.d(DEBUG_TAG, "launchTest: mdp " + mdp);
@@ -375,8 +375,18 @@ public class    LoginActivity extends ConnectedMapActivity implements LoaderCall
                     succes();
                     authentificationReussi = true;
                     if(authentificationReussi){
-                        Intent intent = new Intent(LoginActivity.this, MainActivity_Home.class);
-                        startActivity(intent);
+                        final Intent intent = new Intent(LoginActivity.this, MainActivity_Home.class);
+                        //Ajout pour récupérer l'utilisateur depuis la base de données
+                        final LocalUser mLocalUser = new LocalUser();
+                        mLocalUser.setChangeListener(new LocalUser.ChangeListener() {
+                            @Override
+                            public void onPositionChanged(LocalUser localUser) {
+                                mLocalUser.update(localUser);
+                                intent.putExtra("localUser", mLocalUser);
+                                startActivity(intent);
+                            }
+                        });
+                        getMyRemoteBD().getUserFromMail(mail, mLocalUser);
                     }
                 } else {
                     failure();

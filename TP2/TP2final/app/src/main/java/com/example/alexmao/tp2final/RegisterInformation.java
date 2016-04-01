@@ -11,7 +11,9 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.example.alexmao.tp2final.firebase.ConnectedMapActivity;
+import com.example.alexmao.tp2final.firebase.ExistWrapper;
 import com.example.alexmao.tp2final.firebase.LocalUser;
+import com.example.alexmao.tp2final.firebase.MyLocalGroup;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -173,7 +175,33 @@ public class RegisterInformation extends ConnectedMapActivity {
                 if(!dejaAffiche) {
                     userBDD.affichageUtilisateurConnecte();
                     LocalUser userFirebase = new LocalUser(nom, prenom, login, preference);
-                    String idFirebase = getMyRemoteBD().addUser(userFirebase);
+                    final String idFirebase = getMyRemoteBD().addUser(userFirebase);
+                    userFirebase.setDataBaseId(idFirebase);
+                    setLocalUser(userFirebase);
+                    final MyLocalGroup myGroup = new MyLocalGroup("TODO write name");
+                    ExistWrapper existWrapper = new ExistWrapper();
+                    existWrapper.setOnConnectedListener(new ExistWrapper.OnConnectedListener() {
+                        @Override
+                        public void onConnected(boolean exist) {
+                            if (exist) {
+                                //TODO debug
+                                myGroup.setChangeListener(new MyLocalGroup.ChangeListener() {
+                                    @Override
+                                    public void onChange(MyLocalGroup myLocalGroup) {
+                                        myGroup.setChangeListener(null);
+                                        getMyRemoteBD().addUserToGroup(myLocalGroup.getDatabaseID(), idFirebase);
+                                    }
+                                });
+                                getMyRemoteBD().getGroupFromName("TODO write name", myGroup);
+                                getMyRemoteBD().addUserToGroup("TODO write groupID",idFirebase);
+                            } else {
+                                myGroup.setGroupName("TODO write group name");
+                                myGroup.addMember(idFirebase);
+                                myGroup.setDatabaseID(getMyRemoteBD().addGroup(myGroup));
+                            }
+                        }
+                    });
+                    getMyRemoteBD().getExistGroup("TODO write Name", existWrapper);
                     userBDD.deconnexion();
                     userBDD.connexion(user);
                     groupeBDD.insertInGroup(groupName, id, estOrganisateur);
@@ -184,6 +212,7 @@ public class RegisterInformation extends ConnectedMapActivity {
                     localisationBDD.affichageLocalisations();
                     dejaAffiche = true;
                 }
+                intent.putExtra("localUser", getLocalUser());
                 startActivity(intent);
                 //userBDD.close();
             }
