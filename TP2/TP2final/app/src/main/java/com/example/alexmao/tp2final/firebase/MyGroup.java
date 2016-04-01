@@ -11,7 +11,19 @@ public class MyGroup {
     private List<String> membersID;
     private List<Boolean> isOrganiser;
 
+    public List<Boolean> getIsOrganiser() {
+        return isOrganiser;
+    }
+
+    public void setIsOrganiser(List<Boolean> isOrganiser) {
+        this.isOrganiser = isOrganiser;
+    }
+
+
+
     public MyGroup() {
+        membersID = new LinkedList<>();
+        isOrganiser = new LinkedList<>();
     }
 
     public MyGroup(String groupName, String organiser) {

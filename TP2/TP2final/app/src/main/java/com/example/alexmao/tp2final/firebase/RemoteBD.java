@@ -15,8 +15,8 @@ public interface RemoteBD {
     String addGroup(MyGroup myGroup);
     void addUserToGroup(String groupID, String userID);
 
-    void getGroup(String groupID, MyGroup myGroup);
-    void getGroupFromName(String name, MyGroup myGroup);
+    void getGroup(String groupID, MyLocalGroup myGroup);
+    void getGroupFromName(String name, MyLocalGroup myGroup);
 
     void listenToChangeOnGroup(final MyGroup group, final String groupBDID);
     void addMdpToUser(String mail, String mdp);

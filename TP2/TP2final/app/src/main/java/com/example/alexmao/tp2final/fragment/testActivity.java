@@ -53,7 +53,7 @@ public class testActivity extends Activity {
         HashMap<String, Groupe> listeGroupe = groupeBDD.getGroupesBDD();
         ArrayList<String> listGroupUser = groupeBDD.getGroupesByUserId(currentUser.getId());
         ArrayList<String> userInGroupe = groupeBDD.getGroupesByUserId(currentUser.getId());
-        if(userInGroupe!=null) {
+        if(userInGroupe!=null && !userInGroupe.isEmpty()) {
             test1 = groupeBDD.getGroupeBDD(userInGroupe.get(0)).getUsers();
         }
         //if(test1.isEmpty())
