@@ -15,8 +15,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-
-
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -36,7 +34,10 @@
         <uses-library android:name="com.google.android.maps" />
 
         <activity android:name=".MainActivity">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"
@@ -46,11 +47,7 @@
             android:label="@string/title_activity_register" />
         <activity android:name=".firebase.MainActivity" />
         <activity android:name=".MainActivity_Home" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".UserProfileActivityModify"
             android:screenOrientation="portrait"/>
@@ -63,6 +60,8 @@
         <activity android:name=".PhotoActivity" />
         <activity android:name=".UserProfileActivity" />
         <activity android:name=".fragment.testActivity" >
+        </activity>
+        <activity android:name=".VoteEvenement">
 
         </activity>
 

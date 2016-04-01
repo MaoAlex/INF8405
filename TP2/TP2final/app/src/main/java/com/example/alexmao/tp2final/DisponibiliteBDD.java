@@ -60,7 +60,7 @@ public class DisponibiliteBDD extends AbstractBDD {
                 , new String[]{disponibilite});
     }
 
-      //Permet d'obtenir une hashmap permettant de les disponibilités des utilisateurs(key)
+    //Permet d'obtenir une hashmap permettant de les disponibilités des utilisateurs(key)
     public HashMap<Integer,ArrayList<Disponibilite>> getDisponibilites() {
     // A faire en faisant attention au linkage
         HashMap<Integer, ArrayList<Disponibilite>> disponibilites = new HashMap<Integer, ArrayList<Disponibilite>>();

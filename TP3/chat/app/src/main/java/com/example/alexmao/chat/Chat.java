@@ -149,7 +149,7 @@ public class Chat extends CustomActivity
 					c.setStatus(Conversation.STATUS_SENT);
 				else
 					c.setStatus(Conversation.STATUS_FAILED);
-				adp.notifyDataSetChanged();
+					adp.notifyDataSetChanged();
 			}
 		});*/
 	}
