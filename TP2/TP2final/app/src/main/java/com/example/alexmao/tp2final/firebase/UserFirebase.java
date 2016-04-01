@@ -3,6 +3,8 @@ package com.example.alexmao.tp2final.firebase;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.alexmao.tp2final.User;
+
 import java.util.ArrayList;
 
 /**
@@ -14,12 +16,12 @@ public class UserFirebase implements Parcelable {
     private String firstName;
     private String lastName;
     private String mailAdr;
+    private Picture profilPic;
     private double lat;
     private double longi;
     private ArrayList<String> preferences;
 
-    public static final Creator<UserFirebase> CREATOR = new Creator<UserFirebase>()
-    {
+    public static final Creator<UserFirebase> CREATOR = new Creator<UserFirebase>() {
         @Override
         public UserFirebase createFromParcel(Parcel source)
         {
@@ -33,6 +35,14 @@ public class UserFirebase implements Parcelable {
         }
     };
 
+    public Picture getProfilPic() {
+        return profilPic;
+    }
+
+    public void setProfilPic(Picture profilPic) {
+        this.profilPic = profilPic;
+    }
+
     public UserFirebase(Parcel in) {
         firstName = in.readString();
         lastName = in.readString();
@@ -42,6 +52,15 @@ public class UserFirebase implements Parcelable {
     }
 
     public UserFirebase() {
+    }
+
+    public UserFirebase(User user) {
+        firstName = user.getPrenom();
+        lastName = user.getNom();
+        mailAdr = user.getMail_();
+        lat = user.getLocalisation_().getPositionX_();
+        longi = user.getLocalisation_().getPositionY_();
+        preferences = user.getPreference_();
     }
 
     public UserFirebase(String firstName, String lastName, String mailAdr) {
