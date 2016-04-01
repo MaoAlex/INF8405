@@ -50,6 +50,7 @@ public class UserFirebase implements Parcelable {
         mailAdr = in.readString();
         lat = in.readDouble();
         longi = in.readDouble();
+        preferences = in.readArrayList(String.class.getClassLoader());
     }
 
     public UserFirebase() {
@@ -103,6 +104,7 @@ public class UserFirebase implements Parcelable {
         mailAdr = userFromRemote.getMailAdr();
         lat = userFromRemote.getLat();
         longi = userFromRemote.getLongi();
+        preferences = userFromRemote.getPreferences();
     }
 
     public void setFirstName(String firstName) {
@@ -145,5 +147,6 @@ public class UserFirebase implements Parcelable {
         dest.writeString(mailAdr);
         dest.writeDouble(lat);
         dest.writeDouble(longi);
+        dest.writeList(preferences);
     }
 }
