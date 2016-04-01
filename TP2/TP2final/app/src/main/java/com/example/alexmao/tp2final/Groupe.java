@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Created by alexMAO on 13/03/2016.
+ * Classe permettrant de stocker les informations sur un groupe
  */
 public class Groupe {
     private ArrayList<User> users_;

@@ -39,20 +39,16 @@ import static android.Manifest.permission.READ_CONTACTS;
 //import android.support.design.widget.Snackbar;
 
 /**
- * A login screen that offers login via email/password.
+ * Classe permettant de faire le login avec un login et un mot de passe valide
  */
 public class    LoginActivity extends ConnectedMapActivity implements LoaderCallbacks<Cursor> {
 
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
+
     private static final int REQUEST_READ_CONTACTS = 0;
     private boolean authentificationReussi = false;
 
     private static final String DEBUG_TAG = "LoginActivity" ;
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
+
     private UserLoginTask mAuthTask = null;
 
     // UI references.
@@ -82,6 +78,8 @@ public class    LoginActivity extends ConnectedMapActivity implements LoaderCall
         });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        //au click, on verifie si l'utilisateur est bien present dans la BDD externe et s'il a bien fourni
+        //les bonnes informations d'authentification
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,18 +115,7 @@ public class    LoginActivity extends ConnectedMapActivity implements LoaderCall
         if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
             return true;
         }
-        /*if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new View.OnClickListener() {
-                        @Override
-                        @TargetApi(Build.VERSION_CODES.M)
-                        public void onClick(View v) {
-                            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-                        }
-                    });
-        } else {
-            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-        }*/
+
         return false;
     }
 
@@ -315,7 +302,6 @@ public class    LoginActivity extends ConnectedMapActivity implements LoaderCall
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
             try {
                 // Simulate network access.
@@ -323,19 +309,8 @@ public class    LoginActivity extends ConnectedMapActivity implements LoaderCall
             } catch (InterruptedException e) {
                 return false;
             }
-
-            /*for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }*/
-
             launchTest();
 
-
-            // TODO: register the new account here.
             return true;
         }
 
@@ -362,6 +337,8 @@ public class    LoginActivity extends ConnectedMapActivity implements LoaderCall
 
         }
     }
+    //launchTest permet de verifier si l'utilisateur est bien present dans la base de donnes externe
+    //On verifie aussi s'il a bien fourni les bonnes informations d'authentification
     void launchTest() {
         final String mail = mEmailView.getText().toString().trim();
         Log.d(DEBUG_TAG, "launchTest: mail " + mail);

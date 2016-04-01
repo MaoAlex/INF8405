@@ -2,6 +2,7 @@ package com.example.alexmao.tp2final;
 
 /**
  * Created by alexMAO on 13/03/2016.
+ * Classe permettant de stocker une localisation pour un utilisateur, un lieu, ...
  */
 public class Localisation {
     private double positionX_;

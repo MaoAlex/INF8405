@@ -7,6 +7,7 @@ import android.util.Log;
 
 /**
  * Created by alexMAO on 19/03/2016.
+ * classe permettant d'interagir avec la BDD interne pour le lieu choisi pour un evenement
  */
 
 public class LieuChoisiBDD extends  AbstractBDD {
