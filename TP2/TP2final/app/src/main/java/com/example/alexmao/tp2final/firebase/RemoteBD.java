@@ -1,7 +1,8 @@
 package com.example.alexmao.tp2final.firebase;
 
 /**
- * Created by filou on 05/03/16.
+ * Interface de la base de données, les id sont les id au sens firebase,
+ * ne pas confondre avec ceux de la BD locale (SQL)
  */
 public interface RemoteBD {
     void updateLocationOnServer(UserFirebase user, String id) ;
@@ -45,5 +46,6 @@ public interface RemoteBD {
     void getTimeProposal(final LocalTimeSlots timeSlots, String groupID);
     void changeGroupName(MyLocalGroup myLocalGroup, String newName);
 
+    //Set une callback pour les demandes
     void setOnQuery(OnQuery onQuery);
 }

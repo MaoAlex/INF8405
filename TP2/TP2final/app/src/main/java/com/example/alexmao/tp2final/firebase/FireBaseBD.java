@@ -1,7 +1,10 @@
 package com.example.alexmao.tp2final.firebase;
 
 /**
- * Created by filou on 05/03/16.
+ * Classe pour communiquer avec un serveur Firebase,
+ * les résultats sont obtenus via des callback
+ * les classes ayant le mot "local" dans leur nom possède une callback qui est appelée
+ * qd la données est récupérée
  */
 
 import android.content.Context;
@@ -25,6 +28,7 @@ public class FireBaseBD implements RemoteBD {
     public FireBaseBD(Context context) {
         //connection to BD
         Firebase.setAndroidContext(context);
+        //setter l'url du projet firebase
         myFireBaseRef = new Firebase(context.getString(R.string.myFireBaseUrl));
     }
 
