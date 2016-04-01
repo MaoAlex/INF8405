@@ -138,7 +138,7 @@ public class RegisterInformation extends ConnectedMapActivity {
                 Intent intent = new Intent(RegisterInformation.this, PhotoActivity.class);
                 String login = getIntent().getStringExtra(EXTRA_MAIL);
                 String password = getIntent().getStringExtra(EXTRA_PASSWORD);
-                String groupName = getIntent().getStringExtra(EXTRA_GROUP);
+                final String groupName = getIntent().getStringExtra(EXTRA_GROUP);
                 String nom = getIntent().getStringExtra(EXTRA_NOM);
                 String prenom = getIntent().getStringExtra(EXTRA_PRENOM);
                 User user;
@@ -150,7 +150,6 @@ public class RegisterInformation extends ConnectedMapActivity {
                 ArrayList<String> preference = new ArrayList<String>();
 
 
-
                 if (estOrganisateur)
                     user = new User(nom, prenom, login, null, true, preference, null);
                 else
@@ -158,68 +157,72 @@ public class RegisterInformation extends ConnectedMapActivity {
                 int id = (int) userBDD.insertUser(user);
                 userBDD.affichageUsers();
                 user.setId(id);
-                if(pref1!="") {
+                if (pref1 != "") {
                     preference.add(pref1);
-                    preferenceBDD.insertPreference(id,pref1);
+                    preferenceBDD.insertPreference(id, pref1);
                 }
-                if(pref2!="" && pref2!=pref1) {
+                if (pref2 != "" && pref2 != pref1) {
                     preference.add(pref2);
                     preferenceBDD.insertPreference(id, pref2);
                 }
-                if(pref3!="" && pref3!=pref2 && pref3 != pref1) {
+                if (pref3 != "" && pref3 != pref2 && pref3 != pref1) {
                     preference.add(pref3);
-                    preferenceBDD.insertPreference(id, pref3);;
                 }
-                preferenceBDD.affichagePreferences();
-                //insertion des données dans la BDD
-                if(!dejaAffiche) {
-                    userBDD.affichageUtilisateurConnecte();
-                    LocalUser userFirebase = new LocalUser(nom, prenom, login, preference);
-                    final String idFirebase = getMyRemoteBD().addUser(userFirebase);
-                    userFirebase.setDataBaseId(idFirebase);
-                    setLocalUser(userFirebase);
-                    final MyLocalGroup myGroup = new MyLocalGroup("TODO write name");
-                    ExistWrapper existWrapper = new ExistWrapper();
-                    existWrapper.setOnConnectedListener(new ExistWrapper.OnConnectedListener() {
-                        @Override
-                        public void onConnected(boolean exist) {
-                            if (exist) {
-                                //TODO debug
-                                myGroup.setChangeListener(new MyLocalGroup.ChangeListener() {
-                                    @Override
-                                    public void onChange(MyLocalGroup myLocalGroup) {
-                                        myGroup.setChangeListener(null);
-                                        getMyRemoteBD().addUserToGroup(myLocalGroup.getDatabaseID(), idFirebase);
-                                    }
-                                });
-                                getMyRemoteBD().getGroupFromName("TODO write name", myGroup);
-                                getMyRemoteBD().addUserToGroup("TODO write groupID",idFirebase);
-                            } else {
-                                myGroup.setGroupName("TODO write group name");
-                                myGroup.addMember(idFirebase);
-                                myGroup.setDatabaseID(getMyRemoteBD().addGroup(myGroup));
+                    //insertion des données dans la BDD           }
+                    preferenceBDD.affichagePreferences();
+                    //insertion des données dans la BDD
+                    if (!dejaAffiche) {
+                        userBDD.affichageUtilisateurConnecte();
+                        LocalUser userFirebase = new LocalUser(nom, prenom, login, preference);
+                        final String idFirebase = getMyRemoteBD().addUser(userFirebase);
+                        userFirebase.setDataBaseId(idFirebase);
+                        setLocalUser(userFirebase);
+                        final MyLocalGroup myGroup = new MyLocalGroup(groupName);
+                        ExistWrapper existWrapper = new ExistWrapper();
+                        existWrapper.setOnConnectedListener(new ExistWrapper.OnConnectedListener() {
+                            @Override
+                            public void onConnected(boolean exist) {
+                                if (exist) {
+                                    //TODO debug
+                                    myGroup.setChangeListener(new MyLocalGroup.ChangeListener() {
+                                        @Override
+                                        public void onChange(MyLocalGroup myLocalGroup) {
+                                            myGroup.setChangeListener(null);
+                                            getMyRemoteBD().addUserToGroup(myLocalGroup.getDatabaseID(), idFirebase);
+                                        }
+                                    });
+                                    getMyRemoteBD().getGroupFromName(groupName, myGroup);
+                                } else {
+                                    myGroup.setGroupName(groupName);
+                                    myGroup.addMember(idFirebase);
+                                    myGroup.setDatabaseID(getMyRemoteBD().addGroup(myGroup));
+                                }
                             }
+                        });
+                        getMyRemoteBD().getExistGroup(groupName, existWrapper);
+                        userBDD.deconnexion();
+                        userBDD.connexion(user);
+                        groupeBDD.insertInGroup(groupName, id, estOrganisateur);
+                        getMyRemoteBD().addMdpToUser(user.getMail_(), password);
+                        LatLng posUtilisateurCourant = getmLatLng();
+                        localisationBDD.open();
+                        while(posUtilisateurCourant==null) {
+
                         }
-                    });
-                    getMyRemoteBD().getExistGroup("TODO write Name", existWrapper);
-                    userBDD.deconnexion();
-                    userBDD.connexion(user);
-                    groupeBDD.insertInGroup(groupName, id, estOrganisateur);
-                    getMyRemoteBD().addMdpToUser(user.getMail_(), password);
-                    LatLng posUtilisateurCourant = getmLatLng();
-                    localisationBDD.open();
-                    localisationBDD.insertLocalisation(new Localisation((float)posUtilisateurCourant.latitude,(float) posUtilisateurCourant.longitude), id);
-                    localisationBDD.affichageLocalisations();
-                    dejaAffiche = true;
+                        localisationBDD.insertLocalisation(new Localisation((float) posUtilisateurCourant.latitude, (float) posUtilisateurCourant.longitude), id);
+                        localisationBDD.affichageLocalisations();
+
+                        dejaAffiche = true;
+                    }
+                    intent.putExtra("localUser", getLocalUser());
+                    startActivity(intent);
+                    //userBDD.close();
                 }
-                intent.putExtra("localUser", getLocalUser());
-                startActivity(intent);
-                //userBDD.close();
-            }
+
         });
 
 
-        }
+    }
 
 
 
