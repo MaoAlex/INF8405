@@ -44,6 +44,7 @@ public interface RemoteBD {
     void getTimeProposal(final LocalTimeSlots timeSlots, String groupID);
     void changeGroupName(MyLocalGroup myLocalGroup, String newName);
     void addEvents(Events events, String groupID);
+    void getEvents(String groupID, MyLocalEvent events);
 
     //Set une callback pour les demandes
     void setOnQuery(OnQuery onQuery);

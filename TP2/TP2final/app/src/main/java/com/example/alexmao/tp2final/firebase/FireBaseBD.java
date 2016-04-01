@@ -551,4 +551,21 @@ public class FireBaseBD implements RemoteBD {
         Firebase eventBD = myFireBaseRef.child("events").child(groupID).push();
         eventBD.setValue(events);
     }
+
+    @Override
+    public void getEvents(String groupID, final MyLocalEvent events) {
+        Firebase eventBD = myFireBaseRef.child("events").child(groupID);
+        eventBD.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Events eventsFromBD = dataSnapshot.getValue(Events.class);
+                events.update(eventsFromBD);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
 }
