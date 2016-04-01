@@ -545,4 +545,10 @@ public class FireBaseBD implements RemoteBD {
             }
         });
     }
+
+    @Override
+    public void addEvents(Events events, String groupID) {
+        Firebase eventBD = myFireBaseRef.child("events").child(groupID).push();
+        eventBD.setValue(events);
+    }
 }

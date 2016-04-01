@@ -20,6 +20,7 @@ public class    MyLocalGroup extends MyGroup {
     }
 
     public MyLocalGroup() {
+        super();
     }
 
     public MyLocalGroup(String databaseID) {

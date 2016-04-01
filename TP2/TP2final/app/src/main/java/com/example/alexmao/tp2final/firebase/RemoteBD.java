@@ -14,10 +14,8 @@ public interface RemoteBD {
     void listenToChangeOnUser(final LocalUser user, final String userBDID);
     String addGroup(MyGroup myGroup);
     void addUserToGroup(String groupID, String userID);
-
     void getGroup(String groupID, MyLocalGroup myGroup);
     void getGroupFromName(String name, MyLocalGroup myGroup);
-
     void listenToChangeOnGroup(final MyGroup group, final String groupBDID);
     void addMdpToUser(String mail, String mdp);
     void getMdp(String mail, MdpWrapper mdpWrapper);
@@ -45,6 +43,7 @@ public interface RemoteBD {
     void getPlaceProposal(String groupID, final LocalPlaceProposals placeProposals);
     void getTimeProposal(final LocalTimeSlots timeSlots, String groupID);
     void changeGroupName(MyLocalGroup myLocalGroup, String newName);
+    void addEvents(Events events, String groupID);
 
     //Set une callback pour les demandes
     void setOnQuery(OnQuery onQuery);

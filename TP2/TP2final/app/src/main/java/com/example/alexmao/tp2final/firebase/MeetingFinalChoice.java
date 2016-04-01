@@ -7,11 +7,11 @@ import java.util.Date;
  */
 public class MeetingFinalChoice {
     private String description;
-    private String picture;
+    private Picture picture;
     private MeetingPlace meetingPlace;
-    private Date date;
+    private long date;
 
-    public MeetingFinalChoice(String description, String picture, MeetingPlace meetingPlace, Date date) {
+    public MeetingFinalChoice(String description, Picture picture, MeetingPlace meetingPlace, long date) {
         this.description = description;
         this.picture = picture;
         this.meetingPlace = meetingPlace;
@@ -22,7 +22,7 @@ public class MeetingFinalChoice {
         return description;
     }
 
-    public String getPicture() {
+    public Picture getPicture() {
         return picture;
     }
 
@@ -30,7 +30,7 @@ public class MeetingFinalChoice {
         return meetingPlace;
     }
 
-    public Date getDate() {
+    public long getDate() {
         return date;
     }
 }
