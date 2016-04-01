@@ -224,28 +224,33 @@ public class VoteEvenement extends ConnectedMapActivity implements IObserver {
             choix2 = (new Random()).nextInt(listPlaces.size());
             choixPotentiel2 = listPlaces.get(choix2);
         }*/
+        int compteur = 0;
         if(placeCalcule[0]==null)
           placeCalcule[0] = new Place(choixPotentiel1);
-        while(prefTab.length > 1 && choixPotentiel2 != null && choixPotentiel2.getType()==choixPotentiel1.getType()){
+        while(prefTab.length > 1 && choixPotentiel2 != null && choixPotentiel2.getType()==choixPotentiel1.getType() && compteur<20){
             Log.d("update", "boucle une, pref 1 : " + prefTab[0] + " preference 2 : " + prefTab[1] + " longueur places trouvés : " + listPlaces.size());
             choix2 = (new Random()).nextInt(listPlaces.size());
             choixPotentiel2 = listPlaces.get(choix2);
             Log.d("update", " nom du choix : " + choixPotentiel2.getNom() + " type : " + choixPotentiel2.getType());
+            compteur++;
         }
+        compteur=0;
         if (placeCalcule[1]==null)
             placeCalcule[1] = new Place(choixPotentiel2);
         if(prefTab.length > 2){
             Log.d("update", "boucle 2");
             while(choixPotentiel3 != null && choixPotentiel1.getType()==choixPotentiel3.getType()
-                    && choixPotentiel1.getType()==choixPotentiel3.getType()){
+                    && choixPotentiel1.getType()==choixPotentiel3.getType()&& compteur<20){
                 choix3 = (new Random()).nextInt(listPlaces.size());
                 choixPotentiel3 = listPlaces.get(choix3);
+                compteur++;
             }
         }else if(prefTab.length > 1){
             Log.d("update", "boucle 3");
-            while(choixPotentiel3 != null && choixPotentiel2.getType()==choixPotentiel3.getType()){
+            while(choixPotentiel3 != null && choixPotentiel2.getType()==choixPotentiel3.getType()&& compteur<20){
                 choix3 = (new Random()).nextInt(listPlaces.size());
                 choixPotentiel3 = listPlaces.get(choix3);
+                compteur++;
             }
         }
         if (placeCalcule[2]==null)

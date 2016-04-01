@@ -81,7 +81,7 @@ public class EvenementBDD extends AbstractBDD{
     public ArrayList<Evenement> getEvenementBDD(String groupName) {
         ArrayList<Evenement> evenements = new ArrayList<Evenement>();
         String query = "SELECT " + COL_EVENEMENT_ID + ","
-                + COL_EVENEMENT_NAME
+                + COL_EVENEMENT_NAME + ", " + COL_GROUP_NAME
                 + " FROM "
                 + TABLE_EVENEMENT + " e WHERE e." + COL_GROUP_NAME + " = ?" ;
          Cursor cursor = database_.rawQuery(query, new String[]{groupName});
@@ -89,6 +89,7 @@ public class EvenementBDD extends AbstractBDD{
             Evenement evenement = new Evenement();
             evenement.setEvenementId(cursor.getInt(0));
             evenement.setNomEvenement(cursor.getString(1));
+            evenement.setGroupName(cursor.getString(2));
             evenements.add(evenement);
         }
         return evenements;
