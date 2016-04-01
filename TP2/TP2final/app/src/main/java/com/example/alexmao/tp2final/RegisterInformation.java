@@ -14,6 +14,7 @@ import com.example.alexmao.tp2final.firebase.ConnectedMapActivity;
 import com.example.alexmao.tp2final.firebase.ExistWrapper;
 import com.example.alexmao.tp2final.firebase.LocalUser;
 import com.example.alexmao.tp2final.firebase.MyLocalGroup;
+import com.example.alexmao.tp2final.firebase.RemoteBD;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -229,6 +230,32 @@ public class RegisterInformation extends ConnectedMapActivity {
     }
 
 
+    private void setupGroup(MyLocalGroup myLocalGroup) {
+        List<String> ids = myLocalGroup.getMembersID();
+        RemoteBD remoteBD = getMyRemoteBD();
+        for (String id : ids) {
+            if (id.equals(getLocalUser().getDataBaseId())) {
+                localUser.setChangeListener(new LocalUser.ChangeListener() {
+                    @Override
+                    public void onPositionChanged(LocalUser localUser) {
+                        //TODO do something (bear in mind, this user may already be in the BDD)
+                        //this user is the current user
+                    }
+                });
+            } else {
+                LocalUser localUserFromRemote = new LocalUser();
+                localUserFromRemote.setDataBaseId(id);
 
+                localUserFromRemote.setChangeListener(new LocalUser.ChangeListener() {
+                    @Override
+                    public void onPositionChanged(LocalUser localUser) {
+                       //TODO add user to BDD
+                    }
+                });
+
+                remoteBD.getUser(id, localUserFromRemote);
+            }
+        }
+    }
 
 }
