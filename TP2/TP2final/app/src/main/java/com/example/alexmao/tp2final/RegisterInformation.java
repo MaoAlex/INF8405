@@ -193,7 +193,6 @@ public class RegisterInformation extends ConnectedMapActivity {
                                     }
                                 });
                                 getMyRemoteBD().getGroupFromName("TODO write name", myGroup);
-                                getMyRemoteBD().addUserToGroup("TODO write groupID",idFirebase);
                             } else {
                                 myGroup.setGroupName("TODO write group name");
                                 myGroup.addMember(idFirebase);

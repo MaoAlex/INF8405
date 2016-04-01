@@ -1,8 +1,11 @@
 package com.example.alexmao.tp2final.firebase;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by filou on 10/03/16.
  */
+@JsonIgnoreProperties({"databaseID", "changeListener"})
 public class    MyLocalGroup extends MyGroup {
     public interface ChangeListener {
         void onChange(MyLocalGroup myLocalGroup);
