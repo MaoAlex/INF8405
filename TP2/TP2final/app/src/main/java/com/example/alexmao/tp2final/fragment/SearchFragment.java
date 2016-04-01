@@ -68,8 +68,10 @@ public class SearchFragment extends Fragment {
     }
 
     public void doResearchByPreferences(LatLng centre, int radius, String[] types) {
+        Log.d("Search Fragment", "doResearchByPreferences");
+
         if(listPlaces==null)
-            listObservers= new ArrayList<>();
+            listPlaces= new ArrayList<>();
         for(String type : types) {
             initiateSearch(centre, radius, type);
         }
@@ -83,6 +85,8 @@ public class SearchFragment extends Fragment {
     }
 
     public void parseJSON(String jsonResponse, String type) {
+        Log.d("Search Fragment", "parseJSON");
+
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(jsonResponse);

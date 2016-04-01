@@ -51,6 +51,7 @@ public class testActivity extends Activity {
         User currentUser = usersBDD.getProfil();
         Log.d("testActivity", "Fin de l'ajout des éléments");
         HashMap<String, Groupe> listeGroupe = groupeBDD.getGroupesBDD();
+        ArrayList<String> listGroupUser = groupeBDD.getGroupesByUserId(currentUser.getId());
         ArrayList<String> userInGroupe = groupeBDD.getGroupesByUserId(currentUser.getId());
         if(userInGroupe!=null) {
             test1 = groupeBDD.getGroupeBDD(userInGroupe.get(0)).getUsers();
