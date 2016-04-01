@@ -197,6 +197,7 @@ public class RegisterInformation extends ConnectedMapActivity {
                                     myGroup.addMember(idFirebase);
                                     myGroup.setDatabaseID(getMyRemoteBD().addGroup(myGroup));
                                 }
+
                             }
                         });
                         getMyRemoteBD().getExistGroup(groupName, existWrapper);

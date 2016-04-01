@@ -19,11 +19,10 @@ public class MyGroup {
         this.isOrganiser = isOrganiser;
     }
 
-
-
     public MyGroup() {
         membersID = new LinkedList<>();
         isOrganiser = new LinkedList<>();
+
     }
 
     public MyGroup(String groupName, String organiser) {
