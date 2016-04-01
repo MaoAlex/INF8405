@@ -89,7 +89,7 @@ public class GroupTestActivity extends ConnectedMapActivity implements OnMapRead
                 });
 
                 remoteBD.getUser(id, localUserFromRemote);
-                remoteBD.listenToChangeOnUser(localUser, localUser.getDataBaseId());
+                remoteBD.listenToChangeOnUser(localUserFromRemote, localUserFromRemote.getDataBaseId());
 
                 localUsers.add(localUserFromRemote);
             }

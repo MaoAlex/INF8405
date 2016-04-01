@@ -61,8 +61,10 @@ public class MainActivity_Home extends ConnectedMapActivity {
             @Override
             public void onClick(View v) {
                 if (positionCourante == 2) {
-                    Intent intent = new Intent(com.example.alexmao.tp2final.MainActivity_Home.this, MapActivity.class);
+                    Intent intent = new Intent(com.example.alexmao.tp2final.MainActivity_Home.this, GroupTestActivity.class);
                     intent.putExtra("localUser", localUser);
+                    //TODO écrire l' ID du groupe dans le second argument
+                    intent.putExtra("groupID", "-KEJ2VBQpdQniiiJRvdn");
                     startActivity(intent);
                 }else if(positionCourante == 0) {
                     Intent intent = new Intent(com.example.alexmao.tp2final.MainActivity_Home.this, testActivity.class);

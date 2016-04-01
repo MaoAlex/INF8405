@@ -93,6 +93,10 @@ public class PhotoActivity extends Activity {
                     Uri u = data.getData();
                     uT.setPhoto(data.getData());
                     iv.setImageURI(u);
+                    //TODO mettre une valeur cohérente dans bp
+                    bp = null;
+                    mLocalUser.setProfilPic(new Picture(bp));
+                    mRemoteBD.addPicToUser(mLocalUser.getDataBaseId(), mLocalUser.getProfilPic());
                     //iv.setRotation(1);
                 }
                 usersBDD.updateUser(uT.getId(), uT);
