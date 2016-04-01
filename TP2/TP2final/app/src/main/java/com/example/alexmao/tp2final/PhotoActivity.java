@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.example.alexmao.tp2final.firebase.LocalUser;
+
 import java.io.File;
 //Classe permettant la prise de photo et le stockage de la photo
 public class PhotoActivity extends Activity {
@@ -22,11 +24,13 @@ public class PhotoActivity extends Activity {
     private static int RESULT_LOAD_IMAGE = 1;
     File mFichier;
     Bitmap bp;
+    private LocalUser mLocalUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photo);
+        mLocalUser = getIntent().getParcelableExtra("localUser");
 
         b1=(ImageButton)findViewById(R.id.button);
         b2=(Button) findViewById(R.id.gallery);
@@ -60,6 +64,7 @@ public class PhotoActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PhotoActivity.this, MainActivity_Home.class);
+                intent.putExtra("localUser", mLocalUser);
                 startActivityForResult(intent, RESULT_LOAD_IMAGE);
             }
         });

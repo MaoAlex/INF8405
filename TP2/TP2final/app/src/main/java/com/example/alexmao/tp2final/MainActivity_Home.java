@@ -42,6 +42,7 @@ public class MainActivity_Home extends ConnectedMapActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_activity__home);
+        setLocalUser((LocalUser) getIntent().getParcelableExtra("localUser"));
 
         //4 onglets
         final int tabCount = 4;
@@ -221,7 +222,7 @@ public class MainActivity_Home extends ConnectedMapActivity {
         this.materialViewPager.getViewPager().setOffscreenPageLimit(tabCount);
         //relie les tabs au viewpager
         this.materialViewPager.getPagerTitleStrip().setViewPager(this.materialViewPager.getViewPager());
-        prepareUser();
+//        prepareUser();
         userBDD.close();
         groupeBDD.close();
     }
@@ -229,10 +230,10 @@ public class MainActivity_Home extends ConnectedMapActivity {
 
     private void testCreateUser() {
         localUser = new LocalUser("fifi", "test", "exemple@polymtl.ca");
-        RemoteBD remoteBD = getMyRemoteBD();
-        String userBDID = remoteBD.addUser((UserFirebase) localUser);
-        remoteBD.addMdpToUser(localUser.getMailAdr().trim(), "fifi");
-        localUser.setDataBaseId(userBDID);
+//        RemoteBD remoteBD = getMyRemoteBD();
+//        String userBDID = remoteBD.addUser((UserFirebase) localUser);
+//        remoteBD.addMdpToUser(localUser.getMailAdr().trim(), "fifi");
+//        localUser.setDataBaseId(userBDID);
         localUser.setChangeListener(new LocalUser.ChangeListener() {
             @Override
             public void onPositionChanged(LocalUser localUser) {

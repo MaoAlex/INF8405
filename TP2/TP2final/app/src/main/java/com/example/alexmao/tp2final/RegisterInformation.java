@@ -186,6 +186,7 @@ public class RegisterInformation extends ConnectedMapActivity {
                     localisationBDD.affichageLocalisations();
                     dejaAffiche = true;
                 }
+                intent.putExtra("localUser", getLocalUser());
                 startActivity(intent);
                 //userBDD.close();
             }
