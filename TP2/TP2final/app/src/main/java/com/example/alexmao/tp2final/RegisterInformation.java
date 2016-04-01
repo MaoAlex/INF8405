@@ -177,7 +177,8 @@ public class RegisterInformation extends ConnectedMapActivity {
                         final String idFirebase = getMyRemoteBD().addUser(userFirebase);
                         userFirebase.setDataBaseId(idFirebase);
                         setLocalUser(userFirebase);
-                        final MyLocalGroup myGroup = new MyLocalGroup(groupName);
+                        final MyLocalGroup myGroup = new MyLocalGroup();
+                        myGroup.setGroupName(groupName);
                         ExistWrapper existWrapper = new ExistWrapper();
                         existWrapper.setOnConnectedListener(new ExistWrapper.OnConnectedListener() {
                             @Override
