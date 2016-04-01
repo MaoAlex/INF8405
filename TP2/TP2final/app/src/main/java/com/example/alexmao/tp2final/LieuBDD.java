@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 /**
  * Created by alexMAO on 19/03/2016.
+ * classe gerant le stockage dans la base de donnees interne des differents lieu
  */
 public class LieuBDD extends AbstractBDD{
 
@@ -50,6 +51,7 @@ public class LieuBDD extends AbstractBDD{
         database_.delete(TABLE_LIEU, COL_TYPE + " = ?", new String[]{type});
     }
 
+    //recuperation de tous les lieux
     public HashMap<Integer, ArrayList<Lieu>> getLieux() {
        HashMap<Integer, ArrayList<Lieu>> lieux = new HashMap<Integer, ArrayList<Lieu>>();
 
@@ -84,7 +86,7 @@ public class LieuBDD extends AbstractBDD{
         return lieux;
     }
 
-
+    //recuperation des lieux en fonction de l'evenement
     public ArrayList<Lieu> getlieuBDD(int idEvenement) {
         ArrayList<Lieu> lieux = new ArrayList<Lieu>();
 
@@ -106,6 +108,7 @@ public class LieuBDD extends AbstractBDD{
         return lieux;
     }
 
+    //affichage des lieux presents dans la BDD interne pour le debuggage
     public void affichageLieux() {
         String query = "SELECT *"
                 + " FROM "

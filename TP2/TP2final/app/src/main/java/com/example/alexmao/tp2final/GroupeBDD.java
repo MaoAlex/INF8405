@@ -7,10 +7,10 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by alexMAO on 15/03/2016.
+ * Classe permettrant le stockage dans la base sqlite des informations sur un groupe (utilisateurs et organisateur)
  */
 public class GroupeBDD extends AbstractBDD {
 
@@ -56,6 +56,7 @@ public class GroupeBDD extends AbstractBDD {
         database_.delete(maBaseSQLite_.TABLE_GROUPE, COL_GROUP_NAME + " = " + groupName, null);
     }
 
+    //Recuperation des groupes associes a un utilisateur par son ID
     public ArrayList<String> getGroupesByUserId(int id) {
         ArrayList<String> groupes = new ArrayList<>();
         String query = "SELECT " + COL_GROUP_NAME
@@ -71,7 +72,7 @@ public class GroupeBDD extends AbstractBDD {
     }
 
 
-
+    //recuperation de tous les groupes de la base de donnees
     public HashMap<String,Groupe> getGroupes() {
         HashMap<String, Groupe> groupes = new HashMap<String, Groupe>();
         //Building query using INNER JOIN keyword
@@ -105,6 +106,7 @@ public class GroupeBDD extends AbstractBDD {
         return groupes;
     }
 
+    //recuperation de tous les groupes de la base de donnees
     public HashMap<String,Groupe> getGroupesBDD() {
         HashMap<String, Groupe> groupes = new HashMap<String, Groupe>();
      //Building query using INNER JOIN keyword
@@ -143,7 +145,7 @@ public class GroupeBDD extends AbstractBDD {
     }
 
 
-
+    //recuperation de tous les membres d'un groupe depuis la base de donnees interne avec le nom du groupe
     public Groupe getGroupeBDD(String groupName) {
        Groupe group = new Groupe(groupName);
 
@@ -183,6 +185,7 @@ public class GroupeBDD extends AbstractBDD {
         return group;
     }
 
+    //fonciton de debug pour afficher les elements presents dans la table des groupes
     public void affichageGroupes() {
         String query = "SELECT *"
                 + " FROM "
@@ -191,28 +194,6 @@ public class GroupeBDD extends AbstractBDD {
         while (cursor.moveToNext()) {
             Log.d(DEBUG_TAG, cursor.getInt(0) + ", : " + cursor.getString(1)
                     + ", " + cursor.getInt(2) + ", : " + cursor.getInt(3));
-        }
-    }
-
-    public void loadGroupes() {
-        Groupe department = new Groupe("Development");
-        Groupe department1 = new Groupe("R and D");
-        Groupe department2 = new Groupe("Human Resource");
-        Groupe department3 = new Groupe("Financial");
-        Groupe department4 = new Groupe("Marketing");
-        Groupe department5 = new Groupe("Sales");
-
-        List<Groupe> departments = new ArrayList<Groupe>();
-        departments.add(department);
-        departments.add(department1);
-        departments.add(department2);
-        departments.add(department3);
-        departments.add(department4);
-        departments.add(department5);
-        for (Groupe g : departments) {
-            ContentValues values = new ContentValues();
-            values.put(maBaseSQLite_.COL_GROUP_NAME, g.getNomGroupe());
-            database_.insert(maBaseSQLite_.TABLE_GROUPE, null, values);
         }
     }
 

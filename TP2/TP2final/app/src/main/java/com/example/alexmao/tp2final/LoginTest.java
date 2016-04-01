@@ -8,6 +8,7 @@ import android.widget.Button;
 
 /**
  * Created by alexMAO on 14/03/2016.
+ * activite non utilise qui est une alternative pour le login
  */
 public class LoginTest extends AppCompatActivity {
 

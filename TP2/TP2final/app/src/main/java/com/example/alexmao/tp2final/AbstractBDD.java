@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 /**
  * Created by alexMAO on 15/03/2016.
+ * Classe abstraite servant de structures pour les différentes requêtes sur la base de donénes
  */
 public abstract class AbstractBDD {
 

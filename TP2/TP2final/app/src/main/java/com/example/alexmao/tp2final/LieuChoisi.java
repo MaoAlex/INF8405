@@ -4,6 +4,7 @@ import android.net.Uri;
 
 /**
  * Created by alexMAO on 17/03/2016.
+ * classe permettant de stocker le lieu choisi
  */
 public class LieuChoisi {
 

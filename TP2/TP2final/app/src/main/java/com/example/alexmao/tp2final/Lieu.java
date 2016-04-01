@@ -2,6 +2,7 @@ package com.example.alexmao.tp2final;
 
 /**
  * Created by alexMAO on 19/03/2016.
+ * Classe permettant de stocker un lieu
  */
 public class Lieu {
     private String type;
