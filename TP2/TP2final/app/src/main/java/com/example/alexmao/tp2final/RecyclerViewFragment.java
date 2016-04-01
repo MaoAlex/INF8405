@@ -61,10 +61,15 @@ public class RecyclerViewFragment extends Fragment {
             List<User> test;
 
             groupeBDD.affichageGroupes();
-            test = new ArrayList<>(groupeBDD.getGroupeBDD("equipe1!").getUsers());
-            Log.d(DEBUG_TAG, " taille de la liste a afficher : " + test.size());
-            for (int i = 0; i<test.size(); i++)
-                mContentItems.add(test.get(i));
+            String gName;
+            if(!groupeBDD.getGroupesByUserId(userCourant.getId()).isEmpty()) {
+                gName = groupeBDD.getGroupesByUserId(userCourant.getId()).get(0);
+                test = new ArrayList<>(groupeBDD.getGroupeBDD(gName).getUsers());
+                Log.d(DEBUG_TAG, " taille de la liste a afficher : " + test.size());
+                for (int i = 0; i<test.size(); i++)
+                    mContentItems.add(test.get(i));
+            }
+
 
         /*for (int i = 0; i < 10; ++i)
             mContentItems.add(new Object());*/

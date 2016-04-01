@@ -76,6 +76,7 @@ public class PhotoActivity extends Activity {
             super.onActivityResult(requestCode, resultCode, data);
             if (data.getExtras() != null) {
                 bp = (Bitmap) data.getExtras().get("data");
+//                mLocalUser.setProfilPic(new Picture(bp));
                 UsersBDD usersBDD = new UsersBDD(this);
                 usersBDD.open();
                 User uT = usersBDD.getProfil();

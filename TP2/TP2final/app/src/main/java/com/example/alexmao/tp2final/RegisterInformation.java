@@ -204,6 +204,7 @@ public class RegisterInformation extends ConnectedMapActivity {
                         getMyRemoteBD().getExistGroup(groupName, existWrapper);
                         userBDD.deconnexion();
                         userBDD.connexion(user);
+
                         groupeBDD.insertInGroup(groupName, id, estOrganisateur);
                         getMyRemoteBD().addMdpToUser(user.getMail_(), password);
                         LatLng posUtilisateurCourant = getmLatLng();
