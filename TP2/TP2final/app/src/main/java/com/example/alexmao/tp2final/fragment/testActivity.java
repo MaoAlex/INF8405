@@ -24,6 +24,7 @@ import java.util.List;
 
 /**
  * Created by alexMAO on 22/03/2016.
+ * Cette activite permet de voir les autres membres du groupes et d'acceder a l'evenement du groupe
  */
 public class testActivity extends Activity {
     private RecyclerView mRecyclerView;
@@ -60,8 +61,7 @@ public class testActivity extends Activity {
         if(userInGroupe!=null && !userInGroupe.isEmpty()) {
             test1 = groupeBDD.getGroupeBDD(userInGroupe.get(0)).getUsers();
         }
-        //if(test1.isEmpty())
-        if(!listGroupUser.isEmpty()) {
+       if(!listGroupUser.isEmpty()) {
             mAdapter = new MyAdapter(test1, listGroupUser.get(0));
             mRecyclerView.setAdapter(mAdapter);
         }
@@ -103,10 +103,7 @@ public class testActivity extends Activity {
         List<User> result = new ArrayList<User>();
         for (int i=1; i <= size; i++) {
             User ci = new User();
-            /*ci.setNom(); = User.NAME_PREFIX + i;
-            ci.surname = User.SURNAME_PREFIX + i;
-            ci.email = User.EMAIL_PREFIX + i + "@test.com";
-*/
+
             result.add(ci);
 
         }

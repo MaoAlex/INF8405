@@ -191,9 +191,19 @@ public class UsersBDD extends AbstractBDD {
     }
 
     public void deconnexion() {
+        //ON supprime les donnes apres deconnexion
         database_.delete(maBaseSQLite_.TABLE_CURRENT_USER, null, null);
-    }
 
+    }
+    public void deconnexionT() {
+        //ON supprime les donnes apres deconnexion
+        database_.delete(maBaseSQLite_.TABLE_CURRENT_USER, null, null);
+        database_.delete(maBaseSQLite_.TABLE_EVENEMENT, null, null);
+        database_.delete(maBaseSQLite_.TABLE_LOCALISATION, null, null);
+        database_.delete(maBaseSQLite_.TABLE_GROUPE, null, null);
+        //database_.delete(maBaseSQLite_.TABLE_USERS, null, null);
+        database_.delete(maBaseSQLite_.TABLE_PREFERENCE, null, null);
+    }
     public User getProfil(){
         //Récupère dans un Cursor les valeurs correspondant à un utilisateur contenu dans la BDD (ici on sélectionne le utilisateur grâce à son nom)
         Cursor c = database_.query(maBaseSQLite_.TABLE_CURRENT_USER, null, null, null, null, null, null);

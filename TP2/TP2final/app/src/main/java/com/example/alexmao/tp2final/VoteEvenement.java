@@ -29,6 +29,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+/*
+* Classe permettant d'acceder au vote pour un groupe
+* */
 public class VoteEvenement extends ConnectedMapActivity implements IObserver {
     private static final String DEBUG_TAG = "VoteEvenement" ;
     private ListView mListLieu = null;
@@ -86,21 +89,15 @@ public class VoteEvenement extends ConnectedMapActivity implements IObserver {
 
         LocalisationBDD localisationBDD = new LocalisationBDD(this);
         localisationBDD.open();
-        //userCourant.setLocalisation_(localisationBDD.getlocalisationUser(userCourant.getId()));
-        //Localisation loc = new Localisation(41.756, 12.456);
 
-        //Localisation loc = new Localisation(getmLatLng().latitude, getmLatLng().longitude);
-        //userCourant.setLocalisation_(loc);
         preferenceBDD.affichagePreferences();
         HashMap<String, ArrayList<User>> pref = preferenceBDD.getPreferences();
         ArrayList<Integer> preferenceOrdonne = new ArrayList<>();
-        //HashMap<Integer, String> classementPref = new HashMap<>();
         ArrayList<Integer> classement = new ArrayList<>();
         int indice = 0;
         HashMap<String, Integer> prefValeur = new HashMap<>();
         for (Map.Entry<String, ArrayList<User>> p : pref.entrySet()){
 
-                //classementPref.put(p.getValue().size(), p.getKey());
                 prefValeur.put(p.getKey(), p.getValue().size());
                 classement.add(p.getValue().size());
                 //On ne fait rien sinon car on propose déjà l'activité
@@ -176,20 +173,7 @@ public class VoteEvenement extends ConnectedMapActivity implements IObserver {
             Log.d(DEBUG_TAG, "Le talbeau des preferences est vide");
         Log.d(DEBUG_TAG, "taille du tableau prefTab : " + prefTab.length);
 
-        //VoteEvenement.searchFragment.doResearchByPreferences(centre, rayon, prefTab);//Mettre les bons arguments
-        //String[] testL = new String[1];
-        //testL[0] = "restaurant";
         doResearchByPreferences(centre, rayon, prefTab);
-        //ArrayList<Place> listPlace = new ArrayList<>() ;
-        //listPlace = VoteEvenement.searchFragment.getListPlaces();
-        //listPlaces = getListPlaces();
-
-        /*if(!listPlaces.isEmpty()) {
-            //update(listPlaces);
-            //update(listPlace);
-        }
-        else
-            Log.d(DEBUG_TAG, "listPlaces est vide ");*/
 
         mListLieu = (ListView) findViewById(R.id.listLieu);
 

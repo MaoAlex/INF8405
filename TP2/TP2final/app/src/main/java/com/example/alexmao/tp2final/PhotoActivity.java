@@ -93,8 +93,8 @@ public class PhotoActivity extends Activity {
                     Uri u = data.getData();
                     uT.setPhoto(data.getData());
                     iv.setImageURI(u);
-                    //TODO mettre une valeur cohérente dans bp
-                    bp = null;
+                    //On envoie la photo au serveur
+
                     mLocalUser.setProfilPic(new Picture(bp));
                     mRemoteBD.addPicToUser(mLocalUser.getDataBaseId(), mLocalUser.getProfilPic());
                     //iv.setRotation(1);

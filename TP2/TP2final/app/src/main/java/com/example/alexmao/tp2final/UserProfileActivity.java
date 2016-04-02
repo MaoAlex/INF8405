@@ -29,7 +29,7 @@ public class UserProfileActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_profile);
-        UsersBDD usersBDD = new UsersBDD(this);
+        final UsersBDD usersBDD = new UsersBDD(this);
         usersBDD.open();
         User u = usersBDD.getProfil();
         GroupeBDD groupeBDD = new GroupeBDD(this);
@@ -37,7 +37,7 @@ public class UserProfileActivity extends Activity {
         PreferenceBDD preferenceBDD = new PreferenceBDD(this);
         preferenceBDD.open();
         ArrayList<String > listNomGroupe = groupeBDD.getGroupesByUserId(u.getId());
-        User user = usersBDD.getProfil();
+        final User user = usersBDD.getProfil();
         ArrayList<String> p = preferenceBDD.getPreferencesForUser(user.getId());
         mail =  (TextView) findViewById(R.id.email_display);
         nom = (TextView)  findViewById(R.id.nom);
@@ -81,6 +81,7 @@ public class UserProfileActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(UserProfileActivity.this, MainActivity.class);
                 //startActivity(intent);
+                usersBDD.deconnexionT();
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }

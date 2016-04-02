@@ -2,7 +2,6 @@ package com.example.alexmao.tp2final;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,7 +22,7 @@ import java.util.List;
  */
 public class UserProfileActivityModify extends ConnectedMapActivity{
     private static final String DEBUG_TAG = "UserProfileModify";
-    private String[] tableauChoix = {"", "Bar", "Café", "Restaurant", "Parc", "Cinéma", "Musée" };
+    private String[] tableauChoix = {"", "Bar", "Cafe", "Restaurant", "Parc", "Cinema", "Musee" };
     private Spinner liste1 = null;
     private Spinner liste2 = null;
     private Spinner liste3 = null;
@@ -43,28 +42,10 @@ public class UserProfileActivityModify extends ConnectedMapActivity{
         liste2 = (Spinner) findViewById(R.id.spinner_preference2);
         liste3 = (Spinner) findViewById(R.id.spinner_preference3);
         final Button loginButton = (Button) findViewById(R.id.enregistrer);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                /*Intent intent = new Intent(UserProfileActivityModify.this, UserProfileActivity.class);
-                startActivity(intent);*/
-                finish();
-
-            }
-        });
-
         final UsersBDD userBDD = new UsersBDD(this);
         GroupeBDD groupeBDD = new GroupeBDD(this);
-
         userBDD.open();
         groupeBDD.open();
-        User user = new User("Jean", "Paul");
-
-        userBDD.insertUser(user);
-        Log.d(DEBUG_TAG, "Insertion test reussi ");
-
         liste1 = (Spinner) findViewById(R.id.edit_spinner_preference1);
         liste2 = (Spinner) findViewById(R.id.edit_spinner_preference2);
         liste3 = (Spinner) findViewById(R.id.edit_spinner_preference3);
@@ -92,7 +73,16 @@ public class UserProfileActivityModify extends ConnectedMapActivity{
         liste3.setAdapter(adapter3);
 
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radiogroup);
+        loginButton.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                User u = userBDD.getProfil();
+                /*On doit faire ici la mise à jour de l'utilisateur, mais du à un bug j'ai enleve le code*/
+                finish();
+
+            }
+        });
         liste1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView parent, View view, int position, long id) {
                 /*if(position!=0){

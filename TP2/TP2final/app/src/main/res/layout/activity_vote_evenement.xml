@@ -22,7 +22,9 @@
         android:id="@+id/listLieu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:choiceMode="singleChoice" >
+        android:choiceMode="singleChoice"
+        android:textColor="@color/black_color"
+        >
     </ListView>
 
     <TextView
@@ -37,7 +39,9 @@
         android:layout_height="wrap_content"
         android:choiceMode="multipleChoice"
         android:layout_below="@+id/textVoteLieu"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/black_color"
+        >
     </ListView>
 
     <Button
