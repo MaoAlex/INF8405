@@ -24,7 +24,6 @@ public class GroupTestActivity extends ConnectedMapActivity implements OnMapRead
     private Map<String, Marker> idToMarkers;
     private MyLocalGroup myLocalGroup;
     private List<LocalUser> localUsers;
-    private Button testBarycentreButton;
     private int groupSize = -1;
     private int actualGroupSize = 0;
     private Marker baeycentreMarker;
@@ -51,13 +50,6 @@ public class GroupTestActivity extends ConnectedMapActivity implements OnMapRead
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        testBarycentreButton = (Button) findViewById(R.id.test_barycentre);
-        testBarycentreButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showBarycentre();
-            }
-        });
 
         RemoteBD remoteBD = getMyRemoteBD();
         remoteBD.getGroup(myLocalGroup.getDatabaseID(), myLocalGroup);
@@ -139,23 +131,5 @@ public class GroupTestActivity extends ConnectedMapActivity implements OnMapRead
                 .title(user.getFirstName() + " " + user.getLastName()));
 
         return marker;
-    }
-
-    private void showBarycentre() {
-        double mlat = 0;
-        double mlong = 0;
-
-        if (groupSize == actualGroupSize) {
-            for (UserFirebase user : localUsers) {
-                mlat += user.getLat();
-                mlong += user.getLongi();
-            }
-            mlat /= actualGroupSize;
-            mlong /= actualGroupSize;
-
-            baeycentreMarker = mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(mlat, mlong))
-                    .title("Barycentre"));
-        }
     }
 }
