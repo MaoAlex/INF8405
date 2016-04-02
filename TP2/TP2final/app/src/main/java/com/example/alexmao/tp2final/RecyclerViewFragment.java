@@ -62,8 +62,12 @@ public class RecyclerViewFragment extends Fragment {
 
             groupeBDD.affichageGroupes();
             String gName;
+            Log.d(DEBUG_TAG, " userCourant id : " + userCourant.getId());
+            Log.d(DEBUG_TAG, " nom du groupe : " + groupeBDD.getGroupesByUserId(userCourant.getId()).get(0));
             if(!groupeBDD.getGroupesByUserId(userCourant.getId()).isEmpty()) {
+
                 gName = groupeBDD.getGroupesByUserId(userCourant.getId()).get(0);
+
                 test = new ArrayList<>(groupeBDD.getGroupeBDD(gName).getUsers());
                 Log.d(DEBUG_TAG, " taille de la liste a afficher : " + test.size());
                 for (int i = 0; i<test.size(); i++)
