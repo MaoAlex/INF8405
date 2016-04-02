@@ -51,19 +51,22 @@ public class RecyclerViewFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-        GroupeBDD groupeBDD = new GroupeBDD(getContext());
+        GroupeBDD groupeBDD = new GroupeBDD(getActivity());
         groupeBDD.open();
+        UsersBDD usersBDD = new UsersBDD(getActivity());
+        usersBDD.open();
+        userCourant = usersBDD.getProfil();
         List<Object> mContentItems = new ArrayList<>();
         Log.d(DEBUG_TAG, " INDICE TAB EST A  : " + indiceTab);
 
-        if(indiceTab == 0){
+        /*if(indiceTab == 0){
 
             List<User> test;
 
             groupeBDD.affichageGroupes();
             String gName;
             Log.d(DEBUG_TAG, " userCourant id : " + userCourant.getId());
-            Log.d(DEBUG_TAG, " nom du groupe : " + groupeBDD.getGroupesByUserId(userCourant.getId()).get(0));
+            //Log.d(DEBUG_TAG, " nom du groupe : " + groupeBDD.getGroupesByUserId(userCourant.getId()).get(0));
             if(!groupeBDD.getGroupesByUserId(userCourant.getId()).isEmpty()) {
 
                 gName = groupeBDD.getGroupesByUserId(userCourant.getId()).get(0);
@@ -74,11 +77,11 @@ public class RecyclerViewFragment extends Fragment {
                     mContentItems.add(test.get(i));
             }
 
-
+*/
         /*for (int i = 0; i < 10; ++i)
             mContentItems.add(new Object());*/
 
-        }else {
+        //}else {
             int compteGroupe = 0;
             HashMap<String, Groupe> groupesDansBDD =  groupeBDD.getGroupesBDD();
             for(Map.Entry<String, Groupe> entry : groupesDansBDD.entrySet()) {
@@ -91,9 +94,11 @@ public class RecyclerViewFragment extends Fragment {
                 compteGroupe++;
 
             }
-            Log.d(DEBUG_TAG, " taille de la liste de Groupe a afficher : " + compteGroupe);
 
-        }
+        //mContentItems.add(groupeBDD.getGroupeBDD(groupeBDD.getGroupesByUserId(usersBDD.getProfil().getId()).get(0)))
+        Log.d(DEBUG_TAG, " taille de la liste de Groupe a afficher : " + compteGroupe);
+
+        //}
 
 
 

@@ -156,6 +156,7 @@ public class RegisterInformation extends ConnectedMapActivity {
                 else
                     user = new User(nom, prenom, login, null, false, preference, null);
                 int id = (int) userBDD.insertUser(user);
+                Log.d(DEBUG_TAG, "valeur de insert");
                 userBDD.affichageUsers();
                 user.setId(id);
                 if (pref1 != "") {
@@ -205,7 +206,7 @@ public class RegisterInformation extends ConnectedMapActivity {
                         getMyRemoteBD().getExistGroup(groupName, existWrapper);
                         userBDD.deconnexion();
                         userBDD.connexion(user);
-
+                        Log.d("valeur id", " la valeur de l'id est de "+ id);
                         groupeBDD.insertInGroup(groupName, id, estOrganisateur);
                         getMyRemoteBD().addMdpToUser(user.getMail_(), password);
                         LatLng posUtilisateurCourant = getmLatLng();

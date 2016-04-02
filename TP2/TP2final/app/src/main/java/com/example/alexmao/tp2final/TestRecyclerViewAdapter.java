@@ -110,14 +110,14 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerVi
     }
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if(indiceClasse == -1) {
+        /*if(indiceClasse == 0) {
             User ci = (User) contents.get(position);
             holder.vName.setText("");
             holder.vSurname.setText(ci.getPrenom());
             holder.vEmail.setText(ci.getMail_());
             holder.vTitle.setText(" ");
             holder.vAddress.setText(position+"");
-        }else{
+        }else{*/
             Groupe g = (Groupe) contents.get(position);
 
             String surname = "Nombre d'utilisateurs : " + g.getUsers().size();
@@ -128,6 +128,6 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerVi
             holder.vEmail.setText(email);
             String title = "Position " + position;
             holder.vTitle.setText(g.getNomGroupe());
-        }
+        //}
     }
 }

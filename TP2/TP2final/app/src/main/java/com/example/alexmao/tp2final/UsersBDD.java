@@ -72,6 +72,7 @@ public class UsersBDD extends AbstractBDD {
             values.put(COL_PHOTO, "");
         //on insère l'objet dans la BDD via le ContentValues
         return database_.insert(maBaseSQLite_.TABLE_USERS, null, values);
+
     }
 
     public int updateUser(int id, User user){

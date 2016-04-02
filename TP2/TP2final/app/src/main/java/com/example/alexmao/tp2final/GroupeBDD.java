@@ -34,12 +34,13 @@ public class GroupeBDD extends AbstractBDD {
         //Création d'un ContentValues (fonctionne comme une HashMap)
          ContentValues values = new ContentValues();
         //on lui ajoute une valeur associée à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
-         values.put(maBaseSQLite_.COL_GROUP_NAME, group_name);
-            values.put(maBaseSQLite_.COL_USER_ID, user_id);
-            if(estOrganisateur)
+        values.put(maBaseSQLite_.COL_GROUP_NAME, group_name);
+        values.put(maBaseSQLite_.COL_USER_ID, user_id);
+        Log.d(DEBUG_TAG, "valeur de l'id de l'utilisateur" + user_id);
+        if(estOrganisateur)
                 values.put(maBaseSQLite_.COL_EST_ORGANISATEUR, EST_ORGANISATEUR);
-            else
-                values.put(maBaseSQLite_.COL_EST_ORGANISATEUR, NON_ORGANISATEUR);
+        else
+            values.put(maBaseSQLite_.COL_EST_ORGANISATEUR, NON_ORGANISATEUR);
 
         //on insère l'objet dans la BDD via le ContentValues
 
@@ -58,6 +59,8 @@ public class GroupeBDD extends AbstractBDD {
 
     //Recuperation des groupes associes a un utilisateur par son ID
     public ArrayList<String> getGroupesByUserId(int id) {
+        Log.d(DEBUG_TAG, "recuperation des groupes pour l'utilisateur d'id : " + id);
+
         ArrayList<String> groupes = new ArrayList<>();
         String query = "SELECT " + COL_GROUP_NAME
                 + " FROM "
@@ -65,7 +68,9 @@ public class GroupeBDD extends AbstractBDD {
                 + MaBaseSQLite.COL_USER_ID + " = "
                 + id;
         Cursor cursor = database_.rawQuery(query, null);
+        Log.d(DEBUG_TAG, "getGroupesByUserId: " + query);
         while (cursor.moveToNext()){
+            Log.d(DEBUG_TAG, "tour dans la recuperetion des groupes");
             groupes.add(cursor.getString(0));
         }
         return groupes;
@@ -187,13 +192,16 @@ public class GroupeBDD extends AbstractBDD {
 
     //fonciton de debug pour afficher les elements presents dans la table des groupes
     public void affichageGroupes() {
+        Log.d(DEBUG_TAG, "debut affichage des groupes");
+
         String query = "SELECT *"
                 + " FROM "
                 + TABLE_GROUPE ;
          Cursor cursor = database_.rawQuery(query, null);
         while (cursor.moveToNext()) {
             Log.d(DEBUG_TAG, cursor.getInt(0) + ", : " + cursor.getString(1)
-                    + ", " + cursor.getInt(2) + ", : " + cursor.getInt(3));
+                    + ", " + cursor.getInt(2) + ", : " + cursor.getString(3) + ", "+ cursor.getInt(4
+            ));
         }
     }
 

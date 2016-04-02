@@ -61,8 +61,10 @@ public class testActivity extends Activity {
             test1 = groupeBDD.getGroupeBDD(userInGroupe.get(0)).getUsers();
         }
         //if(test1.isEmpty())
-        mAdapter = new MyAdapter(test1, listGroupUser.get(0));
-        mRecyclerView.setAdapter(mAdapter);
+        if(!listGroupUser.isEmpty()) {
+            mAdapter = new MyAdapter(test1, listGroupUser.get(0));
+            mRecyclerView.setAdapter(mAdapter);
+        }
 
         final Button evenementButton = (Button) findViewById(R.id.evenement);
         evenementButton.setOnClickListener(new View.OnClickListener() {
