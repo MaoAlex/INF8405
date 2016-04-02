@@ -37,7 +37,7 @@ public class RegisterInformation extends ConnectedMapActivity {
     final String EXTRA_PRENOM = "user_prenom";
     boolean estOrganisateur = false;
 
-    private String[] tableauChoix = {"", "Bar", "Café", "Restaurant", "Parc", "Cinéma", "Musée" };
+    private String[] tableauChoix = {"", "Bar", "Cafe", "Restaurant", "Parc", "Cinema", "Musee" };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
