@@ -28,8 +28,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.alexmao.tp2final.firebase.ConnectedMapActivity;
+import com.example.alexmao.tp2final.firebase.LocalPicture;
 import com.example.alexmao.tp2final.firebase.LocalUser;
 import com.example.alexmao.tp2final.firebase.MdpWrapper;
+import com.example.alexmao.tp2final.firebase.Picture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -360,7 +362,15 @@ public class    LoginActivity extends ConnectedMapActivity implements LoaderCall
                             public void onPositionChanged(LocalUser localUser) {
                                 mLocalUser.update(localUser);
                                 intent.putExtra("localUser", mLocalUser);
-                                startActivity(intent);
+                                LocalPicture mLocalPicture = new LocalPicture();
+                                mLocalPicture.setOnRetrieve(new LocalPicture.OnRetrieve() {
+                                    @Override
+                                    public void onRetrive(Picture picture) {
+                                        //TODO save picture
+                                        startActivity(intent);
+                                    }
+                                });
+                                getMyRemoteBD().getUserPIc(mLocalPicture, mLocalUser.getDataBaseId());
                             }
                         });
                         getMyRemoteBD().getUserFromMail(mail, mLocalUser);

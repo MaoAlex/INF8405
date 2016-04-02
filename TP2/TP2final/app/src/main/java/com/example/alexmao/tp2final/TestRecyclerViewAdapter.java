@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Created by alexMAO on 14/03/2016.
- * Classe gérant l'affichage des informations dans les cartes
+ * Classe gÃ©rant l'affichage des informations dans les cartes
  */
 public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerViewAdapter.ViewHolder> implements View.OnClickListener {
 

@@ -592,4 +592,21 @@ public class FireBaseBD implements RemoteBD {
             }
         });
     }
+
+    @Override
+    public void getUserPIc(final LocalPicture localPicture, String userID) {
+        Firebase picBD = myFireBaseRef.child("pictures").child(userID);
+        picBD.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Picture picture = dataSnapshot.getValue(Picture.class);
+                localPicture.update(picture);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
 }
