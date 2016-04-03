@@ -2,6 +2,8 @@ package com.example.alexmao.modeledonnees.BDDInterne;
 
 /**
  * Created by alexMAO on 02/04/2016.
+ * Classe contenant les différents nom des colonnes pour les différentes tables
+ * Les lignes en commentaires signifient que cette colonne est déjà présente dans une autre table
  */
 public class Colonne {
 

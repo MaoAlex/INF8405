@@ -2,6 +2,7 @@ package com.example.alexmao.modeledonnees.BDDInterne;
 
 /**
  * Created by alexMAO on 03/04/2016.
+ * Fichier contenant les différentes requêtes pour la création des différentes tables de la BDD interne
  */
 public class CreateTable {
 
