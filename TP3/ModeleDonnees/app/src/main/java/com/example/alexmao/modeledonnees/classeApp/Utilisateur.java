@@ -13,6 +13,7 @@ public class Utilisateur {
     private String nom;
     private String prenom;
     private Date dateNaissance;
+    private String mail;
     private List<String> sports;
     private Uri photo;
     private double latitude;
@@ -51,6 +52,14 @@ public class Utilisateur {
 
     public void setDateNaissance(Date dateNaissance) {
         this.dateNaissance = dateNaissance;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     public List<String> getSports() {

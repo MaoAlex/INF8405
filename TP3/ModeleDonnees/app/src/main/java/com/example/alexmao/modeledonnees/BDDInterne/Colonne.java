@@ -12,6 +12,7 @@ public class Colonne {
     public static final String NOM = "nom";
     public static final String PRENOM = "prenom";
     public static final String DATE_NAISSANTE = "date_naissance";
+    public static final String MAIL = "mail";
     public static final String PHOTO = "photo";
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
@@ -23,6 +24,7 @@ public class Colonne {
 //    public static final String NOM = "nom";
 //    public static final String PRENOM = "prenom";
 //    public static final String DATE_NAISSANTE = "date_naissance";
+//    public static final String MAIL = "mail";
 //    public static final String PHOTO = "photo";
 //    public static final String LATITUDE = "latitude";
 //    public static final String LONGITUDE = "longitude";

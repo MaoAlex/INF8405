@@ -12,6 +12,7 @@ public class CreateTable {
             + Colonne.NOM + " TEXT NOT NULL, "
             + Colonne.PRENOM + " TEXT NOT NULL, "
             + Colonne.DATE_NAISSANTE + " INTEGER,"
+            + Colonne.MAIL + " TEXT NOT NULL, "
             + Colonne.PHOTO + " TEXT "
             + Colonne.LATITUDE + " REAL, "
             + Colonne.LONGITUDE + " REAL,"
@@ -23,6 +24,7 @@ public class CreateTable {
             + Colonne.NOM + " TEXT NOT NULL, "
             + Colonne.PRENOM + " TEXT NOT NULL, "
             + Colonne.DATE_NAISSANTE + " INTEGER,"
+            + Colonne.MAIL + " TEXT NOT NULL, "
             + Colonne.PHOTO + " TEXT "
             + Colonne.LATITUDE + " REAL, "
             + Colonne.LONGITUDE + " REAL,"
@@ -39,6 +41,7 @@ public class CreateTable {
     //Requete pour la création de la table evenement
     public static final String EVENEMENT = "CREATE TABLE " + Table.EVENEMENT + " ("
             + Colonne.ID_EVENEMENT + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + Colonne.NOMBRE_PARTICIPANTS + " INTEGER, "
             + Colonne.DATE_EVENEMENT + " INTEGER, "
             + Colonne.PHOTO + " TEXT, "
             + Colonne.ID_SPORT_ASSOCIE + "INTEGER, FOREIGN KEY(" + Colonne.ID_SPORT_ASSOCIE + ") REFERENCES " + Table.SPORT + "( " + Colonne.ID_SPORT_ASSOCIE + " ), "
