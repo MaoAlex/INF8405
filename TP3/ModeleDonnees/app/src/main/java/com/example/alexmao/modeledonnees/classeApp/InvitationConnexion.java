@@ -10,6 +10,7 @@ public class InvitationConnexion {
     private Utilisateur invite;
     private Date date;
     private String idFirebase;
+    private int idBDD;
 
     public Utilisateur getExpediteur() {
         return expediteur;
@@ -41,5 +42,13 @@ public class InvitationConnexion {
 
     public void setIdFirebase(String idFirebase) {
         this.idFirebase = idFirebase;
+    }
+
+    public int getIdBDD() {
+        return idBDD;
+    }
+
+    public void setIdBDD(int idBDD) {
+        this.idBDD = idBDD;
     }
 }

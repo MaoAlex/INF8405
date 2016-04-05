@@ -15,6 +15,7 @@ import java.util.Date;
 
 /**
  *Classe permettant la manipulation de la table evenement
+ * A COMPLETER
  */
 public class EvenementBDD extends AbstractBDD {
     private static final String TAG = "EvenementBDD";
@@ -23,13 +24,15 @@ public class EvenementBDD extends AbstractBDD {
     private static final int NUM_COL_NOMBRE_PARTICIPANT = 1;
     private static final int NUM_COL_DATE_EVENENEMENT = 2;
     private static final int NUM_COL_PHOTO = 3;
-    private static final int NUM_COL_ID_SPORT_ASSOCIE = 4;
+    private static final int NUM_COL_SPORT_ASSOCIE = 4;
     private static final int NUM_COL_NOM_EVENEMENT = 5;
-    private static final int NUM_COL_ID_GROUPE = 6;
-    private static final int NUM_COL_LATITUDE = 7;
-    private static final int NUM_COL_LONGITUDE = 8;
-    private static final int NUM_COL_NOM_LIEU = 9;
-    private static final int NUM_COL_ID_FIREBASE = 10;
+    private static final int NUM_COL_ID_FIREBASE = 6;
+    private static final int NUM_COL_ID_GROUPE = 7;
+    private static final int NUM_COL_LATITUDE = 8;
+    private static final int NUM_COL_LONGITUDE = 9;
+    private static final int NUM_COL_NOM_LIEU = 10;
+    private static final int NUM_COL_ID_ORGANISATEUR = 11;
+    private static final int NUM_COL_VISIBILITE = 12;
 
     public EvenementBDD(Context pContext) {
         super(pContext);
@@ -59,6 +62,8 @@ public class EvenementBDD extends AbstractBDD {
         values.put(Colonne.LONGITUDE, evenement.getLongitude());
         values.put(Colonne.NOM_LIEU, evenement.getLieu());
         values.put(Colonne.ID_FIREBASE, evenement.getIdFirebase());
+        values.put(Colonne.ID_ORGANISATEUR, evenement.getOrganisateur().getIdBDD());
+        values.put(Colonne.VISIBILITE, evenement.getVisibilite());
 
         //on insère l'objet dans la BDD via le ContentValues,
         return database_.insert(Table.EVENEMENT, null, values);
@@ -86,6 +91,8 @@ public class EvenementBDD extends AbstractBDD {
         values.put(Colonne.LONGITUDE, evenement.getLongitude());
         values.put(Colonne.NOM_LIEU, evenement.getLieu());
         values.put(Colonne.ID_FIREBASE, evenement.getIdFirebase());
+        values.put(Colonne.ID_ORGANISATEUR, evenement.getOrganisateur().getIdBDD());
+        values.put(Colonne.VISIBILITE, evenement.getVisibilite());
 
         return database_.update(Table.EVENEMENT, values, Colonne.ID_EVENEMENT + " = " + id, null);
     }
@@ -98,7 +105,7 @@ public class EvenementBDD extends AbstractBDD {
 
     //méthode permettant de récuperer tous les événements stockés dans la BDD interne
     public ArrayList<Evenement> obtenirEvenements() {
-        ArrayList<Evenement> listEvenement = new ArrayList<>();
+        ArrayList<Evenement> listeEvenement = new ArrayList<>();
         String query = "SELECT *"
                 + " FROM "
                 + Table.EVENEMENT ;
@@ -125,22 +132,24 @@ public class EvenementBDD extends AbstractBDD {
             evenement.setDate(date);
             if(c.getString(NUM_COL_PHOTO)!=""||c.getString(NUM_COL_PHOTO)!=null)
                 evenement.setPhoto(Uri.parse(c.getString(NUM_COL_PHOTO)));
-            //
-            //!!!!!!!!!!!!!!!!!!!A COMPLETER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //
-            // evenement.set(c.getString(NUM_COL_MAIL));
+            evenement.setSport(c.getString(NUM_COL_SPORT_ASSOCIE));
             evenement.setNomEvenement(c.getString(NUM_COL_NOM_EVENEMENT));
             evenement.setLatitude(c.getDouble(NUM_COL_LATITUDE));
             evenement.setLatitude(c.getDouble(NUM_COL_LONGITUDE));
             evenement.setLieu(c.getString(NUM_COL_NOM_LIEU));
             evenement.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
-
+            //
+            //!!!!!!!!!!!!!!!!!!!A COMPLETER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //
+            //evenement.setGroupeAssocie();
+            //evenement.setOrganisateur();
+            evenement.setVisibilite(c.getString(NUM_COL_VISIBILITE));
             //on l'ajoute à la liste d'evenement
-            listEvenement.add(evenement);
+            listeEvenement.add(evenement);
 
         }
         c.close();
-        return listEvenement;
+        return listeEvenement;
     }
 
     //fonction de debuggage pour afficher les événements présents dans la BDD interne
@@ -158,7 +167,7 @@ public class EvenementBDD extends AbstractBDD {
                     + ", le nombre de participants est de : " + cursor.getInt(NUM_COL_NOMBRE_PARTICIPANT)
                     + ", la date de l'evenement est : " + cursor.getString(NUM_COL_DATE_EVENENEMENT)
                     + ", sa photo est : " + cursor.getString(NUM_COL_PHOTO)
-                    + ", l'id du sport associé est : " + cursor.getInt(NUM_COL_ID_SPORT_ASSOCIE)
+                    + ", le sport associé est : " + cursor.getString(NUM_COL_SPORT_ASSOCIE)
                     + ", le nom de l'evenement est : " + cursor.getString(NUM_COL_NOM_EVENEMENT)
                     + ", l'id du groupe est : (" + cursor.getString(NUM_COL_ID_GROUPE)
                     + ", sa position est : (" + cursor.getDouble(NUM_COL_LATITUDE) + ", " + cursor.getDouble(NUM_COL_LONGITUDE)

@@ -10,6 +10,7 @@ public class Groupe {
     private String idFirebase;
     private int idBDD;
     private Conversation conversation;
+    private Evenement evenement;
 
     public List<Utilisateur> getListeMembre() {
         return listeMembre;
@@ -41,5 +42,13 @@ public class Groupe {
 
     public void setConversation(Conversation conversation) {
         this.conversation = conversation;
+    }
+
+    public Evenement getEvenement() {
+        return evenement;
+    }
+
+    public void setEvenement(Evenement evenement) {
+        this.evenement = evenement;
     }
 }

@@ -9,6 +9,7 @@ public class Message {
     private String message;
     private Date date;
     private Utilisateur expediteur;
+    private int idBDD;
 
     public String getMessage() {
         return message;
@@ -32,5 +33,13 @@ public class Message {
 
     public void setExpediteur(Utilisateur expediteur) {
         this.expediteur = expediteur;
+    }
+
+    public int getIdBDD() {
+        return idBDD;
+    }
+
+    public void setIdBDD(int idBDD) {
+        this.idBDD = idBDD;
     }
 }

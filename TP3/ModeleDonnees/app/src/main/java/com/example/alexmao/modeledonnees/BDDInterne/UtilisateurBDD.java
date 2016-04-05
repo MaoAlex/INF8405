@@ -159,7 +159,7 @@ public class UtilisateurBDD extends AbstractBDD {
 
     //méthode permettant de récupérer tous les utilisateurs stockés dans la table utilisateur
     public ArrayList<Utilisateur> obtenirUtilisateurs() {
-        ArrayList<Utilisateur> listUtilisateur = new ArrayList<>();
+        ArrayList<Utilisateur> listeUtilisateur = new ArrayList<>();
         String query = "SELECT *"
                 + " FROM "
                 + Table.UTILISATEUR ;
@@ -193,11 +193,11 @@ public class UtilisateurBDD extends AbstractBDD {
             utilisateur.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
 
             //on l'ajoute à la liste d'utilisateur
-            listUtilisateur.add(utilisateur);
+            listeUtilisateur.add(utilisateur);
 
         }
         c.close();
-        return listUtilisateur;
+        return listeUtilisateur;
     }
 
     //fonction permettant d'insérant l'utilisateur connecté dans la table correspondante

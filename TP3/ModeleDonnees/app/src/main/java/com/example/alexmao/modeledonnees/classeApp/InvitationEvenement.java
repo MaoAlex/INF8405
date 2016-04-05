@@ -11,6 +11,7 @@ public class InvitationEvenement {
     private Utilisateur invite;
     private Date date;
     private String idFirebase;
+    private int idBDD;
 
     public Evenement getEvenement() {
         return evenement;
@@ -50,5 +51,13 @@ public class InvitationEvenement {
 
     public void setIdFirebase(String idFirebase) {
         this.idFirebase = idFirebase;
+    }
+
+    public int getIdBDD() {
+        return idBDD;
+    }
+
+    public void setIdBDD(int idBDD) {
+        this.idBDD = idBDD;
     }
 }

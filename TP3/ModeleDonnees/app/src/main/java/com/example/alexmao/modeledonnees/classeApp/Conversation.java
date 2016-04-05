@@ -9,6 +9,7 @@ public class Conversation {
     private String nomConversation;
     private List<Message> listeMessage;
     private Groupe groupe;
+    private int idBDD;
 
     public String getNomConversation() {
         return nomConversation;
@@ -32,5 +33,13 @@ public class Conversation {
 
     public void setGroupe(Groupe groupe) {
         this.groupe = groupe;
+    }
+
+    public int getIdBDD() {
+        return idBDD;
+    }
+
+    public void setIdBDD(int idBDD) {
+        this.idBDD = idBDD;
     }
 }

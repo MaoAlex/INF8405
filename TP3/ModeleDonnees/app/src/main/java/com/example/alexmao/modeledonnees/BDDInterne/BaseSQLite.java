@@ -44,7 +44,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
         Log.d(TAG, "onCreate: Creation de la table evenement");
         db.execSQL(CreateTable.EVENEMENT_INTERESSE);
         Log.d(TAG, "onCreate: Creation de la table evenement interesse");
-        db.execSQL(CreateTable.UTILISATEUR_EVENEMENT_PARTICIPANT);
+        db.execSQL(CreateTable.PARTICIPANT_EVENEMENT);
         Log.d(TAG, "onCreate: Creation de la table utilisateur evenement participant réussie");
         db.execSQL(CreateTable.INVITATION_EVENEMENT);
         Log.d(TAG, "onCreate: Creation de la table invitation evenement réussie");
@@ -80,7 +80,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
         Log.d(TAG, "onUpgrade: Creation de la table evenement réussie");
         db.execSQL("DROP TABLE IF EXISTS " + Table.EVENEMENT_INTERESSE + ";");
         Log.d(TAG, "onUpgrade: Creation de la table evenement interesse réussie");
-        db.execSQL("DROP TABLE IF EXISTS " + Table.UTILISATEUR_PARTICIPANT_EVENEMENT + ";");
+        db.execSQL("DROP TABLE IF EXISTS " + Table.PARTICIPANT_EVENEMENT + ";");
         Log.d(TAG, "onUpgrade: Creation de la table utilisateur participant evenement réussie");
         db.execSQL("DROP TABLE IF EXISTS " + Table.INVITATION_EVENEMENT + ";");
         Log.d(TAG, "onUpgrade: Creation de la table invitation evenement réussie");
