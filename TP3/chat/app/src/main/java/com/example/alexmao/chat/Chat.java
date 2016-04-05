@@ -15,12 +15,20 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.alexmao.chat.classeApp.Groupe;
+import com.example.alexmao.chat.classeApp.Utilisateur;
 import com.example.alexmao.chat.custom.CustomActivity;
 import com.example.alexmao.chat.model.Conversation;
 import com.example.alexmao.chat.utils.Const;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * The Class Chat is the Activity class that holds main chat screen. It shows
@@ -51,6 +59,8 @@ public class Chat extends CustomActivity
 	/** The handler. */
 	private static Handler handler;
 
+	private Groupe groupe;
+	private Utilisateur utilisateurConnecte;
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
 	 */
@@ -69,12 +79,40 @@ public class Chat extends CustomActivity
 
 		txt = (EditText) findViewById(R.id.txt);
 		txt.setInputType(InputType.TYPE_CLASS_TEXT
-				| InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+                | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
 
 		setTouchNClick(R.id.btnSend);
 
 		buddy = getIntent().getStringExtra(Const.EXTRA_DATA);
+        buddy = "E T";
 		getActionBar().setTitle(buddy);
+
+		/*GroupeBDD groupeBDD = new GroupeBDD(this);
+		groupeBDD.open();
+		groupe = new Groupe();*/
+
+        groupe = new Groupe();
+        ArrayList<Utilisateur> listeUtilisateur = new ArrayList<>();
+        Utilisateur u1 = new Utilisateur();
+        u1.setNom("nom");
+        u1.setPrenom("prenom");
+        u1.setDateNaissance(null);
+        ArrayList<String> listeSport = new ArrayList<>();
+        listeSport.add("Footba");
+        u1.setSports(listeSport);
+        u1.setPhoto(null);
+
+/*        private double latitude;
+        private double longitude;
+        private List<Utilisateur> listeConnexion;
+        private List<Integer> listeInterets;
+        private List<Integer> listeParticipations;
+        private String idFirebase;
+        private int idBDD;
+        private ParametresUtilisateur parametres;*/
+        groupe.setListeMembre(new ArrayList<Utilisateur>());
+        groupe.getListeMembre().add(u1);
+//        groupe.getListeMembre();
 
 		handler = new Handler();
 	}
@@ -128,17 +166,17 @@ public class Chat extends CustomActivity
 		imm.hideSoftInputFromWindow(txt.getWindowToken(), 0);
 
 		String s = txt.getText().toString();
-		/*final Conversation c = new Conversation(s, new Date(),
-				UserList.user.getUsername());
+		final Conversation c = new Conversation(s, new Date(),
+				groupe.getListeMembre().get(0).getNom());
 		c.setStatus(Conversation.STATUS_SENDING);
-		convList.add(c);*/
+		convList.add(c);
 		adp.notifyDataSetChanged();
 		txt.setText(null);
 
-		/*ParseObject po = new ParseObject("Chat");
-		po.put("sender", UserList.user.getUsername());
+		ParseObject po = new ParseObject("Chat");
+		po.put("sender", groupe.getListeMembre().get(0).getNom());
 		po.put("receiver", buddy);
-		// po.put("createdAt", "");
+		po.put("createdAt", "");
 		po.put("message", s);
 		po.saveEventually(new SaveCallback() {
 
@@ -151,7 +189,7 @@ public class Chat extends CustomActivity
 					c.setStatus(Conversation.STATUS_FAILED);
 					adp.notifyDataSetChanged();
 			}
-		});*/
+		});
 	}
 
 	/**
@@ -160,27 +198,27 @@ public class Chat extends CustomActivity
 	 */
 	private void loadConversationList()
 	{
-		//ParseQuery<ParseObject> q = ParseQuery.getQuery("Chat");
+		ParseQuery<ParseObject> q = ParseQuery.getQuery("Chat");
 		if (convList.size() == 0)
 		{
 			// load all messages...
-			/*ArrayList<String> al = new ArrayList<String>();
+			ArrayList<String> al = new ArrayList<String>();
 			al.add(buddy);
-			al.add(UserList.user.getUsername());
+			al.add(groupe.getListeMembre().get(0).getNom());
 			q.whereContainedIn("sender", al);
-			q.whereContainedIn("receiver", al);*/
+			q.whereContainedIn("receiver", al);
 		}
 		else
 		{
 			// load only newly received message..
-			/*if (lastMsgDate != null)
+			if (lastMsgDate != null)
 				q.whereGreaterThan("createdAt", lastMsgDate);
 			q.whereEqualTo("sender", buddy);
-			q.whereEqualTo("receiver", UserList.user.getUsername());*/
+			q.whereEqualTo("receiver", groupe.getListeMembre().get(0).getNom());
 		}
-		//q.orderByDescending("createdAt");
-		//q.setLimit(30);
-		/*q.findInBackground(
+		q.orderByDescending("createdAt");
+		q.setLimit(30);
+		q.findInBackground(
 				new FindCallback<ParseObject>() {
 
 			@Override
@@ -211,7 +249,7 @@ public class Chat extends CustomActivity
 					}
 				}, 1000);
 			}
-		});*/
+		});
 
 	}
 
@@ -295,7 +333,7 @@ public class Chat extends CustomActivity
 	{
 		if (item.getItemId() == android.R.id.home)
 		{
-			finish();
+            finish();
 		}
 		return super.onOptionsItemSelected(item);
 	}

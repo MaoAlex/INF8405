@@ -1,4 +1,4 @@
-package com.example.alexmao.modeledonnees.BDDInterne;
+package com.example.alexmao.chat.BDDInterne;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -48,7 +48,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
         Log.d(TAG, "onCreate: Creation de la table utilisateur evenement participant réussie");
         db.execSQL(CreateTable.INVITATION_EVENEMENT);
         Log.d(TAG, "onCreate: Creation de la table invitation evenement réussie");
-//        db.execSQL(CreateTable.SPORT);
+        //db.execSQL(CreateTable.SPORT);
         Log.d(TAG, "onCreate: Creation de la table sport réussie");
         db.execSQL(CreateTable.SPORT_UTILISATEUR);
         Log.d(TAG, "onCreate: Creation de la table utilisateur réussie");
@@ -84,7 +84,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
         Log.d(TAG, "onUpgrade: Creation de la table utilisateur participant evenement réussie");
         db.execSQL("DROP TABLE IF EXISTS " + Table.INVITATION_EVENEMENT + ";");
         Log.d(TAG, "onUpgrade: Creation de la table invitation evenement réussie");
-//        db.execSQL("DROP TABLE IF EXISTS " + Table. + ";");
+//        db.execSQL("DROP TABLE IF EXISTS " + Table.SPORT + ";");
         Log.d(TAG, "onUpgrade: Creation de la table sport réussie");
         db.execSQL("DROP TABLE IF EXISTS " + Table.SPORT_UTILISATEUR + ";");
         Log.d(TAG, "onUpgrade: Creation de la table sport utilisateur réussie");
