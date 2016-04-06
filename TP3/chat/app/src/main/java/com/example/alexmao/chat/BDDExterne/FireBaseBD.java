@@ -51,8 +51,8 @@ public class FireBaseBD implements RemoteBD {
         Firebase userBD = myFireBaseRef.child("users").child("profil").push();
         userBD.setValue(user);
 
-        Firebase requestBD = myFireBaseRef.child("requests").child(userBD.getKey());
-        requestBD.setValue("none");
+//        Firebase requestBD = myFireBaseRef.child("requests").child(userBD.getKey());
+//        requestBD.setValue("none");
 
         addUserToID(userBD.getKey(), user.getMailAdr());
         return userBD.getKey();
@@ -86,7 +86,7 @@ public class FireBaseBD implements RemoteBD {
     //update user when modified on server
     @Override
     public void listenToChangeOnUser(final LocalUser user, final String userBDID) {
-        myFireBaseRef.child("users").child(userBDID).addValueEventListener(new ValueEventListener() {
+        myFireBaseRef.child("users").child("profil").child(userBDID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Log.d("onDataChanged", "Child of id: " + userBDID + " modified");
@@ -121,7 +121,7 @@ public class FireBaseBD implements RemoteBD {
     public void changeMail(LocalUser localUser, String newMail) {
         String oldMail = localUser.getMailAdr();
         localUser.setMailAdr(newMail);
-        Firebase userBD = myFireBaseRef.child("users").child(localUser.getDataBaseId());
+        Firebase userBD = myFireBaseRef.child("users").child("profil").child(localUser.getDataBaseId());
         userBD.setValue(localUser);
         Firebase userToID = myFireBaseRef.child("userToID").child(oldMail.replace(".", ")"));
         userToID.setValue(null);
