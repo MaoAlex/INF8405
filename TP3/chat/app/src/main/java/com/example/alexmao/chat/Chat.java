@@ -337,4 +337,6 @@ public class Chat extends CustomActivity
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+
 }
