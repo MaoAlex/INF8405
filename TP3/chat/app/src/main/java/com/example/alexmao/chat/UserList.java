@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.alexmao.chat.classeApp.Utilisateur;
 import com.example.alexmao.chat.custom.CustomActivity;
 import com.example.alexmao.chat.utils.Const;
 import com.example.alexmao.chat.utils.Utils;
@@ -30,10 +31,10 @@ public class UserList extends CustomActivity
 {
 
 	/** The Chat list. */
-	private ArrayList<User> uList;
+	private ArrayList<Utilisateur> uList;
 
 	/** The user. */
-	public static User user;
+	public static Utilisateur user;
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
@@ -77,7 +78,7 @@ public class UserList extends CustomActivity
 	 */
 	private void updateUserStatus(boolean online)
 	{
-		user.put("online", online);
+		//user.put("online", online);
 		//user.saveEventually();
 	}
 
@@ -102,7 +103,7 @@ public class UserList extends CustomActivity
 										R.string.msg_no_user_found,
 										Toast.LENGTH_SHORT).show();
 
-							uList = new ArrayList<User>();
+							uList = new ArrayList<Utilisateur>();
 							uList = (ArrayList)li;
 							ListView list = (ListView) findViewById(R.id.list);
 							list.setAdapter(new UserAdapter());
@@ -132,7 +133,7 @@ public class UserList extends CustomActivity
 	}
 
 	/**
-	 * The Class UserAdapter is the adapter class for User ListView. This
+	 * The Class UserAdapter is the adapter class for Utilisateur ListView. This
 	 * adapter shows the user name and it's only online status for each item.
 	 */
 	private class UserAdapter extends BaseAdapter
@@ -151,7 +152,7 @@ public class UserList extends CustomActivity
 		 * @see android.widget.Adapter#getItem(int)
 		 */
 		@Override
-		public User getItem(int arg0)
+		public Utilisateur getItem(int arg0)
 		{
 			return uList.get(arg0);
 		}
@@ -174,13 +175,13 @@ public class UserList extends CustomActivity
 			if (v == null)
 				v = getLayoutInflater().inflate(R.layout.chat_item, null);
 
-			User c = getItem(pos);
+			Utilisateur c = getItem(pos);
 			TextView lbl = (TextView) v;
 			lbl.setText(c.getNom());
-			lbl.setCompoundDrawablesWithIntrinsicBounds(
+			/*lbl.setCompoundDrawablesWithIntrinsicBounds(
 					c.isOnline() ? R.drawable.ic_online
 							: R.drawable.ic_offline, 0, R.drawable.arrow, 0);
-
+*/
 			return v;
 		}
 

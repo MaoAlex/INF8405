@@ -1,7 +1,5 @@
 package com.example.alexmao.chat.model;
 
-import com.example.alexmao.chat.UserList;
-
 import java.util.Date;
 
 /**
@@ -83,7 +81,7 @@ public class Conversation
 	 */
 	public boolean isSent()
 	{
-		return UserList.user.getNom().equals(sender);
+		return true;//UserList.user.getNom().equals(sender);
 	}
 
 	/**
