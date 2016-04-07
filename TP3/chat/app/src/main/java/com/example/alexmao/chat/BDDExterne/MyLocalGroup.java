@@ -8,16 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({"databaseId", "changeListener"})
 
 public class MyLocalGroup extends MyGroup {
-    public interface ChangeListener {
-        void onChange(MyLocalGroup myLocalGroup);
-    };
-
-    private ChangeListener changeListener;
     private String databaseID;
-
-    public void setChangeListener(ChangeListener changeListener) {
-        this.changeListener = changeListener;
-    }
 
     public MyLocalGroup() {
         super();
@@ -25,10 +16,6 @@ public class MyLocalGroup extends MyGroup {
 
     public MyLocalGroup(String databaseID) {
         this.databaseID = databaseID;
-    }
-
-    public ChangeListener getChangeListener() {
-        return changeListener;
     }
 
     public String getDatabaseID() {
@@ -48,11 +35,4 @@ public class MyLocalGroup extends MyGroup {
         super(groupName, organiser);
     }
 
-    @Override
-    public void update(MyGroup myGroup) {
-        super.update(myGroup);
-
-        if (changeListener != null)
-            changeListener.onChange(this);
-    }
 }

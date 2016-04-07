@@ -12,27 +12,14 @@ import java.util.ArrayList;
  */
 
 @JsonIgnoreProperties({"dataBaseId", "changeListener", "profilPic"})
-public class LocalUser extends UserProfil {
+public class LocalUserProfil extends UserProfil {
     private String dataBaseId;
-    public interface ChangeListener{
-        void onPositionChanged(LocalUser localUser);
-    }
     private Picture profilPic;
 
-    private ChangeListener changeListener;
-
-    public void setChangeListener(ChangeListener changeListener) {
-        this.changeListener = changeListener;
+    public LocalUserProfil() {
     }
 
-    public LocalUser() {
-    }
-
-    public ChangeListener getChangeListener() {
-        return changeListener;
-    }
-
-    public LocalUser(String dataBaseId) {
+    public LocalUserProfil(String dataBaseId) {
 
         this.dataBaseId = dataBaseId;
     }
@@ -45,39 +32,39 @@ public class LocalUser extends UserProfil {
         this.profilPic = profilPic;
     }
 
-    public static final Parcelable.Creator<LocalUser> CREATOR = new Parcelable.Creator<LocalUser>()
+    public static final Parcelable.Creator<LocalUserProfil> CREATOR = new Parcelable.Creator<LocalUserProfil>()
     {
         @Override
-        public LocalUser createFromParcel(Parcel source)
+        public LocalUserProfil createFromParcel(Parcel source)
         {
-            return new LocalUser(source);
+            return new LocalUserProfil(source);
         }
 
         @Override
-        public LocalUser[] newArray(int size)
+        public LocalUserProfil[] newArray(int size)
         {
-            return new LocalUser[size];
+            return new LocalUserProfil[size];
         }
     };
 
-    public LocalUser(Parcel in) {
+    public LocalUserProfil(Parcel in) {
         super(in);
         dataBaseId = in.readString();
     }
 
-    public LocalUser(String firstName, String lastName, String mailAdr, String dataBaseId) {
+    public LocalUserProfil(String firstName, String lastName, String mailAdr, String dataBaseId) {
         super(firstName, lastName, mailAdr);
         this.dataBaseId = dataBaseId;
     }
 
-    public LocalUser(String firstName, String lastName, String mailAdr) {
+    public LocalUserProfil(String firstName, String lastName, String mailAdr) {
         super(firstName, lastName, mailAdr);
     }
 
-    public LocalUser(String firstName, String lastName, String mailAdr, ArrayList<String> pref) {
+    public LocalUserProfil(String firstName, String lastName, String mailAdr, ArrayList<String> pref) {
         super(firstName, lastName, mailAdr, pref);
     }
-    public LocalUser(UserProfil user) {
+    public LocalUserProfil(UserProfil user) {
         super(user.getFirstName(), user.getLastName(), user.getMailAdr());
     }
 
@@ -87,11 +74,6 @@ public class LocalUser extends UserProfil {
 
     public void setDataBaseId(String dataBaseId) {
         this.dataBaseId = dataBaseId;
-    }
-
-    public void update() {
-        if (changeListener != null)
-            changeListener.onPositionChanged(this);
     }
 
     @Override

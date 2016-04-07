@@ -14,20 +14,22 @@ public interface RemoteBD {
 
     String addUserProfil(UserProfil user);
 
-    void getUserProfil(String id, LocalUser user);
+    void getUserProfil(String id, UserProfil user,
+                       OnUserProfilReceived onUserProfilReceivedCallback);
 
-    void getUserProfilFromMail(String mailAdr, LocalUser user);
+    void getUserProfilFromMail(String mailAdr, LocalUserProfil user,
+                               OnUserProfilReceived onUserProfilReceivedCallback);
 
     //Mise à jour de l'utilisateur
-    void listenToChangeOnUser(final LocalUser user, final String userBDID);
+    void listenToChangeOnUser(final LocalUserProfil user, final String userBDID);
 
     String addGroup(MyGroup myGroup);
 
     void addUserToGroup(String groupID, String userID);
 
-    void getGroup(String groupID, MyLocalGroup myGroup);
+    void getGroup(String groupID, MyLocalGroup myGroup, OnGroupReceived onGroupReceived);
 
-    void getGroupFromName(String name, MyLocalGroup myGroup);
+    void getGroupFromName(String name, MyLocalGroup myGroup, OnGroupReceived onGroupReceived);
 
     void listenToChangeOnGroup(final MyGroup group, final String groupBDID);
 
@@ -39,19 +41,21 @@ public interface RemoteBD {
 
     void getMdp(String mail, MdpWrapper mdpWrapper);
 
-    void getExistGroup(String name, ExistWrapper existWrapper);
+    void getExistGroup(String name, OnBooleanReceived onBooleanReceived);
 
-    void getExistUser(String mailADR, ExistWrapper existWrapper);
+    void getExistUser(String mailADR, OnBooleanReceived onBooleanReceived);
 
-    void changeMail(LocalUser localUser, String newMail);
+    void changeMail(LocalUserProfil localUserProfil, String newMail);
 
     void changeGroupName(MyLocalGroup myLocalGroup, String newName);
 
     void addPicToUser(String userID, Picture picture);
 
-    void getUserPIc(LocalUser localUser, String userID);
+    void getUserPIc(LocalUserProfil localUserProfil, String userID,
+                    OnPictureReceived onPictureReceivedCallback);
 
-    void getUserPIc(LocalPicture picture, String userID);
+    void getUserPIc(Picture picture, String userID,
+                    OnPictureReceived onPictureReceivedCallback);
 
     String addDiscussion(Conversation discussion);
 

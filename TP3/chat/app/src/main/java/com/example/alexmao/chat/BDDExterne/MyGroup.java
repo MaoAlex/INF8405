@@ -9,26 +9,14 @@ import java.util.List;
 public class MyGroup {
     private String groupName;
     private List<String> membersID;
-    private List<Boolean> isOrganiser;
-
-    public List<Boolean> getIsOrganiser() {
-        return isOrganiser;
-    }
-
-    public void setIsOrganiser(List<Boolean> isOrganiser) {
-        this.isOrganiser = isOrganiser;
-    }
 
     public MyGroup() {
         membersID = new LinkedList<>();
-        isOrganiser = new LinkedList<>();
-
     }
 
     public MyGroup(String groupName, String organiser) {
         this.groupName = groupName;
         membersID = new LinkedList<>();
-        isOrganiser = new LinkedList<>();
         membersID.add(organiser);
     }
 
@@ -39,10 +27,6 @@ public class MyGroup {
 
     public void addUser(String id) {
         membersID.add(id);
-    }
-
-    public void addIsOrganiser(boolean b) {
-        isOrganiser.add(b);
     }
 
     public String getGroupName() {
