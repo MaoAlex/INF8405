@@ -8,9 +8,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.alexmao.chat.BDDExterne.ConversationEBDD;
+import com.example.alexmao.chat.BDDExterne.MessageBDD;
 import com.example.alexmao.chat.R;
-import com.example.alexmao.chat.classeApp.Conversation;
-import com.example.alexmao.chat.classeApp.Message;
 import com.example.alexmao.chat.BDDExterne.FireBaseBD;
 import com.example.alexmao.chat.BDDExterne.LocalUserProfil;
 import com.example.alexmao.chat.BDDExterne.OnMessageReceiveCallback;
@@ -26,7 +26,7 @@ public class ChatTestFBActivity extends Activity {
     private RemoteBD remoteBD;
     private LocalUserProfil currentUserFirebase;
     private LocalUserProfil testLocalUserProfil;
-    private Conversation discussion;
+    private ConversationEBDD discussion;
     private String discussionID;
 
     @Override
@@ -46,7 +46,7 @@ public class ChatTestFBActivity extends Activity {
         String idTest = remoteBD.addUserProfil(testLocalUserProfil);
         testLocalUserProfil.setDataBaseId(idTest);
 
-        discussion = new Conversation();
+        discussion = new ConversationEBDD();
         discussionID = remoteBD.addDiscussion(discussion);
 
         launchMsgBut = (Button) findViewById(R.id.send_message_fb);
@@ -61,7 +61,7 @@ public class ChatTestFBActivity extends Activity {
         //when a new message arrived, we call onNewMsg
         remoteBD.listenToConversation(discussionID, currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
             @Override
-            public void onNewMessage(Message message) {
+            public void onNewMessage(MessageBDD message) {
                 onNewMsg(message);
             }
         });
@@ -72,8 +72,8 @@ public class ChatTestFBActivity extends Activity {
         if (content == null)
             return;
         //Create a class
-        Message conversation   = new Message();
-        conversation.setDate(new Date());
+        MessageBDD conversation   = new MessageBDD();
+        conversation.setDate(new Date().getTime());
         //content is what the user has written on the screen (in short the message body)
         conversation.setMessage(content);
         //id firebase
@@ -82,7 +82,7 @@ public class ChatTestFBActivity extends Activity {
     }
 
     //Called when the current user recieved a new message
-    void onNewMsg(Message conversation) {
+    void onNewMsg(MessageBDD conversation) {
         if (conversation == null)
             return;
         TextView textView = new TextView(this);
