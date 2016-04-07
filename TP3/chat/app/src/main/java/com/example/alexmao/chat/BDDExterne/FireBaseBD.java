@@ -464,5 +464,20 @@ public class FireBaseBD implements RemoteBD {
         groupBD.setValue(eventID);
     }
 
+    @Override
+    public void getEventFromGroup(String groupID, final OnStringReceived onStringReceived) {
+        Firebase groupBD = myFireBaseRef.child("groupToEnvent").child(groupID);
+        groupBD.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String eventID = (String) dataSnapshot.getValue();
+                onStringReceived.onStringReceived(eventID);
+            }
 
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
 }

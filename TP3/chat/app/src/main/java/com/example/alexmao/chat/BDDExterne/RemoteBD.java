@@ -65,11 +65,13 @@ public interface RemoteBD {
 
     String addMsgToDiscussion(String discussionID, Message message);
 
+    //envoie un message à un utilisateur
     String notifyUserForMsg(String userID, Message message, String conversationID);
 
     String addMsgAndNotify(String localUserID, Message message, String conversationID,
                            MyGroup receivers);
 
+    //ajoute une callback appellée à chaque nouveau message
     void listenToConversation(String conversationID, final String userBDID,
                               OnMessageReceiveCallback onMessageReceiveCallback);
 
@@ -77,5 +79,5 @@ public interface RemoteBD {
 
     void addEventToGroup(String eventID, String groupID);
 
-    void getEventFromGroup(String eventID, OnStringReceived onStringReceived);
+    void getEventFromGroup(String groupID, OnStringReceived onStringReceived);
 }
