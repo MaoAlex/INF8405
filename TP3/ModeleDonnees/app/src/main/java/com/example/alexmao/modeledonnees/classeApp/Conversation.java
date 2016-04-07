@@ -11,13 +11,11 @@ import java.util.List;
 public class Conversation implements Parcelable {
     private String nomConversation;
     private List<Message> listeMessage;
-    private Groupe groupe;
     private int idBDD;
 
     public Conversation(Parcel in) {
         nomConversation = in.readString();
         listeMessage = in.readArrayList(Message.class.getClassLoader());
-        groupe = in.readParcelable(Groupe.class.getClassLoader());
         idBDD = in.readInt();
     }
     public String getNomConversation() {
@@ -36,13 +34,6 @@ public class Conversation implements Parcelable {
         this.listeMessage = listeMessage;
     }
 
-    public Groupe getGroupe() {
-        return groupe;
-    }
-
-    public void setGroupe(Groupe groupe) {
-        this.groupe = groupe;
-    }
 
     public int getIdBDD() {
         return idBDD;
@@ -65,7 +56,6 @@ public class Conversation implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(nomConversation);
         dest.writeList(listeMessage);
-        dest.writeParcelable(groupe, 0);
         dest.writeInt(idBDD);
     }
 
