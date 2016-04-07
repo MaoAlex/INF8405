@@ -12,6 +12,7 @@ public class MyEvent {
     private String lieu;
     private double latitude;
     private double longitude;
+    private Picture picture;
     private String sport;
     private String groupID;
     private String nomEvenement;
@@ -27,6 +28,14 @@ public class MyEvent {
         this.nomEvenement = nomEvenement;
         this.organisateurID = organisateurID;
         this.visibilite = visibilite;
+    }
+
+    public Picture getPicture() {
+        return picture;
+    }
+
+    public void setPicture(Picture picture) {
+        this.picture = picture;
     }
 
     public int getNbreMaxParticipants() {
