@@ -436,4 +436,17 @@ public class FireBaseBD implements RemoteBD {
             }
         });
     }
+
+    @Override
+    public String addMsgAndNotify(String localUserID, Message message, String conversationID, MyGroup receivers) {
+        String msgID = addMsgToDiscussion(conversationID, message);
+
+        for (String userID: receivers.getMembersID()) {
+            if (!userID.equals(localUserID)) {
+                notifyUserForMsg(userID, message, conversationID);
+            }
+        }
+
+        return msgID;
+    }
 }

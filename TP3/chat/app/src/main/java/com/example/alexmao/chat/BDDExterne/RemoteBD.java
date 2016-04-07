@@ -67,6 +67,9 @@ public interface RemoteBD {
 
     String notifyUserForMsg(String userID, Message message, String conversationID);
 
+    String addMsgAndNotify(String localUserID, Message message, String conversationID,
+                           MyGroup receivers);
+
     void listenToConversation(String conversationID, final String userBDID,
                               OnMessageReceiveCallback onMessageReceiveCallback);
 }
