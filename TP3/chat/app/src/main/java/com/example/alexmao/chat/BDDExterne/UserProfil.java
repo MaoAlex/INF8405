@@ -6,73 +6,75 @@ import android.os.Parcelable;
 import com.example.alexmao.chat.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by filou on 06/03/16.
  */
 
 //Ne pas oublier d'appeler la fonction pour que le mot de passe soit pris en compte
-public class UserFirebase implements Parcelable {
+public class UserProfil implements Parcelable {
     private String firstName;
     private String lastName;
     private String mailAdr;
+    private long dateBirth;
+    private List<String> sports;
 
-    private double lat;
-    private double longi;
-    private ArrayList<String> preferences;
+    public long getDateBirth() {
+        return dateBirth;
+    }
 
-    public static final Creator<UserFirebase> CREATOR = new Creator<UserFirebase>() {
+    public void setDateBirth(long dateBirth) {
+        this.dateBirth = dateBirth;
+    }
+
+    public static final Creator<UserProfil> CREATOR = new Creator<UserProfil>() {
         @Override
-        public UserFirebase createFromParcel(Parcel source)
+        public UserProfil createFromParcel(Parcel source)
         {
-            return new UserFirebase(source);
+            return new UserProfil(source);
         }
 
         @Override
-        public UserFirebase[] newArray(int size)
+        public UserProfil[] newArray(int size)
         {
-            return new UserFirebase[size];
+            return new UserProfil[size];
         }
     };
 
-    public UserFirebase(Parcel in) {
+    public UserProfil(Parcel in) {
         firstName = in.readString();
         lastName = in.readString();
         mailAdr = in.readString();
-        lat = in.readDouble();
-        longi = in.readDouble();
-        preferences = in.readArrayList(String.class.getClassLoader());
     }
 
-    public UserFirebase() {
+    public UserProfil() {
     }
 
-    public UserFirebase(User user) {
+    public UserProfil(User user) {
         firstName = user.getPrenom();
         lastName = user.getNom();
         mailAdr = user.getMail_();
-        preferences = user.getPreference_();
     }
 
-    public UserFirebase(String firstName, String lastName, String mailAdr) {
+    public List<String> getSports() {
+        return sports;
+    }
+
+    public void setSports(List<String> sports) {
+        this.sports = sports;
+    }
+
+    public UserProfil(String firstName, String lastName, String mailAdr) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.mailAdr = mailAdr;
-        preferences = new ArrayList<>();
     }
 
-    public UserFirebase(String firstName, String lastName, String mailAdr, ArrayList<String> pref) {
+    public UserProfil(String firstName, String lastName, String mailAdr, ArrayList<String> pref) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.mailAdr = mailAdr;
-        preferences = new ArrayList<>(pref);
-    }
-    public void addPreference(String pref) {
-        preferences.add(pref);
-    }
-
-    public ArrayList<String> getPreferences() {
-        return preferences;
     }
 
     public String getFirstName() {
@@ -87,13 +89,10 @@ public class UserFirebase implements Parcelable {
         return mailAdr;
     }
 
-    public void update(UserFirebase userFromRemote) {
+    public void update(UserProfil userFromRemote) {
         firstName = userFromRemote.getFirstName();
         lastName = userFromRemote.getLastName();
         mailAdr = userFromRemote.getMailAdr();
-        lat = userFromRemote.getLat();
-        longi = userFromRemote.getLongi();
-        preferences = userFromRemote.getPreferences();
     }
 
     public void setFirstName(String firstName) {
@@ -108,22 +107,6 @@ public class UserFirebase implements Parcelable {
         this.mailAdr = mailAdr;
     }
 
-    public double getLat() {
-        return lat;
-    }
-
-    public double getLongi() {
-        return longi;
-    }
-
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
-    public void setLongi(double longi) {
-        this.longi = longi;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -134,8 +117,5 @@ public class UserFirebase implements Parcelable {
         dest.writeString(firstName);
         dest.writeString(lastName);
         dest.writeString(mailAdr);
-        dest.writeDouble(lat);
-        dest.writeDouble(longi);
-        dest.writeList(preferences);
     }
 }

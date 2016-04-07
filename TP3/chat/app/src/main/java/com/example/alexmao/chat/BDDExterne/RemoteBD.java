@@ -8,15 +8,15 @@ import com.example.alexmao.chat.classeApp.Message;
  * ne pas confondre avec ceux de la BD locale (SQL)
  */
 public interface RemoteBD {
-    void updateLocationOnServer(UserFirebase user, String id);
+    void updateLocationOnServer(UserProfil user, String id);
 
     String getLastDataFromServer(String path);
 
-    String addUser(UserFirebase user);
+    String addUserProfil(UserProfil user);
 
-    void getUser(String id, LocalUser user);
+    void getUserProfil(String id, LocalUser user);
 
-    void getUserFromMail(String mailAdr, LocalUser user);
+    void getUserProfilFromMail(String mailAdr, LocalUser user);
 
     //Mise à jour de l'utilisateur
     void listenToChangeOnUser(final LocalUser user, final String userBDID);
@@ -33,56 +33,19 @@ public interface RemoteBD {
 
     void addMdpToUser(String mail, String mdp);
 
+    void addPositionToUser(String userID, Position position);
+
+    void getUserPosition(String userID, OnPositionReceived onPositionReceived);
+
     void getMdp(String mail, MdpWrapper mdpWrapper);
 
     void getExistGroup(String name, ExistWrapper existWrapper);
 
     void getExistUser(String mailADR, ExistWrapper existWrapper);
 
-    void requestAvailabilities(String userID);
-
-    void requestChoicePlace(String userID);
-
-    void requestChoiceTime(String userID);
-
-    void listenToRequest(String userID);
-
-    void listenToTimeRespond(String userID);
-
-    void listenToPlaceRespond(String userID);
-
-    void listenToAvailabilities(String userID);
-
-    void addMeeting(MeetingFinalChoice meetingFinalChoice, String groupID);
-
-    void setPlaceChoice(int index, String userID);
-
-    void setTimeChoice(int index, String userID);
-
-    void getUserPref(String id, LocalUserPreferences preferences);
-
     void changeMail(LocalUser localUser, String newMail);
 
-    //Recuperation de l'utilisateur, des groupes auxquels il appartient et mise à jour.
-    void update(LocalUser localUser, MyLocalGroup myLocalGroup,
-                LocalUserPreferences localUserPreferences,
-                OnUpdateComplete onUpdateComplete);
-
-    void addUserPref(String id, UserPreferences pref);
-
-    void addTimeProposal(TimeSlots timeSlots, String groupID);
-
-    void addPlacesProposal(PlaceProposals meetingPlace, String groupID);
-
-    void getPlaceProposal(String groupID, final LocalPlaceProposals placeProposals);
-
-    void getTimeProposal(final LocalTimeSlots timeSlots, String groupID);
-
     void changeGroupName(MyLocalGroup myLocalGroup, String newName);
-
-    void addEvents(Events events, String groupID);
-
-    void getEvents(String groupID, MyLocalEvent events);
 
     void addPicToUser(String userID, Picture picture);
 
@@ -90,10 +53,11 @@ public interface RemoteBD {
 
     void getUserPIc(LocalPicture picture, String userID);
 
-    //Set une callback pour les demandes
-    void setOnQuery(OnQuery onQuery);
-
     String addDiscussion(Conversation discussion);
+
+    void updateTimeLastChange(String userID, long timeMIlli);
+
+    void getTimeLastChange(String userID, OnTimeReceived timeCallback);
 
     String addMsgToDiscussion(String discussionID, Message message);
 

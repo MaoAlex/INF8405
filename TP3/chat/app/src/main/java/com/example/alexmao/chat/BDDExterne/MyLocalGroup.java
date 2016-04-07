@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties({"databaseId", "changeListener"})
 
-public class    MyLocalGroup extends MyGroup {
+public class MyLocalGroup extends MyGroup {
     public interface ChangeListener {
         void onChange(MyLocalGroup myLocalGroup);
     };

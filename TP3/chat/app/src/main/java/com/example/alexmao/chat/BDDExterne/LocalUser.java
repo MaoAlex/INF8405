@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 
 @JsonIgnoreProperties({"dataBaseId", "changeListener", "profilPic"})
-public class LocalUser extends UserFirebase {
+public class LocalUser extends UserProfil {
     private String dataBaseId;
     public interface ChangeListener{
         void onPositionChanged(LocalUser localUser);
@@ -77,7 +77,7 @@ public class LocalUser extends UserFirebase {
     public LocalUser(String firstName, String lastName, String mailAdr, ArrayList<String> pref) {
         super(firstName, lastName, mailAdr, pref);
     }
-    public LocalUser(UserFirebase user) {
+    public LocalUser(UserProfil user) {
         super(user.getFirstName(), user.getLastName(), user.getMailAdr());
     }
 
