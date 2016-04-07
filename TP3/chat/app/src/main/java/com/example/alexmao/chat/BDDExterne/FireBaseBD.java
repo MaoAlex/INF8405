@@ -339,7 +339,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public String addDiscussion(Conversation discussion) {
+    public String addDiscussion(ConversationEBDD discussion) {
         Firebase discusionBD = myFireBaseRef.child("discussions").push();
         discusionBD.setValue(discussion);
 
@@ -347,7 +347,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public String addMsgToDiscussion(String discussionID, Message conversation) {
+    public String addMsgToDiscussion(String discussionID, MessageBDD conversation) {
         Firebase discusionBD = myFireBaseRef.child("discussions").child(discussionID).child("messages").push();
         discusionBD.setValue(conversation);
 
@@ -355,7 +355,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public String notifyUserForMsg(String userID, Message conversation, String conversationID) {
+    public String notifyUserForMsg(String userID, MessageBDD conversation, String conversationID) {
         Firebase discusionBD = myFireBaseRef.child("users").child("unread").child(userID).child(conversationID).push();
         discusionBD.setValue(conversation);
 
@@ -438,7 +438,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public String addMsgAndNotify(String localUserID, Message message, String conversationID, MyGroup receivers) {
+    public String addMsgAndNotify(String localUserID, MessageBDD message, String conversationID, MyGroup receivers) {
         String msgID = addMsgToDiscussion(conversationID, message);
 
         for (String userID: receivers.getMembersID()) {

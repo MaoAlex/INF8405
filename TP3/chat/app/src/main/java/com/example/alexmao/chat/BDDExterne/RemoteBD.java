@@ -57,18 +57,18 @@ public interface RemoteBD {
     void getUserPIc(Picture picture, String userID,
                     OnPictureReceived onPictureReceivedCallback);
 
-    String addDiscussion(Conversation discussion);
+    String addDiscussion(ConversationEBDD discussion);
 
     void updateTimeLastChange(String userID, long timeMIlli);
 
     void getTimeLastChange(String userID, OnTimeReceived timeCallback);
 
-    String addMsgToDiscussion(String discussionID, Message message);
+    String addMsgToDiscussion(String discussionID, MessageBDD message);
 
     //envoie un message à un utilisateur
-    String notifyUserForMsg(String userID, Message message, String conversationID);
+    String notifyUserForMsg(String userID, MessageBDD message, String conversationID);
 
-    String addMsgAndNotify(String localUserID, Message message, String conversationID,
+    String addMsgAndNotify(String localUserID, MessageBDD message, String conversationID,
                            MyGroup receivers);
 
     //ajoute une callback appellée à chaque nouveau message

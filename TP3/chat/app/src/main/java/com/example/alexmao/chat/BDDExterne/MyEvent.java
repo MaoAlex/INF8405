@@ -1,11 +1,12 @@
 package com.example.alexmao.chat.BDDExterne;
 
 
-import com.example.alexmao.chat.classeApp.Groupe;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Created by filou on 07/04/16.
  */
+@JsonIgnoreProperties({"dataBaseId"})
 public class MyEvent {
     private int nbreMaxParticipants;
     private long date;
@@ -18,8 +19,17 @@ public class MyEvent {
     private String nomEvenement;
     private String organisateurID;
     private String visibilite;
+    private String dataBaseId;
 
     public MyEvent() {
+    }
+
+    public String getDataBaseId() {
+        return dataBaseId;
+    }
+
+    public void setDataBaseId(String dataBaseId) {
+        this.dataBaseId = dataBaseId;
     }
 
     public MyEvent(int nbreMaxParticipants, String sport, String nomEvenement, String organisateurID, String visibilite) {
