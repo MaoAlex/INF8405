@@ -39,7 +39,7 @@ public interface RemoteBD {
 
     void getUserPosition(String userID, OnPositionReceived onPositionReceived);
 
-    void getMdp(String mail, MdpWrapper mdpWrapper);
+    void getMdp(String mail, OnStringReceived onMdpReceivedCallback);
 
     void getExistGroup(String name, OnBooleanReceived onBooleanReceived);
 

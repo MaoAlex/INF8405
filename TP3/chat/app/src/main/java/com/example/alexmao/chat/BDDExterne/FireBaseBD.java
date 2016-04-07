@@ -234,16 +234,16 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void getMdp(String mail, final MdpWrapper mdpWrapper) {
+    public void getMdp(String mail, final OnStringReceived onMdpReceivedCallback) {
         Firebase mdpBD = myFireBaseRef.child("mdp").child(mail.replace('.', ')'));
         mdpBD.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                String mdp = null;
+                String mdp = "";
                 if (snapshot.exists()) {
                     mdp = (String) snapshot.getValue();
                 }
-                mdpWrapper.update(mdp);
+                onMdpReceivedCallback.onStringReceived(mdp);
             }
 
             @Override
