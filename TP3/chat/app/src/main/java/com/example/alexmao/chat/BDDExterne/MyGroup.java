@@ -9,6 +9,8 @@ import java.util.List;
 public class MyGroup {
     private String groupName;
     private List<String> membersID;
+    private String ConversationID;
+    private String eventID;
 
     public MyGroup() {
         membersID = new LinkedList<>();
@@ -47,5 +49,21 @@ public class MyGroup {
 
     public void addMember(String id) {
         membersID.add(id);
+    }
+
+    public String getConversationID() {
+        return ConversationID;
+    }
+
+    public void setConversationID(String conversationID) {
+        ConversationID = conversationID;
+    }
+
+    public String getEventID() {
+        return eventID;
+    }
+
+    public void setEventID(String eventID) {
+        this.eventID = eventID;
     }
 }

@@ -11,25 +11,14 @@ import java.util.ArrayList;
  * Created by filou on 09/03/16.
  */
 
-@JsonIgnoreProperties({"dataBaseId", "changeListener", "profilPic"})
+@JsonIgnoreProperties({"dataBaseId", "picture"})
 public class LocalUserProfil extends UserProfil {
     private String dataBaseId;
-    private Picture profilPic;
-
-    public LocalUserProfil() {
-    }
+    private Picture picture;
 
     public LocalUserProfil(String dataBaseId) {
 
         this.dataBaseId = dataBaseId;
-    }
-
-    public Picture getProfilPic() {
-        return profilPic;
-    }
-
-    public void setProfilPic(Picture profilPic) {
-        this.profilPic = profilPic;
     }
 
     public static final Parcelable.Creator<LocalUserProfil> CREATOR = new Parcelable.Creator<LocalUserProfil>()
@@ -85,5 +74,13 @@ public class LocalUserProfil extends UserProfil {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeString(dataBaseId);
+    }
+
+    public Picture getPicture() {
+        return picture;
+    }
+
+    public void setPicture(Picture picture) {
+        this.picture = picture;
     }
 }

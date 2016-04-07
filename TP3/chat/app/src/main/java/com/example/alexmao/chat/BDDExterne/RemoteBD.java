@@ -72,4 +72,10 @@ public interface RemoteBD {
 
     void listenToConversation(String conversationID, final String userBDID,
                               OnMessageReceiveCallback onMessageReceiveCallback);
+
+    String addEvent(MyEvent myEvent);
+
+    void addEventToGroup(String eventID, String groupID);
+
+    void getEventFromGroup(String eventID, OnStringReceived onStringReceived);
 }

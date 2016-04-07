@@ -308,7 +308,7 @@ public class FireBaseBD implements RemoteBD {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Picture picture = dataSnapshot.getValue(Picture.class);
-                localUserProfil.setProfilPic(picture);
+                localUserProfil.setPicture(picture);
                 onPictureReceivedCallback.onPictureReceived(picture);
             }
 
@@ -449,4 +449,20 @@ public class FireBaseBD implements RemoteBD {
 
         return msgID;
     }
+
+    @Override
+    public String addEvent(MyEvent myEvent) {
+        Firebase eventBD = myFireBaseRef.child("events").push();
+        eventBD.setValue(myEvent);
+
+        return eventBD.getKey();
+    }
+
+    @Override
+    public void addEventToGroup(String eventID, String groupID) {
+        Firebase groupBD = myFireBaseRef.child("groupToEnvent").child(groupID);
+        groupBD.setValue(eventID);
+    }
+
+
 }
