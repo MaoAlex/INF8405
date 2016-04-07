@@ -12,7 +12,7 @@ import com.example.alexmao.chat.R;
 import com.example.alexmao.chat.classeApp.Conversation;
 import com.example.alexmao.chat.classeApp.Message;
 import com.example.alexmao.chat.BDDExterne.FireBaseBD;
-import com.example.alexmao.chat.BDDExterne.LocalUser;
+import com.example.alexmao.chat.BDDExterne.LocalUserProfil;
 import com.example.alexmao.chat.BDDExterne.OnMessageReceiveCallback;
 import com.example.alexmao.chat.BDDExterne.RemoteBD;
 
@@ -24,8 +24,8 @@ public class ChatTestFBActivity extends Activity {
     private EditText writeMsgWidget;
     private Button launchMsgBut;
     private RemoteBD remoteBD;
-    private LocalUser currentUserFirebase;
-    private LocalUser testLocalUser;
+    private LocalUserProfil currentUserFirebase;
+    private LocalUserProfil testLocalUserProfil;
     private Conversation discussion;
     private String discussionID;
 
@@ -38,13 +38,13 @@ public class ChatTestFBActivity extends Activity {
         writeMsgWidget = (EditText) findViewById(R.id.test_chat_fb);
 
         remoteBD = new FireBaseBD(this);
-        currentUserFirebase = new LocalUser("fifi", "filou", "fifi@filou.com");
+        currentUserFirebase = new LocalUserProfil("fifi", "filou", "fifi@filou.com");
         String id = remoteBD.addUserProfil(currentUserFirebase);
         currentUserFirebase.setDataBaseId(id);
 
-        testLocalUser = new LocalUser("test", "test", "test@test.com");
-        String idTest = remoteBD.addUserProfil(testLocalUser);
-        testLocalUser.setDataBaseId(idTest);
+        testLocalUserProfil = new LocalUserProfil("test", "test", "test@test.com");
+        String idTest = remoteBD.addUserProfil(testLocalUserProfil);
+        testLocalUserProfil.setDataBaseId(idTest);
 
         discussion = new Conversation();
         discussionID = remoteBD.addDiscussion(discussion);
@@ -78,7 +78,7 @@ public class ChatTestFBActivity extends Activity {
         conversation.setMessage(content);
         //id firebase
         String msgID = remoteBD.addMsgToDiscussion(discussionID, conversation);
-        remoteBD.notifyUserForMsg(testLocalUser.getDataBaseId(), conversation, discussionID);
+        remoteBD.notifyUserForMsg(testLocalUserProfil.getDataBaseId(), conversation, discussionID);
     }
 
     //Called when the current user recieved a new message
