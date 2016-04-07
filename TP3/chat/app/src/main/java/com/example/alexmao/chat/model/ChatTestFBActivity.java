@@ -39,11 +39,11 @@ public class ChatTestFBActivity extends Activity {
 
         remoteBD = new FireBaseBD(this);
         currentUserFirebase = new LocalUser("fifi", "filou", "fifi@filou.com");
-        String id = remoteBD.addUser(currentUserFirebase);
+        String id = remoteBD.addUserProfil(currentUserFirebase);
         currentUserFirebase.setDataBaseId(id);
 
         testLocalUser = new LocalUser("test", "test", "test@test.com");
-        String idTest = remoteBD.addUser(testLocalUser);
+        String idTest = remoteBD.addUserProfil(testLocalUser);
         testLocalUser.setDataBaseId(idTest);
 
         discussion = new Conversation();
