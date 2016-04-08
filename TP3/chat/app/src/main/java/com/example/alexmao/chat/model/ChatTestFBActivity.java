@@ -12,7 +12,7 @@ import com.example.alexmao.chat.BDDExterne.ConversationEBDD;
 import com.example.alexmao.chat.BDDExterne.MessageBDD;
 import com.example.alexmao.chat.R;
 import com.example.alexmao.chat.BDDExterne.FireBaseBD;
-import com.example.alexmao.chat.BDDExterne.LocalUserProfil;
+import com.example.alexmao.chat.BDDExterne.LocalUserProfilEBDD;
 import com.example.alexmao.chat.BDDExterne.OnMessageReceiveCallback;
 import com.example.alexmao.chat.BDDExterne.RemoteBD;
 
@@ -24,8 +24,8 @@ public class ChatTestFBActivity extends Activity {
     private EditText writeMsgWidget;
     private Button launchMsgBut;
     private RemoteBD remoteBD;
-    private LocalUserProfil currentUserFirebase;
-    private LocalUserProfil testLocalUserProfil;
+    private LocalUserProfilEBDD currentUserFirebase;
+    private LocalUserProfilEBDD testLocalUserProfil;
     private ConversationEBDD discussion;
     private String discussionID;
 
@@ -38,11 +38,11 @@ public class ChatTestFBActivity extends Activity {
         writeMsgWidget = (EditText) findViewById(R.id.test_chat_fb);
 
         remoteBD = new FireBaseBD(this);
-        currentUserFirebase = new LocalUserProfil("fifi", "filou", "fifi@filou.com");
+        currentUserFirebase = new LocalUserProfilEBDD("fifi", "filou", "fifi@filou.com");
         String id = remoteBD.addUserProfil(currentUserFirebase);
         currentUserFirebase.setDataBaseId(id);
 
-        testLocalUserProfil = new LocalUserProfil("test", "test", "test@test.com");
+        testLocalUserProfil = new LocalUserProfilEBDD("test", "test", "test@test.com");
         String idTest = remoteBD.addUserProfil(testLocalUserProfil);
         testLocalUserProfil.setDataBaseId(idTest);
 
