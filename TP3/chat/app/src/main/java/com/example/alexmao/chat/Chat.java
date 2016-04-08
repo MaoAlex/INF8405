@@ -22,10 +22,12 @@ import com.example.alexmao.chat.BDDExterne.LocalUserProfilEBDD;
 import com.example.alexmao.chat.BDDExterne.MessageBDD;
 import com.example.alexmao.chat.BDDExterne.OnMessageReceiveCallback;
 import com.example.alexmao.chat.BDDExterne.RemoteBD;
+import com.example.alexmao.chat.classeApp.Conversation;
 import com.example.alexmao.chat.classeApp.Groupe;
+import com.example.alexmao.chat.classeApp.Message;
 import com.example.alexmao.chat.classeApp.Utilisateur;
 import com.example.alexmao.chat.custom.CustomActivity;
-import com.example.alexmao.chat.model.Conversation;
+import com.example.alexmao.chat.model.Convers;
 import com.example.alexmao.chat.utils.Const;
 
 import java.util.ArrayList;
@@ -41,8 +43,9 @@ public class Chat extends CustomActivity
     private LinearLayout linearLayout;
 
     private RemoteBD remoteBD;
-	/** The Conversation list. */
-	private ArrayList<Conversation> convList;
+    private Conversation conversation;
+	/** The Convers list. */
+	private ArrayList<Convers> convList;
 	/** The chat adapter. */
 	private ChatAdapter adp;
 	/** The Editext to compose the message. */
@@ -70,8 +73,12 @@ public class Chat extends CustomActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.chat);
-
-		convList = new ArrayList<Conversation>();
+        utilisateurConnecte = new Utilisateur();
+        utilisateurConnecte.setNom("TEST");
+        conversation = new Conversation();
+        conversation.setNomConversation("text");
+        conversation.setListeMessage(new ArrayList<Message>());
+        convList = new ArrayList<Convers>();
 		ListView list = (ListView) findViewById(R.id.list);
 		adp = new ChatAdapter();
 		list.setAdapter(adp);
@@ -195,10 +202,12 @@ public class Chat extends CustomActivity
 		imm.hideSoftInputFromWindow(txt.getWindowToken(), 0);
 
 		String s = txt.getText().toString();
-		final Conversation c = new Conversation(s, new Date(),
+		final Convers c = new Convers(s, new Date(),
 				groupe.getListeMembre().get(0).getNom());
-		c.setStatus(Conversation.STATUS_SENDING);
+		c.setStatus(Convers.STATUS_SENDING);
 		convList.add(c);
+        final Message m = new Message(s, new Date(), utilisateurConnecte);
+        conversation.getListeMessage().add(m);
 		adp.notifyDataSetChanged();
         //On remet un champ vide
 		txt.setText(null);
@@ -212,9 +221,9 @@ public class Chat extends CustomActivity
         //id firebase
         String msgID = remoteBD.addMsgToDiscussion(discussionID, conversation);
         if (msgID != null)
-            c.setStatus(Conversation.STATUS_SENT);
+            c.setStatus(Convers.STATUS_SENT);
         else
-            c.setStatus(Conversation.STATUS_FAILED);
+            c.setStatus(Convers.STATUS_FAILED);
         adp.notifyDataSetChanged();
         remoteBD.notifyUserForMsg(testLocalUserProfil.getDataBaseId(), conversation, discussionID);
         //onSendMsg(s);
@@ -265,7 +274,7 @@ public class Chat extends CustomActivity
                         if (li != null && li.size() > 0) {
                             for (int i = li.size() - 1; i >= 0; i--) {
                                 ParseObject po = li.get(i);
-                                Conversation c = new Conversation(po
+                                Convers c = new Convers(po
                                         .getString("message"), po.getCreatedAt(), po
                                         .getString("sender"));
                                 convList.add(c);
@@ -308,7 +317,7 @@ public class Chat extends CustomActivity
 		 * @see android.widget.Adapter#getItem(int)
 		 */
 		@Override
-		public Conversation getItem(int arg0)
+		public Convers getItem(int arg0)
 		{
 			return convList.get(arg0);
 		}
@@ -328,7 +337,7 @@ public class Chat extends CustomActivity
 		@Override
 		public View getView(int pos, View v, ViewGroup arg2)
 		{
-			Conversation c = getItem(pos);
+			Convers c = getItem(pos);
 			if (c.isSent())
 				v = getLayoutInflater().inflate(R.layout.chat_item_sent, null);
 			else
@@ -345,9 +354,9 @@ public class Chat extends CustomActivity
 			lbl = (TextView) v.findViewById(R.id.lbl3);
 			if (c.isSent())
 			{
-				if (c.getStatus() == Conversation.STATUS_SENT)
+				if (c.getStatus() == Convers.STATUS_SENT)
 					lbl.setText("Delivered");
-				else if (c.getStatus() == Conversation.STATUS_SENDING)
+				else if (c.getStatus() == Convers.STATUS_SENDING)
 					lbl.setText("Sending...");
 				else
 					lbl.setText("Failed");
@@ -398,7 +407,7 @@ public class Chat extends CustomActivity
         linearLayout.addView(textView);
         Date date = new Date(conversation.getDate());
 
-        Conversation c = new Conversation(conversation.getMessage(),
+        Convers c = new Convers(conversation.getMessage(),
                 date, conversation.getExpediteurID().toString()
         );
         convList.add(c);

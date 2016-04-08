@@ -59,7 +59,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
         db.execSQL(CreateTable.MESSAGE_CONVERSATION);
         Log.d(TAG, "onCreate: Creation de la table Message conversation réussie");
         db.execSQL(CreateTable.CONVERSATION);
-        Log.d(TAG, "onCreate: Creation de la table Conversation réussie");
+        Log.d(TAG, "onCreate: Creation de la table Convers réussie");
         db.execSQL(CreateTable.GROUPE);
         Log.d(TAG, "onCreate: Creation de la table groupe réussie");
         db.execSQL(CreateTable.GROUPE_UTILISATEUR);

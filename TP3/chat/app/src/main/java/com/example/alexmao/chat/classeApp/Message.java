@@ -11,6 +11,12 @@ public class Message {
     private Utilisateur expediteur;
     private int idBDD;
 
+    public Message(String s, Date date, Utilisateur utilisateur) {
+        message = s;
+        this.date = date;
+        expediteur = utilisateur;
+    }
+
     public String getMessage() {
         return message;
     }

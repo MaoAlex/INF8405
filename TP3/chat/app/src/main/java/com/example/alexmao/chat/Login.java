@@ -21,12 +21,12 @@ import com.parse.ParseUser;
 public class Login extends CustomActivity
 {
 
-	/** The username edittext. */
+    private static final String TAG = "Login";
+    /** The username edittext. */
 	private EditText user;
 
 	/** The password edittext. */
 	private EditText pwd;
-
 	/* (non-Javadoc)
 	 * @see com.chatt.custom.CustomActivity#onCreate(android.os.Bundle)
 	 */
@@ -102,4 +102,7 @@ public class Login extends CustomActivity
 			finish();
 
 	}
+
+
+
 }

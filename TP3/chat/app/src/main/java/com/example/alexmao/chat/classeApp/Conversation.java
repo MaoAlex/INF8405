@@ -8,7 +8,7 @@ import java.util.List;
 public class Conversation {
     private String nomConversation;
     private List<Message> listeMessage;
-    private Groupe groupe;
+
     private int idBDD;
 
     public String getNomConversation() {
@@ -26,16 +26,7 @@ public class Conversation {
     public void setListeMessage(List<Message> listeMessage) {
         this.listeMessage = listeMessage;
     }
-
-    public Groupe getGroupe() {
-        return groupe;
-    }
-
-    public void setGroupe(Groupe groupe) {
-        this.groupe = groupe;
-    }
-
-    public int getIdBDD() {
+public int getIdBDD() {
         return idBDD;
     }
 

@@ -5,10 +5,10 @@ import com.example.alexmao.chat.UserList;
 import java.util.Date;
 
 /**
- * The Class Conversation is a Java Bean class that represents a single chat
+ * The Class Convers is a Java Bean class that represents a single chat
  * conversation message.
  */
-public class Conversation
+public class Convers
 {
 
 	/** The Constant STATUS_SENDING. */
@@ -41,7 +41,7 @@ public class Conversation
 	 * @param sender
 	 *            the sender
 	 */
-	public Conversation(String msg, Date date, String sender)
+	public Convers(String msg, Date date, String sender)
 	{
 		this.msg = msg;
 		this.date = date;
@@ -51,7 +51,7 @@ public class Conversation
 	/**
 	 * Instantiates a new conversation.
 	 */
-	public Conversation()
+	public Convers()
 	{
 	}
 
