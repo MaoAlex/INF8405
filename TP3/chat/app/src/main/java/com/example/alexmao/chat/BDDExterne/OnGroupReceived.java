@@ -5,5 +5,5 @@ package com.example.alexmao.chat.BDDExterne;
  */
 public interface OnGroupReceived {
 
-    void onGroupReceived(MyGroup myGroup);
+    void onGroupReceived(MyGroupEBDD myGroupEBDD);
 }

@@ -11,7 +11,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.alexmao.chat.R;
-import com.example.alexmao.chat.classeApp.Conversation;
 import com.example.alexmao.chat.classeApp.Message;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -32,7 +31,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void updateLocationOnServer(UserProfil user, String id) {
+    public void updateLocationOnServer(UserProfilEBDD user, String id) {
         myFireBaseRef.child("users").child(id).setValue(user);
     }
 
@@ -42,7 +41,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public String addUserProfil(UserProfil user) {
+    public String addUserProfil(UserProfilEBDD user) {
         Firebase userBD = myFireBaseRef.child("users").child("profil").push();
         userBD.setValue(user);
 
@@ -56,7 +55,7 @@ public class FireBaseBD implements RemoteBD {
         groupBD.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                MyGroup groupSnapshot = snapshot.getValue(MyGroup.class);
+                MyGroupEBDD groupSnapshot = snapshot.getValue(MyGroupEBDD.class);
                 groupSnapshot.addMember(userID);
                 groupBD.setValue(groupSnapshot);
                 Firebase userToGroup = myFireBaseRef.child("usersToGroup").child(userID);
@@ -77,12 +76,12 @@ public class FireBaseBD implements RemoteBD {
 
     //update user when modified on server
     @Override
-    public void listenToChangeOnUser(final LocalUserProfil user, final String userBDID) {
+    public void listenToChangeOnUser(final LocalUserProfilEBDD user, final String userBDID) {
         myFireBaseRef.child("users").child("profil").child(userBDID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Log.d("onDataChanged", "Child of id: " + userBDID + " modified");
-                UserProfil userFromBD = snapshot.getValue(UserProfil.class);
+                UserProfilEBDD userFromBD = snapshot.getValue(UserProfilEBDD.class);
             }
 
             @Override
@@ -93,7 +92,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void changeGroupName(MyLocalGroup myLocalGroup, String newName) {
+    public void changeGroupName(MyLocalGroupEBDD myLocalGroup, String newName) {
         String oldName = myLocalGroup.getGroupName();
         myLocalGroup.setGroupName(newName);
         Firebase groupBD = myFireBaseRef.child("groups").child(myLocalGroup.getDatabaseID());
@@ -105,7 +104,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void changeMail(LocalUserProfil localUserProfil, String newMail) {
+    public void changeMail(LocalUserProfilEBDD localUserProfil, String newMail) {
         String oldMail = localUserProfil.getMailAdr();
         localUserProfil.setMailAdr(newMail);
         Firebase userBD = myFireBaseRef.child("users").child("profil").child(localUserProfil.getDataBaseId());
@@ -117,10 +116,10 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public String addGroup(MyGroup myGroup) {
+    public String addGroup(MyGroupEBDD myGroupEBDD) {
         Firebase groupBD = myFireBaseRef.child("groups").push();
-        groupBD.setValue(myGroup);
-        addGroupNameToID(myGroup.getGroupName(), groupBD.getKey());
+        groupBD.setValue(myGroupEBDD);
+        addGroupNameToID(myGroupEBDD.getGroupName(), groupBD.getKey());
         return groupBD.getKey();
     }
 
@@ -130,12 +129,12 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void getUserProfil(String id, final UserProfil user, final OnUserProfilReceived onUserProfilReceivedCallback) {
+    public void getUserProfil(String id, final UserProfilEBDD user, final OnUserProfilReceived onUserProfilReceivedCallback) {
         Firebase userBD = myFireBaseRef.child("users").child("profil").child(id);
         userBD.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                UserProfil userSnapshot = snapshot.getValue(UserProfil.class);
+                UserProfilEBDD userSnapshot = snapshot.getValue(UserProfilEBDD.class);
                 user.update(userSnapshot);
                 onUserProfilReceivedCallback.onUserProfilReceived(userSnapshot);
             }
@@ -148,7 +147,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void getUserProfilFromMail(String mailAdr, final LocalUserProfil user,
+    public void getUserProfilFromMail(String mailAdr, final LocalUserProfilEBDD user,
                                       final OnUserProfilReceived onUserProfilReceivedCallback) {
         Firebase groupBD = myFireBaseRef.child("userToID").child(mailAdr.replace('.', ')'));
         groupBD.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -167,13 +166,13 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void getGroup(String groupID, final MyLocalGroup myGroup,
+    public void getGroup(String groupID, final MyLocalGroupEBDD myGroup,
                          final OnGroupReceived onGroupReceived) {
         Firebase groupBD = myFireBaseRef.child("groups").child(groupID);
         groupBD.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                MyGroup groupSnapshot = snapshot.getValue(MyGroup.class);
+                MyGroupEBDD groupSnapshot = snapshot.getValue(MyGroupEBDD.class);
                 myGroup.update(groupSnapshot);
                 onGroupReceived.onGroupReceived(myGroup);
             }
@@ -186,7 +185,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void getGroupFromName(String name, final MyLocalGroup myGroup,
+    public void getGroupFromName(String name, final MyLocalGroupEBDD myGroup,
                                  final OnGroupReceived onGroupReceived) {
         Firebase groupBD = myFireBaseRef.child("groupToID").child(name);
         groupBD.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -210,12 +209,12 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void listenToChangeOnGroup(final MyGroup group, final String groupBDID) {
+    public void listenToChangeOnGroup(final MyGroupEBDD group, final String groupBDID) {
         myFireBaseRef.child("groups").child(groupBDID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 System.out.println("group of id: " + groupBDID + " modified");
-                MyGroup groupFromBD = snapshot.getValue(MyGroup.class);
+                MyGroupEBDD groupFromBD = snapshot.getValue(MyGroupEBDD.class);
                 group.setMembersID(groupFromBD.getMembersID());
                 group.setGroupName(groupFromBD.getGroupName());
             }
@@ -301,7 +300,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void getUserPIc(final LocalUserProfil localUserProfil, final String userID,
+    public void getUserPIc(final LocalUserProfilEBDD localUserProfil, final String userID,
                            final OnPictureReceived onPictureReceivedCallback) {
         Firebase picBD = myFireBaseRef.child("pictures").child(userID);
         picBD.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -373,7 +372,7 @@ public class FireBaseBD implements RemoteBD {
                         Log.d("onDataChanged", "User " + userBDID + " has a new message");
                         ArrayList<String> ids = new ArrayList<String>();
                         for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
-                            Message conversation = dataSnapshot.getValue(Message.class);
+                            MessageBDD conversation = dataSnapshot.getValue(MessageBDD.class);
                             onMessageReceiveCallback.onNewMessage(conversation);
                             ids.add(dataSnapshot.getKey());
                         }
@@ -438,7 +437,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public String addMsgAndNotify(String localUserID, MessageBDD message, String conversationID, MyGroup receivers) {
+    public String addMsgAndNotify(String localUserID, MessageBDD message, String conversationID, MyGroupEBDD receivers) {
         String msgID = addMsgToDiscussion(conversationID, message);
 
         for (String userID: receivers.getMembersID()) {
@@ -451,7 +450,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public String addEvent(MyEvent myEvent) {
+    public String addEvent(MyEventEBDD myEvent) {
         Firebase eventBD = myFireBaseRef.child("events").push();
         eventBD.setValue(myEvent);
 

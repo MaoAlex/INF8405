@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * Created by filou on 07/04/16.
  */
 @JsonIgnoreProperties({"dataBaseId"})
-public class MyEvent {
+public class MyEventEBDD {
     private int nbreMaxParticipants;
     private long date;
     private String lieu;
@@ -21,7 +21,7 @@ public class MyEvent {
     private String visibilite;
     private String dataBaseId;
 
-    public MyEvent() {
+    public MyEventEBDD() {
     }
 
     public String getDataBaseId() {
@@ -32,7 +32,7 @@ public class MyEvent {
         this.dataBaseId = dataBaseId;
     }
 
-    public MyEvent(int nbreMaxParticipants, String sport, String nomEvenement, String organisateurID, String visibilite) {
+    public MyEventEBDD(int nbreMaxParticipants, String sport, String nomEvenement, String organisateurID, String visibilite) {
         this.nbreMaxParticipants = nbreMaxParticipants;
         this.sport = sport;
         this.nomEvenement = nomEvenement;

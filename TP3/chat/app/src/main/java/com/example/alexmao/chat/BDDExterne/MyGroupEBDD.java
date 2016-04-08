@@ -6,25 +6,25 @@ import java.util.List;
 /**
  * Created by filou on 06/03/16.
  */
-public class MyGroup {
+public class MyGroupEBDD {
     private String groupName;
     private List<String> membersID;
     private String ConversationID;
     private String eventID;
 
-    public MyGroup() {
+    public MyGroupEBDD() {
         membersID = new LinkedList<>();
     }
 
-    public MyGroup(String groupName, String organiser) {
+    public MyGroupEBDD(String groupName, String organiser) {
         this.groupName = groupName;
         membersID = new LinkedList<>();
         membersID.add(organiser);
     }
 
-    public void update(MyGroup myGroup) {
-        groupName = myGroup.getGroupName();
-        membersID = myGroup.getMembersID();
+    public void update(MyGroupEBDD myGroupEBDD) {
+        groupName = myGroupEBDD.getGroupName();
+        membersID = myGroupEBDD.getMembersID();
     }
 
     public void addUser(String id) {

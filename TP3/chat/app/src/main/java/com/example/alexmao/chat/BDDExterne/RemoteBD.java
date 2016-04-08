@@ -1,37 +1,34 @@
 package com.example.alexmao.chat.BDDExterne;
 
-import com.example.alexmao.chat.classeApp.Conversation;
-import com.example.alexmao.chat.classeApp.Message;
-
 /**
  * Interface de la base de données, les id sont les id au sens firebase,
  * ne pas confondre avec ceux de la BD locale (SQL)
  */
 public interface RemoteBD {
-    void updateLocationOnServer(UserProfil user, String id);
+    void updateLocationOnServer(UserProfilEBDD user, String id);
 
     String getLastDataFromServer(String path);
 
-    String addUserProfil(UserProfil user);
+    String addUserProfil(UserProfilEBDD user);
 
-    void getUserProfil(String id, UserProfil user,
+    void getUserProfil(String id, UserProfilEBDD user,
                        OnUserProfilReceived onUserProfilReceivedCallback);
 
-    void getUserProfilFromMail(String mailAdr, LocalUserProfil user,
+    void getUserProfilFromMail(String mailAdr, LocalUserProfilEBDD user,
                                OnUserProfilReceived onUserProfilReceivedCallback);
 
     //Mise à jour de l'utilisateur
-    void listenToChangeOnUser(final LocalUserProfil user, final String userBDID);
+    void listenToChangeOnUser(final LocalUserProfilEBDD user, final String userBDID);
 
-    String addGroup(MyGroup myGroup);
+    String addGroup(MyGroupEBDD myGroupEBDD);
 
     void addUserToGroup(String groupID, String userID);
 
-    void getGroup(String groupID, MyLocalGroup myGroup, OnGroupReceived onGroupReceived);
+    void getGroup(String groupID, MyLocalGroupEBDD myGroup, OnGroupReceived onGroupReceived);
 
-    void getGroupFromName(String name, MyLocalGroup myGroup, OnGroupReceived onGroupReceived);
+    void getGroupFromName(String name, MyLocalGroupEBDD myGroup, OnGroupReceived onGroupReceived);
 
-    void listenToChangeOnGroup(final MyGroup group, final String groupBDID);
+    void listenToChangeOnGroup(final MyGroupEBDD group, final String groupBDID);
 
     void addMdpToUser(String mail, String mdp);
 
@@ -45,13 +42,13 @@ public interface RemoteBD {
 
     void getExistUser(String mailADR, OnBooleanReceived onBooleanReceived);
 
-    void changeMail(LocalUserProfil localUserProfil, String newMail);
+    void changeMail(LocalUserProfilEBDD localUserProfil, String newMail);
 
-    void changeGroupName(MyLocalGroup myLocalGroup, String newName);
+    void changeGroupName(MyLocalGroupEBDD myLocalGroup, String newName);
 
     void addPicToUser(String userID, Picture picture);
 
-    void getUserPIc(LocalUserProfil localUserProfil, String userID,
+    void getUserPIc(LocalUserProfilEBDD localUserProfil, String userID,
                     OnPictureReceived onPictureReceivedCallback);
 
     void getUserPIc(Picture picture, String userID,
@@ -69,13 +66,13 @@ public interface RemoteBD {
     String notifyUserForMsg(String userID, MessageBDD message, String conversationID);
 
     String addMsgAndNotify(String localUserID, MessageBDD message, String conversationID,
-                           MyGroup receivers);
+                           MyGroupEBDD receivers);
 
     //ajoute une callback appellée à chaque nouveau message
     void listenToConversation(String conversationID, final String userBDID,
                               OnMessageReceiveCallback onMessageReceiveCallback);
 
-    String addEvent(MyEvent myEvent);
+    String addEvent(MyEventEBDD myEvent);
 
     void addEventToGroup(String eventID, String groupID);
 

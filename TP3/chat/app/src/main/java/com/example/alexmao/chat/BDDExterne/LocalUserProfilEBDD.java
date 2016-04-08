@@ -12,48 +12,48 @@ import java.util.ArrayList;
  */
 
 @JsonIgnoreProperties({"dataBaseId", "picture"})
-public class LocalUserProfil extends UserProfil {
+public class LocalUserProfilEBDD extends UserProfilEBDD {
     private String dataBaseId;
     private Picture picture;
 
-    public LocalUserProfil(String dataBaseId) {
+    public LocalUserProfilEBDD(String dataBaseId) {
 
         this.dataBaseId = dataBaseId;
     }
 
-    public static final Parcelable.Creator<LocalUserProfil> CREATOR = new Parcelable.Creator<LocalUserProfil>()
+    public static final Parcelable.Creator<LocalUserProfilEBDD> CREATOR = new Parcelable.Creator<LocalUserProfilEBDD>()
     {
         @Override
-        public LocalUserProfil createFromParcel(Parcel source)
+        public LocalUserProfilEBDD createFromParcel(Parcel source)
         {
-            return new LocalUserProfil(source);
+            return new LocalUserProfilEBDD(source);
         }
 
         @Override
-        public LocalUserProfil[] newArray(int size)
+        public LocalUserProfilEBDD[] newArray(int size)
         {
-            return new LocalUserProfil[size];
+            return new LocalUserProfilEBDD[size];
         }
     };
 
-    public LocalUserProfil(Parcel in) {
+    public LocalUserProfilEBDD(Parcel in) {
         super(in);
         dataBaseId = in.readString();
     }
 
-    public LocalUserProfil(String firstName, String lastName, String mailAdr, String dataBaseId) {
+    public LocalUserProfilEBDD(String firstName, String lastName, String mailAdr, String dataBaseId) {
         super(firstName, lastName, mailAdr);
         this.dataBaseId = dataBaseId;
     }
 
-    public LocalUserProfil(String firstName, String lastName, String mailAdr) {
+    public LocalUserProfilEBDD(String firstName, String lastName, String mailAdr) {
         super(firstName, lastName, mailAdr);
     }
 
-    public LocalUserProfil(String firstName, String lastName, String mailAdr, ArrayList<String> pref) {
+    public LocalUserProfilEBDD(String firstName, String lastName, String mailAdr, ArrayList<String> pref) {
         super(firstName, lastName, mailAdr, pref);
     }
-    public LocalUserProfil(UserProfil user) {
+    public LocalUserProfilEBDD(UserProfilEBDD user) {
         super(user.getFirstName(), user.getLastName(), user.getMailAdr());
     }
 

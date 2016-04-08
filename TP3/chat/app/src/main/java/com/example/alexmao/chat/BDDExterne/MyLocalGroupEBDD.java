@@ -7,14 +7,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties({"databaseId", "changeListener"})
 
-public class MyLocalGroup extends MyGroup {
+public class MyLocalGroupEBDD extends MyGroupEBDD {
     private String databaseID;
 
-    public MyLocalGroup() {
+    public MyLocalGroupEBDD() {
         super();
     }
 
-    public MyLocalGroup(String databaseID) {
+    public MyLocalGroupEBDD(String databaseID) {
         this.databaseID = databaseID;
     }
 
@@ -26,12 +26,12 @@ public class MyLocalGroup extends MyGroup {
         this.databaseID = databaseID;
     }
 
-    public MyLocalGroup(String groupName, String organiser, String databaseID) {
+    public MyLocalGroupEBDD(String groupName, String organiser, String databaseID) {
         super(groupName, organiser);
         this.databaseID = databaseID;
     }
 
-    public MyLocalGroup(String groupName, String organiser) {
+    public MyLocalGroupEBDD(String groupName, String organiser) {
         super(groupName, organiser);
     }
 

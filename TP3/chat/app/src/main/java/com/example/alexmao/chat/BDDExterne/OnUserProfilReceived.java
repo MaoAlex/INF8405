@@ -5,5 +5,5 @@ package com.example.alexmao.chat.BDDExterne;
  */
 public interface OnUserProfilReceived {
 
-    void onUserProfilReceived(UserProfil userProfil);
+    void onUserProfilReceived(UserProfilEBDD userProfilEBDD);
 }

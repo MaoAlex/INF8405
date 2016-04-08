@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 //Ne pas oublier d'appeler la fonction pour que le mot de passe soit pris en compte
-public class UserProfil implements Parcelable {
+public class UserProfilEBDD implements Parcelable {
     private String firstName;
     private String lastName;
     private String mailAdr;
@@ -28,30 +28,30 @@ public class UserProfil implements Parcelable {
         this.dateBirth = dateBirth;
     }
 
-    public static final Creator<UserProfil> CREATOR = new Creator<UserProfil>() {
+    public static final Creator<UserProfilEBDD> CREATOR = new Creator<UserProfilEBDD>() {
         @Override
-        public UserProfil createFromParcel(Parcel source)
+        public UserProfilEBDD createFromParcel(Parcel source)
         {
-            return new UserProfil(source);
+            return new UserProfilEBDD(source);
         }
 
         @Override
-        public UserProfil[] newArray(int size)
+        public UserProfilEBDD[] newArray(int size)
         {
-            return new UserProfil[size];
+            return new UserProfilEBDD[size];
         }
     };
 
-    public UserProfil(Parcel in) {
+    public UserProfilEBDD(Parcel in) {
         firstName = in.readString();
         lastName = in.readString();
         mailAdr = in.readString();
     }
 
-    public UserProfil() {
+    public UserProfilEBDD() {
     }
 
-    public UserProfil(User user) {
+    public UserProfilEBDD(User user) {
         firstName = user.getPrenom();
         lastName = user.getNom();
         mailAdr = user.getMail_();
@@ -65,13 +65,13 @@ public class UserProfil implements Parcelable {
         this.sports = sports;
     }
 
-    public UserProfil(String firstName, String lastName, String mailAdr) {
+    public UserProfilEBDD(String firstName, String lastName, String mailAdr) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.mailAdr = mailAdr;
     }
 
-    public UserProfil(String firstName, String lastName, String mailAdr, ArrayList<String> pref) {
+    public UserProfilEBDD(String firstName, String lastName, String mailAdr, ArrayList<String> pref) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.mailAdr = mailAdr;
@@ -89,7 +89,7 @@ public class UserProfil implements Parcelable {
         return mailAdr;
     }
 
-    public void update(UserProfil userFromRemote) {
+    public void update(UserProfilEBDD userFromRemote) {
         firstName = userFromRemote.getFirstName();
         lastName = userFromRemote.getLastName();
         mailAdr = userFromRemote.getMailAdr();
