@@ -1,10 +1,14 @@
 package com.example.alexmao.chat;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.alexmao.chat.BDDExterne.FireBaseBD;
+import com.example.alexmao.chat.BDDExterne.RemoteBD;
+import com.example.alexmao.chat.BDDExterne.UserProfilEBDD;
 import com.example.alexmao.chat.custom.CustomActivity;
 import com.example.alexmao.chat.utils.Utils;
 
@@ -15,6 +19,7 @@ import com.example.alexmao.chat.utils.Utils;
  */
 public class Register extends CustomActivity
 {
+	private RemoteBD remoteBD;
 
 	/** The username EditText. */
 	private EditText user;
@@ -33,7 +38,7 @@ public class Register extends CustomActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register);
-
+		remoteBD = new FireBaseBD(this);
 		setTouchNClick(R.id.btnReg);
 
 		user = (EditText) findViewById(R.id.user);
@@ -60,10 +65,17 @@ public class Register extends CustomActivity
 		final ProgressDialog dia = ProgressDialog.show(this, null,
 				getString(R.string.alert_wait));
 
-		final User pu = new User();
-		pu.setMail_(e);
-		pu.setPrenom(p);
-		pu.setNom(u);
+		final UserProfilEBDD user = new UserProfilEBDD();
+		user.setLastName(u);
+		user.setMailAdr(p);
+		//Ajout de l'utilisateur dans la BDD externe
+		final String idFirebase = remoteBD.addUserProfil(user);
+		remoteBD.addMdpToUser(e, p);
+
+		startActivity(new Intent(Register.this, UserList.class));
+		setResult(RESULT_OK);
+		finish();
+		//Completer les différents elements de l'utilisateur
 		/*pu.signUpInBackground(new SignUpCallback() {
 
 			@Override

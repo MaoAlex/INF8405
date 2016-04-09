@@ -3,14 +3,15 @@ package com.example.alexmao.chat;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.alexmao.chat.BDDExterne.FireBaseBD;
+import com.example.alexmao.chat.BDDExterne.OnStringReceived;
+import com.example.alexmao.chat.BDDExterne.RemoteBD;
 import com.example.alexmao.chat.custom.CustomActivity;
 import com.example.alexmao.chat.utils.Utils;
-import com.parse.LogInCallback;
-import com.parse.ParseException;
-import com.parse.ParseUser;
 
 /**
  * The Class Login is an Activity class that shows the login screen to users.
@@ -20,6 +21,7 @@ import com.parse.ParseUser;
  */
 public class Login extends CustomActivity
 {
+    private RemoteBD remoteBD;
 
     private static final String TAG = "Login";
     /** The username edittext. */
@@ -35,12 +37,14 @@ public class Login extends CustomActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
+        remoteBD = new FireBaseBD(this);
 
-		setTouchNClick(R.id.btnLogin);
+        setTouchNClick(R.id.btnLogin);
 		setTouchNClick(R.id.btnReg);
 
 		user = (EditText) findViewById(R.id.user);
 		pwd = (EditText) findViewById(R.id.pwd);
+
 	}
 
 	/* (non-Javadoc)
@@ -58,15 +62,17 @@ public class Login extends CustomActivity
 		{
 
 			String u = user.getText().toString();
-			String p = pwd.getText().toString();
-			if (u.length() == 0 || p.length() == 0)
+			final String p = pwd.getText().toString();
+
+
+            if (u.length() == 0 || p.length() == 0)
 			{
 				Utils.showDialog(this, R.string.err_fields_empty);
 				return;
 			}
 			final ProgressDialog dia = ProgressDialog.show(this, null,
 					getString(R.string.alert_wait));
-			ParseUser.logInInBackground(u, p, new LogInCallback() {
+			/*ParseUser.logInInBackground(u, p, new LogInCallback() {
 
 				@Override
 				public void done(ParseUser pu, ParseException e)
@@ -87,7 +93,22 @@ public class Login extends CustomActivity
 						e.printStackTrace();
 					}
 				}
-			});
+			});*/
+            remoteBD.getMdp(u, new OnStringReceived() {
+                @Override
+                public void onStringReceived(String s) {
+                    dia.dismiss();
+
+                    if (s != null && s == p){
+
+                        startActivity(new Intent(Login.this, UserList.class));
+                        finish();
+                    }else
+                    {
+                        Log.d("Login", "erreur de mdp");
+                    }
+                }
+            });
 		}
 	}
 
