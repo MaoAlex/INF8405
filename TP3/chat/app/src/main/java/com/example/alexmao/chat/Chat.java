@@ -13,7 +13,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -38,11 +37,10 @@ import java.util.Date;
  * The Class Chat is the Activity class that holds main chat screen. It shows
  * all the conversation messages between two users and also allows the user to
  * send and receive messages.
+ * Classe chat qui permet de dialoguer entre les utilisateurs d'un groupe
  */
 public class Chat extends CustomActivity
 {
-    private LinearLayout linearLayout;
-
     private RemoteBD remoteBD;
     private Conversation conversation;
 	/** The Convers list. */
@@ -84,9 +82,8 @@ public class Chat extends CustomActivity
 		adp = new ChatAdapter();
 		list.setAdapter(adp);
 		list.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-        linearLayout = (LinearLayout) findViewById(R.id.all_msg_layout);
 
-        //mise en place du file
+        //mise en place de la file de messages
 		list.setStackFromBottom(true);
         //Mise en place de la zone de saisie
 		txt = (EditText) findViewById(R.id.txt);
@@ -97,6 +94,7 @@ public class Chat extends CustomActivity
 
         //Recuperation du nom du groupe ou plutot du destinataire
 		buddy = getIntent().getStringExtra(Const.EXTRA_DATA);
+        //Mise en place d'un nom quelconque
         buddy = "E T";
         //On met comme titre le nom du destinataire
 		getActionBar().setTitle(buddy);
@@ -124,6 +122,7 @@ public class Chat extends CustomActivity
 		groupeBDD.open();
 		groupe = new Groupe();*/
         //Partie non encore utilisée
+        //partie BDD interne
         groupe = new Groupe();
         ArrayList<Utilisateur> listeUtilisateur = new ArrayList<>();
         Utilisateur u1 = new Utilisateur();
@@ -148,6 +147,7 @@ public class Chat extends CustomActivity
 //        groupe.getListeMembre();
         //Creation du Handler
 		handler = new Handler();
+        //On met en place le listerner qui nous permet d'être notifié d'un nouveau message
         remoteBD.listenToConversation(discussionID, currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
             @Override
             public void onNewMessage(MessageBDD message) {
@@ -199,11 +199,12 @@ public class Chat extends CustomActivity
 	 * is empty otherwise it creates a Parse object for Chat message and send it
 	 * to Parse server.
      * Fonction permettant l'envoi du message au destinataire.
-     * Si le texte est vide l'envoie n'est pas fait, sinon on l'envoie sur le message
+     * Si le texte est vide l'envoi n'est pas fait, sinon on l'envoie
 	 */
 
 	private void sendMessage()
 	{
+        //cas où l'utilisateur n'a rien rentré
 		if (txt.length() == 0)
 			return;
 
@@ -212,10 +213,10 @@ public class Chat extends CustomActivity
 		imm.hideSoftInputFromWindow(txt.getWindowToken(), 0);
 
 		String s = txt.getText().toString();
+        /*
 		final Convers c = new Convers(s, new Date(),
 				groupe.getListeMembre().get(0).getNom());
-		c.setStatus(Convers.STATUS_SENDING);
-		convList.add(c);
+		c.setStatus(Convers.STATUS_SENDING);*/
         final Message m = new Message(s, new Date(), utilisateurConnecte);
         conversation.getListeMessage().add(m);
 		adp.notifyDataSetChanged();
@@ -230,15 +231,14 @@ public class Chat extends CustomActivity
         conversation.setMessage(s);
         //id firebase
         String msgID = remoteBD.addMsgToDiscussion(discussionID, conversation);
+        //mise à jour de l'état d'envoi du message
         if (msgID != null)
-            c.setStatus(Convers.STATUS_SENT);
+            m.setStatus(Convers.STATUS_SENT);
         else
-            c.setStatus(Convers.STATUS_FAILED);
+            m.setStatus(Convers.STATUS_FAILED);
         adp.notifyDataSetChanged();
         remoteBD.notifyUserForMsg(testLocalUserProfil.getDataBaseId(), conversation, discussionID);
         //onSendMsg(s);
-
-
 	}
 
 	/**
@@ -249,12 +249,12 @@ public class Chat extends CustomActivity
 	{
         Log.d("Chat", "on est loadConversationList");
         //when a new message arrived, we call onNewMsg
-        remoteBD.listenToConversation(discussionID, currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
+        /*remoteBD.listenToConversation(discussionID, currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
             @Override
             public void onNewMessage(MessageBDD message) {
                 onNewMsg(message);
             }
-        });
+        });*/
         /*
 		ParseQuery<ParseObject> q = ParseQuery.getQuery("Chat");
 		if (convList.size() == 0)
@@ -392,6 +392,7 @@ public class Chat extends CustomActivity
 		return super.onOptionsItemSelected(item);
 	}
 
+    //fonction d'envoi d'un message
     void onSendMsg(String content) {
         if (content == null)
             return;
@@ -407,24 +408,23 @@ public class Chat extends CustomActivity
         remoteBD.notifyUserForMsg(testLocalUserProfil.getDataBaseId(), conversation, discussionID);
     }
 
-    //Called when the current user recieved a new message
-    void onNewMsg(MessageBDD conversation) {
+    //Fonction permettant la mise à jour du nouveau message reçu
+    void onNewMsg(MessageBDD message) {
         Log.d("Chat", "On est dans la récupération des nouveaux messages");
-        if (conversation == null)
+        if (message == null)
             return;
-        TextView textView = new TextView(this);
+        /*TextView textView = new TextView(this);
         //set the content
-        textView.setText(conversation.getMessage());
-        linearLayout.addView(textView);
-        Date date = new Date(conversation.getDate());
+        textView.setText(message.getMessage());*/
+        Date date = new Date(message.getDate());
 
-        Convers c = new Convers(conversation.getMessage(),
-                date, conversation.getExpediteurID().toString()
-        );
-        convList.add(c);
+
+        Message m= new Message(message.getMessage(), date, utilisateurConnecte);
+        conversation.getListeMessage().add(m);
         if (lastMsgDate == null
-                || lastMsgDate.before(c.getDate()))
-            lastMsgDate = c.getDate();
+                || lastMsgDate.before(m.getDate()))
+            lastMsgDate = m.getDate();
+        //on notifie l'adaptater des changements
         adp.notifyDataSetChanged();
         handler.postDelayed(new Runnable() {
 
