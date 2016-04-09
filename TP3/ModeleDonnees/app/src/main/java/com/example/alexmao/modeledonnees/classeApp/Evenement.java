@@ -40,6 +40,8 @@ public class Evenement implements Parcelable {
         idBDD = in.readInt();
     }
 
+
+
     public int getNbreMaxParticipants() {
         return nbreMaxParticipants;
     }

@@ -33,4 +33,6 @@ public int getIdBDD() {
     public void setIdBDD(int idBDD) {
         this.idBDD = idBDD;
     }
+
+
 }

@@ -6,6 +6,19 @@ import java.util.Date;
  * Created by Fabien on 02/04/2016.
  */
 public class Message {
+    /** The Constant STATUS_SENDING. */
+    public static final int STATUS_SENDING = 0;
+
+    /** The Constant STATUS_SENT. */
+    public static final int STATUS_SENT = 1;
+
+    /** The Constant STATUS_FAILED. */
+    public static final int STATUS_FAILED = 2;
+
+
+
+    private int status = STATUS_SENT;
+
     private String message;
     private Date date;
     private Utilisateur expediteur;
@@ -15,6 +28,12 @@ public class Message {
         message = s;
         this.date = date;
         expediteur = utilisateur;
+    }
+
+    public Message() {
+        this.message = "";
+        this.date = new Date();
+        this.expediteur = new Utilisateur();
     }
 
     public String getMessage() {
@@ -47,5 +66,12 @@ public class Message {
 
     public void setIdBDD(int idBDD) {
         this.idBDD = idBDD;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

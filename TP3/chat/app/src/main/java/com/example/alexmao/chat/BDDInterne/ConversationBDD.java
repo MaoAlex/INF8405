@@ -2,8 +2,6 @@ package com.example.alexmao.chat.BDDInterne;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.util.Log;
 
 import com.example.alexmao.chat.classeApp.Conversation;
 
@@ -17,7 +15,6 @@ public class ConversationBDD extends AbstractBDD
 
     private static final int NUM_COL_ID = 0;
     private static final int NUM_COL_NOM_CONVERSATION = 1;
-    private static final int NUM_COL_ID_GROUPE = 2;
 
     public ConversationBDD(Context pContext) {
         super(pContext);
@@ -28,7 +25,6 @@ public class ConversationBDD extends AbstractBDD
         //On va mettre les valeurs nécessaire au stockage dans la table de la conversation
         ContentValues values = new ContentValues();
         values.put(Colonne.NOMBRE_PARTICIPANTS, conversation.getNomConversation());
-        values.put(Colonne.ID_GROUPE, conversation.getGroupe().getIdBDD());
 
         return database_.insert(Table.CONVERSATION, null, values);
     }
@@ -39,7 +35,7 @@ public class ConversationBDD extends AbstractBDD
     }
 
     //Une unique conversation est associé à un groupe
-    public Conversation obtenirConversation(int idGroupe){
+    /*public Conversation obtenirConversation(int idGroupe){
 
         Conversation conversation = new Conversation();
 
@@ -59,7 +55,7 @@ public class ConversationBDD extends AbstractBDD
         //conversation.setGroupe();
         c.close();
         return conversation;
-    }
+    }*/
 
 
 }

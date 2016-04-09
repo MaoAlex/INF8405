@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,12 +102,20 @@ public class Chat extends CustomActivity
 		getActionBar().setTitle(buddy);
 
         remoteBD = new FireBaseBD(this);
-        currentUserFirebase = new LocalUserProfilEBDD("fifi", "filou", "fifi@filou.com");
+        /*currentUserFirebase = new LocalUserProfilEBDD("premier", "compte", "fifi@filou.com");
+        Log.d("chat", "ici");
         String id = remoteBD.addUserProfil(currentUserFirebase);
         currentUserFirebase.setDataBaseId(id);
-        testLocalUserProfil = new LocalUserProfilEBDD("test", "test", "test@test.com");
+        testLocalUserProfil = new LocalUserProfilEBDD("deuxieme", "compte", "test@test.com");
+        String idTest = remoteBD.addUserProfil(testLocalUserProfil);
+        testLocalUserProfil.setDataBaseId(idTest);*/
+        currentUserFirebase = new LocalUserProfilEBDD("premier", "compte", "fifi@filou.com");
+        String id = remoteBD.addUserProfil(currentUserFirebase);
+        currentUserFirebase.setDataBaseId(id);
+        testLocalUserProfil = new LocalUserProfilEBDD("deuxieme", "compte", "test@test.com");
         String idTest = remoteBD.addUserProfil(testLocalUserProfil);
         testLocalUserProfil.setDataBaseId(idTest);
+
 
         discussion = new ConversationEBDD();
         discussionID = remoteBD.addDiscussion(discussion);
@@ -142,6 +151,7 @@ public class Chat extends CustomActivity
         remoteBD.listenToConversation(discussionID, currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
             @Override
             public void onNewMessage(MessageBDD message) {
+                Log.d("chat","notification de nouveau message");
                 onNewMsg(message);
             }
         });
@@ -237,7 +247,7 @@ public class Chat extends CustomActivity
 	 */
 	private void loadConversationList()
 	{
-
+        Log.d("Chat", "on est loadConversationList");
         //when a new message arrived, we call onNewMsg
         remoteBD.listenToConversation(discussionID, currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
             @Override
@@ -310,16 +320,16 @@ public class Chat extends CustomActivity
 		@Override
 		public int getCount()
 		{
-			return convList.size();
+			return conversation.getListeMessage().size();
 		}
 
 		/* (non-Javadoc)
 		 * @see android.widget.Adapter#getItem(int)
 		 */
 		@Override
-		public Convers getItem(int arg0)
+		public Message getItem(int arg0)
 		{
-			return convList.get(arg0);
+			return conversation.getListeMessage().get(arg0);
 		}
 
 		/* (non-Javadoc)
@@ -337,26 +347,26 @@ public class Chat extends CustomActivity
 		@Override
 		public View getView(int pos, View v, ViewGroup arg2)
 		{
-			Convers c = getItem(pos);
-			if (c.isSent())
+			Message message = getItem(pos);
+			if (message.getExpediteur().getIdBDD() == utilisateurConnecte.getIdBDD())
 				v = getLayoutInflater().inflate(R.layout.chat_item_sent, null);
 			else
 				v = getLayoutInflater().inflate(R.layout.chat_item_rcv, null);
 
 			TextView lbl = (TextView) v.findViewById(R.id.lbl1);
-			lbl.setText(DateUtils.getRelativeDateTimeString(Chat.this, c
+			lbl.setText(DateUtils.getRelativeDateTimeString(Chat.this, message
 					.getDate().getTime(), DateUtils.SECOND_IN_MILLIS,
 					DateUtils.DAY_IN_MILLIS, 0));
 
 			lbl = (TextView) v.findViewById(R.id.lbl2);
-			lbl.setText(c.getMsg());
+			lbl.setText(message.getMessage());
 
 			lbl = (TextView) v.findViewById(R.id.lbl3);
-			if (c.isSent())
+			if (message.getExpediteur().getIdBDD() == utilisateurConnecte.getIdBDD())
 			{
-				if (c.getStatus() == Convers.STATUS_SENT)
+				if (message.getStatus() == Convers.STATUS_SENT)
 					lbl.setText("Delivered");
-				else if (c.getStatus() == Convers.STATUS_SENDING)
+				else if (message.getStatus() == Convers.STATUS_SENDING)
 					lbl.setText("Sending...");
 				else
 					lbl.setText("Failed");
@@ -399,6 +409,7 @@ public class Chat extends CustomActivity
 
     //Called when the current user recieved a new message
     void onNewMsg(MessageBDD conversation) {
+        Log.d("Chat", "On est dans la récupération des nouveaux messages");
         if (conversation == null)
             return;
         TextView textView = new TextView(this);
