@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,12 +15,8 @@ import com.example.alexmao.chat.classeApp.Utilisateur;
 import com.example.alexmao.chat.custom.CustomActivity;
 import com.example.alexmao.chat.utils.Const;
 import com.example.alexmao.chat.utils.Utils;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The Class UserList is the Activity class. It shows a list of all users of
@@ -46,7 +41,14 @@ public class UserList extends CustomActivity
 		setContentView(R.layout.user_list);
 
 		getActionBar().setDisplayHomeAsUpEnabled(false);
+        uList = new ArrayList<>();
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setNom("salut");
 
+        Utilisateur utilisateur1 = new Utilisateur();
+        utilisateur1.setNom("Yeah");
+        uList.add(utilisateur);
+        uList.add(utilisateur1);
 		updateUserStatus(true);
 	}
 
@@ -89,7 +91,7 @@ public class UserList extends CustomActivity
 	{
 		final ProgressDialog dia = ProgressDialog.show(this, null,
 				getString(R.string.alert_loading));
-		ParseUser.getQuery().whereNotEqualTo("username", user.getNom())
+		/*ParseUser.getQuery().whereNotEqualTo("username", user.getNom())
 				.findInBackground(new FindCallback<ParseUser>() {
 
 					@Override
@@ -129,7 +131,39 @@ public class UserList extends CustomActivity
 							e.printStackTrace();
 						}
 					}
-				});
+				});*/
+
+        dia.dismiss();
+        if (uList != null)
+        {
+            if (uList.size() == 0)
+                Toast.makeText(UserList.this,
+                        R.string.msg_no_user_found,
+                        Toast.LENGTH_SHORT).show();
+
+            ListView list = (ListView) findViewById(R.id.list);
+            list.setAdapter(new UserAdapter());
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> arg0,
+                                        View arg1, int pos, long arg3)
+                {
+                    startActivity(new Intent(UserList.this,
+                            Chat.class).putExtra(
+                            Const.EXTRA_DATA, uList.get(pos)
+                                    .getNom()));
+                }
+            });
+        }
+        else
+        {
+            Utils.showDialog(
+                    UserList.this,
+                    getString(R.string.err_users) + " "
+            );
+        }
+
 	}
 
 	/**
