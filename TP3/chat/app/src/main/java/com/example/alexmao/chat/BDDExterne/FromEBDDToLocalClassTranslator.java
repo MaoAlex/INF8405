@@ -3,6 +3,7 @@ package com.example.alexmao.chat.BDDExterne;
 import com.example.alexmao.chat.classeApp.Evenement;
 import com.example.alexmao.chat.classeApp.Groupe;
 import com.example.alexmao.chat.classeApp.Message;
+import com.example.alexmao.chat.classeApp.ParametresUtilisateur;
 import com.example.alexmao.chat.classeApp.Utilisateur;
 
 import java.util.Date;
@@ -57,6 +58,15 @@ public class FromEBDDToLocalClassTranslator {
     public static Groupe translateGroupBDD(MyLocalGroupEBDD myGroup) {
         Groupe localClass = new Groupe();
         localClass.setIdFirebase(myGroup.getDatabaseID());
+
+        return localClass;
+    }
+
+    public static ParametresUtilisateur translateUserParam(UserParamsEBDD userParamsEBDD) {
+        ParametresUtilisateur localClass = new ParametresUtilisateur();
+        localClass.setRayon(userParamsEBDD.getRayon());
+        localClass.setMasquerNom(userParamsEBDD.isMasquerNom());
+        localClass.setLocalisation(userParamsEBDD.isLocalisation());
 
         return localClass;
     }

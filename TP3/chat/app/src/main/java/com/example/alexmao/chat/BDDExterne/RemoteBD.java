@@ -77,4 +77,8 @@ public interface RemoteBD {
     void addEventToGroup(String eventID, String groupID);
 
     void getEventFromGroup(String groupID, OnStringReceived onStringReceived);
+
+    void addUserParam(UserParamsEBDD userParamsEBDD, String userID);
+
+    void getUserParam(String userID, OnUserParamReceived onUserParamReceivedCallback);
 }

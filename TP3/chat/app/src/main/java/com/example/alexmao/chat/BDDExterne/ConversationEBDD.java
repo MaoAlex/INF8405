@@ -1,6 +1,5 @@
 package com.example.alexmao.chat.BDDExterne;
 
-import com.example.alexmao.chat.classeApp.Groupe;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.LinkedList;

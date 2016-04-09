@@ -11,7 +11,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.alexmao.chat.R;
-import com.example.alexmao.chat.classeApp.Message;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -471,6 +470,29 @@ public class FireBaseBD implements RemoteBD {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String eventID = (String) dataSnapshot.getValue();
                 onStringReceived.onStringReceived(eventID);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    public void addUserParam(UserParamsEBDD userParamsEBDD, String userID) {
+        Firebase paramBD = myFireBaseRef.child("users").child("params").child(userID);
+        paramBD.setValue(userParamsEBDD);
+    }
+
+    @Override
+    public void getUserParam(String userID, final OnUserParamReceived onUserParamReceivedCallback) {
+        Firebase paramBD = myFireBaseRef.child("users").child("params").child(userID);
+        paramBD.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UserParamsEBDD userParamsEBDD = dataSnapshot.getValue(UserParamsEBDD.class);
+                onUserParamReceivedCallback.onUserParamReceived(userParamsEBDD);
             }
 
             @Override
