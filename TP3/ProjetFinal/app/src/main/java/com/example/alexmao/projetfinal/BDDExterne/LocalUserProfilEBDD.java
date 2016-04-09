@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 
 @JsonIgnoreProperties({"dataBaseId", "picture"})
-public class LocalUserProfilEBDD extends UserProfilEBDD {
+public class LocalUserProfilEBDD extends UtilisateurProfilEBDD {
     private String dataBaseId;
     private Picture picture;
 
@@ -52,7 +52,7 @@ public class LocalUserProfilEBDD extends UserProfilEBDD {
     public LocalUserProfilEBDD(String firstName, String lastName, String mailAdr, ArrayList<String> pref) {
         super(firstName, lastName, mailAdr, pref);
     }
-    public LocalUserProfilEBDD(UserProfilEBDD user) {
+    public LocalUserProfilEBDD(UtilisateurProfilEBDD user) {
         super(user.getFirstName(), user.getLastName(), user.getMailAdr());
     }
 

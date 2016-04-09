@@ -5,5 +5,5 @@ package com.example.alexmao.projetfinal.BDDExterne;
  */
 public interface OnUserProfilReceived {
 
-    void onUserProfilReceived(UserProfilEBDD userProfilEBDD);
+    void onUserProfilReceived(UtilisateurProfilEBDD userProfilEBDD);
 }

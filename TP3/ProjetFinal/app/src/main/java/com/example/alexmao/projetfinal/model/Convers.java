@@ -1,6 +1,6 @@
 package com.example.alexmao.projetfinal.model;
 
-import com.example.alexmao.chat.UserList;
+import com.example.alexmao.projetfinal.UserList;
 
 import java.util.Date;
 

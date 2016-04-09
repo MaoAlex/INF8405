@@ -3,8 +3,8 @@ package com.example.alexmao.projetfinal.BDDInterne;
 import android.content.ContentValues;
 import android.content.Context;
 
-import com.example.alexmao.chat.classeApp.Evenement;
-import com.example.alexmao.chat.classeApp.Utilisateur;
+import com.example.alexmao.projetfinal.classeApp.Evenement;
+import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
 /**
  *Classe permettant de connaître les participants à un événement

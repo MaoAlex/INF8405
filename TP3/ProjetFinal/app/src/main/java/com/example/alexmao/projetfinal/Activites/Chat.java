@@ -1,4 +1,4 @@
-package com.example.alexmao.projetfinal;
+package com.example.alexmao.projetfinal.Activites;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -16,19 +16,20 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.alexmao.chat.BDDExterne.ConversationEBDD;
-import com.example.alexmao.chat.BDDExterne.FireBaseBD;
-import com.example.alexmao.chat.BDDExterne.LocalUserProfilEBDD;
-import com.example.alexmao.chat.BDDExterne.MessageBDD;
-import com.example.alexmao.chat.BDDExterne.OnMessageReceiveCallback;
-import com.example.alexmao.chat.BDDExterne.RemoteBD;
-import com.example.alexmao.chat.classeApp.Conversation;
-import com.example.alexmao.chat.classeApp.Groupe;
-import com.example.alexmao.chat.classeApp.Message;
-import com.example.alexmao.chat.classeApp.Utilisateur;
-import com.example.alexmao.chat.custom.CustomActivity;
-import com.example.alexmao.chat.model.Convers;
-import com.example.alexmao.chat.utils.Const;
+import com.example.alexmao.projetfinal.BDDExterne.ConversationEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
+import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.MessageBDD;
+import com.example.alexmao.projetfinal.BDDExterne.OnMessageReceiveCallback;
+import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
+import com.example.alexmao.projetfinal.R;
+import com.example.alexmao.projetfinal.classeApp.Conversation;
+import com.example.alexmao.projetfinal.classeApp.Groupe;
+import com.example.alexmao.projetfinal.classeApp.Message;
+import com.example.alexmao.projetfinal.classeApp.Utilisateur;
+import com.example.alexmao.projetfinal.custom.CustomActivity;
+import com.example.alexmao.projetfinal.model.Convers;
+import com.example.alexmao.projetfinal.utils.Const;
 
 import java.util.ArrayList;
 import java.util.Date;

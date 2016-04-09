@@ -11,10 +11,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.alexmao.chat.classeApp.Utilisateur;
-import com.example.alexmao.chat.custom.CustomActivity;
-import com.example.alexmao.chat.utils.Const;
-import com.example.alexmao.chat.utils.Utils;
+import com.example.alexmao.projetfinal.Activites.Chat;
+import com.example.alexmao.projetfinal.classeApp.Utilisateur;
+import com.example.alexmao.projetfinal.custom.CustomActivity;
+import com.example.alexmao.projetfinal.utils.Const;
+import com.example.alexmao.projetfinal.utils.Utils;
 
 import java.util.ArrayList;
 

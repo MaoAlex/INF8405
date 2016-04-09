@@ -1,4 +1,4 @@
-package com.example.alexmao.projetfinal;
+package com.example.alexmao.projetfinal.Activites;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -7,11 +7,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.alexmao.chat.BDDExterne.FireBaseBD;
-import com.example.alexmao.chat.BDDExterne.OnStringReceived;
-import com.example.alexmao.chat.BDDExterne.RemoteBD;
-import com.example.alexmao.chat.custom.CustomActivity;
-import com.example.alexmao.chat.utils.Utils;
+import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
+import com.example.alexmao.projetfinal.BDDExterne.OnStringReceived;
+import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
+import com.example.alexmao.projetfinal.R;
+import com.example.alexmao.projetfinal.UserList;
+import com.example.alexmao.projetfinal.custom.CustomActivity;
+import com.example.alexmao.projetfinal.utils.Utils;
 
 /**
  * The Class Login is an Activity class that shows the login screen to users.

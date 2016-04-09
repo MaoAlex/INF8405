@@ -1,4 +1,4 @@
-package com.example.alexmao.chat;
+package com.example.alexmao.chat.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.widget.EditText;
 import com.example.alexmao.chat.BDDExterne.FireBaseBD;
 import com.example.alexmao.chat.BDDExterne.RemoteBD;
 import com.example.alexmao.chat.BDDExterne.UserProfilEBDD;
+import com.example.alexmao.chat.R;
+import com.example.alexmao.chat.UserList;
 import com.example.alexmao.chat.custom.CustomActivity;
 import com.example.alexmao.chat.utils.Utils;
 

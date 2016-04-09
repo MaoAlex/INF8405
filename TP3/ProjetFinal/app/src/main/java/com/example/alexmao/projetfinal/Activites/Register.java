@@ -1,4 +1,4 @@
-package com.example.alexmao.projetfinal;
+package com.example.alexmao.projetfinal.Activites;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.alexmao.chat.BDDExterne.FireBaseBD;
-import com.example.alexmao.chat.BDDExterne.RemoteBD;
-import com.example.alexmao.chat.BDDExterne.UserProfilEBDD;
-import com.example.alexmao.chat.custom.CustomActivity;
-import com.example.alexmao.chat.utils.Utils;
+import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
+import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
+import com.example.alexmao.projetfinal.BDDExterne.UtilisateurProfilEBDD;
+import com.example.alexmao.projetfinal.R;
+import com.example.alexmao.projetfinal.UserList;
+import com.example.alexmao.projetfinal.custom.CustomActivity;
+import com.example.alexmao.projetfinal.utils.Utils;
 
 
 /**
@@ -65,7 +67,7 @@ public class Register extends CustomActivity
 		final ProgressDialog dia = ProgressDialog.show(this, null,
 				getString(R.string.alert_wait));
 
-		final UserProfilEBDD user = new UserProfilEBDD();
+		final UtilisateurProfilEBDD user = new UtilisateurProfilEBDD();
 		user.setLastName(u);
 		user.setMailAdr(p);
 		//Ajout de l'utilisateur dans la BDD externe

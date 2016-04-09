@@ -10,7 +10,7 @@ package com.example.alexmao.projetfinal.BDDExterne;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.alexmao.chat.R;
+import com.example.alexmao.projetfinal.R;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -30,7 +30,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void updateLocationOnServer(UserProfilEBDD user, String id) {
+    public void updateLocationOnServer(UtilisateurProfilEBDD user, String id) {
         myFireBaseRef.child("users").child(id).setValue(user);
     }
 
@@ -40,7 +40,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public String addUserProfil(UserProfilEBDD user) {
+    public String addUserProfil(UtilisateurProfilEBDD user) {
         Firebase userBD = myFireBaseRef.child("users").child("profil").push();
         userBD.setValue(user);
 
@@ -80,7 +80,7 @@ public class FireBaseBD implements RemoteBD {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Log.d("onDataChanged", "Child of id: " + userBDID + " modified");
-                UserProfilEBDD userFromBD = snapshot.getValue(UserProfilEBDD.class);
+                UtilisateurProfilEBDD userFromBD = snapshot.getValue(UtilisateurProfilEBDD.class);
             }
 
             @Override
@@ -128,12 +128,12 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void getUserProfil(String id, final UserProfilEBDD user, final OnUserProfilReceived onUserProfilReceivedCallback) {
+    public void getUserProfil(String id, final UtilisateurProfilEBDD user, final OnUserProfilReceived onUserProfilReceivedCallback) {
         Firebase userBD = myFireBaseRef.child("users").child("profil").child(id);
         userBD.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                UserProfilEBDD userSnapshot = snapshot.getValue(UserProfilEBDD.class);
+                UtilisateurProfilEBDD userSnapshot = snapshot.getValue(UtilisateurProfilEBDD.class);
                 user.update(userSnapshot);
                 onUserProfilReceivedCallback.onUserProfilReceived(userSnapshot);
             }

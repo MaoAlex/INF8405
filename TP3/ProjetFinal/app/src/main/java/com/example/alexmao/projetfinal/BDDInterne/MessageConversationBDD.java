@@ -5,8 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
-import com.example.alexmao.chat.classeApp.Conversation;
-import com.example.alexmao.chat.classeApp.Message;
+import com.example.alexmao.projetfinal.classeApp.Conversation;
+import com.example.alexmao.projetfinal.classeApp.Message;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

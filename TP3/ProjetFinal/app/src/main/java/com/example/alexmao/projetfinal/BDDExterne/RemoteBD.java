@@ -5,13 +5,13 @@ package com.example.alexmao.projetfinal.BDDExterne;
  * ne pas confondre avec ceux de la BD locale (SQL)
  */
 public interface RemoteBD {
-    void updateLocationOnServer(UserProfilEBDD user, String id);
+    void updateLocationOnServer(UtilisateurProfilEBDD user, String id);
 
     String getLastDataFromServer(String path);
 
-    String addUserProfil(UserProfilEBDD user);
+    String addUserProfil(UtilisateurProfilEBDD user);
 
-    void getUserProfil(String id, UserProfilEBDD user,
+    void getUserProfil(String id, UtilisateurProfilEBDD user,
                        OnUserProfilReceived onUserProfilReceivedCallback);
 
     void getUserProfilFromMail(String mailAdr, LocalUserProfilEBDD user,

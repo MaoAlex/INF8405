@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.alexmao.chat.Activity.Chat;
 import com.example.alexmao.chat.classeApp.Utilisateur;
 import com.example.alexmao.chat.custom.CustomActivity;
 import com.example.alexmao.chat.utils.Const;

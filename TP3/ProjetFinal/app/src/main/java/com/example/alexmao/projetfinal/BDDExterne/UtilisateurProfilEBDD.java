@@ -3,7 +3,7 @@ package com.example.alexmao.projetfinal.BDDExterne;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.alexmao.chat.User;
+import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 //Ne pas oublier d'appeler la fonction pour que le mot de passe soit pris en compte
-public class UserProfilEBDD implements Parcelable {
+public class UtilisateurProfilEBDD implements Parcelable {
     private String firstName;
     private String lastName;
     private String mailAdr;
@@ -28,33 +28,33 @@ public class UserProfilEBDD implements Parcelable {
         this.dateBirth = dateBirth;
     }
 
-    public static final Creator<UserProfilEBDD> CREATOR = new Creator<UserProfilEBDD>() {
+    public static final Creator<UtilisateurProfilEBDD> CREATOR = new Creator<UtilisateurProfilEBDD>() {
         @Override
-        public UserProfilEBDD createFromParcel(Parcel source)
+        public UtilisateurProfilEBDD createFromParcel(Parcel source)
         {
-            return new UserProfilEBDD(source);
+            return new UtilisateurProfilEBDD(source);
         }
 
         @Override
-        public UserProfilEBDD[] newArray(int size)
+        public UtilisateurProfilEBDD[] newArray(int size)
         {
-            return new UserProfilEBDD[size];
+            return new UtilisateurProfilEBDD[size];
         }
     };
 
-    public UserProfilEBDD(Parcel in) {
+    public UtilisateurProfilEBDD(Parcel in) {
         firstName = in.readString();
         lastName = in.readString();
         mailAdr = in.readString();
     }
 
-    public UserProfilEBDD() {
+    public UtilisateurProfilEBDD() {
     }
 
-    public UserProfilEBDD(User user) {
+    public UtilisateurProfilEBDD(Utilisateur user) {
         firstName = user.getPrenom();
         lastName = user.getNom();
-        mailAdr = user.getMail_();
+        mailAdr = user.getMail();
     }
 
     public List<String> getSports() {
@@ -65,13 +65,13 @@ public class UserProfilEBDD implements Parcelable {
         this.sports = sports;
     }
 
-    public UserProfilEBDD(String firstName, String lastName, String mailAdr) {
+    public UtilisateurProfilEBDD(String firstName, String lastName, String mailAdr) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.mailAdr = mailAdr;
     }
 
-    public UserProfilEBDD(String firstName, String lastName, String mailAdr, ArrayList<String> pref) {
+    public UtilisateurProfilEBDD(String firstName, String lastName, String mailAdr, ArrayList<String> pref) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.mailAdr = mailAdr;
@@ -89,7 +89,7 @@ public class UserProfilEBDD implements Parcelable {
         return mailAdr;
     }
 
-    public void update(UserProfilEBDD userFromRemote) {
+    public void update(UtilisateurProfilEBDD userFromRemote) {
         firstName = userFromRemote.getFirstName();
         lastName = userFromRemote.getLastName();
         mailAdr = userFromRemote.getMailAdr();

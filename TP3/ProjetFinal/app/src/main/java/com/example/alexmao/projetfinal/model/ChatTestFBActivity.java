@@ -8,13 +8,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.alexmao.chat.BDDExterne.ConversationEBDD;
-import com.example.alexmao.chat.BDDExterne.FireBaseBD;
-import com.example.alexmao.chat.BDDExterne.LocalUserProfilEBDD;
-import com.example.alexmao.chat.BDDExterne.MessageBDD;
-import com.example.alexmao.chat.BDDExterne.OnMessageReceiveCallback;
-import com.example.alexmao.chat.BDDExterne.RemoteBD;
-import com.example.alexmao.chat.R;
+import com.example.alexmao.projetfinal.BDDExterne.ConversationEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
+import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.MessageBDD;
+import com.example.alexmao.projetfinal.BDDExterne.OnMessageReceiveCallback;
+import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
+import com.example.alexmao.projetfinal.R;
 
 import java.util.Date;
 

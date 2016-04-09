@@ -1,10 +1,10 @@
 package com.example.alexmao.projetfinal.BDDExterne;
 
-import com.example.alexmao.chat.classeApp.Evenement;
-import com.example.alexmao.chat.classeApp.Groupe;
-import com.example.alexmao.chat.classeApp.Message;
-import com.example.alexmao.chat.classeApp.ParametresUtilisateur;
-import com.example.alexmao.chat.classeApp.Utilisateur;
+import com.example.alexmao.projetfinal.classeApp.Evenement;
+import com.example.alexmao.projetfinal.classeApp.Groupe;
+import com.example.alexmao.projetfinal.classeApp.Message;
+import com.example.alexmao.projetfinal.classeApp.ParametresUtilisateur;
+import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
 import java.util.ArrayList;
 import java.util.List;

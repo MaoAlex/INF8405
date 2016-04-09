@@ -3,7 +3,7 @@ package com.example.alexmao.projetfinal.BDDInterne;
 import android.content.ContentValues;
 import android.content.Context;
 
-import com.example.alexmao.chat.classeApp.Conversation;
+import com.example.alexmao.projetfinal.classeApp.Conversation;
 
 /**
  *Classe permettant de gérer la conversation associée à un groupe

@@ -5,8 +5,8 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import com.example.alexmao.chat.R;
-import com.example.alexmao.chat.utils.TouchEffect;
+import com.example.alexmao.projetfinal.R;
+import com.example.alexmao.projetfinal.utils.TouchEffect;
 
 /**
  * This is a common activity that all other activities of the app can extend to

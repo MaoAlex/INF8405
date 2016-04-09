@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
-import com.example.alexmao.chat.classeApp.ParametresUtilisateur;
+import com.example.alexmao.projetfinal.classeApp.ParametresUtilisateur;
 
 /**
  * Created by alexMAO on 03/04/2016.

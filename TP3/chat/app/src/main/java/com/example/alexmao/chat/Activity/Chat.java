@@ -1,4 +1,4 @@
-package com.example.alexmao.chat;
+package com.example.alexmao.chat.Activity;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -22,6 +22,7 @@ import com.example.alexmao.chat.BDDExterne.LocalUserProfilEBDD;
 import com.example.alexmao.chat.BDDExterne.MessageBDD;
 import com.example.alexmao.chat.BDDExterne.OnMessageReceiveCallback;
 import com.example.alexmao.chat.BDDExterne.RemoteBD;
+import com.example.alexmao.chat.R;
 import com.example.alexmao.chat.classeApp.Conversation;
 import com.example.alexmao.chat.classeApp.Groupe;
 import com.example.alexmao.chat.classeApp.Message;

@@ -1,4 +1,4 @@
-package com.example.alexmao.projetfinal;
+package com.example.alexmao.projetfinal.Activites;
 
 import android.app.Application;
 

@@ -3,7 +3,7 @@ package com.example.alexmao.projetfinal.BDDInterne;
 import android.content.ContentValues;
 import android.content.Context;
 
-import com.example.alexmao.chat.classeApp.Message;
+import com.example.alexmao.projetfinal.classeApp.Message;
 
 /**
  *Classe permettant de manipuler les messages dans la BDD

@@ -1,4 +1,4 @@
-package com.example.alexmao.chat;
+package com.example.alexmao.chat.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.widget.EditText;
 import com.example.alexmao.chat.BDDExterne.FireBaseBD;
 import com.example.alexmao.chat.BDDExterne.OnStringReceived;
 import com.example.alexmao.chat.BDDExterne.RemoteBD;
+import com.example.alexmao.chat.R;
+import com.example.alexmao.chat.UserList;
 import com.example.alexmao.chat.custom.CustomActivity;
 import com.example.alexmao.chat.utils.Utils;
 
@@ -99,13 +101,14 @@ public class Login extends CustomActivity
                 public void onStringReceived(String s) {
                     dia.dismiss();
 
-                    if (s != null && s == p){
+                    if (s != null && s.equals(p)){
 
                         startActivity(new Intent(Login.this, UserList.class));
                         finish();
                     }else
                     {
                         Log.d("Login", "erreur de mdp");
+                        Utils.showDialog(Login.this, getString(R.string.err_login) + " le mdp n'est pas bon" );
                     }
                 }
             });

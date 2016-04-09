@@ -5,9 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
-import com.example.alexmao.chat.classeApp.Conversation;
-import com.example.alexmao.chat.classeApp.Evenement;
-import com.example.alexmao.chat.classeApp.Groupe;
+import com.example.alexmao.projetfinal.classeApp.Conversation;
+import com.example.alexmao.projetfinal.classeApp.Evenement;
+import com.example.alexmao.projetfinal.classeApp.Groupe;
 
 /**
  * Created by alexMAO on 04/04/2016.

@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
-import com.example.alexmao.chat.classeApp.Groupe;
-import com.example.alexmao.chat.classeApp.Utilisateur;
+import com.example.alexmao.projetfinal.classeApp.Groupe;
+import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
