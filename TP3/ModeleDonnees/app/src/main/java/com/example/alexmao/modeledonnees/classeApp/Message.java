@@ -1,24 +1,39 @@
 package com.example.alexmao.modeledonnees.classeApp;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.Date;
 
 /**
  * Created by Fabien on 02/04/2016.
  */
-public class Message implements Parcelable {
+public class Message {
+    /** The Constant STATUS_SENDING. */
+    public static final int STATUS_SENDING = 0;
+
+    /** The Constant STATUS_SENT. */
+    public static final int STATUS_SENT = 1;
+
+    /** The Constant STATUS_FAILED. */
+    public static final int STATUS_FAILED = 2;
+
+
+
+    private int status = STATUS_SENT;
+
     private String message;
     private Date date;
     private Utilisateur expediteur;
     private int idBDD;
 
-    public Message(Parcel in) {
-        message = in.readString();
-        date = (Date) in.readSerializable();
-        expediteur = in.readParcelable(Utilisateur.class.getClassLoader());
-        idBDD = in.readInt();
+    public Message(String s, Date date, Utilisateur utilisateur) {
+        message = s;
+        this.date = date;
+        expediteur = utilisateur;
+    }
+
+    public Message() {
+        this.message = "";
+        this.date = new Date();
+        this.expediteur = new Utilisateur();
     }
 
     public String getMessage() {
@@ -53,31 +68,10 @@ public class Message implements Parcelable {
         this.idBDD = idBDD;
     }
 
-    /*
-     * Parcelable methods
-     */
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public int getStatus() {
+        return status;
     }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(message);
-        dest.writeSerializable(date);
-        dest.writeParcelable(expediteur, flags);
-        dest.writeInt(idBDD);
+    public void setStatus(int status) {
+        this.status = status;
     }
-
-    // Creator
-    public static final Parcelable.Creator<Message> CREATOR = new Parcelable.Creator<Message>() {
-        public Message createFromParcel(Parcel in) {
-            return new Message(in);
-        }
-
-        public Message[] newArray(int size) {
-            return new Message[size];
-        }
-    };
 }

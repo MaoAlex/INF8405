@@ -96,7 +96,6 @@ public class Colonne {
     //Nom des colonnes pour la table conversation
     public static final String ID_CONVERSATION = "id_conversation";
     public static final String NOM_CONVERSATION = "nom_conversation";
-//    public static final String ID_GROUPE = "id_groupe";
 
     //Nom des colonnes pour la table groupe
     public static final String ID_GROUPE = "id_groupe";

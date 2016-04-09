@@ -108,8 +108,7 @@ public class CreateTable {
     //Requete pour la création de la table conversation
     public static final String CONVERSATION = "CREATE TABLE " + Table.CONVERSATION + " ("
             + Colonne.ID_CONVERSATION + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + Colonne.NOM_CONVERSATION + " TEXT, "
-            + Colonne.ID_GROUPE + " INTEGER, FOREIGN KEY(" + Colonne.ID_GROUPE + ") REFERENCES " + Table.GROUPE + "( " + Colonne.ID_GROUPE + " ); ";
+            + Colonne.NOM_CONVERSATION + " TEXT); ";
 
     //Requete pour la création de la table groupe
     public static final String GROUPE = "CREATE TABLE " + Table.GROUPE + " ("

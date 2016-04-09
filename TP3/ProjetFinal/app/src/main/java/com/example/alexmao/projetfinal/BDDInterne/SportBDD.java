@@ -1,4 +1,4 @@
-package com.example.alexmao.modeledonnees.BDDInterne;
+package com.example.alexmao.projetfinal.BDDInterne;
 
 /**
  * Created by alexMAO on 04/04/2016.
