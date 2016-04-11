@@ -14,8 +14,8 @@ public abstract class AbstractBDD {
     protected final static int VERSION = 1;
     // Le nom du fichier qui représente ma base de données
     protected final static String NOM = "database.db";
-    protected SQLiteDatabase database_ = null;
-    protected BaseSQLite maBaseSQLite_ = null;
+    protected static SQLiteDatabase database_ = null;
+    protected static BaseSQLite maBaseSQLite_ = null;
 
     public AbstractBDD(Context pContext) {
         //initialisation de la base de données avec le contexte
