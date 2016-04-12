@@ -55,26 +55,35 @@ public class CreateTable {
             + Colonne.ID_ORGANISATEUR + " INTEGER, "
             + Colonne.VISIBILITE + " TEXT, "
             + " FOREIGN KEY (" + Colonne.ID_GROUPE + ")  REFERENCES " + Table.GROUPE + "( " + Colonne.ID_GROUPE + "),"
-            + " FOREIGN KEY (" + Colonne.ID_GROUPE + ")  REFERENCES " + Table.UTILISATEUR + "( "  + ", " + Colonne.ID_UTILISATEUR + " ));";
+            + " FOREIGN KEY (" + Colonne.ID_GROUPE + ")  REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " ));";
 
     //Requete pour la création de la table evenement interesse
     public static final String EVENEMENT_INTERESSE = "CREATE TABLE " + Table.EVENEMENT_INTERESSE + " ("
-            + Colonne.ID_UTILISATEUR + " INTEGER PRIMARY KEY AND FOREIGN KEY (" + Colonne.ID_UTILISATEUR + ") REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " ), "
-            + Colonne.ID_EVENEMENT + " INTEGER PRIMARY KEY AND FOREIGN KEY (" + Colonne.ID_EVENEMENT + ") REFERENCES " + Table.EVENEMENT + "( " + Colonne.ID_EVENEMENT + " ); ";
+            + Colonne.ID_UTILISATEUR + " INTEGER, "
+            + Colonne.ID_EVENEMENT + " INTEGER, "
+            + " PRIMARY KEY (" + Colonne.ID_UTILISATEUR + ", " + Colonne.ID_EVENEMENT + "), "
+            + " FOREIGN KEY (" + Colonne.ID_UTILISATEUR + ")  REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + "),"
+            + " FOREIGN KEY (" + Colonne.ID_EVENEMENT + ") REFERENCES " + Table.EVENEMENT + "( " + Colonne.ID_EVENEMENT + " )); ";
 
     //Requete pour la création de la table utilisateur evenement participant
     public static final String PARTICIPANT_EVENEMENT = "CREATE TABLE " + Table.PARTICIPANT_EVENEMENT + " ("
-            + Colonne.ID_UTILISATEUR + " INTEGER PRIMARY KEY AND FOREIGN KEY (" + Colonne.ID_UTILISATEUR + ") REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " ), "
-            + Colonne.ID_EVENEMENT + " INTEGER PRIMARY KEY AND FOREIGN KEY (" + Colonne.ID_EVENEMENT + ") REFERENCES " + Table.EVENEMENT + "( " + Colonne.ID_EVENEMENT + " ); ";
+            + Colonne.ID_UTILISATEUR + " INTEGER, "
+            + Colonne.ID_EVENEMENT + " INTEGER, "
+            + " PRIMARY KEY (" + Colonne.ID_UTILISATEUR + ", " + Colonne.ID_EVENEMENT + "), "
+            + " FOREIGN KEY (" + Colonne.ID_UTILISATEUR + ")  REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + "),"
+            + " FOREIGN KEY (" + Colonne.ID_EVENEMENT + ") REFERENCES " + Table.EVENEMENT + "( " + Colonne.ID_EVENEMENT + " )); ";
 
     //Requete pour la création de la table invitation evenement
     public static final String INVITATION_EVENEMENT = "CREATE TABLE " + Table.INVITATION_EVENEMENT + " ("
             + Colonne.ID_INVITATION_EVENEMENT + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + Colonne.ID_EVENEMENT + " INTEGER, FOREIGN KEY(" + Colonne.ID_EVENEMENT + ") REFERENCES " + Table.EVENEMENT + "( " + Colonne.ID_EVENEMENT + " ), "
-            + Colonne.ID_EXPEDITEUR + " INTEGER, FOREIGN KEY(" + Colonne.ID_UTILISATEUR + ") REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " ), "
-            + Colonne.ID_INVITE + " INTEGER, FOREIGN KEY(" + Colonne.ID_UTILISATEUR + ") REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " ), "
+            + Colonne.ID_EVENEMENT + " INTEGER, "
+            + Colonne.ID_EXPEDITEUR + " INTEGER, "
+            + Colonne.ID_INVITE + " INTEGER,"
             + Colonne.DATE_INVITATION + " INTEGER, "
-            + Colonne.ID_FIREBASE + " TEXT NOT NULL );";
+            + Colonne.ID_FIREBASE + " TEXT NOT NULL, "
+            + " FOREIGN KEY (" + Colonne.ID_EVENEMENT + ")  REFERENCES " + Table.EVENEMENT + "( " + Colonne.ID_EVENEMENT + "),"
+            + " FOREIGN KEY (" + Colonne.ID_EXPEDITEUR + ")  REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + "),"
+            + " FOREIGN KEY (" + Colonne.ID_INVITE + ") REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " )); ";
 
     //Requete pour la création de la table sport
     /*public static final String SPORT = "CREATE TABLE " + Table.SPORT + " ("
@@ -84,29 +93,35 @@ public class CreateTable {
     //Requete pour la création de la table sport utilisateur
     public static final String SPORT_UTILISATEUR = "CREATE TABLE " + Table.SPORT_UTILISATEUR + " ("
             + Colonne.ID_SPORT_UTILISATEUR + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + Colonne.ID_UTILISATEUR + " INTEGER PRIMARY KEY AND FOREIGN KEY (" + Colonne.ID_UTILISATEUR + ") REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " ), "
-            + Colonne.SPORT + " TEXT NOT NULL );";
+            + Colonne.ID_UTILISATEUR + " INTEGER,"
+            + Colonne.SPORT + " TEXT NOT NULL,"
+            + " FOREIGN KEY (" + Colonne.ID_UTILISATEUR + ") REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " )); ";
 
     //Requete pour la création de la table invitation connexion
     public static final String INVITATION_CONNEXION = "CREATE TABLE " + Table.INVITATION_CONNEXION + " ("
             + Colonne.ID_INVITATION_EVENEMENT + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + Colonne.ID_EXPEDITEUR + " INTEGER, FOREIGN KEY(" + Colonne.ID_UTILISATEUR + ") REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " ), "
-            + Colonne.ID_INVITE + " INTEGER, FOREIGN KEY(" + Colonne.ID_UTILISATEUR + ") REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " ), "
+            + Colonne.ID_EXPEDITEUR + " INTEGER, "
+            + Colonne.ID_INVITE + " INTEGER, "
             + Colonne.DATE_INVITATION + " INTEGER, "
-            + Colonne.ID_FIREBASE + " TEXT NOT NULL );";
+            + Colonne.ID_FIREBASE + " TEXT NOT NULL, "
+            + " FOREIGN KEY (" + Colonne.ID_EXPEDITEUR + ")  REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + "),"
+            + " FOREIGN KEY (" + Colonne.ID_INVITE + ") REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " )); ";
 
     //Requete pour la création de la table message
     public static final String MESSAGE = "CREATE TABLE " + Table.MESSAGE + " ("
             + Colonne.ID_MESSAGE + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + Colonne.MESSAGE + " TEXT, "
             + Colonne.DATE_MESSAGE + " INTEGER, "
-            + Colonne.ID_EXPEDITEUR + " INTEGER, FOREIGN KEY(" + Colonne.ID_EXPEDITEUR + ") REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + ");";
+            + Colonne.ID_EXPEDITEUR + " INTEGER,"
+            + " FOREIGN KEY(" + Colonne.ID_EXPEDITEUR + ") REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + "));";
 
     //Requete pour la création de la table message conversation
     public static final String MESSAGE_CONVERSATION = "CREATE TABLE " + Table.MESSAGE_CONVERSATION + " ("
-            + Colonne.ID_MESSAGE + " INTEGER PRIMARY KEY AND FOREIGN KEY (" + Colonne.ID_MESSAGE + ") REFERENCES " + Table.MESSAGE + "( " + Colonne.ID_MESSAGE + " ), "
-            + Colonne.ID_CONVERSATION + " INTEGER PRIMARY KEY AND FOREIGN KEY (" + Colonne.ID_CONVERSATION + ") REFERENCES " + Table.CONVERSATION + "( " + Colonne.ID_CONVERSATION + " ); ";
-
+            + Colonne.ID_MESSAGE + " INTEGER, "
+            + Colonne.ID_CONVERSATION + " INTEGER, "
+            + " PRIMARY KEY (" + Colonne.ID_MESSAGE + ", " + Colonne.ID_CONVERSATION + "), "
+            + " FOREIGN KEY (" + Colonne.ID_MESSAGE + ")  REFERENCES " + Table.MESSAGE + "( " + Colonne.ID_MESSAGE + "),"
+            + " FOREIGN KEY (" + Colonne.ID_CONVERSATION + ") REFERENCES " + Table.CONVERSATION + "( " + Colonne.ID_CONVERSATION + " )); ";
 
     //Requete pour la création de la table conversation
     public static final String CONVERSATION = "CREATE TABLE " + Table.CONVERSATION + " ("
@@ -116,13 +131,16 @@ public class CreateTable {
     //Requete pour la création de la table groupe
     public static final String GROUPE = "CREATE TABLE " + Table.GROUPE + " ("
             + Colonne.ID_GROUPE + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + Colonne.ID_CONVERSATION + " INTEGER, FOREIGN KEY (" + Colonne.ID_CONVERSATION+ ") REFERENCES " + Table.CONVERSATION + "( " + Colonne.ID_CONVERSATION + " ), "
+            + Colonne.ID_CONVERSATION + " INTEGER, "
             + Colonne.ID_FIREBASE + " TEXT NOT NULL, "
-            + Colonne.ID_EVENEMENT + " INTEGER ); ";
+            + Colonne.ID_EVENEMENT + " INTEGER, "
+            + " FOREIGN KEY(" + Colonne.ID_CONVERSATION + ") REFERENCES " + Table.CONVERSATION + "( " + Colonne.ID_CONVERSATION + "));";
 
     //Requete pour la création de la table groupe utilisateur
     public static final String GROUPE_UTILISATEUR = "CREATE TABLE " + Table.GROUPE_UTILISATEUR + " ("
-            + Colonne.ID_GROUPE + " INTEGER PRIMARY KEY AND FOREIGN KEY (" + Colonne.ID_GROUPE + ") REFERENCES " + Table.GROUPE + "( " + Colonne.ID_GROUPE + " ), "
-            + Colonne.ID_UTILISATEUR + " INTEGER PRIMARY KEY AND FOREIGN KEY (" + Colonne.ID_UTILISATEUR + ") REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " ); ";
-
+            + Colonne.ID_GROUPE + " INTEGER, "n
+            + Colonne.ID_UTILISATEUR + " INTEGER, "
+            + " PRIMARY KEY (" + Colonne.ID_GROUPE + ", " + Colonne.ID_UTILISATEUR + "), "
+            + " FOREIGN KEY (" + Colonne.ID_GROUPE + ")  REFERENCES " + Table.GROUPE + "( " + Colonne.ID_GROUPE + "),"
+            + " FOREIGN KEY (" + Colonne.ID_UTILISATEUR + ") REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " )); ";
 }
