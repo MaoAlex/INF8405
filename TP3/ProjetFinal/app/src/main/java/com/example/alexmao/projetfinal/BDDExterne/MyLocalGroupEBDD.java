@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 /**
  * Created by filou on 10/03/16.
  */
-@JsonIgnoreProperties({"databaseId", "changeListener"})
+@JsonIgnoreProperties({"databaseId"})
 
 public class MyLocalGroupEBDD extends MyGroupEBDD {
     private String databaseID;

@@ -561,7 +561,7 @@ public class FireBaseBD implements RemoteBD {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-
+                Log.d(TAG, "onCancelled: " + firebaseError.getMessage());
             }
         });
     }

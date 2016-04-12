@@ -1,24 +1,21 @@
 package com.example.alexmao.projetfinal.BDDExterne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by filou on 12/04/16.
  */
-public class InvitationEvenementEBDD {
+@JsonIgnoreProperties({"idFirebase"})
+public class InvitationEvenementEBDD extends NotificationDataEBDD {
     private String evenementIdFirebase;
-    private String expediteurIdFirebase;
-    private String inviteIdFirebase;
-    private long date;
-    private String idFirebase;
 
     public InvitationEvenementEBDD() {
+        super();
     }
 
     public InvitationEvenementEBDD(String evenementIdFirebase, String expediteurIdFirebase,
                                    String inviteIdFirebase, long date) {
-        this.evenementIdFirebase = evenementIdFirebase;
-        this.expediteurIdFirebase = expediteurIdFirebase;
-        this.inviteIdFirebase = inviteIdFirebase;
-        this.date = date;
+        super(expediteurIdFirebase, inviteIdFirebase, date);
     }
 
     public String getEvenementIdFirebase() {
@@ -27,37 +24,5 @@ public class InvitationEvenementEBDD {
 
     public void setEvenementIdFirebase(String evenementIdFirebase) {
         this.evenementIdFirebase = evenementIdFirebase;
-    }
-
-    public String getExpediteurIdFirebase() {
-        return expediteurIdFirebase;
-    }
-
-    public void setExpediteurIdFirebase(String expediteurIdFirebase) {
-        this.expediteurIdFirebase = expediteurIdFirebase;
-    }
-
-    public String getInviteIdFirebase() {
-        return inviteIdFirebase;
-    }
-
-    public void setInviteIdFirebase(String inviteIdFirebase) {
-        this.inviteIdFirebase = inviteIdFirebase;
-    }
-
-    public long getDate() {
-        return date;
-    }
-
-    public void setDate(long date) {
-        this.date = date;
-    }
-
-    public String getIdFirebase() {
-        return idFirebase;
-    }
-
-    public void setIdFirebase(String idFirebase) {
-        this.idFirebase = idFirebase;
     }
 }
