@@ -1,5 +1,7 @@
 package com.example.alexmao.projetfinal.BDDExterne;
 
+import java.util.Map;
+
 /**
  * Interface de la base de données, les id sont les id au sens firebase,
  * ne pas confondre avec ceux de la BD locale (SQL)
@@ -24,9 +26,11 @@ public interface RemoteBD {
 
     void addUserToGroup(String groupID, String userID);
 
-    void getGroup(String groupID, MyLocalGroupEBDD myGroup, OnGroupReceived onGroupReceived);
+    void getGroup(String groupID, MyLocalGroupEBDD myGroup,
+                  OnGroupReceived onGroupReceivedCallback);
 
-    void getGroupFromName(String name, MyLocalGroupEBDD myGroup, OnGroupReceived onGroupReceived);
+    void getGroupFromName(String name, MyLocalGroupEBDD myGroup,
+                          OnGroupReceived onGroupReceivedCallback);
 
     void listenToChangeOnGroup(final MyGroupEBDD group, final String groupBDID);
 
@@ -34,13 +38,13 @@ public interface RemoteBD {
 
     void addPositionToUser(String userID, Position position);
 
-    void getUserPosition(String userID, OnPositionReceived onPositionReceived);
+    void getUserPosition(String userID, OnPositionReceived onPositionReceivedCallback);
 
-    void getMdp(String mail, OnStringReceived onMdpReceivedCallback);
+    void getMdp(String mail, OnStringReceived onMdpReceivedCallbackCallback);
 
-    void getExistGroup(String name, OnBooleanReceived onBooleanReceived);
+    void getExistGroup(String name, OnBooleanReceived onBooleanReceivedCallback);
 
-    void getExistUser(String mailADR, OnBooleanReceived onBooleanReceived);
+    void getExistUser(String mailADR, OnBooleanReceived onBooleanReceivedCallback);
 
     void changeMail(LocalUserProfilEBDD localUserProfil, String newMail);
 
@@ -56,7 +60,7 @@ public interface RemoteBD {
 
     String addDiscussion(ConversationEBDD discussion);
 
-    void getDiscussion(String discussionID, OnConversationReceived onConversationRecieved);
+    void getDiscussion(String discussionID, OnConversationReceived onConversationRecievedCallback);
 
     void updateTimeLastChange(String userID, long timeMIlli);
 
@@ -83,4 +87,9 @@ public interface RemoteBD {
     void addUserParam(UserParamsEBDD userParamsEBDD, String userID);
 
     void getUserParam(String userID, OnUserParamReceived onUserParamReceivedCallback);
+
+    String addNotificationToUser(String userID, NotificationBDD notificationBDD);
+
+    void listenToNotification(String userID, Map<String,
+            OnNotificationReceived> typeToActionCallback);
 }

@@ -17,6 +17,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class FireBaseBD implements RemoteBD {
     private static String TAG = "FireBaseBD";
@@ -453,7 +454,8 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public String addMsgAndNotify(String localUserID, MessageBDD message, String conversationID, MyGroupEBDD receivers) {
+    public String addMsgAndNotify(String localUserID, MessageBDD message,
+                                  String conversationID, MyGroupEBDD receivers) {
         String msgID = addMsgToDiscussion(conversationID, message);
 
         for (String userID: receivers.getMembersID()) {
@@ -510,6 +512,51 @@ public class FireBaseBD implements RemoteBD {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserParamsEBDD userParamsEBDD = dataSnapshot.getValue(UserParamsEBDD.class);
                 onUserParamReceivedCallback.onUserParamReceived(userParamsEBDD);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    public String addNotificationToUser(String userID, NotificationBDD notificationBDD) {
+        Firebase notificationBD = myFireBaseRef.child("users").child("notifications")
+                .child(userID).push();
+        notificationBD.setValue(notificationBDD);
+
+        return notificationBD.getKey();
+    }
+
+    /**
+     *
+     * @param userBDID id firebase de l'utilisateur
+     * @param typeToActionCallback map précisant pour chaque type quelle action faire
+     */
+    @Override
+    public void listenToNotification(final String userBDID, final Map<String,
+            OnNotificationReceived> typeToActionCallback) {
+        Firebase notificationBD = myFireBaseRef.child("users").child("notifications")
+                .child(userBDID);
+        notificationBD.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                ArrayList<String> ids = new ArrayList<String>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    NotificationBDD notificationBDD = dataSnapshot.getValue(NotificationBDD.class);
+
+                    typeToActionCallback.get(notificationBDD.getType())
+                            .onNotificationReceived(notificationBDD);
+
+                    ids.add(dataSnapshot.getKey());
+                }
+
+                for (String id : ids) {
+                    myFireBaseRef.child("users").child("notifications").child(userBDID)
+                            .child(id).removeValue();
+                }
             }
 
             @Override
