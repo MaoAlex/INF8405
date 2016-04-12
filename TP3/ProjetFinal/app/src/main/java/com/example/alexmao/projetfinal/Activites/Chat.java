@@ -122,7 +122,7 @@ public class Chat extends CustomActivity
 		/*GroupeBDD groupeBDD = new GroupeBDD(this);
 		groupeBDD.open();
 		groupe = new Groupe();*/
-        //Partie non encore utilisée
+        //Partie non encore utilisÃ©e
         //partie BDD interne
         groupe = new Groupe();
         ArrayList<Utilisateur> listeUtilisateur = new ArrayList<>();
@@ -148,7 +148,7 @@ public class Chat extends CustomActivity
 //        groupe.getListeMembre();
         //Creation du Handler
 		handler = new Handler();
-        //On met en place le listerner qui nous permet d'être notifié d'un nouveau message
+        //On met en place le listerner qui nous permet d'ï¿½tre notifiï¿½ d'un nouveau message
         remoteBD.listenToConversation(discussionID, currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
             @Override
             public void onNewMessage(MessageBDD message) {
@@ -205,7 +205,7 @@ public class Chat extends CustomActivity
 
 	private void sendMessage()
 	{
-        //cas où l'utilisateur n'a rien rentré
+        //cas oÃ¹ l'utilisateur n'a rien rentrÃ©
 		if (txt.length() == 0)
 			return;
 
@@ -232,7 +232,7 @@ public class Chat extends CustomActivity
         conversation.setMessage(s);
         //id firebase
         String msgID = remoteBD.addMsgToDiscussion(discussionID, conversation);
-        //mise à jour de l'état d'envoi du message
+        //mise Ã  jour de l'Ã©tat d'envoi du message
         if (msgID != null)
             m.setStatus(Convers.STATUS_SENT);
         else
@@ -409,9 +409,9 @@ public class Chat extends CustomActivity
         remoteBD.notifyUserForMsg(testLocalUserProfil.getDataBaseId(), conversation, discussionID);
     }
 
-    //Fonction permettant la mise à jour du nouveau message reçu
+    //Fonction permettant la mise Ã  jour du nouveau message reÃ§u
     void onNewMsg(MessageBDD message) {
-        Log.d("Chat", "On est dans la récupération des nouveaux messages");
+        Log.d("Chat", "On est dans la rï¿½cupï¿½ration des nouveaux messages");
         if (message == null)
             return;
         /*TextView textView = new TextView(this);

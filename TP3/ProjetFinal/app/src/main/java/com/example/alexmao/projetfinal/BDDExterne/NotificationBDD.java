@@ -6,7 +6,7 @@ import java.util.Map;
  * Created by filou on 12/04/16.
  */
 public class NotificationBDD {
-    String Type;
+    String type;
     Map<String, String> params;
     String askerID;
     String destID;
@@ -14,19 +14,43 @@ public class NotificationBDD {
     public NotificationBDD() {
     }
 
-    public NotificationBDD(String type, Map<String, String> params, String askerID, String destID) {
-        Type = type;
+    public NotificationBDD(String type, Map<String, String> params,
+                           String askerID, String destID) {
+        this.type = type;
         this.params = params;
         this.askerID = askerID;
         this.destID = destID;
     }
 
+    public NotificationBDD(NotificationBDD notificationBDD) {
+        type = notificationBDD.getType();
+        params = notificationBDD.getParams();
+        askerID = notificationBDD.getAskerID();
+        destID = notificationBDD.getDestID();
+    }
+
+    public String getAskerID() {
+        return askerID;
+    }
+
+    public void setAskerID(String askerID) {
+        this.askerID = askerID;
+    }
+
+    public String getDestID() {
+        return destID;
+    }
+
+    public void setDestID(String destID) {
+        this.destID = destID;
+    }
+
     public String getType() {
-        return Type;
+        return type;
     }
 
     public void setType(String type) {
-        Type = type;
+        this.type = type;
     }
 
     public Map getParams() {

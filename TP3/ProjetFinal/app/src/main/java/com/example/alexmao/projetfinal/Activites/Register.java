@@ -77,7 +77,7 @@ public class Register extends CustomActivity
 		startActivity(new Intent(Register.this, UserList.class));
 		setResult(RESULT_OK);
 		finish();
-		//Completer les différents elements de l'utilisateur
+		//Completer les diffÃ©rents elements de l'utilisateur
 		/*pu.signUpInBackground(new SignUpCallback() {
 
 			@Override

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- *Classe permettant la manipulation des tables utilisateur et utilisateur connecté
+ *Classe permettant la manipulation des tables utilisateur et utilisateur connectï¿½
  *
  */
 
@@ -38,10 +38,10 @@ public class UtilisateurBDD extends AbstractBDD {
     //insererUtilisateur permet d'inserer l'utilisateur dans la BDD interne
     //Elle renvoie l'id de l'utilisateur dans la BDD interne
     public long insererUtilisateur(Utilisateur utilisateur){
-        //Création d'un ContentValues (fonctionne comme une HashMap)
+        //Crï¿½ation d'un ContentValues (fonctionne comme une HashMap)
         //On va mettre les valeurs de l'utilisateur en fonction des colonnes
         ContentValues values = new ContentValues();
-        //on lui ajoute une valeur associée à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
+        //on lui ajoute une valeur associÃ©e ï¿½ une clÃ© (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
         values.put(Colonne.NOM, utilisateur.getNom());
         values.put(Colonne.PRENOM, utilisateur.getPrenom());
         values.put(Colonne.DATE_NAISSANTE, utilisateur.getDateNaissance().toString());
@@ -54,17 +54,17 @@ public class UtilisateurBDD extends AbstractBDD {
         values.put(Colonne.LONGITUDE, utilisateur.getLongitude());
         values.put(Colonne.ID_FIREBASE, utilisateur.getIdFirebase());
 
-        //on insère l'objet dans la BDD via le ContentValues,
+        //on insÃ¨re l'objet dans la BDD via le ContentValues,
         return database_.insert(Table.UTILISATEUR, null, values);
 
     }
 
     //A verifier la valeur de retour
     public long modifierUtilisateur(int id, Utilisateur utilisateur){
-        //La mise à jour d'un utilisateur dans la BDD fonctionne plus ou moins comme une insertion
-        //il faut simplement préciser quel utilisateur on doit mettre à jour grâce à l'ID
+        //La mise Ã  jour d'un utilisateur dans la BDD fonctionne plus ou moins comme une insertion
+        //il faut simplement prÃ©ciser quel utilisateur on doit mettre Ã  jour grace Ã  l'ID
         ContentValues values = new ContentValues();
-        //on lui ajoute une valeur associée à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
+        //on lui ajoute une valeur associÃ©e Ã  une clÃ© (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
         values.put(Colonne.NOM, utilisateur.getNom());
         values.put(Colonne.PRENOM, utilisateur.getPrenom());
         values.put(Colonne.DATE_NAISSANTE, utilisateur.getDateNaissance().toString());
@@ -80,33 +80,33 @@ public class UtilisateurBDD extends AbstractBDD {
     }
 
     public int supprimerUtilisateurParId(int id){
-        //Suppression d'un utilisateur de la BDD grâce à l'ID
+        //Suppression d'un utilisateur de la BDD grace a l'ID
         return database_.delete(Table.UTILISATEUR, Colonne.ID_UTILISATEUR + " = " + id, null);
     }
 
     public Utilisateur obtenirUtilisateurParNom(String nom){
-        //Récupère dans un Cursor les valeurs correspondant à un utilisateur contenu dans la BDD (ici on sélectionne le utilisateur grâce à son nom)
+        //Racupare dans un Cursor les valeurs correspondant a un utilisateur contenu dans la BDD (ici on sÃ©lectionne le utilisateur grace a son nom)
         Cursor c = database_.query(Table.UTILISATEUR, null, Colonne.NOM + " LIKE \"" + nom +"\"", null, null, null, null);
         return cursorToUtilisateur(c);
     }
 
     public Utilisateur obtenirUtilisateurParMail(String mail){
-        //Récupère dans un Cursor les valeurs correspondant à un utilisateur contenu dans la BDD (ici on sélectionne le utilisateur grâce à son nom)
+        //RÃ©cupÃ©re dans un Cursor les valeurs correspondant Ã  un utilisateur contenu dans la BDD (ici on sÃ©lectionne le utilisateur grace a son nom)
         Cursor c = database_.query(Table.UTILISATEUR, null, Colonne.MAIL + " LIKE \"" + mail +"\"", null, null, null, null);
         return cursorToUtilisateur(c);
     }
-    //Cette méthode permet de convertir un cursor en un utilisateur
+    //Cette mÃ©thode permet de convertir un cursor en un utilisateur
     private Utilisateur cursorToUtilisateur(Cursor c){
 
-        //si aucun élément n'a été retourné dans la requête, on renvoie null
+        //si aucun Ã©lÃ©ment n'a Ã©tÃ© retournÃ© dans la requÃ©te, on renvoie null
         if (c.getCount() == 0)
             return null;
 
-        //Sinon on se place sur le premier élément
+        //Sinon on se place sur le premier Ã©lÃ©ment
         c.moveToFirst();
-        //On créé un utilisateur
+        //On crÃ©Ã© un utilisateur
         Utilisateur utilisateur = new Utilisateur();
-        //on lui affecte toutes les infos grâce aux infos contenues dans le Cursor
+        //on lui affecte toutes les infos grace aux infos contenues dans le Cursor
         utilisateur.setIdBDD(c.getInt(NUM_COL_ID));
         utilisateur.setNom(c.getString(NUM_COL_NOM));
         utilisateur.setPrenom(c.getString(NUM_COL_PRENOM));
@@ -128,11 +128,11 @@ public class UtilisateurBDD extends AbstractBDD {
         //On ferme le cursor
         c.close();
 
-        //On retourne l'utilisateur récupéré de la BDD interne
+        //On retourne l'utilisateur rÃ©cupÃ©rÃ© de la BDD interne
         return utilisateur;
     }
 
-    //fonction de debuggage pour afficher les utilisateurs présents dans la BDD interne
+    //fonction de debuggage pour afficher les utilisateurs prÃ©sents dans la BDD interne
     public void affichageUtilisateurs() {
        String query = "SELECT * "
                + " FROM "
@@ -143,7 +143,7 @@ public class UtilisateurBDD extends AbstractBDD {
        Log.d("query", query);
        Cursor cursor = database_.rawQuery(query, null);
        //
-        //on insère l'objet dans la BDD via le ContentValues
+        //on insÃ©re l'objet dans la BDD via le ContentValues
        while (cursor.moveToNext()) {
            Log.d(TAG, "L'id de l'utilisateur est : " + cursor.getInt(NUM_COL_ID)
                    + ", son nom est : " + cursor.getString(NUM_COL_NOM)
@@ -157,7 +157,7 @@ public class UtilisateurBDD extends AbstractBDD {
        cursor.close();
     }
 
-    //méthode permettant de récupérer tous les utilisateurs stockés dans la table utilisateur
+    //mÃ©thode permettant de rÃ©cupÃ©rer tous les utilisateurs stockÃ©s dans la table utilisateur
     public ArrayList<Utilisateur> obtenirUtilisateurs() {
         ArrayList<Utilisateur> listeUtilisateur = new ArrayList<>();
         String query = "SELECT *"
@@ -167,12 +167,12 @@ public class UtilisateurBDD extends AbstractBDD {
         Log.d("query", query);
         Cursor c = database_.rawQuery(query, null);
         //
-        //on insère l'objet dans la BDD via le ContentValues
+        //on insÃ©re l'objet dans la BDD via le ContentValues
         while (c.moveToNext()) {
 
-            //On créé un utilisateur
+            //On crÃ©Ã© un utilisateur
             Utilisateur utilisateur = new Utilisateur();
-            //on lui affecte toutes les infos grâce aux infos contenues dans le Cursor
+            //on lui affecte toutes les infos grace aux infos contenues dans le Cursor
             utilisateur.setIdBDD(c.getInt(NUM_COL_ID));
             utilisateur.setNom(c.getString(NUM_COL_NOM));
             utilisateur.setPrenom(c.getString(NUM_COL_PRENOM));
@@ -192,7 +192,7 @@ public class UtilisateurBDD extends AbstractBDD {
             utilisateur.setLatitude(c.getDouble(NUM_COL_LONGITUDE));
             utilisateur.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
 
-            //on l'ajoute à la liste d'utilisateur
+            //on l'ajoute a la liste d'utilisateur
             listeUtilisateur.add(utilisateur);
 
         }
@@ -200,12 +200,12 @@ public class UtilisateurBDD extends AbstractBDD {
         return listeUtilisateur;
     }
 
-    //fonction permettant d'insérant l'utilisateur connecté dans la table correspondante
+    //fonction permettant d'insÃ©rant l'utilisateur connectÃ© dans la table correspondante
     public void connexion(Utilisateur utilisateur) {
-        //Création d'un ContentValues (fonctionne comme une HashMap)
+        //CrÃ©ation d'un ContentValues (fonctionne comme une HashMap)
         //On va mettre les valeurs de l'utilisateur en fonction des colonnes
         ContentValues values = new ContentValues();
-        //on lui ajoute une valeur associée à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
+        //on lui ajoute une valeur associÃ©e a une clÃ© (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
         values.put(Colonne.NOM, utilisateur.getNom());
         values.put(Colonne.PRENOM, utilisateur.getPrenom());
         values.put(Colonne.DATE_NAISSANTE, utilisateur.getDateNaissance().toString());
@@ -217,13 +217,13 @@ public class UtilisateurBDD extends AbstractBDD {
         values.put(Colonne.LATITUDE, utilisateur.getLatitude());
         values.put(Colonne.LONGITUDE, utilisateur.getLongitude());
         values.put(Colonne.ID_FIREBASE, utilisateur.getIdFirebase());
-        //On insert l'utilisateur dans la table pour savoir qu'il y a bien un utilisateur connecté
-        //Il est ainsi plus simple d'accéder aux données
+        //On insert l'utilisateur dans la table pour savoir qu'il y a bien un utilisateur connectÃ©
+        //Il est ainsi plus simple d'accÃ©der aux donnÃ©es
         database_.insert(Table.UTILISATEUR_CONNECTE, null, values);
     }
 
     public void deconnexion() {
-        //On supprime les données apres deconnexion
+        //On supprime les donnÃ©es apres deconnexion
         //Il n'y a plus d'information dans la table utilisateur connecte
         database_.delete(Table.UTILISATEUR_CONNECTE, null, null);
 
@@ -231,10 +231,10 @@ public class UtilisateurBDD extends AbstractBDD {
 
 
     public Utilisateur obtenirProfil(){
-        //Récupère dans un Cursor les valeurs correspondant à un utilisateur contenu dans la BDD (ici on sélectionne le utilisateur grâce à son nom)
+        //RÃ©cupÃ©re dans un Cursor les valeurs correspondant Ã© un utilisateur contenu dans la BDD (ici on sÃ©lectionne le utilisateur grÃ©ce Ã© son nom)
         Cursor c = database_.query(Table.UTILISATEUR_CONNECTE, null, null, null, null, null, null);
-        //Il est nécessaire de récupérer que la première ligne
-        //Selon notre logique il ne peut y avoir qu'un utilisateur à la fois
+        //Il est nÃ©cessaire de rÃ©cupÃ©rer que la premiÃ©re ligne
+        //Selon notre logique il ne peut y avoir qu'un utilisateur a la fois
         return cursorToUtilisateur(c);
     }
 
@@ -244,11 +244,11 @@ public class UtilisateurBDD extends AbstractBDD {
                 + Table.UTILISATEUR_CONNECTE ;
 
         Log.d("query", query);
-        Log.d(TAG, "Affichage de l'utilisateur connecté");
+        Log.d(TAG, "Affichage de l'utilisateur connectÃ©");
         Cursor cursor = database_.rawQuery(query, null);
 
         cursor.moveToFirst();
-        //On affiche les différents éléments
+        //On affiche les diffÃ©rents Ã©lÃ©ments
         Log.d(TAG, "L'id de l'utilisateur est : " + cursor.getInt(NUM_COL_ID)
                     + ", son nom est : " + cursor.getString(NUM_COL_NOM)
                     + ", son prenom est : " + cursor.getString(NUM_COL_PRENOM)

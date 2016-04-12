@@ -7,37 +7,37 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /*
-* Classe permettant la création de la BDD interne en SQLite
+* Classe permettant la crÃ©ation de la BDD interne en SQLite
 * */
 
 public class BaseSQLite extends SQLiteOpenHelper {
-    //création du TAG pour le debuggage du fichier
+    //crÃ©ation du TAG pour le debuggage du fichier
     private static final String TAG = "MaBaseSQLLite";
 
-    //constructeur pour la base de données
+    //constructeur pour la base de donnÃ©es
     public BaseSQLite(Context context, String name, CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
-    //Méthode à appeler pour l'ouverture de la BDD
+    //MÃ©thode Ã  appeler pour l'ouverture de la BDD
     @Override
     public void onOpen(SQLiteDatabase db) {
         super.onOpen(db);
         if (!db.isReadOnly()) {
-            //Permet l'utilisation des clés étrangères
-            //avec l'obligation que l'élément existe dans l'autre table
+            //Permet l'utilisation des clÃ©s Ã©trangÃ©res
+            //avec l'obligation que l'Ã©lÃ©ment existe dans l'autre table
             db.execSQL("PRAGMA foreign_keys=ON;");
         }
     }
 
-    //méthodes OnCreate qui permet de créer la base de données
+    //mÃ©thodes OnCreate qui permet de crÃ©er la base de donnÃ©es
     //Il faut lui passer les bons arguments dans les execSQL
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //on crée les tables à partir de la requête écrite dans les variables de la classe CreateTable
+        //on crÃ©e les tables Ã  partir de la requÃ©te Ã©crite dans les variables de la classe CreateTable
         db.execSQL(CreateTable.UTILISATEUR);
-        Log.d(TAG, "onCreate: Creation de la table utilisateur réussie");
+        Log.d(TAG, "onCreate: Creation de la table utilisateur rÃ©ussie");
         db.execSQL(CreateTable.UTILISATEUR_CONNECTE);
-        Log.d(TAG, "onCreate: Creation de la table utilisateur connecté réussie");
+        Log.d(TAG, "onCreate: Creation de la table utilisateur connectÃ© rÃ©ussie");
         db.execSQL(CreateTable.PARAMETRE_UTILISATEUR);
         Log.d(TAG, "onCreate: Creation de la table parametre utilisateur");
         db.execSQL(CreateTable.EVENEMENT);
@@ -45,61 +45,61 @@ public class BaseSQLite extends SQLiteOpenHelper {
         db.execSQL(CreateTable.EVENEMENT_INTERESSE);
         Log.d(TAG, "onCreate: Creation de la table evenement interesse");
         db.execSQL(CreateTable.PARTICIPANT_EVENEMENT);
-        Log.d(TAG, "onCreate: Creation de la table utilisateur evenement participant réussie");
+        Log.d(TAG, "onCreate: Creation de la table utilisateur evenement participant rÃ©ussie");
         db.execSQL(CreateTable.INVITATION_EVENEMENT);
-        Log.d(TAG, "onCreate: Creation de la table invitation evenement réussie");
+        Log.d(TAG, "onCreate: Creation de la table invitation evenement rÃ©ussie");
         //db.execSQL(CreateTable.SPORT);
-        Log.d(TAG, "onCreate: Creation de la table sport réussie");
+        Log.d(TAG, "onCreate: Creation de la table sport rÃ©ussie");
         db.execSQL(CreateTable.SPORT_UTILISATEUR);
-        Log.d(TAG, "onCreate: Creation de la table utilisateur réussie");
+        Log.d(TAG, "onCreate: Creation de la table utilisateur rÃ©ussie");
         db.execSQL(CreateTable.INVITATION_CONNEXION);
-        Log.d(TAG, "onCreate: Creation de la table invitation connexion réussie");
+        Log.d(TAG, "onCreate: Creation de la table invitation connexion rÃ©ussie");
         db.execSQL(CreateTable.MESSAGE);
-        Log.d(TAG, "onCreate: Creation de la table Message réussie");
+        Log.d(TAG, "onCreate: Creation de la table Message rÃ©ussie");
         db.execSQL(CreateTable.MESSAGE_CONVERSATION);
-        Log.d(TAG, "onCreate: Creation de la table Message conversation réussie");
+        Log.d(TAG, "onCreate: Creation de la table Message conversation rÃ©ussie");
         db.execSQL(CreateTable.CONVERSATION);
-        Log.d(TAG, "onCreate: Creation de la table Convers réussie");
+        Log.d(TAG, "onCreate: Creation de la table Convers rÃ©ussie");
         db.execSQL(CreateTable.GROUPE);
-        Log.d(TAG, "onCreate: Creation de la table groupe réussie");
+        Log.d(TAG, "onCreate: Creation de la table groupe rÃ©ussie");
         db.execSQL(CreateTable.GROUPE_UTILISATEUR);
-        Log.d(TAG, "onCreate: Creation de la table groupe utilisateur réussie");
+        Log.d(TAG, "onCreate: Creation de la table groupe utilisateur rÃ©ussie");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //On réinitialise les Tables pour les mettres à jour
-        //cette méthode est utilisé en cas de mise à jour de l'application
+        //On rÃ©initialise les Tables pour les mettres Ã  jour
+        //cette mÃ©thode est utilisÃ© en cas de mise Ã  jour de l'application
         db.execSQL("DROP TABLE IF EXISTS " + Table.UTILISATEUR + ";");
-        Log.d(TAG, "onUpgrade: Creation de la table utilisateur réussie");
+        Log.d(TAG, "onUpgrade: Creation de la table utilisateur rÃ©ussie");
         db.execSQL("DROP TABLE IF EXISTS " + Table.UTILISATEUR_CONNECTE + ";");
-        Log.d(TAG, "onUpgrade: Creation de la table utilisateur connecté réussie");
+        Log.d(TAG, "onUpgrade: Creation de la table utilisateur connectÃ© rÃ©ussie");
         db.execSQL("DROP TABLE IF EXISTS " + Table.PARAMETRE_UTILISATEUR + ";");
-        Log.d(TAG, "onUpgrade: Creation de la table parametre utilisateur réussie");
+        Log.d(TAG, "onUpgrade: Creation de la table parametre utilisateur rÃ©ussie");
         db.execSQL("DROP TABLE IF EXISTS " + Table.EVENEMENT + ";");
-        Log.d(TAG, "onUpgrade: Creation de la table evenement réussie");
+        Log.d(TAG, "onUpgrade: Creation de la table evenement rÃ©ussie");
         db.execSQL("DROP TABLE IF EXISTS " + Table.EVENEMENT_INTERESSE + ";");
-        Log.d(TAG, "onUpgrade: Creation de la table evenement interesse réussie");
+        Log.d(TAG, "onUpgrade: Creation de la table evenement interesse rÃ©ussie");
         db.execSQL("DROP TABLE IF EXISTS " + Table.PARTICIPANT_EVENEMENT + ";");
-        Log.d(TAG, "onUpgrade: Creation de la table utilisateur participant evenement réussie");
+        Log.d(TAG, "onUpgrade: Creation de la table utilisateur participant evenement rÃ©ussie");
         db.execSQL("DROP TABLE IF EXISTS " + Table.INVITATION_EVENEMENT + ";");
-        Log.d(TAG, "onUpgrade: Creation de la table invitation evenement réussie");
+        Log.d(TAG, "onUpgrade: Creation de la table invitation evenement rÃ©ussie");
 //        db.execSQL("DROP TABLE IF EXISTS " + Table.SPORT + ";");
-        Log.d(TAG, "onUpgrade: Creation de la table sport réussie");
+        Log.d(TAG, "onUpgrade: Creation de la table sport rÃ©ussie");
         db.execSQL("DROP TABLE IF EXISTS " + Table.SPORT_UTILISATEUR + ";");
-        Log.d(TAG, "onUpgrade: Creation de la table sport utilisateur réussie");
+        Log.d(TAG, "onUpgrade: Creation de la table sport utilisateur rÃ©ussie");
         db.execSQL("DROP TABLE IF EXISTS " + Table.INVITATION_CONNEXION + ";");
-        Log.d(TAG, "onUpgrade: Creation de la table invitation connexion réussie");
+        Log.d(TAG, "onUpgrade: Creation de la table invitation connexion rÃ©ussie");
         db.execSQL("DROP TABLE IF EXISTS " + Table.MESSAGE + ";");
-        Log.d(TAG, "onUpgrade: Creation de la table message réussie");
+        Log.d(TAG, "onUpgrade: Creation de la table message rÃ©ussie");
         db.execSQL("DROP TABLE IF EXISTS " + Table.MESSAGE_CONVERSATION + ";");
-        Log.d(TAG, "onUpgrade: Creation de la table message conversation réussie");
+        Log.d(TAG, "onUpgrade: Creation de la table message conversation rÃ©ussie");
         db.execSQL("DROP TABLE IF EXISTS " + Table.CONVERSATION + ";");
-        Log.d(TAG, "onUpgrade: Creation de la table conversation réussie");
+        Log.d(TAG, "onUpgrade: Creation de la table conversation rÃ©ussie");
         db.execSQL("DROP TABLE IF EXISTS " + Table.GROUPE + ";");
-        Log.d(TAG, "onUpgrade: Creation de la table groupe réussie");
+        Log.d(TAG, "onUpgrade: Creation de la table groupe rÃ©ussie");
         db.execSQL("DROP TABLE IF EXISTS " + Table.GROUPE_UTILISATEUR + ";");
-        Log.d(TAG, "onUpgrade: Creation de la table groupe utilisateur réussie");
+        Log.d(TAG, "onUpgrade: Creation de la table groupe utilisateur rÃ©ussie");
 
         onCreate(db);
     }
