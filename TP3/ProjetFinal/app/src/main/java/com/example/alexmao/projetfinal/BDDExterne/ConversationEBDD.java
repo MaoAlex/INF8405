@@ -16,6 +16,7 @@ public class ConversationEBDD {
     private String dataBaseId;
 
     public ConversationEBDD() {
+        listeMessage = new LinkedList<>();
     }
 
     public ConversationEBDD(String groupID, List<MessageBDD> listeMessage, String nomConversation) {
@@ -23,7 +24,7 @@ public class ConversationEBDD {
         this.listeMessage = listeMessage;
         this.nomConversation = nomConversation;
         if (listeMessage == null)
-            listeMessage = new LinkedList<>();
+            this.listeMessage = new LinkedList<>();
     }
 
     public ConversationEBDD(ConversationEBDD conversationEBDD) {
