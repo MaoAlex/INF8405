@@ -3,10 +3,10 @@
     <style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
     </style>
 
-    <style name="AppTheme" parent="AppBaseTheme">
-        <item name="android:homeAsUpIndicator">@drawable/back_arrow</item>
-    </style>
-
+    <!--<style name="AppTheme" parent="AppBaseTheme">-->
+        <!--<item name="android:homeAsUpIndicator">@drawable/back_arrow</item>-->
+    <!--</style>-->
+    <style name="AppTheme" parent="android:Theme.Light" />
 
     <style name="editext_graybg" parent="android:Widget.EditText">
         <item name="android:background">@drawable/editext_bg_gray</item>
