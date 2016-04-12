@@ -138,7 +138,7 @@ public class CreateTable {
 
     //Requete pour la création de la table groupe utilisateur
     public static final String GROUPE_UTILISATEUR = "CREATE TABLE " + Table.GROUPE_UTILISATEUR + " ("
-            + Colonne.ID_GROUPE + " INTEGER, "n
+            + Colonne.ID_GROUPE + " INTEGER, "
             + Colonne.ID_UTILISATEUR + " INTEGER, "
             + " PRIMARY KEY (" + Colonne.ID_GROUPE + ", " + Colonne.ID_UTILISATEUR + "), "
             + " FOREIGN KEY (" + Colonne.ID_GROUPE + ")  REFERENCES " + Table.GROUPE + "( " + Colonne.ID_GROUPE + "),"
