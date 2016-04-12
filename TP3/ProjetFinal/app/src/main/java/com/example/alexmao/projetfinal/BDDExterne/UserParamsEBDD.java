@@ -18,6 +18,13 @@ public class UserParamsEBDD {
         this.masquerNom = masquerNom;
     }
 
+    public UserParamsEBDD(UserParamsEBDD userParamsEBDD) {
+        rayon = userParamsEBDD.getRayon();
+        localisation = userParamsEBDD.isLocalisation();
+        masquerNom = userParamsEBDD.isMasquerNom();
+    }
+
+
     public int getRayon() {
         return rayon;
     }

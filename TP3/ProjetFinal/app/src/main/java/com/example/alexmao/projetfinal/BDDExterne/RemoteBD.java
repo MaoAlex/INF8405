@@ -56,6 +56,8 @@ public interface RemoteBD {
 
     String addDiscussion(ConversationEBDD discussion);
 
+    void getDiscussion(String discussionID, OnConversationReceived onConversationRecieved);
+
     void updateTimeLastChange(String userID, long timeMIlli);
 
     void getTimeLastChange(String userID, OnTimeReceived timeCallback);

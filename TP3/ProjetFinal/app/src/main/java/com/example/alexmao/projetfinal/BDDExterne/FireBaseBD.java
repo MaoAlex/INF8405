@@ -345,6 +345,23 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
+    public void getDiscussion(String discussionID, final OnConversationReceived onConversationRecieved) {
+        Firebase discusionBD = myFireBaseRef.child("discussions").child(discussionID);
+        discusionBD.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ConversationEBDD conversationEBDD = dataSnapshot.getValue(ConversationEBDD.class);
+                onConversationRecieved.onConversationRecieved(conversationEBDD);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    @Override
     public String addMsgToDiscussion(String discussionID, MessageBDD conversation) {
         Firebase discusionBD = myFireBaseRef.child("discussions").child(discussionID).child("messages").push();
         discusionBD.setValue(conversation);
