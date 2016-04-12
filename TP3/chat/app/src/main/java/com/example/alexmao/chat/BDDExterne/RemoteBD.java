@@ -62,6 +62,8 @@ public interface RemoteBD {
 
     String addMsgToDiscussion(String discussionID, MessageBDD message);
 
+    void getDiscussion(String discussionID, OnConversationRecieved onConversationRecieved);
+
     //envoie un message à un utilisateur
     String notifyUserForMsg(String userID, MessageBDD message, String conversationID);
 

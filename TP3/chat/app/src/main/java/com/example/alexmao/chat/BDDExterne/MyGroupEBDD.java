@@ -9,7 +9,7 @@ import java.util.List;
 public class MyGroupEBDD {
     private String groupName;
     private List<String> membersID;
-    private String ConversationID;
+    private String conversationID;
     private String eventID;
 
     public MyGroupEBDD() {
@@ -25,6 +25,8 @@ public class MyGroupEBDD {
     public void update(MyGroupEBDD myGroupEBDD) {
         groupName = myGroupEBDD.getGroupName();
         membersID = myGroupEBDD.getMembersID();
+        conversationID = myGroupEBDD.getConversationID();
+        eventID = myGroupEBDD.getEventID();
     }
 
     public void addUser(String id) {
@@ -52,11 +54,11 @@ public class MyGroupEBDD {
     }
 
     public String getConversationID() {
-        return ConversationID;
+        return conversationID;
     }
 
     public void setConversationID(String conversationID) {
-        ConversationID = conversationID;
+        this.conversationID = conversationID;
     }
 
     public String getEventID() {

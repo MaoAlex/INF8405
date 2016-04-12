@@ -14,6 +14,11 @@ public class Position {
         this.longitude = longitude;
     }
 
+    public Position(Position position) {
+        latitude = position.getLatitude();
+        longitude = position.getLongitude();
+    }
+
     public double getLatitude() {
         return latitude;
     }

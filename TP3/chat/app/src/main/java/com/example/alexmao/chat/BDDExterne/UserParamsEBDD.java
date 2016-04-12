@@ -12,10 +12,15 @@ public class UserParamsEBDD {
     }
 
     public UserParamsEBDD(int rayon, boolean localisation, boolean masquerNom) {
-
         this.rayon = rayon;
         this.localisation = localisation;
         this.masquerNom = masquerNom;
+    }
+
+    public UserParamsEBDD(UserParamsEBDD userParamsEBDD) {
+        rayon = userParamsEBDD.getRayon();
+        localisation = userParamsEBDD.isLocalisation();
+        masquerNom = userParamsEBDD.isMasquerNom();
     }
 
     public int getRayon() {
