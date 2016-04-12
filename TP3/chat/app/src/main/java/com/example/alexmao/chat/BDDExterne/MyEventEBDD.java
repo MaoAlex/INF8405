@@ -40,6 +40,21 @@ public class MyEventEBDD {
         this.visibilite = visibilite;
     }
 
+    public MyEventEBDD(MyEventEBDD myEventEBDD) {
+        nbreMaxParticipants = myEventEBDD.getNbreMaxParticipants();
+        date = myEventEBDD.getDate();
+        lieu = myEventEBDD.getLieu();
+        latitude = myEventEBDD.getLatitude();
+        longitude = myEventEBDD.getLongitude();
+        picture = myEventEBDD.getPicture();
+        sport = myEventEBDD.getSport();
+        groupID = myEventEBDD.getGroupID();
+        nomEvenement = myEventEBDD.getNomEvenement();
+        organisateurID = myEventEBDD.getOrganisateurID();
+        visibilite = myEventEBDD.getVisibilite();
+        dataBaseId = myEventEBDD.getDataBaseId();
+    }
+
     public Picture getPicture() {
         return picture;
     }

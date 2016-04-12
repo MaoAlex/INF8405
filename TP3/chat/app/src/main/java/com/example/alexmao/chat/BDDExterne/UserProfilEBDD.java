@@ -51,10 +51,12 @@ public class UserProfilEBDD implements Parcelable {
     public UserProfilEBDD() {
     }
 
-    public UserProfilEBDD(User user) {
-        firstName = user.getPrenom();
-        lastName = user.getNom();
-        mailAdr = user.getMail_();
+    public UserProfilEBDD(UserProfilEBDD user) {
+        firstName = user.getFirstName();
+        lastName = user.getLastName();
+        mailAdr = user.getMailAdr();
+        dateBirth = user.getDateBirth();
+        sports = user.getSports();
     }
 
     public List<String> getSports() {
