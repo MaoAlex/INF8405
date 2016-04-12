@@ -26,4 +26,15 @@
     <string name="alert_loading">Loading...</string>
     <string name="msg_no_user_found">No users found for chat!</string>
     <string name="myFireBaseUrl">https://flickering-fire-4999.firebaseio.com</string>
+
+
+<!--partie pour le menu-->
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Parametres</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="menu_search">Recherche</string>
+    <string name="menu_refresh">Rafraichir</string>
+    <string name="menu_help">Aide</string>
+    <string name="menu_about">A propos</string>
+
 </resources>
