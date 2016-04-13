@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.example.alexmao.projetfinal.BDDExterne.ConversationEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
-import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.MessageBDD;
 import com.example.alexmao.projetfinal.BDDExterne.OnConversationReceived;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
