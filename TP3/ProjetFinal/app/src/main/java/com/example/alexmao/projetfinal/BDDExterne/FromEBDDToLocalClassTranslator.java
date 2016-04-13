@@ -2,6 +2,8 @@ package com.example.alexmao.projetfinal.BDDExterne;
 
 import com.example.alexmao.projetfinal.classeApp.Evenement;
 import com.example.alexmao.projetfinal.classeApp.Groupe;
+import com.example.alexmao.projetfinal.classeApp.InvitationConnexion;
+import com.example.alexmao.projetfinal.classeApp.InvitationEvenement;
 import com.example.alexmao.projetfinal.classeApp.Message;
 import com.example.alexmao.projetfinal.classeApp.ParametresUtilisateur;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
@@ -67,6 +69,22 @@ public class FromEBDDToLocalClassTranslator {
         localClass.setRayon(userParamsEBDD.getRayon());
         localClass.setMasquerNom(userParamsEBDD.isMasquerNom());
         localClass.setLocalisation(userParamsEBDD.isLocalisation());
+
+        return localClass;
+    }
+
+    public static InvitationConnexion translateInvitationConnexionEBDD(InvitationConnexionEBDD invitationConnexionEBDD) {
+        InvitationConnexion localClass = new InvitationConnexion();
+        localClass.setDate(new Date(invitationConnexionEBDD.getDate()));
+        localClass.setIdFirebase(invitationConnexionEBDD.getIdFirebase());
+
+        return localClass;
+    }
+
+    public static InvitationEvenement translateInvitationEvenementEBDD(InvitationEvenementEBDD invitationEvenementEBDD) {
+        InvitationEvenement localClass = new InvitationEvenement();
+        localClass.setIdFirebase(invitationEvenementEBDD.getIdFirebase());
+        localClass.setDate(new Date(invitationEvenementEBDD.getDate()));
 
         return localClass;
     }

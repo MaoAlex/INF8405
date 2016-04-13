@@ -2,6 +2,7 @@ package com.example.alexmao.projetfinal.BDDExterne;
 
 import com.example.alexmao.projetfinal.classeApp.Evenement;
 import com.example.alexmao.projetfinal.classeApp.Groupe;
+import com.example.alexmao.projetfinal.classeApp.InvitationConnexion;
 import com.example.alexmao.projetfinal.classeApp.Message;
 import com.example.alexmao.projetfinal.classeApp.ParametresUtilisateur;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
@@ -71,6 +72,16 @@ public class FromClassAppToEBDD {
         ebddClass.setLocalisation(parametresUtilisateur.isLocalisation());
         ebddClass.setMasquerNom(parametresUtilisateur.isMasquerNom());
         ebddClass.setRayon(parametresUtilisateur.getRayon());
+
+        return ebddClass;
+    }
+
+    public static InvitationConnexionEBDD translateInvitationConnexion(InvitationConnexion invitationConnexion) {
+        InvitationConnexionEBDD ebddClass = new InvitationConnexionEBDD();
+        ebddClass.setIdFirebase(invitationConnexion.getIdFirebase());
+        ebddClass.setDate(invitationConnexion.getDate().getTime());
+        ebddClass.setExpediteur(invitationConnexion.getExpediteur().getIdFirebase());
+        ebddClass.setInvite(invitationConnexion.getInvite().getIdFirebase());
 
         return ebddClass;
     }
