@@ -16,10 +16,10 @@ import com.example.alexmao.projetfinal.utils.Utils;
 
 
 /**
- * The Class Register is the Activity class that shows user registration screen
- * that allows user to register itself on Parse server for this Chat app.
+ * The Class Inscription is the Activity class that shows user registration screen
+ * that allows user to activity_inscription itself on Parse server for this Chat app.
  */
-public class Register extends CustomActivity
+public class Inscription extends CustomActivity
 {
 	private RemoteBD remoteBD;
 
@@ -27,7 +27,7 @@ public class Register extends CustomActivity
 	private EditText user;
 
 	/** The password EditText. */
-	private EditText pwd;
+	private EditText motDePasse ;
 
 	/** The email EditText. */
 	private EditText email;
@@ -39,12 +39,12 @@ public class Register extends CustomActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.register);
+		setContentView(R.layout.activity_inscription);
 		remoteBD = new FireBaseBD(this);
 		setTouchNClick(R.id.btnReg);
 
 		user = (EditText) findViewById(R.id.user);
-		pwd = (EditText) findViewById(R.id.pwd);
+		motDePasse = (EditText) findViewById(R.id.motDePasse);
 		email = (EditText) findViewById(R.id.email);
 	}
 
@@ -57,7 +57,7 @@ public class Register extends CustomActivity
 		super.onClick(v);
 
 		String u = user.getText().toString();
-		String p = pwd.getText().toString();
+		String p = motDePasse .getText().toString();
 		String e = email.getText().toString();
 		if (u.length() == 0 || p.length() == 0 || e.length() == 0)
 		{
@@ -74,7 +74,7 @@ public class Register extends CustomActivity
 		final String idFirebase = remoteBD.addUserProfil(user);
 		remoteBD.addMdpToUser(e, p);
 
-		startActivity(new Intent(Register.this, UserList.class));
+		startActivity(new Intent(Inscription.this, UserList.class));
 		setResult(RESULT_OK);
 		finish();
 		//Completer les différents elements de l'utilisateur
@@ -87,14 +87,14 @@ public class Register extends CustomActivity
 				if (e == null)
 				{
 					UserList.user = pu;
-					startActivity(new Intent(Register.this, UserList.class));
+					startActivity(new Intent(Inscription.this, UserList.class));
 					setResult(RESULT_OK);
 					finish();
 				}
 				else
 				{
 					Utils.showDialog(
-							Register.this,
+							Inscription.this,
 							getString(R.string.err_singup) + " "
 									+ e.getMessage());
 					e.printStackTrace();

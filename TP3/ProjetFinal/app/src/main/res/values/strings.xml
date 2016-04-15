@@ -26,6 +26,7 @@
     <string name="alert_loading">Loading...</string>
     <string name="msg_no_user_found">No users found for chat!</string>
     <string name="myFireBaseUrl">https://flickering-fire-4999.firebaseio.com</string>
+    <string name="mdp_incorrect">Mot de passe incorrect !</string>
 
 
 <!--partie pour le menu-->

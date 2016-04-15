@@ -363,7 +363,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public String addMsgToDiscussion(String discussionID, MessageBDD conversation) {
+    public String addMsgToDiscussion(String discussionID, MessageEBDD conversation) {
         Firebase discusionBD = myFireBaseRef.child("discussions").child(discussionID).child("messages").push();
         discusionBD.setValue(conversation);
 
@@ -371,7 +371,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public String notifyUserForMsg(String userID, MessageBDD conversation, String conversationID) {
+    public String notifyUserForMsg(String userID, MessageEBDD conversation, String conversationID) {
         Firebase discusionBD = myFireBaseRef.child("users").child("unread").child(userID).child(conversationID).push();
         discusionBD.setValue(conversation);
 
@@ -389,7 +389,7 @@ public class FireBaseBD implements RemoteBD {
                         Log.d("onDataChanged", "User " + userBDID + " has a new message");
                         ArrayList<String> ids = new ArrayList<String>();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            MessageBDD conversation = dataSnapshot.getValue(MessageBDD.class);
+                            MessageEBDD conversation = dataSnapshot.getValue(MessageEBDD.class);
                             onMessageReceiveCallback.onNewMessage(conversation);
                             ids.add(dataSnapshot.getKey());
                         }
@@ -454,7 +454,7 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public String addMsgAndNotify(String localUserID, MessageBDD message,
+    public String addMsgAndNotify(String localUserID, MessageEBDD message,
                                   String conversationID, MyGroupEBDD receivers) {
         String msgID = addMsgToDiscussion(conversationID, message);
 

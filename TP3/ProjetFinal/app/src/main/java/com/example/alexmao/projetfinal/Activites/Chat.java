@@ -19,9 +19,10 @@ import android.widget.TextView;
 import com.example.alexmao.projetfinal.BDDExterne.ConversationEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
-import com.example.alexmao.projetfinal.BDDExterne.MessageBDD;
+import com.example.alexmao.projetfinal.BDDExterne.MessageEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.OnMessageReceiveCallback;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
+import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Conversation;
 import com.example.alexmao.projetfinal.classeApp.Groupe;
@@ -135,7 +136,7 @@ public class Chat extends CustomActivity
         u1.setSports(listeSport);
         u1.setPhoto(null);
 
-/*        private double latitude;
+/*      private double latitude;
         private double longitude;
         private List<Utilisateur> listeConnexion;
         private List<Integer> listeInterets;
@@ -151,9 +152,9 @@ public class Chat extends CustomActivity
         //On met en place le listerner qui nous permet d'�tre notifi� d'un nouveau message
         remoteBD.listenToConversation(discussionID, currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
             @Override
-            public void onNewMessage(MessageBDD message) {
+            public void onNewMessage(MessageEBDD messageEBDD) {
                 Log.d("chat","notification de nouveau message");
-                onNewMsg(message);
+                onNewMsg(messageEBDD);
             }
         });
 	}
@@ -226,7 +227,7 @@ public class Chat extends CustomActivity
         if (s == null)
             return;
         //Create a class
-        MessageBDD conversation   = new MessageBDD();
+        MessageEBDD conversation   = new MessageEBDD();
         conversation.setDate(new Date().getTime());
         //content is what the user has written on the screen (in short the message body)
         conversation.setMessage(s);
@@ -250,9 +251,18 @@ public class Chat extends CustomActivity
 	{
         Log.d("Chat", "on est loadConversationList");
         //when a new message arrived, we call onNewMsg
+		/*remoteBD.getDiscussion(discussionID, new OnConversationReceived() {
+			@Override
+			public void onConversationRecieved(ConversationEBDD conversationEBDD) {
+				onDiscussionReceived(conversationEBDD);
+			}
+		});*/
+
+
+
         /*remoteBD.listenToConversation(discussionID, currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
             @Override
-            public void onNewMessage(MessageBDD message) {
+            public void onNewMessage(MessageEBDD message) {
                 onNewMsg(message);
             }
         });*/
@@ -398,7 +408,7 @@ public class Chat extends CustomActivity
         if (content == null)
             return;
         //Create a class
-        MessageBDD conversation   = new MessageBDD();
+        MessageEBDD conversation   = new MessageEBDD();
         conversation.setDate(new Date().getTime());
         //content is what the user has written on the screen (in short the message body)
         conversation.setMessage(content);
@@ -410,17 +420,20 @@ public class Chat extends CustomActivity
     }
 
     //Fonction permettant la mise à jour du nouveau message reçu
-    void onNewMsg(MessageBDD message) {
+    void onNewMsg(MessageEBDD messageEBDD) {
         Log.d("Chat", "On est dans la r�cup�ration des nouveaux messages");
-        if (message == null)
+        if (messageEBDD == null)
             return;
         /*TextView textView = new TextView(this);
         //set the content
         textView.setText(message.getMessage());*/
-        Date date = new Date(message.getDate());
+        Date date = new Date(messageEBDD.getDate());
 
-
-        Message m= new Message(message.getMessage(), date, utilisateurConnecte);
+        UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
+        //Utilisateur expediteur = utilisateurBDD.obtenirUtilisateurParIdFirebase(messageEBDD.getExpediteurID());
+        Utilisateur expediteur = new Utilisateur();
+        expediteur.setIdBDD(135);
+        Message m= new Message(messageEBDD.getMessage(), date, expediteur);
         conversation.getListeMessage().add(m);
         if (lastMsgDate == null
                 || lastMsgDate.before(m.getDate()))
@@ -429,12 +442,19 @@ public class Chat extends CustomActivity
         adp.notifyDataSetChanged();
         handler.postDelayed(new Runnable() {
 
-            @Override
-            public void run() {
-                if (isRunning)
-                    loadConversationList();
-            }
-        }, 1000);
+			@Override
+			public void run() {
+				if (isRunning)
+					loadConversationList();
+			}
+		}, 1000);
     }
+
+	void onDiscussionReceived(ConversationEBDD conversationEBDD) {
+		/*String buffer = "";
+		for (MessageEBDD messageBDD: conversationEBDD.getListeMessage()) {
+			buffer += messageBDD.getMessage() + "\n";
+		}*/
+	}
 
 }

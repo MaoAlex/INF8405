@@ -11,7 +11,7 @@ import java.util.List;
 @JsonIgnoreProperties({"dataBaseId"})
 public class ConversationEBDD {
     private String nomConversation;
-    private List<MessageBDD> listeMessage;
+    private List<MessageEBDD> listeMessage;
     private String groupID;
     private String dataBaseId;
 
@@ -19,7 +19,7 @@ public class ConversationEBDD {
         listeMessage = new LinkedList<>();
     }
 
-    public ConversationEBDD(String groupID, List<MessageBDD> listeMessage, String nomConversation) {
+    public ConversationEBDD(String groupID, List<MessageEBDD> listeMessage, String nomConversation) {
         this.groupID = groupID;
         this.listeMessage = listeMessage;
         this.nomConversation = nomConversation;
@@ -53,11 +53,11 @@ public class ConversationEBDD {
         this.nomConversation = nomConversation;
     }
 
-    public List<MessageBDD> getListeMessage() {
+    public List<MessageEBDD> getListeMessage() {
         return listeMessage;
     }
 
-    public void setListeMessage(List<MessageBDD> listeMessage) {
+    public void setListeMessage(List<MessageEBDD> listeMessage) {
         this.listeMessage = listeMessage;
     }
 
@@ -69,7 +69,7 @@ public class ConversationEBDD {
         this.groupID = groupID;
     }
 
-    public void addMsg(MessageBDD messageBDD) {
-        listeMessage.add(messageBDD);
+    public void addMsg(MessageEBDD messageEBDD) {
+        listeMessage.add(messageEBDD);
     }
 }

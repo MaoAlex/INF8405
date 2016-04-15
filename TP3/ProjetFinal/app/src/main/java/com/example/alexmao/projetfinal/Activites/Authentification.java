@@ -16,21 +16,21 @@ import com.example.alexmao.projetfinal.custom.CustomActivity;
 import com.example.alexmao.projetfinal.utils.Utils;
 
 /**
- * The Class Login is an Activity class that shows the login screen to users.
- * The current implementation simply includes the options for Login and button
- * for Register. On login button click, it sends the Login details to Parse
+ * The Class Authentification is an Activity class that shows the acitivity_authentification screen to users.
+ * The current implementation simply includes the options for Authentification and button
+ * for Inscription. On acitivity_authentification button click, it sends the Authentification details to Parse
  * server to verify user.
  */
-public class Login extends CustomActivity
+public class Authentification extends CustomActivity
 {
     private RemoteBD remoteBD;
 
-    private static final String TAG = "Login";
+    private static final String TAG = "Authentification";
     /** The username edittext. */
 	private EditText user;
 
 	/** The password edittext. */
-	private EditText pwd;
+	private EditText motDePasse;
 	/* (non-Javadoc)
 	 * @see com.chatt.custom.CustomActivity#onCreate(android.os.Bundle)
 	 */
@@ -38,14 +38,14 @@ public class Login extends CustomActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.login);
+		setContentView(R.layout.acitivity_authentification);
         remoteBD = new FireBaseBD(this);
 
         setTouchNClick(R.id.btnLogin);
 		setTouchNClick(R.id.btnReg);
 
 		user = (EditText) findViewById(R.id.user);
-		pwd = (EditText) findViewById(R.id.pwd);
+		motDePasse = (EditText) findViewById(R.id.motDePasse);
 
 	}
 
@@ -58,13 +58,13 @@ public class Login extends CustomActivity
 		super.onClick(v);
 		if (v.getId() == R.id.btnReg)
 		{
-			startActivityForResult(new Intent(this, Register.class), 10);
+			startActivityForResult(new Intent(this, Inscription.class), 10);
 		}
 		else
 		{
 
 			String u = user.getText().toString();
-			final String p = pwd.getText().toString();
+			final String p = motDePasse.getText().toString();
 
 
             if (u.length() == 0 || p.length() == 0)
@@ -83,13 +83,13 @@ public class Login extends CustomActivity
 					if (pu != null)
 					{
 						//UserList.user = pu;
-						startActivity(new Intent(Login.this, UserList.class));
+						startActivity(new Intent(Authentification.this, UserList.class));
 						finish();
 					}
 					else
 					{
 						Utils.showDialog(
-								Login.this,
+								Authentification.this,
 								getString(R.string.err_login) + " "
 										+ e.getMessage());
 						e.printStackTrace();
@@ -103,11 +103,14 @@ public class Login extends CustomActivity
 
                     if (s != null && s == p){
 
-                        startActivity(new Intent(Login.this, UserList.class));
+                        startActivity(new Intent(Authentification.this, UserList.class));
                         finish();
                     }else
                     {
-                        Log.d("Login", "erreur de mdp");
+                        Log.d("Authentification", "erreur de mdp");
+                        //notification de l'echec de acitivity_authentification
+						motDePasse.setError(getString(R.string.mdp_incorrect));
+						motDePasse.requestFocus();
                     }
                 }
             });
