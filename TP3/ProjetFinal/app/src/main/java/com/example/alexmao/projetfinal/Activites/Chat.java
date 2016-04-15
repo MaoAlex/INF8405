@@ -98,7 +98,7 @@ public class Chat extends CustomActivity
         //Mise en place d'un nom quelconque
         buddy = "E T";
         //On met comme titre le nom du destinataire
-		getActionBar().setTitle(buddy);
+		//getActionBar().setTitle(buddy);
 
         remoteBD = new FireBaseBD(this);
         /*currentUserFirebase = new LocalUserProfilEBDD("premier", "compte", "fifi@filou.com");
