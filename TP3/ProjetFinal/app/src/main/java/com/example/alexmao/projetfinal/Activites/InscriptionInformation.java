@@ -18,11 +18,11 @@ import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.BDDExterne.UtilisateurProfilEBDD;
 import com.example.alexmao.projetfinal.R;
-import com.example.alexmao.projetfinal.UserList;
 import com.example.alexmao.projetfinal.custom.CustomActivity;
 import com.example.alexmao.projetfinal.utils.Utils;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 /**
@@ -90,7 +90,7 @@ public class InscriptionInformation extends CustomActivity
             @Override
             public void onClick(View v) {
                 //.Builder builder = new AlertDialog.Builder(this);
-
+                choixPhotoProfil();
             }
         });
     }
@@ -105,8 +105,8 @@ public class InscriptionInformation extends CustomActivity
 
         String nom = nomVue.getText().toString();
         String prenom = prenomVue.getText().toString();
-        String date = dateNaissanceVue.getText().toString();
-        if (nom.length() == 0 || prenom.length() == 0 || date.length() == 0)
+        String dateAffiche = dateNaissanceVue.getText().toString();
+        if (nom.length() == 0 || prenom.length() == 0 || dateAffiche.length() == 0)
         {
             Utils.showDialog(this, R.string.err_fields_empty);
             return;
@@ -115,14 +115,22 @@ public class InscriptionInformation extends CustomActivity
                 getString(R.string.alert_wait));
 
         final UtilisateurProfilEBDD user = new UtilisateurProfilEBDD();
+        Intent intent = getIntent();
+        String email = intent.getStringExtra("mail");
+        user.setMailAdr(email);
         user.setLastName(prenom);
         user.setFirstName(nom);
+        user.setDateBirth(date.getTime());
+        //Ajout de l'utilisateur dans la BDD externe
+        final String idFirebase = remoteBD.addUserProfil(user);
+        String mdp = intent.getStringExtra("mdp");
+        remoteBD.addMdpToUser(email, mdp);
         //user.setDateBirth();
         //Ajout de l'utilisateur dans la BDD externe
 //        final String idFirebase = remoteBD.addUserProfil(user);
 //        remoteBD.addMdpToUser(e, p);
 
-        startActivity(new Intent(InscriptionInformation.this, UserList.class));
+        startActivity(new Intent(InscriptionInformation.this, Accueil.class));
         setResult(RESULT_OK);
         finish();
         //Completer les différents elements de l'utilisateur
@@ -164,7 +172,8 @@ public class InscriptionInformation extends CustomActivity
                               int selectedMonth, int selectedDay) {
             dateNaissanceVue.setText(selectedDay + " / " + (selectedMonth + 1) + " / "
                     + selectedYear);
-            date = new Date(year, month, day);
+            GregorianCalendar test = new GregorianCalendar(year, month, day);
+            date = test.getTime();
         }
     };
 
@@ -200,10 +209,9 @@ public class InscriptionInformation extends CustomActivity
 
     private void choixPhotoProfil(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("This will end the activity");
+        builder.setMessage("Choisissez une photo de profil :");
         builder.setCancelable(true);
         builder.setPositiveButton("Prendre une photo", new TakePictureOnClickListener());
-        //builder.setNeutralButton("Recommencer la partie", new NeutralOnClickListener());
         builder.setNegativeButton("Choisir une photo", new ChoosePictureOnClickListener());
         AlertDialog dialog = builder.create();
         dialog.show();

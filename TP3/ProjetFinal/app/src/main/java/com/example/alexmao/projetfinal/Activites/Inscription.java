@@ -7,10 +7,11 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
+import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.OnUserProfilReceived;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.BDDExterne.UtilisateurProfilEBDD;
 import com.example.alexmao.projetfinal.R;
-import com.example.alexmao.projetfinal.UserList;
 import com.example.alexmao.projetfinal.custom.CustomActivity;
 import com.example.alexmao.projetfinal.utils.Utils;
 
@@ -24,14 +25,14 @@ public class Inscription extends CustomActivity
 	private RemoteBD remoteBD;
 
 	/** The username EditText. */
-	private EditText user;
+	private EditText confirmation;
 
 	/** The password EditText. */
 	private EditText motDePasse ;
 
 	/** The email EditText. */
 	private EditText email;
-
+    private boolean profilExistant = false;
 	/* (non-Javadoc)
 	 * @see com.chatt.custom.CustomActivity#onCreate(android.os.Bundle)
 	 */
@@ -43,9 +44,9 @@ public class Inscription extends CustomActivity
 		remoteBD = new FireBaseBD(this);
 		setTouchNClick(R.id.btnReg);
 
-		user = (EditText) findViewById(R.id.user);
-		motDePasse = (EditText) findViewById(R.id.motDePasse);
 		email = (EditText) findViewById(R.id.email);
+		motDePasse = (EditText) findViewById(R.id.mdp);
+		confirmation = (EditText) findViewById(R.id.mdpConfirmation);
 	}
 
 	/* (non-Javadoc)
@@ -56,35 +57,59 @@ public class Inscription extends CustomActivity
 	{
 		super.onClick(v);
 
-		String u = user.getText().toString();
-		String p = motDePasse .getText().toString();
-		String e = email.getText().toString();
-		if (u.length() == 0 || p.length() == 0 || e.length() == 0)
+		String mdpConfirmation = confirmation.getText().toString();
+		String mdp = motDePasse .getText().toString();
+		String mail = email.getText().toString();
+
+
+		if (mdpConfirmation.length() == 0 || mdp.length() == 0 || mail.length() == 0)
 		{
-			Utils.showDialog(this, R.string.err_fields_empty);
+            // Check for a valid email address.
+            if (!isEmailValid(mail))
+                email.setError(getString(R.string.error_invalid_email));
+			else
+                Utils.showDialog(this, R.string.err_fields_empty);
 			return;
-		}
-		final ProgressDialog dia = ProgressDialog.show(this, null,
-				getString(R.string.alert_wait));
+		}else if (mdpConfirmation.length() != mdp.length())
+        {
+            Utils.showDialog(this, R.string.err_mdp);
+            return;
+        }else {
+            remoteBD.getUserProfilFromMail(mail, new LocalUserProfilEBDD(), new OnUserProfilReceived() {
+                @Override
+                public void onUserProfilReceived(UtilisateurProfilEBDD userProfilEBDD) {
+                    if(userProfilEBDD!=null)
+                        profilExistant = true;
+                }
+            });
+            if(!profilExistant) {
+                final ProgressDialog dia = ProgressDialog.show(this, null,
+                        getString(R.string.alert_wait));
 
-		final UtilisateurProfilEBDD user = new UtilisateurProfilEBDD();
-		user.setLastName(u);
-		user.setMailAdr(p);
-		//Ajout de l'utilisateur dans la BDD externe
-		final String idFirebase = remoteBD.addUserProfil(user);
-		remoteBD.addMdpToUser(e, p);
-
-		startActivity(new Intent(Inscription.this, UserList.class));
-		setResult(RESULT_OK);
-		finish();
+            /*final UtilisateurProfilEBDD user = new UtilisateurProfilEBDD();
+            user.setLastName(mdpConfirmation);
+            user.setMailAdr(mdp);*/
+                //Ajout de l'utilisateur dans la BDD externe
+                //final String idFirebase = remoteBD.addUserProfil(user);
+                //remoteBD.addMdpToUser(mail, mdp);
+                Intent intent = new Intent(Inscription.this, InscriptionInformation.class);
+                //intent.putExtra("idFirebase", idFirebase);
+                intent.putExtra("mail", mail);
+                intent.putExtra("mdp", mdp);
+                remoteBD.addMdpToUser(mail, mdp);
+                startActivity(intent);
+                setResult(RESULT_OK);
+                finish();
+            }
+        }
 		//Completer les différents elements de l'utilisateur
 		/*pu.signUpInBackground(new SignUpCallback() {
 
 			@Override
-			public void done(ParseException e)
+			public void done(ParseException mail)
 			{
 				dia.dismiss();
-				if (e == null)
+				if (mail == null)
 				{
 					UserList.user = pu;
 					startActivity(new Intent(Inscription.this, UserList.class));
@@ -96,11 +121,16 @@ public class Inscription extends CustomActivity
 					Utils.showDialog(
 							Inscription.this,
 							getString(R.string.err_singup) + " "
-									+ e.getMessage());
-					e.printStackTrace();
+									+ mail.getMessage());
+					mail.printStackTrace();
 				}
 			}
 		});*/
 
 	}
+
+    private boolean isEmailValid(String email) {
+        return email.contains("@");
+    }
+
 }

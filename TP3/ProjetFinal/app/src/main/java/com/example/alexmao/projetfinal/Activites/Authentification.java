@@ -58,8 +58,10 @@ public class Authentification extends CustomActivity
 		super.onClick(v);
 		if (v.getId() == R.id.btnReg)
 		{
-			startActivityForResult(new Intent(this, Inscription.class), 10);
-		}
+//			startActivityForResult(new Intent(this, Inscription.class), 10);
+            startActivity(new Intent(this, Inscription.class));
+
+        }
 		else
 		{
 

@@ -15,6 +15,10 @@ public class LocalUserProfilEBDD extends UtilisateurProfilEBDD {
     private String dataBaseId;
     private Picture picture;
 
+    public LocalUserProfilEBDD() {
+
+    }
+
     public LocalUserProfilEBDD(String dataBaseId) {
 
         this.dataBaseId = dataBaseId;

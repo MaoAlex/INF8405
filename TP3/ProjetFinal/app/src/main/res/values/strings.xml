@@ -19,17 +19,19 @@
     <string name="edit">Edit</string>
     <string name="new_chat">New Chat</string>
     <string name="alert_wait">Please wait...</string>
-    <string name="err_fields_empty">Please fill all the fields.</string>
+    <string name="err_fields_empty">Vous avez des champs manquants !</string>
     <string name="err_singup">Error occurred while signup:</string>
     <string name="err_login">Error occurred while login:</string>
     <string name="err_users">Error occurred while finding users:</string>
-    <string name="alert_loading">Loading...</string>
+    <string name="alert_loading">Chargement...</string>
     <string name="msg_no_user_found">No users found for chat!</string>
     <string name="myFireBaseUrl">https://flickering-fire-4999.firebaseio.com</string>
     <string name="mdp_incorrect">Mot de passe incorrect !</string>
+    <string name="err_mdp">Mot de passe différent</string>
 
 
-<!--partie pour le menu-->
+
+    <!--partie pour le menu-->
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Parametres</string>
     <string name="title_activity_main">MainActivity</string>
@@ -37,5 +39,6 @@
     <string name="menu_refresh">Rafraichir</string>
     <string name="menu_help">Aide</string>
     <string name="menu_about">A propos</string>
+    <string name="error_invalid_email">Email non valide</string>
 
 </resources>
