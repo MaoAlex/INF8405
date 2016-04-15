@@ -1,16 +1,51 @@
 package com.example.alexmao.projetfinal.BDDExterne;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Created by filou on 06/03/16.
  */
-public class MyGroupEBDD {
+public class MyGroupEBDD implements Parcelable {
     private String groupName;
     private List<String> membersID;
-    private String ConversationID;
+    private String conversationID;
     private String eventID;
+
+    public static final Creator<MyGroupEBDD> CREATOR = new Creator<MyGroupEBDD>() {
+        @Override
+        public MyGroupEBDD createFromParcel(Parcel source)
+        {
+            return new MyGroupEBDD(source);
+        }
+
+        @Override
+        public MyGroupEBDD[] newArray(int size)
+        {
+            return new MyGroupEBDD[size];
+        }
+    };
+    public MyGroupEBDD(Parcel in) {
+        groupName = in.readString();
+        conversationID = in.readString();
+        eventID = in.readString();
+        in.readStringList(membersID);
+    }
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(groupName);
+        dest.writeString(conversationID);
+        dest.writeString(eventID);
+        dest.writeList(membersID);
+    }
 
     public MyGroupEBDD() {
         membersID = new LinkedList<>();
@@ -52,11 +87,11 @@ public class MyGroupEBDD {
     }
 
     public String getConversationID() {
-        return ConversationID;
+        return conversationID;
     }
 
     public void setConversationID(String conversationID) {
-        ConversationID = conversationID;
+        this.conversationID = conversationID;
     }
 
     public String getEventID() {

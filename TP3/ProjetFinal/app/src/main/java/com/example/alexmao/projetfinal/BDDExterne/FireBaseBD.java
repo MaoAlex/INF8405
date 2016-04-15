@@ -431,6 +431,24 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
+    public void listenToPositionChanges(String userID,
+                                       final OnPositionReceived onPositionReceivedCallback) {
+        Firebase positionBD = myFireBaseRef.child("users").child("position").child(userID);
+        positionBD.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Position position = dataSnapshot.getValue(Position.class);
+                onPositionReceivedCallback.onPostionReceived(position);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    @Override
     public void updateTimeLastChange(String userID, long timeMilli) {
         Firebase timeLastChangeBD = myFireBaseRef.child("users").child("timeLastChange").child(userID);
         timeLastChangeBD.setValue(timeMilli);
