@@ -17,64 +17,65 @@ import com.example.alexmao.projetfinal.utils.Utils;
 
 
 /**
- * The Class Inscription is the Activity class that shows user registration screen
- * that allows user to activity_inscription itself on Parse server for this Chat app.
+ * La classe Inscription est l'activité qui permet à l'utilisateur de s'inscrire sur l'application
+ * Il lui est alors demandé son mail et il peut choisir un mot de passe
+ * Une fois un compte valide choisi, cette activité va lancer celle permettant de récupérer et définir les différentes informations sur l'utilsiateur
  */
 public class Inscription extends CustomActivity
 {
+    //Interface avec la BDD externe
 	private RemoteBD remoteBD;
 
-	/** The username EditText. */
+    //Champ pour entrer l'adresse mail
+    private EditText email;
+    //Champ pour entrer le mot de passe
+    private EditText motDePasse ;
+    //Champ pour entrer la confirmation du mot de passe
 	private EditText confirmation;
-
-	/** The password EditText. */
-	private EditText motDePasse ;
-
-	/** The email EditText. */
-	private EditText email;
+    //Boolean permettant de savoir si l'adresse mail a déjà été associé à un compte
     private boolean profilExistant = false;
-	/* (non-Javadoc)
-	 * @see com.chatt.custom.CustomActivity#onCreate(android.os.Bundle)
-	 */
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_inscription);
-		remoteBD = new FireBaseBD(this);
-		setTouchNClick(R.id.btnReg);
 
+        //Connection des différents éléments
+        remoteBD = new FireBaseBD(this);
+        setTouchNClick(R.id.btnReg);
 		email = (EditText) findViewById(R.id.email);
 		motDePasse = (EditText) findViewById(R.id.mdp);
 		confirmation = (EditText) findViewById(R.id.mdpConfirmation);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.chatt.custom.CustomActivity#onClick(android.view.View)
-	 */
+
+    //Action lors du clic
 	@Override
 	public void onClick(View v)
 	{
 		super.onClick(v);
 
+        //On récupère le contenu des différents champs
 		String mdpConfirmation = confirmation.getText().toString();
 		String mdp = motDePasse .getText().toString();
 		String mail = email.getText().toString();
 
-
+        //On vérifie que les champs ne sont pas vides
 		if (mdpConfirmation.length() == 0 || mdp.length() == 0 || mail.length() == 0)
 		{
-            // Check for a valid email address.
+            // On vérifie que l'adresse mail rentré est valide, c'est-à-dire avec un "@"
             if (!isEmailValid(mail))
                 email.setError(getString(R.string.error_invalid_email));
 			else
                 Utils.showDialog(this, R.string.err_fields_empty);
 			return;
 		}else if (mdpConfirmation.length() != mdp.length())
-        {
+        {//Vérification que les mdps rentrés sont identiques
             Utils.showDialog(this, R.string.err_mdp);
             return;
         }else {
+            //On vérifie que l'adresse mail n'est pas déjà associé à un compte
             remoteBD.getUserProfilFromMail(mail, new LocalUserProfilEBDD(), new OnUserProfilReceived() {
                 @Override
                 public void onUserProfilReceived(UtilisateurProfilEBDD userProfilEBDD) {
@@ -83,52 +84,23 @@ public class Inscription extends CustomActivity
                 }
             });
             if(!profilExistant) {
+                //Affichage du processus d'attente
                 final ProgressDialog dia = ProgressDialog.show(this, null,
                         getString(R.string.alert_wait));
-
-            /*final UtilisateurProfilEBDD user = new UtilisateurProfilEBDD();
-            user.setLastName(mdpConfirmation);
-            user.setMailAdr(mdp);*/
-                //Ajout de l'utilisateur dans la BDD externe
-                //final String idFirebase = remoteBD.addUserProfil(user);
-                //remoteBD.addMdpToUser(mail, mdp);
+                //Si l'adresse mail n'est pas utilisé, on va créer le compte
+                //Pour cela on transmet les informations à l'activité suivante InscriptionInformation qui va s'occuper d'enregistrer le compte
                 Intent intent = new Intent(Inscription.this, InscriptionInformation.class);
-                //intent.putExtra("idFirebase", idFirebase);
                 intent.putExtra("mail", mail);
                 intent.putExtra("mdp", mdp);
-                remoteBD.addMdpToUser(mail, mdp);
                 startActivity(intent);
                 setResult(RESULT_OK);
+                //On tue l'activité
                 finish();
             }
         }
-		//Completer les différents elements de l'utilisateur
-		/*pu.signUpInBackground(new SignUpCallback() {
+    }
 
-			@Override
-			public void done(ParseException mail)
-			{
-				dia.dismiss();
-				if (mail == null)
-				{
-					UserList.user = pu;
-					startActivity(new Intent(Inscription.this, UserList.class));
-					setResult(RESULT_OK);
-					finish();
-				}
-				else
-				{
-					Utils.showDialog(
-							Inscription.this,
-							getString(R.string.err_singup) + " "
-									+ mail.getMessage());
-					mail.printStackTrace();
-				}
-			}
-		});*/
-
-	}
-
+    //méthode de vérificaition basique d'une adresse email
     private boolean isEmailValid(String email) {
         return email.contains("@");
     }

@@ -11,104 +11,82 @@ import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.OnStringReceived;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.R;
-import com.example.alexmao.projetfinal.UserList;
 import com.example.alexmao.projetfinal.custom.CustomActivity;
 import com.example.alexmao.projetfinal.utils.Utils;
 
 /**
- * The Class Authentification is an Activity class that shows the acitivity_authentification screen to users.
- * The current implementation simply includes the options for Authentification and button
- * for Inscription. On acitivity_authentification button click, it sends the Authentification details to Parse
- * server to verify user.
+ *
+ * La classe authentificaiton est l'activité qui est celle affiché lors du lancement de l'application
+ * Elle permet à un utilisateur de s'authentifier s'il possède un compte valide, sinon de s'inscrire
+ *
  */
 public class Authentification extends CustomActivity
 {
+    //interface avec la bddExterne
     private RemoteBD remoteBD;
 
     private static final String TAG = "Authentification";
-    /** The username edittext. */
-	private EditText user;
 
-	/** The password edittext. */
+    //champ pour renter le mail
+	private EditText mail;
+
+	// Champ pour rentrer le mot de passe
 	private EditText motDePasse;
-	/* (non-Javadoc)
-	 * @see com.chatt.custom.CustomActivity#onCreate(android.os.Bundle)
-	 */
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.acitivity_authentification);
+        //connection de la BDD externe
         remoteBD = new FireBaseBD(this);
-
+        //Mise en forme des clics sur les boutons
         setTouchNClick(R.id.btnLogin);
 		setTouchNClick(R.id.btnReg);
-
-		user = (EditText) findViewById(R.id.user);
+        //Connection des champs
+		mail = (EditText) findViewById(R.id.user);
 		motDePasse = (EditText) findViewById(R.id.motDePasse);
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.chatt.custom.CustomActivity#onClick(android.view.View)
-	 */
+    //Méthode gérant le clic sur les différents boutons de cette activité
 	@Override
 	public void onClick(View v)
 	{
 		super.onClick(v);
+        //Cas du clic sur le bouton Inscription
 		if (v.getId() == R.id.btnReg)
 		{
 //			startActivityForResult(new Intent(this, Inscription.class), 10);
             startActivity(new Intent(this, Inscription.class));
-
         }
 		else
-		{
+		{//Cas du bouton Authentification
 
-			String u = user.getText().toString();
+			String u = mail.getText().toString();
 			final String p = motDePasse.getText().toString();
-
-
+            //On vérifie que les champs ont bien été remplis
             if (u.length() == 0 || p.length() == 0)
 			{
 				Utils.showDialog(this, R.string.err_fields_empty);
 				return;
 			}
+            //affichage de l'animation d'attente
 			final ProgressDialog dia = ProgressDialog.show(this, null,
 					getString(R.string.alert_wait));
-			/*ParseUser.logInInBackground(u, p, new LogInCallback() {
-
-				@Override
-				public void done(ParseUser pu, ParseException e)
-				{
-					dia.dismiss();
-					if (pu != null)
-					{
-						//UserList.user = pu;
-						startActivity(new Intent(Authentification.this, UserList.class));
-						finish();
-					}
-					else
-					{
-						Utils.showDialog(
-								Authentification.this,
-								getString(R.string.err_login) + " "
-										+ e.getMessage());
-						e.printStackTrace();
-					}
-				}
-			});*/
+		    //On va chercher le mot de passe sur le serveur externe
             remoteBD.getMdp(u, new OnStringReceived() {
                 @Override
                 public void onStringReceived(String s) {
                     dia.dismiss();
-
+                    //on vérifie que le mot de passe est bien celui associé à ce mail
                     if (s != null && s == p){
 
-                        startActivity(new Intent(Authentification.this, UserList.class));
+                        startActivity(new Intent(Authentification.this, ChatList.class));
                         finish();
                     }else
-                    {
+                    {//Sinon on l'annonce à l'utilisateur
                         Log.d("Authentification", "erreur de mdp");
                         //notification de l'echec de acitivity_authentification
 						motDePasse.setError(getString(R.string.mdp_incorrect));
@@ -119,18 +97,14 @@ public class Authentification extends CustomActivity
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
-	 */
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
+        //Cette activité attend un résultat de l'activité fille, si tout s'est bien passé elle est détruire
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == 10 && resultCode == RESULT_OK)
 			finish();
 
 	}
-
-
-
 }

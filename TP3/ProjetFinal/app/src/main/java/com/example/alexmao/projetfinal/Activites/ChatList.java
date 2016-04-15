@@ -1,4 +1,4 @@
-package com.example.alexmao.projetfinal;
+package com.example.alexmao.projetfinal.Activites;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.alexmao.projetfinal.Activites.Chat;
+import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 import com.example.alexmao.projetfinal.custom.CustomActivity;
 import com.example.alexmao.projetfinal.utils.Const;
@@ -20,10 +20,10 @@ import com.example.alexmao.projetfinal.utils.Utils;
 import java.util.ArrayList;
 
 /**
- * The Class UserList is the Activity class. It shows a list of all users of
+ * The Class ChatList is the Activity class. It shows a list of all users of
  * this app. It also shows the Offline/Online status of users.
  */
-public class UserList extends CustomActivity
+public class ChatList extends CustomActivity
 {
 
 	/** The Chat list. */
@@ -102,7 +102,7 @@ public class UserList extends CustomActivity
 						if (li != null)
 						{
 							if (li.size() == 0)
-								Toast.makeText(UserList.this,
+								Toast.makeText(ChatList.this,
 										R.string.msg_no_user_found,
 										Toast.LENGTH_SHORT).show();
 
@@ -116,7 +116,7 @@ public class UserList extends CustomActivity
 								public void onItemClick(AdapterView<?> arg0,
 										View arg1, int pos, long arg3)
 								{
-									startActivity(new Intent(UserList.this,
+									startActivity(new Intent(ChatList.this,
 											Chat.class).putExtra(
 											Const.EXTRA_DATA, uList.get(pos)
 													.getNom()));
@@ -126,7 +126,7 @@ public class UserList extends CustomActivity
 						else
 						{
 							Utils.showDialog(
-									UserList.this,
+									ChatList.this,
 									getString(R.string.err_users) + " "
 											+ e.getMessage());
 							e.printStackTrace();
@@ -138,7 +138,7 @@ public class UserList extends CustomActivity
         if (uList != null)
         {
             if (uList.size() == 0)
-                Toast.makeText(UserList.this,
+                Toast.makeText(ChatList.this,
                         R.string.msg_no_user_found,
                         Toast.LENGTH_SHORT).show();
 
@@ -150,7 +150,7 @@ public class UserList extends CustomActivity
                 public void onItemClick(AdapterView<?> arg0,
                                         View arg1, int pos, long arg3)
                 {
-                    startActivity(new Intent(UserList.this,
+                    startActivity(new Intent(ChatList.this,
                             Chat.class).putExtra(
                             Const.EXTRA_DATA, uList.get(pos)
                                     .getNom()));
@@ -160,7 +160,7 @@ public class UserList extends CustomActivity
         else
         {
             Utils.showDialog(
-                    UserList.this,
+                    ChatList.this,
                     getString(R.string.err_users) + " "
             );
         }
