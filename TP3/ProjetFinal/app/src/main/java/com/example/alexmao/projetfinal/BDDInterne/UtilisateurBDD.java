@@ -95,6 +95,12 @@ public class UtilisateurBDD extends AbstractBDD {
         Cursor c = database_.query(Table.UTILISATEUR, null, Colonne.MAIL + " LIKE \"" + mail +"\"", null, null, null, null);
         return cursorToUtilisateur(c);
     }
+
+    public Utilisateur obtenirUtilisateurParIdFirebase(String idFirebase){
+        //Récupére dans un Cursor les valeurs correspondant à un utilisateur contenu dans la BDD (ici on sélectionne le utilisateur grace a son nom)
+        Cursor c = database_.query(Table.UTILISATEUR, null, Colonne.ID_FIREBASE + " LIKE \"" + idFirebase +"\"", null, null, null, null);
+        return cursorToUtilisateur(c);
+    }
     //Cette méthode permet de convertir un cursor en un utilisateur
     private Utilisateur cursorToUtilisateur(Cursor c){
 

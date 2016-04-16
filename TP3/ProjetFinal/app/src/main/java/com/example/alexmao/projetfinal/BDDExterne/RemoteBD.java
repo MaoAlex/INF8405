@@ -68,12 +68,12 @@ public interface RemoteBD {
 
     void getTimeLastChange(String userID, OnTimeReceived timeCallback);
 
-    String addMsgToDiscussion(String discussionID, MessageBDD message);
+    String addMsgToDiscussion(String discussionID, MessageEBDD message);
 
     //envoie un message à un utilisateur
-    String notifyUserForMsg(String userID, MessageBDD message, String conversationID);
+    String notifyUserForMsg(String userID, MessageEBDD message, String conversationID);
 
-    String addMsgAndNotify(String localUserID, MessageBDD message, String conversationID,
+    String addMsgAndNotify(String localUserID, MessageEBDD message, String conversationID,
                            MyGroupEBDD receivers);
 
     //ajoute une callback appellée à chaque nouveau message

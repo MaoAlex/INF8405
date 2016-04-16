@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.example.alexmao.projetfinal.BDDExterne.ConversationEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
-import com.example.alexmao.projetfinal.BDDExterne.MessageBDD;
+import com.example.alexmao.projetfinal.BDDExterne.MessageEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.OnMessageReceiveCallback;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.R;
@@ -61,7 +61,7 @@ public class ChatTestFBActivity extends Activity {
         //when a new message arrived, we call onNewMsg
         remoteBD.listenToConversation(discussionID, currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
             @Override
-            public void onNewMessage(MessageBDD message) {
+            public void onNewMessage(MessageEBDD message) {
                 onNewMsg(message);
             }
         });
@@ -72,7 +72,7 @@ public class ChatTestFBActivity extends Activity {
         if (content == null)
             return;
         //Create a class
-        MessageBDD conversation   = new MessageBDD();
+        MessageEBDD conversation   = new MessageEBDD();
         conversation.setDate(new Date().getTime());
         //content is what the user has written on the screen (in short the message body)
         conversation.setMessage(content);
@@ -82,7 +82,7 @@ public class ChatTestFBActivity extends Activity {
     }
 
     //Called when the current user recieved a new message
-    void onNewMsg(MessageBDD conversation) {
+    void onNewMsg(MessageEBDD conversation) {
         if (conversation == null)
             return;
         TextView textView = new TextView(this);

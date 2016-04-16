@@ -1,6 +1,6 @@
 package com.example.alexmao.projetfinal.model;
 
-import com.example.alexmao.projetfinal.UserList;
+import com.example.alexmao.projetfinal.Activites.ChatList;
 
 import java.util.Date;
 
@@ -83,7 +83,7 @@ public class Convers
 	 */
 	public boolean isSent()
 	{
-		return UserList.user.getNom().equals(sender);
+		return ChatList.user.getNom().equals(sender);
 	}
 
 	/**

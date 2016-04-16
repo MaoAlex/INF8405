@@ -15,8 +15,8 @@ import java.util.List;
  */
 public class FromClassAppToEBDD {
 
-    public static MessageBDD transalateMessage(Message message) {
-        MessageBDD ebddClass = new MessageBDD();
+    public static MessageEBDD transalateMessage(Message message) {
+        MessageEBDD ebddClass = new MessageEBDD();
         ebddClass.setMessage(message.getMessage());
         ebddClass.setDate(message.getDate().getTime());
         ebddClass.setExpediteurID(message.getExpediteur().getIdFirebase());

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.example.alexmao.projetfinal.BDDExterne.ConversationEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
-import com.example.alexmao.projetfinal.BDDExterne.MessageBDD;
+import com.example.alexmao.projetfinal.BDDExterne.MessageEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.OnConversationReceived;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.R;
@@ -43,15 +43,15 @@ public class TestGetDiscussionActivity extends AppCompatActivity {
 
     void init() {
         conversationEBDD = new ConversationEBDD("pas de group", null, "test conversation");
-        MessageBDD messageBDD = new MessageBDD("premier message",
+        MessageEBDD messageEBDD = new MessageEBDD("premier message",
                 new Date().getTime(), "pas de destinataire");
-        conversationEBDD.addMsg(messageBDD);
-        messageBDD = new MessageBDD("deuxieme message",
+        conversationEBDD.addMsg(messageEBDD);
+        messageEBDD = new MessageEBDD("deuxieme message",
                 new Date().getTime(), "pas de destinataire");
-        conversationEBDD.addMsg(messageBDD);
-        messageBDD = new MessageBDD("troisieme message",
+        conversationEBDD.addMsg(messageEBDD);
+        messageEBDD = new MessageEBDD("troisieme message",
                 new Date().getTime(), "pas de destinataire");
-        conversationEBDD.addMsg(messageBDD);
+        conversationEBDD.addMsg(messageEBDD);
 
         String id  = remoteBD.addDiscussion(conversationEBDD);
         conversationEBDD.setDataBaseId(id);
@@ -69,8 +69,8 @@ public class TestGetDiscussionActivity extends AppCompatActivity {
 
     void onDiscussionReceived(ConversationEBDD conversationEBDD) {
         String buffer = "";
-        for (MessageBDD messageBDD: conversationEBDD.getListeMessage()) {
-            buffer += messageBDD.getMessage() + "\n";
+        for (MessageEBDD messageEBDD : conversationEBDD.getListeMessage()) {
+            buffer += messageEBDD.getMessage() + "\n";
         }
 
         conversationTextView.setText(buffer);

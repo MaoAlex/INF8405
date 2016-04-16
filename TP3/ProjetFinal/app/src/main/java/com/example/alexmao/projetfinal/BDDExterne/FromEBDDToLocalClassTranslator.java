@@ -49,10 +49,10 @@ public class FromEBDDToLocalClassTranslator {
         return localClass;
     }
 
-    public static Message translateMessageBDD(MessageBDD messageBDD) {
+    public static Message translateMessageBDD(MessageEBDD messageEBDD) {
         Message localClass = new Message();
-        localClass.setMessage(messageBDD.getMessage());
-        localClass.setDate(new Date(messageBDD.getDate()));
+        localClass.setMessage(messageEBDD.getMessage());
+        localClass.setDate(new Date(messageEBDD.getDate()));
 
         return localClass;
     }

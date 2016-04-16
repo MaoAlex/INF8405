@@ -10,7 +10,7 @@ import com.example.alexmao.projetfinal.classeApp.Message;
  */
 public class MessageBDD extends AbstractBDD {
 
-    private static final String TAG = "MessageBDD";
+    private static final String TAG = "MessageEBDD";
 
     private static final int NUM_COL_ID = 0;
     private static final int NUM_COL_MESSAGE = 1;
