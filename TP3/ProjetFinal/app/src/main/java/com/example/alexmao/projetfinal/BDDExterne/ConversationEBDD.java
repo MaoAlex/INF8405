@@ -37,6 +37,16 @@ public class ConversationEBDD {
             listeMessage = new LinkedList<>();
     }
 
+    public  void update(ConversationEBDD conversationEBDD) {
+        groupID = conversationEBDD.getGroupID();
+        listeMessage = conversationEBDD.getListeMessage();
+        nomConversation = conversationEBDD.getNomConversation();
+        dataBaseId = conversationEBDD.getDataBaseId();
+
+        if (listeMessage == null)
+            listeMessage = new LinkedList<>();
+    }
+
     public String getDataBaseId() {
         return dataBaseId;
     }

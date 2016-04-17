@@ -20,6 +20,11 @@ public class Position {
         longitude = position.getLongitude();
     }
 
+    public void update(Position position) {
+        latitude = position.getLatitude();
+        longitude = position.getLongitude();
+    }
+
     public double getLatitude() {
         return latitude;
     }

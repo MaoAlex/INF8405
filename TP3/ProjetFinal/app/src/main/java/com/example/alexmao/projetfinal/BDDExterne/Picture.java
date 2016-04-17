@@ -35,6 +35,12 @@ public class Picture {
     public Picture() {
     }
 
+    public void update(Picture picture) {
+        mChunks = picture.mChunks;
+        mBitmap = picture.mBitmap;
+        mStringChunks = picture.mStringChunks;
+    }
+
     //for firebase, do not change
     public List<String> getStringChunks() {
         return mStringChunks;
