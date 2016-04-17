@@ -19,6 +19,8 @@ public class UtilisateurProfilEBDD implements Parcelable {
     private String mailAdr;
     private long dateBirth;
     private List<String> sports;
+    private List<Integer> listeInterets;
+    private List<Integer> listeParticipations;
 
     public long getDateBirth() {
         return dateBirth;
@@ -46,9 +48,28 @@ public class UtilisateurProfilEBDD implements Parcelable {
         firstName = in.readString();
         lastName = in.readString();
         mailAdr = in.readString();
+        dateBirth = in.readLong();
+        in.readStringList(sports);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        dest.writeString(mailAdr);
+        dest.writeLong(dateBirth);
+        dest.writeStringList(sports);
     }
 
     public UtilisateurProfilEBDD() {
+        sports = new ArrayList<>();
+        listeInterets = new ArrayList<>();
+        listeParticipations = new ArrayList<>();
     }
 
 
@@ -59,6 +80,22 @@ public class UtilisateurProfilEBDD implements Parcelable {
         mailAdr = user.getMailAdr();
         dateBirth = user.getDateBirth();
         sports = user.getSports();
+    }
+
+    public List<Integer> getListeInterets() {
+        return listeInterets;
+    }
+
+    public void setListeInterets(List<Integer> listeInterets) {
+        this.listeInterets = listeInterets;
+    }
+
+    public List<Integer> getListeParticipations() {
+        return listeParticipations;
+    }
+
+    public void setListeParticipations(List<Integer> listeParticipations) {
+        this.listeParticipations = listeParticipations;
     }
 
     public List<String> getSports() {
@@ -109,17 +146,5 @@ public class UtilisateurProfilEBDD implements Parcelable {
 
     public void setMailAdr(String mailAdr) {
         this.mailAdr = mailAdr;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(firstName);
-        dest.writeString(lastName);
-        dest.writeString(mailAdr);
     }
 }
