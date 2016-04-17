@@ -11,6 +11,7 @@ import com.example.alexmao.projetfinal.classeApp.ParametresUtilisateur;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,20 +46,25 @@ public class FromClassAppToEBDD {
             , LocalUserProfilEBDD localUserProfilEBDD, Position position, Bitmap bitmap) {
         localUserProfilEBDD.setDataBaseId(utilisateur.getIdFirebase());
         localUserProfilEBDD.setMailAdr(utilisateur.getMail());
-        localUserProfilEBDD.setDateBirth(utilisateur.getDateNaissance().getTime());
+        Date birth = utilisateur.getDateNaissance();
+        localUserProfilEBDD.setDateBirth(birth==null? 0 : birth.getTime());
         localUserProfilEBDD.setFirstName(utilisateur.getPrenom());
         localUserProfilEBDD.setFirstName(utilisateur.getNom());
         localUserProfilEBDD.setLastName(utilisateur.getPrenom());
         localUserProfilEBDD.setSports(utilisateur.getSports());
-        localUserProfilEBDD.setPicture(new Picture(bitmap));
+        if (bitmap != null) {
+            localUserProfilEBDD.setPicture(new Picture(bitmap));
+        }
         List<String> connexionID = new ArrayList<>();
         for (Utilisateur remoteUser : utilisateur.getListeConnexion()) {
             connexionID.add(remoteUser.getIdFirebase());
         }
         localUserProfilEBDD.setListeConnexion(connexionID);
 
-        position.setLatitude(utilisateur.getLatitude());
-        position.setLongitude(utilisateur.getLongitude());
+        if (position != null) {
+            position.setLatitude(utilisateur.getLatitude());
+            position.setLongitude(utilisateur.getLongitude());
+        }
     }
 
     public static MyLocalEventEBDD translateEvenement(Evenement evenement, Bitmap bitmap) {

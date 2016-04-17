@@ -149,7 +149,7 @@ public class Chat extends CustomActivity
 //        groupe.getListeMembre();
         //Creation du Handler
 		handler = new Handler();
-        //On met en place le listerner qui nous permet d'�tre notifi� d'un nouveau message
+        //On met en place le listerner qui nous permet d'etre notifie d'un nouveau message
         remoteBD.listenToConversation(discussionID, currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
             @Override
             public void onNewMessage(MessageEBDD messageEBDD) {

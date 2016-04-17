@@ -119,7 +119,7 @@ public class FireBaseBD implements RemoteBD {
     public String addGroup(MyGroupEBDD myGroupEBDD) {
         Firebase groupBD = myFireBaseRef.child("groups").push();
         groupBD.setValue(myGroupEBDD);
-        addGroupNameToID(myGroupEBDD.getGroupName(), groupBD.getKey());
+//        addGroupNameToID(myGroupEBDD.getGroupName(), groupBD.getKey());
         return groupBD.getKey();
     }
 
