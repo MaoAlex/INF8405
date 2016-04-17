@@ -94,6 +94,7 @@ public class ConnectedMapActivity extends AppCompatActivity implements
     }
 
     protected void startLocationUpdates() {
+        Log.d(TAG, "startLocationUpdates: ");
         LocationRequest mLocationRequest = createLocationRequest();
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, mLocationRequest, this);
@@ -116,7 +117,7 @@ public class ConnectedMapActivity extends AppCompatActivity implements
         Log.d(TAG, "Location Detected");
         mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
         if (currentUserID != null) {
-            Position position = new Position(location.getLatitude(), location.getLongitude());;
+            Position position = new Position(location.getLatitude(), location.getLongitude());
             myRemoteBD.addPositionToUser(currentUserID, position);
 
             if (onPositionReceived != null)

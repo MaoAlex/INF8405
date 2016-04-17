@@ -126,6 +126,10 @@ public class MapActivity extends ConnectedMapActivity implements OnMapReadyCallb
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        if (currentUser != null) {
+            Marker marker = createMarker(currentUser);
+            idToMarkers.put(currentUser.getMail(), marker);
+        }
     }
 
     private void onPositionChanged(Utilisateur utilisateur) {
