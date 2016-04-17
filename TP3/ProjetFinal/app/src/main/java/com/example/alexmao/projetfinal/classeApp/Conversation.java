@@ -8,8 +8,8 @@ import java.util.List;
 public class Conversation {
     private String nomConversation;
     private List<Message> listeMessage;
-
     private int idBDD;
+    private String idFirebase;
 
     public String getNomConversation() {
         return nomConversation;
@@ -26,7 +26,8 @@ public class Conversation {
     public void setListeMessage(List<Message> listeMessage) {
         this.listeMessage = listeMessage;
     }
-public int getIdBDD() {
+
+    public int getIdBDD() {
         return idBDD;
     }
 
@@ -34,5 +35,11 @@ public int getIdBDD() {
         this.idBDD = idBDD;
     }
 
+    public String getIdFirebase() {
+        return idFirebase;
+    }
 
+    public void setIdFirebase(String idFirebase) {
+        this.idFirebase = idFirebase;
+    }
 }

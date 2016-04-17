@@ -1,8 +1,11 @@
 package com.example.alexmao.projetfinal.BDDExterne;
 
+import android.graphics.Bitmap;
+
 import com.example.alexmao.projetfinal.classeApp.Evenement;
 import com.example.alexmao.projetfinal.classeApp.Groupe;
 import com.example.alexmao.projetfinal.classeApp.InvitationConnexion;
+import com.example.alexmao.projetfinal.classeApp.InvitationEvenement;
 import com.example.alexmao.projetfinal.classeApp.Message;
 import com.example.alexmao.projetfinal.classeApp.ParametresUtilisateur;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
@@ -27,18 +30,19 @@ public class FromClassAppToEBDD {
     public static MyLocalGroupEBDD translateGroupe(Groupe  groupe) {
         MyLocalGroupEBDD ebddClass = new MyLocalGroupEBDD();
         ebddClass.setDatabaseID(groupe.getIdFirebase());
-//        ebddClass.setConversationID(groupe.getConversation().getIdFirebase());
+        ebddClass.setConversationID(groupe.getConversation().getIdFirebase());
         List<String> userIDs = new ArrayList<>();
         for (Utilisateur utilisateur: groupe.getListeMembre()) {
             userIDs.add(utilisateur.getIdFirebase());
         }
         ebddClass.setMembersID(userIDs);
+        ebddClass.setEventID(groupe.getEvenement().getIdFirebase());
 
         return ebddClass;
     }
 
     public static void translateUtilisateur(Utilisateur utilisateur
-            , LocalUserProfilEBDD localUserProfilEBDD, Position position) {
+            , LocalUserProfilEBDD localUserProfilEBDD, Position position, Bitmap bitmap) {
         localUserProfilEBDD.setDataBaseId(utilisateur.getIdFirebase());
         localUserProfilEBDD.setMailAdr(utilisateur.getMail());
         localUserProfilEBDD.setDateBirth(utilisateur.getDateNaissance().getTime());
@@ -46,12 +50,13 @@ public class FromClassAppToEBDD {
         localUserProfilEBDD.setFirstName(utilisateur.getNom());
         localUserProfilEBDD.setLastName(utilisateur.getPrenom());
         localUserProfilEBDD.setSports(utilisateur.getSports());
+        localUserProfilEBDD.setPicture(new Picture(bitmap));
 
         position.setLatitude(utilisateur.getLatitude());
         position.setLongitude(utilisateur.getLongitude());
     }
 
-    public static MyLocalEventEBDD translateEvenement(Evenement evenement) {
+    public static MyLocalEventEBDD translateEvenement(Evenement evenement, Bitmap bitmap) {
         MyLocalEventEBDD ebddClass = new MyLocalEventEBDD(evenement.getNbreMaxParticipants(),
                 evenement.getSport(), evenement.getNomEvenement(),
                 evenement.getOrganisateur().getIdFirebase(),
@@ -63,6 +68,7 @@ public class FromClassAppToEBDD {
         ebddClass.setDate(evenement.getDate() == null ? 0 : evenement.getDate().getTime());
         ebddClass.setLieu(evenement.getLieu());
         ebddClass.setGroupID(evenement.getGroupeAssocie().getIdFirebase());
+        ebddClass.setPicture(new Picture(bitmap));
 
         return ebddClass;
     }
@@ -82,6 +88,18 @@ public class FromClassAppToEBDD {
         ebddClass.setDate(invitationConnexion.getDate().getTime());
         ebddClass.setExpediteur(invitationConnexion.getExpediteur().getIdFirebase());
         ebddClass.setInvite(invitationConnexion.getInvite().getIdFirebase());
+
+        return ebddClass;
+    }
+
+    public static InvitationEvenementEBDD translateInvitationEvenement(InvitationEvenement invitation) {
+        InvitationEvenementEBDD ebddClass = new InvitationEvenementEBDD();
+
+        ebddClass.setIdFirebase(invitation.getIdFirebase());
+        ebddClass.setInvite(invitation.getInvite().getIdFirebase());
+        ebddClass.setDate(invitation.getDate().getTime());
+        ebddClass.setExpediteur(invitation.getIdFirebase());
+        ebddClass.setEvenementIdFirebase(invitation.getEvenement().getIdFirebase());
 
         return ebddClass;
     }
