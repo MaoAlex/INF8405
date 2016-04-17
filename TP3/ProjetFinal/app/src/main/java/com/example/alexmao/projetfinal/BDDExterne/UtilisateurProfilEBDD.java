@@ -19,6 +19,7 @@ public class UtilisateurProfilEBDD implements Parcelable {
     private List<String> sports;
     private List<String> listeInteretsID;
     private List<String> listeParticipationsID;
+    private List<String> listeConnexion;
 
     public long getDateBirth() {
         return dateBirth;
@@ -50,6 +51,7 @@ public class UtilisateurProfilEBDD implements Parcelable {
         in.readStringList(sports);
         in.readStringList(listeInteretsID);
         in.readStringList(listeParticipationsID);
+        in.readStringList(listeConnexion);
     }
 
     @Override
@@ -66,6 +68,7 @@ public class UtilisateurProfilEBDD implements Parcelable {
         dest.writeStringList(sports);
         dest.writeStringList(listeInteretsID);
         dest.writeStringList(listeParticipationsID);
+        dest.writeStringList(listeConnexion);
     }
 
     public UtilisateurProfilEBDD() {
@@ -152,5 +155,13 @@ public class UtilisateurProfilEBDD implements Parcelable {
 
     public void setMailAdr(String mailAdr) {
         this.mailAdr = mailAdr;
+    }
+
+    public List<String> getListeConnexion() {
+        return listeConnexion;
+    }
+
+    public void setListeConnexion(List<String> listeConnexion) {
+        this.listeConnexion = listeConnexion;
     }
 }

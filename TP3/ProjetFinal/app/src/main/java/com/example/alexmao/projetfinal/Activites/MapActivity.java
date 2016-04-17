@@ -1,14 +1,12 @@
 package com.example.alexmao.projetfinal.Activites;
 
 import android.os.Bundle;
-
-import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
-import com.example.alexmao.projetfinal.BDDExterne.MyLocalGroupEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.OnPositionReceived;
 import com.example.alexmao.projetfinal.BDDExterne.OnPositionReceivedForUser;
 import com.example.alexmao.projetfinal.BDDExterne.Position;
 import com.example.alexmao.projetfinal.MapResources.ConnectedMapActivity;
 import com.example.alexmao.projetfinal.R;
+import com.example.alexmao.projetfinal.classeApp.Groupe;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -17,13 +15,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MapActivity extends ConnectedMapActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     private Map<String, Marker> idToMarkers;
-    private MyLocalGroupEBDD currentGroup;
+    private Groupe currentGroup;
+    private Utilisateur currentUser;
+    private List<String> remoteUserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,20 +38,34 @@ public class MapActivity extends ConnectedMapActivity implements OnMapReadyCallb
         mapFragment.getMapAsync(this);
 
         currentUser = getIntent().getParcelableExtra("currentUser");
+        setCurrentUserID(currentUser.getIdFirebase());
         currentGroup = getIntent().getParcelableExtra("currentGroup");
+        remoteUserID = new ArrayList<>();
+        //begin test
+        currentUser = new Utilisateur();
 
-        myRemoteBD = new FireBaseBD(this);
-        startPositionUpdateProcess(currentGroup.getMembersID(), new OnPositionReceivedForUser() {
+        //end test
+        for (Utilisateur utilisateur: currentGroup.getListeMembre()) {
+            remoteUserID.add(utilisateur.getIdFirebase());
+        }
+
+        startPositionUpdateProcess(remoteUserID, new OnPositionReceivedForUser() {
             @Override
             public void onPositionReceivedForUser(Position position, String userID) {
                 //change  user position (get user from id)
-                //onPositionChanged(Utilisateur remoteUtilisateur);
+                int indexOf = remoteUserID.indexOf(userID);
+                Utilisateur utilisateur = currentGroup.getListeMembre().get(indexOf);
+                utilisateur.setLongitude(position.getLongitude());
+                utilisateur.setLatitude(position.getLatitude());
+                onPositionChanged(utilisateur);
             }
         }, new OnPositionReceived() {
             @Override
             public void onPostionReceived(Position position) {
                 //change current user position
-                //onPositionChanged(Utilisateur currentUtilisateur);
+                currentUser.setLatitude(position.getLatitude());
+                currentUser.setLongitude(position.getLongitude());
+                onPositionChanged(currentUser);
             }
         });
     }
@@ -61,8 +77,6 @@ public class MapActivity extends ConnectedMapActivity implements OnMapReadyCallb
     }
 
     private void onPositionChanged(Utilisateur utilisateur) {
-        //TODO update position in class
-
         //add a marker on the map
         addMarker(utilisateur);
     }

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.OnPositionReceived;
 import com.example.alexmao.projetfinal.BDDExterne.OnPositionReceivedForUser;
@@ -43,7 +44,7 @@ public class ConnectedMapActivity extends AppCompatActivity implements
     private LatLng mLatLng;
 
     //user Data
-    protected LocalUserProfilEBDD currentUser;
+    protected String currentUserID;
 
     private OnPositionReceived onPositionReceived;
 
@@ -63,7 +64,7 @@ public class ConnectedMapActivity extends AppCompatActivity implements
         // Start Google Client
         this.buildGoogleApiClient();
         Log.d(TAG, "onCreate: google API started");
-
+        myRemoteBD = new FireBaseBD(this);
         //start database
         Log.d(TAG, "onCreate: BD started");
         super.onCreate(savedInstanceState);
@@ -114,9 +115,9 @@ public class ConnectedMapActivity extends AppCompatActivity implements
     public void onLocationChanged(Location location) {
         Log.d(TAG, "Location Detected");
         mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-        if (currentUser != null) {
+        if (currentUserID != null) {
             Position position = new Position(location.getLatitude(), location.getLongitude());;
-            myRemoteBD.addPositionToUser(currentUser.getDataBaseId(), position);
+            myRemoteBD.addPositionToUser(currentUserID, position);
 
             if (onPositionReceived != null)
                 onPositionReceived.onPostionReceived(position);
@@ -154,9 +155,13 @@ public class ConnectedMapActivity extends AppCompatActivity implements
                                            OnPositionReceived curentUserCallback) {
         this.onPositionReceived = curentUserCallback;
         for (String id : membersID) {
-            if (!id.equals(currentUser.getDataBaseId())) {
+            if (!id.equals(currentUserID)) {
                 myRemoteBD.listenToPositionChanges(id, remoteUserCallback);
             }
         }
+    }
+
+    public void setCurrentUserID(String currentUserID) {
+        this.currentUserID = currentUserID;
     }
 }

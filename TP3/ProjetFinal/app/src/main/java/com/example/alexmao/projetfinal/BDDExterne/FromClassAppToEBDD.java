@@ -51,6 +51,11 @@ public class FromClassAppToEBDD {
         localUserProfilEBDD.setLastName(utilisateur.getPrenom());
         localUserProfilEBDD.setSports(utilisateur.getSports());
         localUserProfilEBDD.setPicture(new Picture(bitmap));
+        List<String> connexionID = new ArrayList<>();
+        for (Utilisateur remoteUser : utilisateur.getListeConnexion()) {
+            connexionID.add(remoteUser.getIdFirebase());
+        }
+        localUserProfilEBDD.setListeConnexion(connexionID);
 
         position.setLatitude(utilisateur.getLatitude());
         position.setLongitude(utilisateur.getLongitude());
