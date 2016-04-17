@@ -15,6 +15,7 @@ import android.util.Log;
 
 import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.OnPositionReceived;
+import com.example.alexmao.projetfinal.BDDExterne.OnPositionReceivedForUser;
 import com.example.alexmao.projetfinal.BDDExterne.Position;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -149,12 +150,12 @@ public class ConnectedMapActivity extends AppCompatActivity implements
     }
 
     public void startPositionUpdateProcess(List<String> membersID,
-                                           OnPositionReceived onPositionReceived,
+                                           OnPositionReceivedForUser remoteUserCallback,
                                            OnPositionReceived curentUserCallback) {
         this.onPositionReceived = curentUserCallback;
         for (String id : membersID) {
             if (!id.equals(currentUser.getDataBaseId())) {
-                myRemoteBD.listenToPositionChanges(id, onPositionReceived);
+                myRemoteBD.listenToPositionChanges(id, remoteUserCallback);
             }
         }
     }
