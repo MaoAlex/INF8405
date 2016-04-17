@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.MyLocalGroupEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.OnPositionReceived;
+import com.example.alexmao.projetfinal.BDDExterne.OnPositionReceivedForUser;
 import com.example.alexmao.projetfinal.BDDExterne.Position;
 import com.example.alexmao.projetfinal.MapResources.ConnectedMapActivity;
 import com.example.alexmao.projetfinal.R;
@@ -38,12 +39,11 @@ public class MapActivity extends ConnectedMapActivity implements OnMapReadyCallb
         currentGroup = getIntent().getParcelableExtra("currentGroup");
 
         myRemoteBD = new FireBaseBD(this);
-        startPositionUpdateProcess(currentGroup.getMembersID(),
-                new OnPositionReceived() {
+        startPositionUpdateProcess(currentGroup.getMembersID(), new OnPositionReceivedForUser() {
             @Override
-            public void onPostionReceived(Position position) {
-                //must be call on a Utilisateur from classapp
-                //onPositionChanged(Utilisateur utilisateur);
+            public void onPositionReceivedForUser(Position position, String userID) {
+                //change  user position (get user from id)
+                //onPositionChanged(Utilisateur remoteUtilisateur);
             }
         }, new OnPositionReceived() {
             @Override

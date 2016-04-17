@@ -19,8 +19,8 @@ public class Utilisateur {
     private double latitude;
     private double longitude;
     private List<Utilisateur> listeConnexion;
-    private List<Integer> listeInterets;
-    private List<Integer> listeParticipations;
+    private List<String> listeInteretsID;
+    private List<String> listeParticipationsID;
     private String idFirebase;
     private int idBDD;
     private ParametresUtilisateur parametres;
@@ -102,20 +102,20 @@ public class Utilisateur {
         this.listeConnexion = listeConnexion;
     }
 
-    public List<Integer> getListeInterets() {
-        return listeInterets;
+    public List<String> getListeInteretsID() {
+        return listeInteretsID;
     }
 
-    public void setListeInterets(List<Integer> listeInterets) {
-        this.listeInterets = listeInterets;
+    public void setListeInteretsID(List<String> listeInteretsID) {
+        this.listeInteretsID = listeInteretsID;
     }
 
-    public List<Integer> getListeParticipations() {
-        return listeParticipations;
+    public List<String> getListeParticipationsID() {
+        return listeParticipationsID;
     }
 
-    public void setListeParticipations(List<Integer> listeParticipations) {
-        this.listeParticipations = listeParticipations;
+    public void setListeParticipationsID(List<String> listeParticipationsID) {
+        this.listeParticipationsID = listeParticipationsID;
     }
 
     public String getIdFirebase() {

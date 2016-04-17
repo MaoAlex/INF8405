@@ -40,7 +40,7 @@ public interface RemoteBD {
 
     void getUserPosition(String userID, OnPositionReceived onPositionReceivedCallback);
 
-    void listenToPositionChanges(String userID, OnPositionReceived onPositionReceivedCallback);
+    void listenToPositionChanges(String userID, OnPositionReceivedForUser onPositionReceivedCallback);
 
     void getMdp(String mail, OnStringReceived onMdpReceivedCallbackCallback);
 

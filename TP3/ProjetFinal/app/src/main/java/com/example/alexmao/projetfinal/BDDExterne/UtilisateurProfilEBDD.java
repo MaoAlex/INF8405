@@ -3,8 +3,6 @@ package com.example.alexmao.projetfinal.BDDExterne;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.alexmao.projetfinal.classeApp.Utilisateur;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +17,8 @@ public class UtilisateurProfilEBDD implements Parcelable {
     private String mailAdr;
     private long dateBirth;
     private List<String> sports;
-    private List<Integer> listeInterets;
-    private List<Integer> listeParticipations;
+    private List<String> listeInteretsID;
+    private List<String> listeParticipationsID;
 
     public long getDateBirth() {
         return dateBirth;
@@ -50,6 +48,8 @@ public class UtilisateurProfilEBDD implements Parcelable {
         mailAdr = in.readString();
         dateBirth = in.readLong();
         in.readStringList(sports);
+        in.readStringList(listeInteretsID);
+        in.readStringList(listeParticipationsID);
     }
 
     @Override
@@ -64,12 +64,14 @@ public class UtilisateurProfilEBDD implements Parcelable {
         dest.writeString(mailAdr);
         dest.writeLong(dateBirth);
         dest.writeStringList(sports);
+        dest.writeStringList(listeInteretsID);
+        dest.writeStringList(listeParticipationsID);
     }
 
     public UtilisateurProfilEBDD() {
         sports = new ArrayList<>();
-        listeInterets = new ArrayList<>();
-        listeParticipations = new ArrayList<>();
+        listeInteretsID = new ArrayList<>();
+        listeParticipationsID = new ArrayList<>();
     }
 
 
@@ -82,20 +84,20 @@ public class UtilisateurProfilEBDD implements Parcelable {
         sports = user.getSports();
     }
 
-    public List<Integer> getListeInterets() {
-        return listeInterets;
+    public List<String> getListeInteretsID() {
+        return listeInteretsID;
     }
 
-    public void setListeInterets(List<Integer> listeInterets) {
-        this.listeInterets = listeInterets;
+    public void setListeInteretsID(List<String> listeInteretsID) {
+        this.listeInteretsID = listeInteretsID;
     }
 
-    public List<Integer> getListeParticipations() {
-        return listeParticipations;
+    public List<String> getListeParticipationsID() {
+        return listeParticipationsID;
     }
 
-    public void setListeParticipations(List<Integer> listeParticipations) {
-        this.listeParticipations = listeParticipations;
+    public void setListeParticipationsID(List<String> listeParticipationsID) {
+        this.listeParticipationsID = listeParticipationsID;
     }
 
     public List<String> getSports() {
@@ -112,7 +114,8 @@ public class UtilisateurProfilEBDD implements Parcelable {
         this.mailAdr = mailAdr;
     }
 
-    public UtilisateurProfilEBDD(String firstName, String lastName, String mailAdr, ArrayList<String> pref) {
+    public UtilisateurProfilEBDD(String firstName, String lastName,
+                                 String mailAdr, ArrayList<String> pref) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.mailAdr = mailAdr;
@@ -134,6 +137,9 @@ public class UtilisateurProfilEBDD implements Parcelable {
         firstName = userFromRemote.getFirstName();
         lastName = userFromRemote.getLastName();
         mailAdr = userFromRemote.getMailAdr();
+        sports = userFromRemote.getSports();
+        listeInteretsID = userFromRemote.getListeInteretsID();
+        listeParticipationsID = userFromRemote.getListeParticipationsID();
     }
 
     public void setFirstName(String firstName) {

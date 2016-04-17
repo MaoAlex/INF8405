@@ -431,14 +431,14 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void listenToPositionChanges(String userID,
-                                       final OnPositionReceived onPositionReceivedCallback) {
+    public void listenToPositionChanges(final String userID,
+                                       final OnPositionReceivedForUser onPositionReceivedCallback) {
         Firebase positionBD = myFireBaseRef.child("users").child("position").child(userID);
         positionBD.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Position position = dataSnapshot.getValue(Position.class);
-                onPositionReceivedCallback.onPostionReceived(position);
+                onPositionReceivedCallback.onPositionReceivedForUser(position, userID);
             }
 
             @Override
