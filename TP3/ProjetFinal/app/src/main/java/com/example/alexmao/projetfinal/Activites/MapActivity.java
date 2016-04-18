@@ -66,7 +66,7 @@ public class MapActivity extends ConnectedMapActivity implements OnMapReadyCallb
         remoteUser.setMail("user@remote.fr");
         LocalUserProfilEBDD remoteProfilEBDD  = new LocalUserProfilEBDD();
         FromClassAppToEBDD.translateUtilisateur(remoteUser, remoteProfilEBDD, null, null);
-        String remoteID = myRemoteBD.addUserProfil(profilEBDD);
+        String remoteID = myRemoteBD.addUserProfil(remoteProfilEBDD);
         profilEBDD.setDataBaseId(remoteID);
         remoteUser.setIdFirebase(remoteID);
 
@@ -95,8 +95,9 @@ public class MapActivity extends ConnectedMapActivity implements OnMapReadyCallb
             @Override
             public void onPositionReceivedForUser(Position position, String userID) {
                 //change  user position (get user from id)
-                if (position == null)
-                    return;
+                if (position == null) {
+                    position = new Position();
+                }
                 int indexOf = remoteUserID.indexOf(userID);
                 Utilisateur utilisateur = currentGroup.getListeMembre().get(indexOf);
                 utilisateur.setLongitude(position.getLongitude());
@@ -126,10 +127,6 @@ public class MapActivity extends ConnectedMapActivity implements OnMapReadyCallb
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        if (currentUser != null) {
-            Marker marker = createMarker(currentUser);
-            idToMarkers.put(currentUser.getMail(), marker);
-        }
     }
 
     private void onPositionChanged(Utilisateur utilisateur) {
