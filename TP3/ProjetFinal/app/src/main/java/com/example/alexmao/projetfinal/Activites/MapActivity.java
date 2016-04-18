@@ -46,6 +46,7 @@ public class MapActivity extends ConnectedMapActivity implements OnMapReadyCallb
 //        setCurrentUserID(currentUser.getIdFirebase());
         currentGroup = getIntent().getParcelableExtra("currentGroup");
         remoteUserID = new ArrayList<>();
+        //TODO Supprimmer la partie test pour la version finale
         //begin test
         //current user
         currentUser = new Utilisateur();
@@ -85,8 +86,8 @@ public class MapActivity extends ConnectedMapActivity implements OnMapReadyCallb
         String groupID = myRemoteBD.addGroup(groupEBDD);
         groupEBDD.setDatabaseID(groupID);
         currentGroup.setIdFirebase(groupID);
-
         //end test
+
         for (Utilisateur utilisateur: currentGroup.getListeMembre()) {
             remoteUserID.add(utilisateur.getIdFirebase());
         }
@@ -94,24 +95,32 @@ public class MapActivity extends ConnectedMapActivity implements OnMapReadyCallb
         startPositionUpdateProcess(remoteUserID, new OnPositionReceivedForUser() {
             @Override
             public void onPositionReceivedForUser(Position position, String userID) {
-                //change  user position (get user from id)
+                //met à jour la position de l'utilisateur identifié par userID
                 if (position == null) {
+                    //par défaut la position est (0,0)
                     position = new Position();
                 }
+                //mise à jour de la position
                 int indexOf = remoteUserID.indexOf(userID);
                 Utilisateur utilisateur = currentGroup.getListeMembre().get(indexOf);
                 utilisateur.setLongitude(position.getLongitude());
                 utilisateur.setLatitude(position.getLatitude());
+
+                //on informe l'activité du chagement de position
                 onPositionChanged(utilisateur);
             }
         }, new OnPositionReceived() {
             @Override
             public void onPostionReceived(Position position) {
-                if (position == null)
-                    return;
-                //change current user position
+                if (position == null) {
+                    //par défaut la position est (0,0)
+                    position = new Position();
+                }
+                //mise à jour de la position
                 currentUser.setLatitude(position.getLatitude());
                 currentUser.setLongitude(position.getLongitude());
+
+                //on informe l'activité du chagement de position
                 onPositionChanged(currentUser);
             }
         });
@@ -123,29 +132,32 @@ public class MapActivity extends ConnectedMapActivity implements OnMapReadyCallb
         //save the new position in the intern Database
     }
 
-    //When the fragment is ready this method is called
+    //Est appelée quand le fragment est prêt
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
     }
 
+    //appelée lorsqu'un utilisateur change de position
     private void onPositionChanged(Utilisateur utilisateur) {
-        //add a marker on the map
+        //on met à jour l'affichage
         addMarker(utilisateur);
     }
 
-    //add a marker on the map
+    //ajoute ou modifie la position du marker sur la map
     private void addMarker(Utilisateur user) {
         if (user != null) {
             Marker marker = idToMarkers.get(user.getMail());
+            //si l'utilisateur a déjà un marker on l'enlève
             if (marker != null)
                 marker.remove();
 
+            //création d'un nouveau marker et ajout à la map
             idToMarkers.put(user.getMail(), createMarker(user));
         }
     }
 
-    //create a marker, it must be add to the map
+    //crée et ajoute un marker sur la map
     private Marker createMarker(Utilisateur user) {
         Marker marker = mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(user.getLatitude(), user.getLongitude()))

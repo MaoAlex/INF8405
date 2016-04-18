@@ -5,7 +5,7 @@ package com.example.alexmao.projetfinal.MapResources;
  */
 
 /*
- * gère l'envoie de données sur le serveur
+ * gère l'envoie de données sur le serveur pour les modification de position
  */
 
 import android.location.Location;
@@ -34,7 +34,7 @@ public class ConnectedMapActivity extends AppCompatActivity implements
 
     private static final String TAG = "ConnectedMapActivity";
 
-    //Needed to access the server
+    //le serveur à joindre
     protected RemoteBD myRemoteBD;
 
     // Google API - Locations
@@ -43,9 +43,10 @@ public class ConnectedMapActivity extends AppCompatActivity implements
     // lattitude and longitude
     private LatLng mLatLng;
 
-    //user Data
+    //id de l'utilisateur courant
     protected String currentUserID;
 
+    //callback appelée lorsque la position de l'utilisateur courant est modifiée
     private OnPositionReceived onPositionReceived;
 
     // =============================================================================================
@@ -111,7 +112,7 @@ public class ConnectedMapActivity extends AppCompatActivity implements
     // Google Location API CallBacks
     // =============================================================================================
 
-    //called when local location is changed
+    //appelée lorsque la position a changé
     @Override
     public void onLocationChanged(Location location) {
         Log.d(TAG, "Location Detected");
@@ -125,6 +126,7 @@ public class ConnectedMapActivity extends AppCompatActivity implements
         }
     }
 
+    //forge une requête pour récupérer la position courante
     private LocationRequest createLocationRequest() {
         Log.d(TAG, "Building request");
         LocationRequest mLocationRequest = new LocationRequest();
@@ -151,6 +153,12 @@ public class ConnectedMapActivity extends AppCompatActivity implements
         this.onPositionReceived = onPositionReceived;
     }
 
+    /**
+     * configure les callback pour qu'elles soient appelées lorsque la position est modifiée
+     * @param membersID ids firebase des membres du groupe
+     * @param remoteUserCallback la callback appelée lorsque la position d'un utilisateur distant a changé
+     * @param curentUserCallback la callback appelée lorsque l'utilisateur courant change de position
+     */
     public void startPositionUpdateProcess(List<String> membersID,
                                            OnPositionReceivedForUser remoteUserCallback,
                                            OnPositionReceived curentUserCallback) {
