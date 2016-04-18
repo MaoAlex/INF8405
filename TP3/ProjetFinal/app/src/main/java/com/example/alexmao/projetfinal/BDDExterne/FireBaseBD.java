@@ -209,6 +209,30 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
+    public void updateTimeLastChangeGroup(String groupID, long timeMillis) {
+        Firebase timeLastChangeBD = myFireBaseRef.child("groups").child("timeLastChange").child(groupID);
+        timeLastChangeBD.setValue(timeMillis);
+    }
+
+    @Override
+    public void getTimeLastChangeGroup(String groupID, final OnTimeReceived timeCallback) {
+        Firebase timeLastChangeBD = myFireBaseRef.child("groups").child("timeLastChange").child(groupID);
+        timeLastChangeBD.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                long time = (long) dataSnapshot.getValue();
+                timeCallback.onTimeReceived(time);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
+    }
+
+    @Override
     public void listenToChangeOnGroup(final MyGroupEBDD group, final String groupBDID) {
         myFireBaseRef.child("groups").child(groupBDID).addValueEventListener(new ValueEventListener() {
             @Override

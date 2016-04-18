@@ -32,6 +32,10 @@ public interface RemoteBD {
     void getGroupFromName(String name, MyLocalGroupEBDD myGroup,
                           OnGroupReceived onGroupReceivedCallback);
 
+    void updateTimeLastChangeGroup(String groupID, long timeMillis);
+
+    void getTimeLastChangeGroup(String groupID, OnTimeReceived timeCallback);
+
     void listenToChangeOnGroup(final MyGroupEBDD group, final String groupBDID);
 
     void addMdpToUser(String mail, String mdp);
