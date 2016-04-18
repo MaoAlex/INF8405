@@ -3,8 +3,6 @@ package com.example.alexmao.projetfinal.BDDExterne;
 /**
  * Classe pour communiquer avec un serveur Firebase,
  * les résultats sont obtenus via des callback
- * les classes ayant le mot "local" dans leur nom possède une callback qui est appelée
- * qd la données est récupérée
  */
 
 import android.content.Context;
@@ -24,7 +22,7 @@ public class FireBaseBD implements RemoteBD {
     private Firebase myFireBaseRef;
 
     public FireBaseBD(Context context) {
-        //connection to BD
+        //connection BD
         Firebase.setAndroidContext(context);
         //setter l'url du projet firebase
         myFireBaseRef = new Firebase(context.getString(R.string.myFireBaseUrl));
@@ -40,6 +38,7 @@ public class FireBaseBD implements RemoteBD {
         return myFireBaseRef.child("message").getKey();
     }
 
+    //Ajoute un utilisateur sur le servuer
     @Override
     public String addUserProfil(UtilisateurProfilEBDD user) {
         Firebase userBD = myFireBaseRef.child("users").child("profil").push();
@@ -49,6 +48,7 @@ public class FireBaseBD implements RemoteBD {
         return userBD.getKey();
     }
 
+    //Ajoute un utilisateur dans un groupe
     @Override
     public void addUserToGroup(final String groupID, final String userID) {
         final Firebase groupBD = myFireBaseRef.child("groups").child(groupID);
@@ -69,12 +69,13 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
+    //Ajoute la correspondance entre l'ID d'un utilisateur et son adresse mail
     private void addUserToID(String id, String mailAdr) {
         Firebase userBD = myFireBaseRef.child("userToID").child(mailAdr.replace('.', ')'));
         userBD.setValue(id);
     }
 
-    //update user when modified on server
+    //une fois appelée user est mis à jour automatiquement
     @Override
     public void listenToChangeOnUser(final LocalUserProfilEBDD user, final String userBDID) {
         myFireBaseRef.child("users").child("profil").child(userBDID).addValueEventListener(new ValueEventListener() {
@@ -91,18 +92,7 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
-    @Override
-    public void changeGroupName(MyLocalGroupEBDD myLocalGroup, String newName) {
-        String oldName = myLocalGroup.getGroupName();
-        myLocalGroup.setGroupName(newName);
-        Firebase groupBD = myFireBaseRef.child("groups").child(myLocalGroup.getDatabaseID());
-        groupBD.setValue(myLocalGroup);
-        Firebase groupNameToIDBD = myFireBaseRef.child("groupToID").child(oldName);
-        groupNameToIDBD.setValue(null);
-        groupNameToIDBD = myFireBaseRef.child("groupToID").child(newName);
-        groupNameToIDBD.setValue(myLocalGroup.getDatabaseID());
-    }
-
+    //permet de changer l'adresse mail d'un utilisateur existant sur la BD
     @Override
     public void changeMail(LocalUserProfilEBDD localUserProfil, String newMail) {
         String oldMail = localUserProfil.getMailAdr();
@@ -115,10 +105,12 @@ public class FireBaseBD implements RemoteBD {
         userToID.setValue(localUserProfil.getDataBaseId());
     }
 
+    //Ajoute un groupe à la BD
     @Override
     public String addGroup(MyGroupEBDD myGroupEBDD) {
         Firebase groupBD = myFireBaseRef.child("groups").push();
         groupBD.setValue(myGroupEBDD);
+        //Voir
 //        addGroupNameToID(myGroupEBDD.getGroupName(), groupBD.getKey());
         return groupBD.getKey();
     }
@@ -128,6 +120,9 @@ public class FireBaseBD implements RemoteBD {
         groupBD.setValue(groupID);
     }
 
+
+    //Récupére un utilisateur profil à partir d'un ID,
+    //Garantie: lorsque la callback est appelée, on a reçu les données
     @Override
     public void getUserProfil(String id, final UtilisateurProfilEBDD user, final OnUserProfilReceived onUserProfilReceivedCallback) {
         Firebase userBD = myFireBaseRef.child("users").child("profil").child(id);
@@ -146,6 +141,8 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
+    //Récupére un utilisateur profil à partir d'un mail,
+    //Garantie: lorsque la callback est appelée, on a reçu les données
     @Override
     public void getUserProfilFromMail(String mailAdr, final LocalUserProfilEBDD user,
                                       final OnUserProfilReceived onUserProfilReceivedCallback) {
@@ -165,6 +162,8 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
+    //Récupére un groupe à partir d'un ID,
+    //Garantie: lorsque la callback est appelée, on a reçu les données
     @Override
     public void getGroup(String groupID, final MyLocalGroupEBDD myGroup,
                          final OnGroupReceived onGroupReceived) {
@@ -184,36 +183,15 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
-    @Override
-    public void getGroupFromName(String name, final MyLocalGroupEBDD myGroup,
-                                 final OnGroupReceived onGroupReceived) {
-        Firebase groupBD = myFireBaseRef.child("groupToID").child(name);
-        groupBD.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                String groupID = (String) snapshot.getValue();
-                myGroup.setDatabaseID(groupID);
-                getGroup(groupID, myGroup, onGroupReceived);
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("error");
-            }
-        });
-    }
-
-    private void addGroupNameToID(String groupName, String groupID) {
-        Firebase groupBD = myFireBaseRef.child("groupToID").child(groupName);
-        groupBD.setValue(groupID);
-    }
-
+    //met à jour la date de dernière modification
     @Override
     public void updateTimeLastChangeGroup(String groupID, long timeMillis) {
         Firebase timeLastChangeBD = myFireBaseRef.child("groups").child("timeLastChange").child(groupID);
         timeLastChangeBD.setValue(timeMillis);
     }
 
+    //récupère la date de dernière modification
+    //Garantie: lorsque la callback est appelée, on a reçu les données
     @Override
     public void getTimeLastChangeGroup(String groupID, final OnTimeReceived timeCallback) {
         Firebase timeLastChangeBD = myFireBaseRef.child("groups").child("timeLastChange").child(groupID);
@@ -232,6 +210,7 @@ public class FireBaseBD implements RemoteBD {
 
     }
 
+    //Permet la mise à jour automatique d'un groupe
     @Override
     public void listenToChangeOnGroup(final MyGroupEBDD group, final String groupBDID) {
         myFireBaseRef.child("groups").child(groupBDID).addValueEventListener(new ValueEventListener() {
@@ -250,12 +229,15 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
+    //Ajoute un mdp à un utilisateur
     @Override
     public void addMdpToUser(String mail, String mdp) {
         Firebase mdpOnBD = myFireBaseRef.child("mdp").child(mail.replace('.', ')'));
         mdpOnBD.setValue(mdp);
     }
 
+    //Récupère le mot de passe d'un utilisateur
+    //Garantie: lorsque la callback est appelée, on a reçu les données
     @Override
     public void getMdp(String mail, final OnStringReceived onMdpReceivedCallback) {
         Firebase mdpBD = myFireBaseRef.child("mdp").child(mail.replace('.', ')'));
@@ -276,27 +258,8 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
-    @Override
-    public void getExistGroup(String name, final OnBooleanReceived onBooleanReceived) {
-        Firebase groups = myFireBaseRef.child("groups").child(name);
-        groups.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                boolean exist = false;
-                if (snapshot.exists()) {
-                    exist = true;
-                }
-                onBooleanReceived.onBooleanReceived(exist);
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("error");
-            }
-        });
-
-    }
-
+    //affirme si un utilisateur existe
+    //Garantie: lorsque la callback est appelée, on a reçu les données
     @Override
     public void getExistUser(String mailADR, final OnBooleanReceived onBooleanReceived) {
         Firebase usersBD = myFireBaseRef.child("userToID").child(mailADR);
@@ -317,12 +280,15 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
+    //Ajoute un photo à d'un utilisateur
     @Override
     public void addPicToUser(String userID, Picture picture) {
         Firebase picBD = myFireBaseRef.child("pictures").child(userID);
         picBD.setValue(picture);
     }
 
+    //Récupère la photo d'un utilisateur
+    //Garantie: lorsque la callback est appelée, on a reçu les données
     @Override
     public void getUserPIc(final LocalUserProfilEBDD localUserProfil, final String userID,
                            final OnPictureReceived onPictureReceivedCallback) {
@@ -342,6 +308,8 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
+    //Récupère la photo d'un utilisateur
+    //Garantie: lorsque la callback est appelée, on a reçu les données
     @Override
     public void getUserPIc(final Picture localPicture, String userID,
                            final OnPictureReceived onPictureReceivedCallback) {
@@ -361,6 +329,7 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
+    //Ajoute une conversation sur le serveur
     @Override
     public String addDiscussion(ConversationEBDD discussion) {
         Firebase discusionBD = myFireBaseRef.child("discussions").push();
@@ -369,6 +338,8 @@ public class FireBaseBD implements RemoteBD {
         return discusionBD.getKey();
     }
 
+    //Récupère une discussion depuis le serveur
+    //Garantie: lorsque la callback est appelée, on a reçu les données
     @Override
     public void getDiscussion(String discussionID, final OnConversationReceived onConversationRecieved) {
         Firebase discusionBD = myFireBaseRef.child("discussions").child(discussionID);
@@ -386,6 +357,7 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
+    //Ajoute un message sur le serveur
     @Override
     public String addMsgToDiscussion(String discussionID, MessageEBDD conversation) {
         Firebase discusionBD = myFireBaseRef.child("discussions").child(discussionID).child("messages").push();
@@ -394,6 +366,7 @@ public class FireBaseBD implements RemoteBD {
         return discusionBD.getKey();
     }
 
+    //prévient utilisateur qu'il a reçu un message
     @Override
     public String notifyUserForMsg(String userID, MessageEBDD conversation, String conversationID) {
         Firebase discusionBD = myFireBaseRef.child("users").child("unread").child(userID).child(conversationID).push();
@@ -402,6 +375,8 @@ public class FireBaseBD implements RemoteBD {
         return discusionBD.getKey();
     }
 
+    //une fois appelée, dès que l'utilisateur reçoit un message de la conversation
+    //la callback est appelée
     @Override
     public void listenToConversation(final String conversationID,
                                      final String userBDID,
@@ -431,12 +406,15 @@ public class FireBaseBD implements RemoteBD {
                 });
     }
 
+    //Rajoute la position à un utilisateur sur le serveur
     @Override
     public void addPositionToUser(String userID, Position position) {
         Firebase positionBD = myFireBaseRef.child("users").child("position").child(userID);
         positionBD.setValue(position);
     }
 
+    //Récupère la position d'un utilisateur
+    //Garantie: lorsque la callback est appelée, on a reçu les données
     @Override
     public void getUserPosition(String userID, final OnPositionReceived onPositionReceived) {
         Firebase positionBD = myFireBaseRef.child("users").child("position").child(userID);
@@ -454,6 +432,8 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
+    //une fois appelée, lorsque la position est modifiée sur le serveur
+    //la callback est appelée
     @Override
     public void listenToPositionChanges(final String userID,
                                        final OnPositionReceivedForUser onPositionReceivedCallback) {
@@ -472,6 +452,7 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
+    //met à jour la date de modification d'un utilisateur
     @Override
     public void updateTimeLastChange(String userID, long timeMilli) {
         Firebase timeLastChangeBD = myFireBaseRef.child("users").child("timeLastChange").child(userID);
@@ -495,6 +476,8 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
+    //Ajoute un message à une discusion, et prévient tous les utilisateurs
+    //à utiliser en priorité par rapport à addMsg
     @Override
     public String addMsgAndNotify(String localUserID, MessageEBDD message,
                                   String conversationID, MyGroupEBDD receivers) {
@@ -509,6 +492,7 @@ public class FireBaseBD implements RemoteBD {
         return msgID;
     }
 
+    //Ajoute un un événement sur la bd
     @Override
     public String addEvent(MyEventEBDD myEvent) {
         Firebase eventBD = myFireBaseRef.child("events").push();
@@ -517,12 +501,15 @@ public class FireBaseBD implements RemoteBD {
         return eventBD.getKey();
     }
 
+    //Rajoute un evenement à un group
     @Override
     public void addEventToGroup(String eventID, String groupID) {
         Firebase groupBD = myFireBaseRef.child("groupToEnvent").child(groupID);
         groupBD.setValue(eventID);
     }
 
+    //Récupère un événement d'un groupe
+    //Garantie: lorsque la callback est appelée, on a reçu les données
     @Override
     public void getEventFromGroup(String groupID, final OnStringReceived onStringReceived) {
         Firebase groupBD = myFireBaseRef.child("groupToEnvent").child(groupID);
@@ -540,12 +527,15 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
+    //Ajoute les param d'un utilisateur
     @Override
     public void addUserParam(UserParamsEBDD userParamsEBDD, String userID) {
         Firebase paramBD = myFireBaseRef.child("users").child("params").child(userID);
         paramBD.setValue(userParamsEBDD);
     }
 
+    //Récupère les param d'un utilisateur
+    //Garantie: lorsque la callback est appelée, on a reçu les données
     @Override
     public void getUserParam(String userID, final OnUserParamReceived onUserParamReceivedCallback) {
         Firebase paramBD = myFireBaseRef.child("users").child("params").child(userID);
@@ -563,6 +553,7 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
+    //Ajoute une notification à un utilisateur ex: invitation, ...
     @Override
     public String addNotificationToUser(String userID, NotificationBDD notificationBDD) {
         Firebase notificationBD = myFireBaseRef.child("users").child("notifications")

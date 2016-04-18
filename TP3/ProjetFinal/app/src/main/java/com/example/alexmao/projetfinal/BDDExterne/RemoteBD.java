@@ -29,9 +29,6 @@ public interface RemoteBD {
     void getGroup(String groupID, MyLocalGroupEBDD myGroup,
                   OnGroupReceived onGroupReceivedCallback);
 
-    void getGroupFromName(String name, MyLocalGroupEBDD myGroup,
-                          OnGroupReceived onGroupReceivedCallback);
-
     void updateTimeLastChangeGroup(String groupID, long timeMillis);
 
     void getTimeLastChangeGroup(String groupID, OnTimeReceived timeCallback);
@@ -48,13 +45,9 @@ public interface RemoteBD {
 
     void getMdp(String mail, OnStringReceived onMdpReceivedCallbackCallback);
 
-    void getExistGroup(String name, OnBooleanReceived onBooleanReceivedCallback);
-
     void getExistUser(String mailADR, OnBooleanReceived onBooleanReceivedCallback);
 
     void changeMail(LocalUserProfilEBDD localUserProfil, String newMail);
-
-    void changeGroupName(MyLocalGroupEBDD myLocalGroup, String newName);
 
     void addPicToUser(String userID, Picture picture);
 
