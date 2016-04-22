@@ -58,7 +58,7 @@ public class FireBaseBD implements RemoteBD {
                 MyGroupEBDD groupSnapshot = snapshot.getValue(MyGroupEBDD.class);
                 groupSnapshot.addMember(userID);
                 groupBD.setValue(groupSnapshot);
-                Firebase userToGroup = myFireBaseRef.child("usersToGroups").child(userID);
+                Firebase userToGroup = myFireBaseRef.child("usersToGroups").child(userID).push();
                 userToGroup.setValue(groupID);
             }
 
@@ -514,6 +514,23 @@ public class FireBaseBD implements RemoteBD {
         eventBD.setValue(myEvent);
 
         return eventBD.getKey();
+    }
+
+    @Override
+    public void getEvent(String eventID, final OnEventReceived callback) {
+        Firebase eventBD = myFireBaseRef.child("events").child(eventID);
+        eventBD.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                MyEventEBDD myEventEBDD = dataSnapshot.getValue(MyEventEBDD.class);
+                callback.onEventReceived(myEventEBDD);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 
     //Rajoute un evenement à un group

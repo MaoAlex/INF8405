@@ -67,13 +67,14 @@ public class FetchFullDataFromEBDD {
         groupEBDD.setDatabaseID(groupID);
         final List<FullUserWrapper> mWrappers = new ArrayList<>();
         final ConversationEBDD mConversationEBDD = new ConversationEBDD();
+        final MyLocalEventEBDD mEventEBDD = new MyLocalEventEBDD();
 
         remoteBD.getGroup(groupID, groupEBDD, new OnGroupReceived() {
             @Override
             public void onGroupReceived(MyGroupEBDD myGroupEBDD) {
                 groupEBDD.update(myGroupEBDD);
                 sizeWrapper[0] = groupEBDD.getMembersID().size();
-                for (String id: groupEBDD.getMembersID()) {
+                for (String id : groupEBDD.getMembersID()) {
                     fetchUser(id, remoteBD, new OnFullUserData() {
                         @Override
                         public void onFullUserData(LocalUserProfilEBDD localUserProfilEBDD,
@@ -86,14 +87,32 @@ public class FetchFullDataFromEBDD {
                             if (nbOpDone[0] == sizeWrapper[0]) {
                                 remoteBD.getDiscussion(groupEBDD.getConversationID(),
                                         new OnConversationReceived() {
-                                    @Override
-                                    public void onConversationRecieved(ConversationEBDD conversationEBDD) {
-                                        mConversationEBDD.update(conversationEBDD);
-                                        callback.onFullGroup(groupEBDD,
-                                                mWrappers,
-                                                mConversationEBDD);
-                                    }
-                                });
+                                            @Override
+                                            public void onConversationRecieved(ConversationEBDD conversationEBDD) {
+                                                mConversationEBDD.update(conversationEBDD);
+                                                remoteBD.getEventFromGroup(groupID, new OnStringReceived() {
+                                                    @Override
+                                                    public void onStringReceived(String s) {
+                                                        remoteBD.getEventFromGroup(groupID, new OnStringReceived() {
+                                                            @Override
+                                                            public void onStringReceived(String s) {
+                                                                mEventEBDD.setDataBaseId(s);
+                                                                remoteBD.getEvent(s, new OnEventReceived() {
+                                                                    @Override
+                                                                    public void onEventReceived(MyEventEBDD myEventEBDD) {
+                                                                        mEventEBDD.update(myEventEBDD);
+                                                                        callback.onFullGroup(groupEBDD,
+                                                                                mWrappers,
+                                                                                mConversationEBDD,
+                                                                                mEventEBDD);
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
                             }
                         }
                     });
@@ -101,4 +120,32 @@ public class FetchFullDataFromEBDD {
             }
         });
     }
+
+    public void fetchallGroups(String userID, final RemoteBD remoteBD, final OnGroupsReady callback) {
+        final List<FullGroupWrapper> groupWrappers = new ArrayList<>();
+        remoteBD.getGroupsFromUser(userID, new OnIdsreceived() {
+            @Override
+            public void onIdsreceived(List<String> ids) {
+                final int idSize = ids.size();
+                for (String groupID: ids) {
+                    fetchGroup(groupID, remoteBD, new OnFullGroup() {
+                        @Override
+                        public void onFullGroup(MyLocalGroupEBDD myLocalGroupEBDD,
+                                                List<FullUserWrapper> wrappers,
+                                                ConversationEBDD conversationEBDD,
+                                                MyLocalEventEBDD myLocalEventEBDD) {
+                            FullGroupWrapper groupWrapper = new FullGroupWrapper(conversationEBDD,
+                                    myLocalGroupEBDD,
+                                    myLocalEventEBDD,
+                                    wrappers);
+                            groupWrappers.add(groupWrapper);
+                            if (groupWrappers.size() == idSize)
+                                callback.onGroupsReady(groupWrappers);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
 }

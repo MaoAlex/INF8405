@@ -81,6 +81,8 @@ public interface RemoteBD {
 
     String addEvent(MyEventEBDD myEvent);
 
+    void getEvent(String eventID, OnEventReceived callback);
+
     void addEventToGroup(String eventID, String groupID);
 
     void getEventFromGroup(String groupID, OnStringReceived onStringReceived);

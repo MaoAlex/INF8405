@@ -14,6 +14,10 @@ public class MyLocalEventEBDD extends MyEventEBDD {
         super(nbreMaxParticipants, sport, nomEvenement, organisateurID, visibilite);
     }
 
+    public MyLocalEventEBDD() {
+        super();
+    }
+
     public String getId() {
         return id;
     }
@@ -21,4 +25,6 @@ public class MyLocalEventEBDD extends MyEventEBDD {
     public void setId(String id) {
         this.id = id;
     }
+
+
 }

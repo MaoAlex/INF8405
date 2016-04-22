@@ -8,5 +8,6 @@ import java.util.List;
 public interface OnFullGroup {
     void onFullGroup(MyLocalGroupEBDD myLocalGroupEBDD,
                      List<FullUserWrapper> wrappers,
-                     ConversationEBDD conversationEBDD);
+                     ConversationEBDD conversationEBDD,
+                     MyLocalEventEBDD myLocalEventEBDD);
 }
