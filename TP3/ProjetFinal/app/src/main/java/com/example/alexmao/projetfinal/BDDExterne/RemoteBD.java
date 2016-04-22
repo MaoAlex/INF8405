@@ -26,6 +26,8 @@ public interface RemoteBD {
 
     void addUserToGroup(String groupID, String userID);
 
+    void getGroupsFromUser(String userID, OnIdsreceived callback);
+
     void getGroup(String groupID, MyLocalGroupEBDD myGroup,
                   OnGroupReceived onGroupReceivedCallback);
 

@@ -58,13 +58,34 @@ public class FireBaseBD implements RemoteBD {
                 MyGroupEBDD groupSnapshot = snapshot.getValue(MyGroupEBDD.class);
                 groupSnapshot.addMember(userID);
                 groupBD.setValue(groupSnapshot);
-                Firebase userToGroup = myFireBaseRef.child("usersToGroup").child(userID);
+                Firebase userToGroup = myFireBaseRef.child("usersToGroups").child(userID);
                 userToGroup.setValue(groupID);
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
                 System.out.println("error");
+            }
+        });
+    }
+
+    @Override
+    public void getGroupsFromUser(String userID, final OnIdsreceived callback) {
+        Firebase groupBD = myFireBaseRef.child("usersToGroups").child(userID);
+        groupBD.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> ids = new ArrayList<String>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    MessageEBDD conversation = dataSnapshot.getValue(MessageEBDD.class);
+                    ids.add(dataSnapshot.getKey());
+                }
+                callback.onIdsreceived(ids);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
             }
         });
     }
@@ -111,15 +132,8 @@ public class FireBaseBD implements RemoteBD {
         Firebase groupBD = myFireBaseRef.child("groups").push();
         groupBD.setValue(myGroupEBDD);
         //Voir
-//        addGroupNameToID(myGroupEBDD.getGroupName(), groupBD.getKey());
         return groupBD.getKey();
     }
-
-    private void addGroupToID(String groupID, String groupName) {
-        Firebase groupBD = myFireBaseRef.child("groupToID").child(groupName);
-        groupBD.setValue(groupID);
-    }
-
 
     //Récupére un utilisateur profil à partir d'un ID,
     //Garantie: lorsque la callback est appelée, on a reçu les données
@@ -182,6 +196,7 @@ public class FireBaseBD implements RemoteBD {
             }
         });
     }
+
 
     //met à jour la date de dernière modification
     @Override
