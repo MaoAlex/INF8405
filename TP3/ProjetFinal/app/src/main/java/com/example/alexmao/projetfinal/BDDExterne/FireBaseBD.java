@@ -51,22 +51,8 @@ public class FireBaseBD implements RemoteBD {
     //Ajoute un utilisateur dans un groupe
     @Override
     public void addUserToGroup(final String groupID, final String userID) {
-        final Firebase groupBD = myFireBaseRef.child("groups").child(groupID);
-        groupBD.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                MyGroupEBDD groupSnapshot = snapshot.getValue(MyGroupEBDD.class);
-                groupSnapshot.addMember(userID);
-                groupBD.setValue(groupSnapshot);
-                Firebase userToGroup = myFireBaseRef.child("usersToGroups").child(userID).push();
-                userToGroup.setValue(groupID);
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("error");
-            }
-        });
+        final Firebase groupBD =  myFireBaseRef.child("usersToGroups").child(userID).push();
+        groupBD.setValue(groupID);
     }
 
     @Override
@@ -77,8 +63,8 @@ public class FireBaseBD implements RemoteBD {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<String> ids = new ArrayList<String>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    MessageEBDD conversation = dataSnapshot.getValue(MessageEBDD.class);
-                    ids.add(dataSnapshot.getKey());
+                    ids.add((String) snapshot
+                            .getValue());
                 }
                 callback.onIdsreceived(ids);
             }

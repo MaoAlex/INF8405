@@ -123,7 +123,7 @@ public class FetchFullDataFromEBDD {
     }
 
     //récupère tous les groupes associés à un utilisateur
-    public void fetchallGroups(String userID, final RemoteBD remoteBD, final OnGroupsReady callback) {
+    public static void fetchallGroups(String userID, final RemoteBD remoteBD, final OnGroupsReady callback) {
         final List<FullGroupWrapper> groupWrappers = new ArrayList<>();
         remoteBD.getGroupsFromUser(userID, new OnIdsreceived() {
             @Override
