@@ -53,4 +53,13 @@ public class UserParamsEBDD {
     public void setMasquerNom(boolean masquerNom) {
         this.masquerNom = masquerNom;
     }
+
+    @Override
+    public String toString() {
+        return "UserParamsEBDD{" +
+                "rayon=" + rayon +
+                ", localisation=" + localisation +
+                ", masquerNom=" + masquerNom +
+                '}';
+    }
 }

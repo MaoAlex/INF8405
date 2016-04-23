@@ -82,4 +82,13 @@ public class ConversationEBDD {
     public void addMsg(MessageEBDD messageEBDD) {
         listeMessage.add(messageEBDD);
     }
+
+    @Override
+    public String toString() {
+        return "ConversationEBDD{" +
+                "dataBaseId='" + dataBaseId + '\'' +
+                ", groupID='" + groupID + '\'' +
+                ", nomConversation='" + nomConversation + '\'' +
+                '}';
+    }
 }

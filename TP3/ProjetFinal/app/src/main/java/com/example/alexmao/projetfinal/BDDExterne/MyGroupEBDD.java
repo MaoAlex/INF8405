@@ -10,7 +10,6 @@ import java.util.List;
  * Created by filou on 06/03/16.
  */
 public class MyGroupEBDD implements Parcelable {
-    private String groupName;
     private List<String> membersID;
     private String conversationID;
     private String eventID;
@@ -29,7 +28,6 @@ public class MyGroupEBDD implements Parcelable {
         }
     };
     public MyGroupEBDD(Parcel in) {
-        groupName = in.readString();
         conversationID = in.readString();
         eventID = in.readString();
         in.readStringList(membersID);
@@ -41,7 +39,6 @@ public class MyGroupEBDD implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(groupName);
         dest.writeString(conversationID);
         dest.writeString(eventID);
         dest.writeList(membersID);
@@ -52,30 +49,23 @@ public class MyGroupEBDD implements Parcelable {
     }
 
     public MyGroupEBDD(String groupName, String organiser) {
-        this.groupName = groupName;
         membersID = new LinkedList<>();
         membersID.add(organiser);
     }
 
     public void update(MyGroupEBDD myGroupEBDD) {
-        groupName = myGroupEBDD.getGroupName();
         membersID = myGroupEBDD.getMembersID();
+        eventID = myGroupEBDD.getEventID();
+        conversationID = myGroupEBDD.getConversationID();
     }
 
     public void addUser(String id) {
         membersID.add(id);
     }
 
-    public String getGroupName() {
-        return groupName;
-    }
 
     public List<String> getMembersID() {
         return membersID;
-    }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
     }
 
     public void setMembersID(List<String> membersID) {
@@ -100,5 +90,19 @@ public class MyGroupEBDD implements Parcelable {
 
     public void setEventID(String eventID) {
         this.eventID = eventID;
+    }
+
+    @Override
+    public String toString() {
+        String mToString = "MyGroupEBDD{" +
+                "conversationID='" + conversationID + '\'' +
+                ", eventID='" + eventID + '\'';
+        mToString += ", membersID=";
+        for (String ids: membersID) {
+            mToString += ids + "\t";
+        }
+        mToString += "}" + "\n";
+
+        return mToString;
     }
 }
