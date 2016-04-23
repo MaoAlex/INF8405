@@ -62,6 +62,7 @@ public class FetchFullDataFromEBDD {
 
     //attention, ne récupére pas l'event ni la conversation
     //il y aura peut etre des pb d'accès concurrent
+    //Crashe si le group n'a pas de conversation
     public static void fetchGroup(final String groupID, final RemoteBD remoteBD,
                                   final OnFullGroup callback) {
         Log.d(TAG, "fetchGroup: " + "in function");
