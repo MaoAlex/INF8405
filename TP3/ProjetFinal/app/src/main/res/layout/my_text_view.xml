@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.widget.TextView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/my_text_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+</android.widget.TextView>
