@@ -51,4 +51,13 @@ public class FullUserWrapper {
     public void setUserParamsEBDD(UserParamsEBDD userParamsEBDD) {
         this.userParamsEBDD = userParamsEBDD;
     }
+
+    @Override
+    public String toString() {
+        return "FullUserWrapper{" +
+                "userParamsEBDD=" + userParamsEBDD +
+                ", position=" + position +
+                ", localUserProfilEBDD=" + localUserProfilEBDD +
+                '}';
+    }
 }

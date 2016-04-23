@@ -7,21 +7,19 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ActivitiesForTests.TestFetchUserAxtivity">
+    tools:context="com.example.alexmao.projetfinal.ActivitiesForTests.TestFetchGroupActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/retrieve_full_user_test"
-            android:text="Launch Test"/>
-
+            android:text="retrieve Group"
+            android:id="@+id/launch_test_group_fetch"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/show_user_full_retrieve"/>
+            android:id="@+id/test_group_fetch_view"/>
     </LinearLayout>
 </RelativeLayout>

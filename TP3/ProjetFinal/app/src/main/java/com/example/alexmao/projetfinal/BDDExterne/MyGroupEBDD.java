@@ -55,6 +55,8 @@ public class MyGroupEBDD implements Parcelable {
 
     public void update(MyGroupEBDD myGroupEBDD) {
         membersID = myGroupEBDD.getMembersID();
+        eventID = myGroupEBDD.getEventID();
+        conversationID = myGroupEBDD.getConversationID();
     }
 
     public void addUser(String id) {
@@ -88,5 +90,19 @@ public class MyGroupEBDD implements Parcelable {
 
     public void setEventID(String eventID) {
         this.eventID = eventID;
+    }
+
+    @Override
+    public String toString() {
+        String mToString = "MyGroupEBDD{" +
+                "conversationID='" + conversationID + '\'' +
+                ", eventID='" + eventID + '\'';
+        mToString += ", membersID=";
+        for (String ids: membersID) {
+            mToString += ids + "\t";
+        }
+        mToString += "}" + "\n";
+
+        return mToString;
     }
 }

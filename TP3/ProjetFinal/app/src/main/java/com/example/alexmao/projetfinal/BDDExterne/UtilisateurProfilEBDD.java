@@ -164,4 +164,31 @@ public class UtilisateurProfilEBDD implements Parcelable {
     public void setListeConnexion(List<String> listeConnexion) {
         this.listeConnexion = listeConnexion;
     }
+
+    @Override
+    public String toString() {
+        String stringRep = "UtilisateurProfilEBDD{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", mailAdr='" + mailAdr + '\'' +
+                ", dateBirth=" + dateBirth;
+        stringRep += ", sports= ";
+        for (String id: sports
+             ) {
+            stringRep += "\'" + id + "\' ";
+        }
+        stringRep += ", interetsID= ";
+        for (String id: listeInteretsID
+                ) {
+            stringRep += "\'" + id + "\' ";
+        }
+        stringRep += ", particippationsID= ";
+        for (String id: sports
+                ) {
+            stringRep += "\'" + id + "\' ";
+        }
+
+
+        return stringRep;
+    }
 }

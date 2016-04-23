@@ -157,4 +157,21 @@ public class MyEventEBDD {
     public void setVisibilite(String visibilite) {
         this.visibilite = visibilite;
     }
+
+    @Override
+    public String toString() {
+        return "MyEventEBDD{" +
+                "nbreMaxParticipants=" + nbreMaxParticipants +
+                ", date=" + date +
+                ", lieu='" + lieu + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", sport='" + sport + '\'' +
+                ", groupID='" + groupID + '\'' +
+                ", nomEvenement='" + nomEvenement + '\'' +
+                ", organisateurID='" + organisateurID + '\'' +
+                ", visibilite='" + visibilite + '\'' +
+                ", dataBaseId='" + dataBaseId + '\'' +
+                '}';
+    }
 }

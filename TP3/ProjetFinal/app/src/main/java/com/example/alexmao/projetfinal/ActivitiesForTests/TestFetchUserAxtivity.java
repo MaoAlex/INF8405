@@ -20,7 +20,7 @@ import com.example.alexmao.projetfinal.R;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TestFetchUser extends AppCompatActivity {
+public class TestFetchUserAxtivity extends AppCompatActivity {
     private String userID;
     private RemoteBD remoteBD;
     private Button launchButton;

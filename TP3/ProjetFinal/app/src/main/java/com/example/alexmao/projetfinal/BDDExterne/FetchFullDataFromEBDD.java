@@ -1,5 +1,7 @@
 package com.example.alexmao.projetfinal.BDDExterne;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import java.util.List;
  * Created by filou on 16/04/16.
  */
 public class FetchFullDataFromEBDD {
+    private static String TAG = "FetchFullDataFromEBDD";
     public static void fetchUser(String userID, RemoteBD remoteBD, final OnFullUserData callback) {
         final int [] nbOpDone = new int[1];
         final int nbOP = 4;
@@ -61,8 +64,9 @@ public class FetchFullDataFromEBDD {
     //il y aura peut etre des pb d'accès concurrent
     public static void fetchGroup(final String groupID, final RemoteBD remoteBD,
                                   final OnFullGroup callback) {
-        final int [] nbOpDone = new int[1];
-        final int [] sizeWrapper = new int[1];
+        Log.d(TAG, "fetchGroup: " + "in function");
+        final int[] nbOpDone = new int[1];
+        final int[] sizeWrapper = new int[1];
         final MyLocalGroupEBDD groupEBDD = new MyLocalGroupEBDD();
         groupEBDD.setDatabaseID(groupID);
         final List<FullUserWrapper> mWrappers = new ArrayList<>();
@@ -90,27 +94,23 @@ public class FetchFullDataFromEBDD {
                                             @Override
                                             public void onConversationRecieved(ConversationEBDD conversationEBDD) {
                                                 mConversationEBDD.update(conversationEBDD);
-                                                remoteBD.getEventFromGroup(groupID, new OnStringReceived() {
-                                                    @Override
-                                                    public void onStringReceived(String s) {
-                                                        remoteBD.getEventFromGroup(groupID, new OnStringReceived() {
-                                                            @Override
-                                                            public void onStringReceived(String s) {
-                                                                mEventEBDD.setDataBaseId(s);
-                                                                remoteBD.getEvent(s, new OnEventReceived() {
-                                                                    @Override
-                                                                    public void onEventReceived(MyEventEBDD myEventEBDD) {
-                                                                        mEventEBDD.update(myEventEBDD);
-                                                                        callback.onFullGroup(groupEBDD,
-                                                                                mWrappers,
-                                                                                mConversationEBDD,
-                                                                                mEventEBDD);
-                                                                    }
-                                                                });
-                                                            }
-                                                        });
-                                                    }
-                                                });
+                                                if (groupEBDD.getEventID() == null) {
+                                                    callback.onFullGroup(groupEBDD,
+                                                            mWrappers,
+                                                            mConversationEBDD,
+                                                            null);
+                                                } else {
+                                                    remoteBD.getEvent(groupEBDD.getEventID(), new OnEventReceived() {
+                                                        @Override
+                                                        public void onEventReceived(MyEventEBDD myEventEBDD) {
+                                                            mEventEBDD.update(myEventEBDD);
+                                                            callback.onFullGroup(groupEBDD,
+                                                                    mWrappers,
+                                                                    mConversationEBDD,
+                                                                    mEventEBDD);
+                                                        }
+                                                    });
+                                                }
                                             }
                                         });
                             }
@@ -121,6 +121,7 @@ public class FetchFullDataFromEBDD {
         });
     }
 
+    //récupère tous les groupes associés à un utilisateur
     public void fetchallGroups(String userID, final RemoteBD remoteBD, final OnGroupsReady callback) {
         final List<FullGroupWrapper> groupWrappers = new ArrayList<>();
         remoteBD.getGroupsFromUser(userID, new OnIdsreceived() {
