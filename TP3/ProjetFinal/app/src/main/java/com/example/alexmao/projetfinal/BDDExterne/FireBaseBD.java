@@ -234,7 +234,6 @@ public class FireBaseBD implements RemoteBD {
                 System.out.println("group of id: " + groupBDID + " modified");
                 MyGroupEBDD groupFromBD = snapshot.getValue(MyGroupEBDD.class);
                 group.setMembersID(groupFromBD.getMembersID());
-                group.setGroupName(groupFromBD.getGroupName());
             }
 
             @Override
