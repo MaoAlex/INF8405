@@ -188,12 +188,6 @@ public class Accueil extends Activity {
                 onContactInvitation(notificationBDD);
             }
         });
-        typesToAction.put(NotificationTypes.groupInvitation, new OnNotificationReceived() {
-            @Override
-            public void onNotificationReceived(NotificationBDD notificationBDD) {
-                onGroupInvitation(notificationBDD);
-            }
-        });
         typesToAction.put(NotificationTypes.eventInvitation, new OnNotificationReceived() {
             @Override
             public void onNotificationReceived(NotificationBDD notificationBDD) {
@@ -214,10 +208,6 @@ public class Accueil extends Activity {
 
     private void onContactInvitation(NotificationBDD notificationBDD) {
         //TODO faire quelque chose (invitation connexion)
-    }
-
-    private void onGroupInvitation(NotificationBDD notificationBDD) {
-        //TODO faire quelque chose (invitation pour une conversation)
     }
 
     private void onEventInvitation(NotificationBDD notificationBDD) {
