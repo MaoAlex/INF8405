@@ -11,6 +11,7 @@ public class MessageEBDD {
     private long date;
     private String expediteurID;
     private String dataBaseId;
+    private String conversationID;
 
     public MessageEBDD() {
     }
@@ -26,6 +27,14 @@ public class MessageEBDD {
         date = messageEBDD.getDate();
         expediteurID = messageEBDD.getExpediteurID();
         dataBaseId = messageEBDD.getDataBaseId();
+    }
+
+    public String getConversationID() {
+        return conversationID;
+    }
+
+    public void setConversationID(String conversationID) {
+        this.conversationID = conversationID;
     }
 
     public String getDataBaseId() {
@@ -58,5 +67,16 @@ public class MessageEBDD {
 
     public void setExpediteurID(String expediteurID) {
         this.expediteurID = expediteurID;
+    }
+
+    @Override
+    public String toString() {
+        return "MessageEBDD{" +
+                "message='" + message + '\'' +
+                ", date=" + date +
+                ", expediteurID='" + expediteurID + '\'' +
+                ", dataBaseId='" + dataBaseId + '\'' +
+                ", conversationID='" + conversationID + '\'' +
+                '}';
     }
 }
