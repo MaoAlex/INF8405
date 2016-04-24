@@ -150,7 +150,7 @@ public class Accueil extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //TODO passer l'ID firebase dans l'INTENT
+        //TODO passer l'ID firebase de l'utilisateur dans l'INTENT
         setContentView(R.layout.activity_accueil);
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
@@ -178,7 +178,7 @@ public class Accueil extends Activity {
     }
 
     private void onGroup(List<FullGroupWrapper> groupWrappers) {
-        //faire quelque chose
+        //faire quelque chose Stocker,
         for (FullGroupWrapper groupWrapper : groupWrappers) {
             groupWrapper.getConversationEBDD();
             groupWrapper.getFullUserWrappers();
