@@ -81,11 +81,15 @@ public interface RemoteBD {
 
     String addEvent(MyEventEBDD myEvent);
 
-    void addEventToTemporary(MyEventEBDD myEventEBDD);
+    void addEventToTemporary(String eventID);
 
     void getTemporaryEvent(long date, OnTemporaryEvents callback);
 
     void getEvent(String eventID, OnEventReceived callback);
+
+    void getTimeLastChangeEvent(String eventID, final OnTimeReceived timeCallback);
+
+    void updateTimeLastChangeEvent(String eventID, long timeMillis);
 
     void addEventToGroup(String eventID, String groupID);
 
