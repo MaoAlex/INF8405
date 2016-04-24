@@ -8,13 +8,16 @@ import android.support.v7.widget.RecyclerView;
 import com.example.alexmao.projetfinal.BDDExterne.FetchFullDataFromEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.FullGroupWrapper;
+import com.example.alexmao.projetfinal.BDDExterne.MyEventEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.NotificationBDD;
 import com.example.alexmao.projetfinal.BDDExterne.NotificationTypes;
 import com.example.alexmao.projetfinal.BDDExterne.OnGroupsReady;
 import com.example.alexmao.projetfinal.BDDExterne.OnNotificationReceived;
+import com.example.alexmao.projetfinal.BDDExterne.OnTemporaryEvents;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.R;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -204,6 +207,14 @@ public class Accueil extends Activity {
             groupWrapper.getFullUserWrappers();
             groupWrapper.getMyLocalEventEBDD();
         }
+
+        //récupération de tous les événements temporaires
+        remoteBD.getTemporaryEvent(new Date().getTime(), new OnTemporaryEvents() {
+            @Override
+            public void onTemporaryEvents(List<MyEventEBDD> eventEBDDs) {
+                onTemporaryEventReceived(eventEBDDs);
+            }
+        });
     }
 
     private void onContactInvitation(NotificationBDD notificationBDD) {
@@ -212,5 +223,9 @@ public class Accueil extends Activity {
 
     private void onEventInvitation(NotificationBDD notificationBDD) {
         //TODO faire quelque chose (invitation pour un evenement)
+    }
+
+    private void onTemporaryEventReceived(List<MyEventEBDD> eventEBDDs) {
+        //TODO faire quekque chose, ajouter dans la BD Interne, trier etc
     }
 }
