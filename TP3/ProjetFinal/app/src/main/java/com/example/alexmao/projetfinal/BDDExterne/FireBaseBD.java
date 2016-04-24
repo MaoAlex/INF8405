@@ -210,7 +210,6 @@ public class FireBaseBD implements RemoteBD {
 
             }
         });
-
     }
 
     //Permet la mise à jour automatique d'un groupe
@@ -520,6 +519,32 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
+    //met à jour la date de dernière modification
+    @Override
+    public void updateTimeLastChangeEvent(String eventID, long timeMillis) {
+        Firebase timeLastChangeBD = myFireBaseRef.child("events").child("timeLastChange").child(eventID);
+        timeLastChangeBD.setValue(timeMillis);
+    }
+
+    //récupère la date de dernière modification
+    //Garantie: lorsque la callback est appelée, on a reçu les données
+    @Override
+    public void getTimeLastChangeEvent(String eventID, final OnTimeReceived timeCallback) {
+        Firebase timeLastChangeBD = myFireBaseRef.child("events").child("timeLastChange").child(eventID);
+        timeLastChangeBD.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                long time = (long) dataSnapshot.getValue();
+                timeCallback.onTimeReceived(time);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
     //Rajoute un evenement à un group
     @Override
     public void addEventToGroup(String eventID, String groupID) {
@@ -528,9 +553,9 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
-    public void addEventToTemporary(MyEventEBDD myEventEBDD) {
+    public void addEventToTemporary(String eventID) {
         Firebase eventBD = myFireBaseRef.child("TemporaryEvents").push();
-        eventBD.setValue(myEventEBDD);
+        eventBD.setValue(eventID);
     }
 
     @Override
@@ -539,15 +564,30 @@ public class FireBaseBD implements RemoteBD {
         eventBD.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<MyEventEBDD> myEventEBDDs = new LinkedList<MyEventEBDD>();
-                List<String> passedEventID = new LinkedList<String>();
+                final List<MyEventEBDD> myEventEBDDs = new LinkedList<MyEventEBDD>();
+                final List<String> passedEventID = new LinkedList<String>();
+                final long nbEvent = dataSnapshot.getChildrenCount();
+                final long [] ndReceive = new long[1];
+
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                    MyEventEBDD myEventEBDD = dataSnapshot.getValue(MyEventEBDD.class);
-                    if (myEventEBDD.getDate() < date) {
-                        passedEventID.add(snapshot.getKey());
-                    } else {
-                        myEventEBDDs.add(myEventEBDD);
-                    }
+                    String id = (String) snapshot.getValue();
+                    final String key = snapshot.getKey();
+                    getEvent(id, new OnEventReceived() {
+                        @Override
+                        public void onEventReceived(MyEventEBDD myEventEBDD) {
+                            if (myEventEBDD.getDate() < date) {
+                                passedEventID.add(key);
+                            } else {
+                                myEventEBDDs.add(myEventEBDD);
+                            }
+                            ndReceive[0]++;
+                            if (ndReceive[0] == nbEvent) {
+                                for (String id: passedEventID) {
+                                    myFireBaseRef.child("TemporaryEvents").child(id).removeValue();
+                                }
+                            }
+                        }
+                    });
                 }
 
                 for (String passedID: passedEventID) {
