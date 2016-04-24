@@ -81,8 +81,11 @@ public interface RemoteBD {
     void listenToConversations(final String userBDID,
                               OnMessageReceiveCallback onMessageReceiveCallback);
 
+    //Ajoute un événement
     String addEvent(MyEventEBDD myEvent);
 
+    //Ajoute un event dans la section accessible par tous
+    //il faut avaoir d'abord appelé addEvent sinon le stockage ne sera pas définitif
     void addEventToTemporary(String eventID);
 
     void getTemporaryEvent(long date, OnTemporaryEvents callback);
