@@ -63,6 +63,8 @@ public interface RemoteBD {
 
     void getDiscussion(String discussionID, OnConversationReceived onConversationRecievedCallback);
 
+    void updateDiscussion(String discussionID, ConversationEBDD conversationEBDD);
+
     void updateTimeLastChange(String userID, long timeMIlli);
 
     void getTimeLastChange(String userID, OnTimeReceived timeCallback);
@@ -95,6 +97,8 @@ public interface RemoteBD {
 
     void getEventFromGroup(String groupID, OnStringReceived onStringReceived);
 
+    void updateEvent(String eventID, MyEventEBDD myEventEBDD);
+
     void addUserParam(UserParamsEBDD userParamsEBDD, String userID);
 
     void getUserParam(String userID, OnUserParamReceived onUserParamReceivedCallback);
@@ -103,6 +107,4 @@ public interface RemoteBD {
 
     void listenToNotification(String userID, Map<String,
             OnNotificationReceived> typeToActionCallback);
-
-    void listenToChangeOnConversation(String userID, OnStringReceived callback);
 }

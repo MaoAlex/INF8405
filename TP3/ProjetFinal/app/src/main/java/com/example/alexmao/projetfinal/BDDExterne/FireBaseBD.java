@@ -360,6 +360,12 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
+    @Override
+    public void updateDiscussion(String discussionID, ConversationEBDD conversationEBDD) {
+        Firebase discusionBD = myFireBaseRef.child("discussions").child(discussionID);
+        discusionBD.setValue(conversationEBDD);
+    }
+
     //Ajoute un message sur le serveur
     @Override
     public String addMsgToDiscussion(String discussionID, MessageEBDD conversation) {
@@ -556,6 +562,12 @@ public class FireBaseBD implements RemoteBD {
     }
 
     @Override
+    public void updateEvent(String eventID, MyEventEBDD myEventEBDD) {
+        Firebase eventBD = myFireBaseRef.child("events").child(eventID);
+        eventBD.setValue(myEventEBDD);
+    }
+
+    @Override
     public void addEventToTemporary(String eventID) {
         Firebase eventBD = myFireBaseRef.child("TemporaryEvents").push();
         eventBD.setValue(eventID);
@@ -693,36 +705,6 @@ public class FireBaseBD implements RemoteBD {
             @Override
             public void onCancelled(FirebaseError firebaseError) {
                 Log.d(TAG, "onCancelled: " + firebaseError.getMessage());
-            }
-        });
-    }
-
-    @Override
-    public void listenToChangeOnConversation(String userID, final OnStringReceived callback) {
-        myFireBaseRef.child("users").child("unread").child(userID).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                callback.onStringReceived("child added called");
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                callback.onStringReceived("child changed called");
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
             }
         });
     }
