@@ -8,11 +8,16 @@ import android.support.v7.widget.RecyclerView;
 import com.example.alexmao.projetfinal.BDDExterne.FetchFullDataFromEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.FullGroupWrapper;
+import com.example.alexmao.projetfinal.BDDExterne.NotificationBDD;
+import com.example.alexmao.projetfinal.BDDExterne.NotificationTypes;
 import com.example.alexmao.projetfinal.BDDExterne.OnGroupsReady;
+import com.example.alexmao.projetfinal.BDDExterne.OnNotificationReceived;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.R;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Accueil extends Activity {
 
@@ -175,6 +180,27 @@ public class Accueil extends Activity {
                 onGroup(groupWrappers);
             }
         });
+        //Partie écoute notification
+        Map<String, OnNotificationReceived> typesToAction = new HashMap<>();
+        typesToAction.put(NotificationTypes.conctactInvitation, new OnNotificationReceived() {
+            @Override
+            public void onNotificationReceived(NotificationBDD notificationBDD) {
+                onContactInvitation(notificationBDD);
+            }
+        });
+        typesToAction.put(NotificationTypes.groupInvitation, new OnNotificationReceived() {
+            @Override
+            public void onNotificationReceived(NotificationBDD notificationBDD) {
+                onGroupInvitation(notificationBDD);
+            }
+        });
+        typesToAction.put(NotificationTypes.eventInvitation, new OnNotificationReceived() {
+            @Override
+            public void onNotificationReceived(NotificationBDD notificationBDD) {
+                onEventInvitation(notificationBDD);
+            }
+        });
+        remoteBD.listenToNotification(userID, typesToAction);
     }
 
     private void onGroup(List<FullGroupWrapper> groupWrappers) {
@@ -184,5 +210,17 @@ public class Accueil extends Activity {
             groupWrapper.getFullUserWrappers();
             groupWrapper.getMyLocalEventEBDD();
         }
+    }
+
+    private void onContactInvitation(NotificationBDD notificationBDD) {
+        //TODO faire quelque chose (invitation connexion)
+    }
+
+    private void onGroupInvitation(NotificationBDD notificationBDD) {
+        //TODO faire quelque chose (invitation pour une conversation)
+    }
+
+    private void onEventInvitation(NotificationBDD notificationBDD) {
+        //TODO faire quelque chose (invitation pour un evenement)
     }
 }
