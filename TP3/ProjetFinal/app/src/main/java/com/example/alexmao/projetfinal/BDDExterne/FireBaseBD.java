@@ -9,6 +9,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.alexmao.projetfinal.R;
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -348,6 +349,7 @@ public class FireBaseBD implements RemoteBD {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ConversationEBDD conversationEBDD = dataSnapshot.getValue(ConversationEBDD.class);
+                conversationEBDD.setDataBaseId(dataSnapshot.getKey());
                 onConversationRecieved.onConversationRecieved(conversationEBDD);
             }
 
@@ -369,8 +371,8 @@ public class FireBaseBD implements RemoteBD {
 
     //prévient utilisateur qu'il a reçu un message
     @Override
-    public String notifyUserForMsg(String userID, MessageEBDD conversation, String conversationID) {
-        Firebase discusionBD = myFireBaseRef.child("users").child("unread").child(userID).child(conversationID).push();
+    public String notifyUserForMsg(String userID, MessageEBDD conversation) {
+        Firebase discusionBD = myFireBaseRef.child("users").child("unread").child(userID).push();
         discusionBD.setValue(conversation);
 
         return discusionBD.getKey();
@@ -379,10 +381,9 @@ public class FireBaseBD implements RemoteBD {
     //une fois appelée, dès que l'utilisateur reçoit un message de la conversation
     //la callback est appelée
     @Override
-    public void listenToConversation(final String conversationID,
-                                     final String userBDID,
+    public void listenToConversations(final String userBDID,
                                      final OnMessageReceiveCallback onMessageReceiveCallback ) {
-        myFireBaseRef.child("users").child("unread").child(userBDID).child(conversationID)
+        myFireBaseRef.child("users").child("unread").child(userBDID)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
@@ -396,7 +397,7 @@ public class FireBaseBD implements RemoteBD {
 
                         for (String id : ids) {
                             myFireBaseRef.child("users").child("unread").child(userBDID)
-                                    .child(conversationID).child(id).removeValue();
+                                    .child(id).removeValue();
                         }
                     }
 
@@ -486,7 +487,8 @@ public class FireBaseBD implements RemoteBD {
 
         for (String userID: receivers.getMembersID()) {
             if (!userID.equals(localUserID)) {
-                notifyUserForMsg(userID, message, conversationID);
+                message.setConversationID(conversationID);
+                notifyUserForMsg(userID, message);
             }
         }
 
@@ -509,6 +511,7 @@ public class FireBaseBD implements RemoteBD {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 MyEventEBDD myEventEBDD = dataSnapshot.getValue(MyEventEBDD.class);
+                myEventEBDD.setDataBaseId(dataSnapshot.getKey());
                 callback.onEventReceived(myEventEBDD);
             }
 
@@ -690,6 +693,36 @@ public class FireBaseBD implements RemoteBD {
             @Override
             public void onCancelled(FirebaseError firebaseError) {
                 Log.d(TAG, "onCancelled: " + firebaseError.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void listenToChangeOnConversation(String userID, final OnStringReceived callback) {
+        myFireBaseRef.child("users").child("unread").child(userID).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                callback.onStringReceived("child added called");
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                callback.onStringReceived("child changed called");
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
             }
         });
     }

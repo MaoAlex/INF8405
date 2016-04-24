@@ -70,13 +70,13 @@ public interface RemoteBD {
     String addMsgToDiscussion(String discussionID, MessageEBDD message);
 
     //envoie un message à un utilisateur
-    String notifyUserForMsg(String userID, MessageEBDD message, String conversationID);
+    String notifyUserForMsg(String userID, MessageEBDD message);
 
     String addMsgAndNotify(String localUserID, MessageEBDD message, String conversationID,
                            MyGroupEBDD receivers);
 
     //ajoute une callback appellée à chaque nouveau message
-    void listenToConversation(String conversationID, final String userBDID,
+    void listenToConversations(final String userBDID,
                               OnMessageReceiveCallback onMessageReceiveCallback);
 
     String addEvent(MyEventEBDD myEvent);
@@ -103,4 +103,6 @@ public interface RemoteBD {
 
     void listenToNotification(String userID, Map<String,
             OnNotificationReceived> typeToActionCallback);
+
+    void listenToChangeOnConversation(String userID, OnStringReceived callback);
 }
