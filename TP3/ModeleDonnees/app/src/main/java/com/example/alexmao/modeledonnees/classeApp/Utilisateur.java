@@ -1,6 +1,8 @@
 package com.example.alexmao.modeledonnees.classeApp;
 
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,7 +11,7 @@ import java.util.List;
 /**
  * Created by Fabien on 02/04/2016.
  */
-public class Utilisateur {
+public class Utilisateur implements Parcelable {
     private String nom;
     private String prenom;
     private Date dateNaissance;
@@ -24,6 +26,24 @@ public class Utilisateur {
     private String idFirebase;
     private int idBDD;
     private ParametresUtilisateur parametres;
+
+    public Utilisateur(Parcel in) {
+        nom = in.readString();
+        prenom = in.readString();
+        dateNaissance = (Date) in.readSerializable();
+        mail = in.readString();
+        sports = in.readArrayList(String.class.getClassLoader());
+        photo = in.readParcelable(Uri.class.getClassLoader());
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+        listeConnexion = in.readArrayList(Utilisateur.class.getClassLoader());
+        listeInterets = in.readArrayList(Integer.class.getClassLoader());
+        listeParticipations = in.readArrayList(Integer.class.getClassLoader());
+        idFirebase = in.readString();
+        idBDD = in.readInt();
+        parametres = in.readParcelable(ParametresUtilisateur.class.getClassLoader());
+    }
+
 
     public Utilisateur() {
         this.listeConnexion = new ArrayList<Utilisateur>();
@@ -141,4 +161,45 @@ public class Utilisateur {
     public void setParametres(ParametresUtilisateur parametres) {
         this.parametres = parametres;
     }
+
+     
+                  /*
+      * Parcelable methods
+      */
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(nom);
+        dest.writeString(prenom);
+        dest.writeSerializable(dateNaissance);
+        dest.writeString(mail);
+        dest.writeList(sports);
+        dest.writeParcelable(photo, flags);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
+        dest.writeParcelable(photo, flags);
+        dest.writeList(listeConnexion);
+        dest.writeList(listeInterets);
+        dest.writeList(listeParticipations);
+        dest.writeString(idFirebase);
+        dest.writeInt(idBDD);
+        dest.writeParcelable(parametres, flags);
+
+    }
+
+    // Creator
+    public static final Parcelable.Creator<Utilisateur> CREATOR = new Parcelable.Creator<Utilisateur>() {
+        public Utilisateur createFromParcel(Parcel in) {
+            return new Utilisateur(in);
+        }
+
+        public Utilisateur[] newArray(int size) {
+            return new Utilisateur[size];
+        }
+    };
 }
