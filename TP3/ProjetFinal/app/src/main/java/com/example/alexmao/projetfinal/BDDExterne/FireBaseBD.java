@@ -15,6 +15,8 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class FireBaseBD implements RemoteBD {
@@ -523,6 +525,42 @@ public class FireBaseBD implements RemoteBD {
     public void addEventToGroup(String eventID, String groupID) {
         Firebase groupBD = myFireBaseRef.child("groupToEnvent").child(groupID);
         groupBD.setValue(eventID);
+    }
+
+    @Override
+    public void addEventToTemporary(MyEventEBDD myEventEBDD) {
+        Firebase eventBD = myFireBaseRef.child("TemporaryEvents").push();
+        eventBD.setValue(myEventEBDD);
+    }
+
+    @Override
+    public void getTemporaryEvent(final long date, final OnTemporaryEvents callback) {
+        Firebase eventBD = myFireBaseRef.child("TemporaryEvents");
+        eventBD.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<MyEventEBDD> myEventEBDDs = new LinkedList<MyEventEBDD>();
+                List<String> passedEventID = new LinkedList<String>();
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    MyEventEBDD myEventEBDD = dataSnapshot.getValue(MyEventEBDD.class);
+                    if (myEventEBDD.getDate() < date) {
+                        passedEventID.add(snapshot.getKey());
+                    } else {
+                        myEventEBDDs.add(myEventEBDD);
+                    }
+                }
+
+                for (String passedID: passedEventID) {
+                    myFireBaseRef.child("TemporaryEvents").child(passedID).removeValue();
+                }
+                callback.onTemporaryEvents(myEventEBDDs);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 
     //Récupère un événement d'un groupe
