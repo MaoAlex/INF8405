@@ -5,7 +5,14 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.alexmao.projetfinal.BDDExterne.FetchFullDataFromEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
+import com.example.alexmao.projetfinal.BDDExterne.FullGroupWrapper;
+import com.example.alexmao.projetfinal.BDDExterne.OnGroupsReady;
+import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.R;
+
+import java.util.List;
 
 public class Accueil extends Activity {
 
@@ -138,10 +145,12 @@ public class Accueil extends Activity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private RemoteBD remoteBD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //TODO passer l'ID firebase dans l'INTENT
         setContentView(R.layout.activity_accueil);
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
@@ -157,7 +166,23 @@ public class Accueil extends Activity {
         String[] myDataset = {"test"};
         mAdapter = new AdapterEvenement(myDataset);
         mRecyclerView.setAdapter(mAdapter);
+
+        remoteBD = new FireBaseBD(this);
+        String userID = "TODO initialiser l'userID";
+        FetchFullDataFromEBDD.fetchallGroups(userID, remoteBD, new OnGroupsReady() {
+            @Override
+            public void onGroupsReady(List<FullGroupWrapper> groupWrappers) {
+                onGroup(groupWrappers);
+            }
+        });
     }
 
-
+    private void onGroup(List<FullGroupWrapper> groupWrappers) {
+        //faire quelque chose
+        for (FullGroupWrapper groupWrapper : groupWrappers) {
+            groupWrapper.getConversationEBDD();
+            groupWrapper.getFullUserWrappers();
+            groupWrapper.getMyLocalEventEBDD();
+        }
+    }
 }
