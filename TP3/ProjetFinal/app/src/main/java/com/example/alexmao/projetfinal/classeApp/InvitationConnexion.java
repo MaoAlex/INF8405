@@ -15,6 +15,10 @@ public class InvitationConnexion implements Parcelable {
     private String idFirebase;
     private int idBDD;
 
+    public InvitationConnexion() {
+
+    }
+
     public InvitationConnexion(Parcel in) {
         expediteur = in.readParcelable(Utilisateur.class.getClassLoader());
         invite = in.readParcelable(Utilisateur.class.getClassLoader());

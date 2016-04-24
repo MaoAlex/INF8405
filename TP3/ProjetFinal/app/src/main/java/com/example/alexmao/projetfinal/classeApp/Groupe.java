@@ -15,6 +15,10 @@ public class Groupe implements Parcelable {
     private Conversation conversation;
     private Evenement evenement;
 
+    public Groupe() {
+
+    }
+
     public Groupe(Parcel in) {
         listeMembre = in.readArrayList(Utilisateur.class.getClassLoader());
         idFirebase = in.readString();

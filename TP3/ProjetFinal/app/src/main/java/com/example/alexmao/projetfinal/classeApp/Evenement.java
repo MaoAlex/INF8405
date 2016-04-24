@@ -24,6 +24,10 @@ public class Evenement implements Parcelable {
     private String idFirebase;
     private int idBDD;
 
+    public Evenement() {
+
+    }
+
     public Evenement(Parcel in) {
         nbreMaxParticipants = in.readInt();
         date = (Date) in.readSerializable();

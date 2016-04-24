@@ -14,6 +14,10 @@ public class Conversation implements Parcelable {
     private int idBDD;
     private String idFirebase;
 
+    public Conversation() {
+
+    }
+
     public Conversation(Parcel in) {
         nomConversation = in.readString();
         listeMessage = in.readArrayList(Message.class.getClassLoader());

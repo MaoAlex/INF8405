@@ -16,6 +16,10 @@ public class InvitationEvenement implements Parcelable {
     private String idFirebase;
     private int idBDD;
 
+    public InvitationEvenement() {
+
+    }
+
     public InvitationEvenement(Parcel in) {
         evenement = in.readParcelable(Evenement.class.getClassLoader());
         expediteur = in.readParcelable(Utilisateur.class.getClassLoader());
