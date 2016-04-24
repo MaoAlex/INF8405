@@ -47,7 +47,6 @@ public class Authentification extends CustomActivity
         //Connection des champs
 		mail = (EditText) findViewById(R.id.user);
 		motDePasse = (EditText) findViewById(R.id.motDePasse);
-
 	}
 
     //Méthode gérant le clic sur les différents boutons de cette activité
@@ -81,7 +80,7 @@ public class Authentification extends CustomActivity
                 public void onStringReceived(String s) {
                     dia.dismiss();
                     //on vérifie que le mot de passe est bien celui associé à ce mail
-                    if (s != null && s == p){
+                    if (s != null && s.equals(p)){
 
                         startActivity(new Intent(Authentification.this, ChatList.class));
                         finish();

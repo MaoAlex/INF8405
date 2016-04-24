@@ -263,7 +263,7 @@ public class FireBaseBD implements RemoteBD {
     //Garantie: lorsque la callback est appelée, on a reçu les données
     @Override
     public void getExistUser(String mailADR, final OnBooleanReceived onBooleanReceived) {
-        Firebase usersBD = myFireBaseRef.child("userToID").child(mailADR);
+        Firebase usersBD = myFireBaseRef.child("userToID").child(mailADR.replace(".", ")"));
         usersBD.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
