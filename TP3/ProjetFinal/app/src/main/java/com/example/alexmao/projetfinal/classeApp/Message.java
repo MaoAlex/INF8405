@@ -1,11 +1,14 @@
 package com.example.alexmao.projetfinal.classeApp;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
 /**
  * Created by Fabien on 02/04/2016.
  */
-public class Message {
+public class Message implements Parcelable {
     /** The Constant STATUS_SENDING. */
     public static final int STATUS_SENDING = 0;
 
@@ -23,6 +26,13 @@ public class Message {
     private Date date;
     private Utilisateur expediteur;
     private int idBDD;
+
+    public Message(Parcel in) {
+        message = in.readString();
+        date = (Date) in.readSerializable();
+        expediteur = in.readParcelable(Utilisateur.class.getClassLoader());
+        idBDD = in.readInt();
+    }
 
     public Message(String s, Date date, Utilisateur utilisateur) {
         message = s;
@@ -74,4 +84,32 @@ public class Message {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    /*
+      * Parcelable methods
+      */
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(message);
+        dest.writeSerializable(date);
+        dest.writeParcelable(expediteur, flags);
+        dest.writeInt(idBDD);
+    }
+
+    // Creator
+    public static final Parcelable.Creator<Message> CREATOR = new Parcelable.Creator<Message>() {
+        public Message createFromParcel(Parcel in) {
+            return new Message(in);
+        }
+
+        public Message[] newArray(int size) {
+            return new Message[size];
+        }
+    };
 }

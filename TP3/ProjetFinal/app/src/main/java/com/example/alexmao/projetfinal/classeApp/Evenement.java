@@ -1,13 +1,15 @@
 package com.example.alexmao.projetfinal.classeApp;
 
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.Date;
 
 /**
  * Created by Fabien on 02/04/2016.
  */
-public class Evenement {
+public class Evenement implements Parcelable {
     private int nbreMaxParticipants;
     private Date date;
     private String lieu;
@@ -21,6 +23,22 @@ public class Evenement {
     private String visibilite;
     private String idFirebase;
     private int idBDD;
+
+    public Evenement(Parcel in) {
+        nbreMaxParticipants = in.readInt();
+        date = (Date) in.readSerializable();
+        lieu = in.readString();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+        photo = in.readParcelable(Uri.class.getClassLoader());
+        sport = in.readString();
+        groupeAssocie = in.readParcelable(Groupe.class.getClassLoader());
+        nomEvenement = in.readString();
+        organisateur = in.readParcelable(Utilisateur.class.getClassLoader());
+        visibilite = in.readString();
+        idFirebase = in.readString();
+        idBDD = in.readInt();
+    }
 
     public int getNbreMaxParticipants() {
         return nbreMaxParticipants;
@@ -125,4 +143,41 @@ public class Evenement {
     public void setIdBDD(int idBDD) {
         this.idBDD = idBDD;
     }
+
+               /*
+      * Parcelable methods
+      */
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(nbreMaxParticipants);
+        dest.writeSerializable(date);
+        dest.writeString(lieu);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
+        dest.writeParcelable(photo, flags);
+        dest.writeString(sport);
+        dest.writeParcelable(groupeAssocie, flags);
+        dest.writeString(nomEvenement);
+        dest.writeParcelable(organisateur, flags);
+        dest.writeString(visibilite);
+        dest.writeString(idFirebase);
+        dest.writeInt(idBDD);
+    }
+
+    // Creator
+    public static final Parcelable.Creator<Evenement> CREATOR = new Parcelable.Creator<Evenement>() {
+        public Evenement createFromParcel(Parcel in) {
+            return new Evenement(in);
+        }
+
+        public Evenement[] newArray(int size) {
+            return new Evenement[size];
+        }
+    };
 }
