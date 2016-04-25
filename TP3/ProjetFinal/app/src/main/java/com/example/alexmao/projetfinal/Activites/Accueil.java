@@ -1,9 +1,17 @@
 package com.example.alexmao.projetfinal.Activites;
 
-import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.example.alexmao.projetfinal.Adapter.AdapterEvenement;
 import com.example.alexmao.projetfinal.BDDExterne.FetchFullDataFromEBDD;
@@ -18,6 +26,7 @@ import com.example.alexmao.projetfinal.BDDExterne.OnTemporaryEvents;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.R;
+import com.example.alexmao.projetfinal.classeApp.ParametresUtilisateur;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
 import java.util.Date;
@@ -25,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Accueil extends Activity {
+public class Accueil extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +173,17 @@ public class Accueil extends Activity {
         super.onCreate(savedInstanceState);
         //TODO passer l'ID firebase de l'utilisateur dans l'INTENT
         setContentView(R.layout.activity_accueil);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         // use this setting to improve performance if you know that changes
@@ -182,7 +202,15 @@ public class Accueil extends Activity {
         utilisateurBDD.open();
         utilisateurConnecte = utilisateurBDD.obtenirProfil();
         remoteBD = new FireBaseBD(this);
-        String userID = utilisateurConnecte.getIdFirebase();//"TODO initialiser l'userID";
+        //String userID = utilisateurConnecte.getIdFirebase();//"TODO initialiser l'userID";
+        utilisateurConnecte = new Utilisateur();
+        utilisateurConnecte.setIdFirebase("a");
+        ParametresUtilisateur initialParams = new ParametresUtilisateur();
+        initialParams.setRayon(500);
+        initialParams.setLocalisation(true);
+        initialParams.setMasquerNom(false);
+        utilisateurConnecte.setParametres(initialParams);
+        String userID = utilisateurConnecte.getIdFirebase();
         FetchFullDataFromEBDD.fetchallGroups(userID, remoteBD, new OnGroupsReady() {
             @Override
             public void onGroupsReady(List<FullGroupWrapper> groupWrappers) {
@@ -222,6 +250,41 @@ public class Accueil extends Activity {
                 onTemporaryEventReceived(eventEBDDs);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        Fragment fragment;
+        if (id == R.id.nav_accueil) {
+
+        } else if (id == R.id.nav_evenements) {
+
+        } else if (id == R.id.nav_rechercher) {
+
+        } else if (id == R.id.nav_chat) {
+
+        } else if (id == R.id.nav_profil) {
+
+        } else if (id == R.id.nav_logout) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     private void onContactInvitation(NotificationBDD notificationBDD) {
