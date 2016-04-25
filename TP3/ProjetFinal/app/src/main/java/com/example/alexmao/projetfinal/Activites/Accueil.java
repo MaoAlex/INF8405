@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.alexmao.projetfinal.Adapter.AdapterEvenement;
 import com.example.alexmao.projetfinal.BDDExterne.FetchFullDataFromEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.FullGroupWrapper;
@@ -15,7 +16,9 @@ import com.example.alexmao.projetfinal.BDDExterne.OnGroupsReady;
 import com.example.alexmao.projetfinal.BDDExterne.OnNotificationReceived;
 import com.example.alexmao.projetfinal.BDDExterne.OnTemporaryEvents;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
+import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.R;
+import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -24,18 +27,18 @@ import java.util.Map;
 
 public class Accueil extends Activity {
 
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accueil);
-        UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
-        utilisateurBDD.open();
-        GroupeBDD groupeBDD = new GroupeBDD(this);
-        groupeBDD.open();
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-
-    }*/
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_accueil);
+//        UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
+//        utilisateurBDD.open();
+//        GroupeBDD groupeBDD = new GroupeBDD(this);
+//        groupeBDD.open();
+//        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+//        setSupportActionBar(myToolbar);
+//
+//    }
 
     //méthode pour la création du menu, dans notre cas les éléments de la tab bar
 //    @Override
@@ -154,7 +157,7 @@ public class Accueil extends Activity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private RemoteBD remoteBD;
-
+    private Utilisateur utilisateurConnecte;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,9 +177,10 @@ public class Accueil extends Activity {
         String[] myDataset = {"test"};
         mAdapter = new AdapterEvenement(myDataset);
         mRecyclerView.setAdapter(mAdapter);
-
+        UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
+        utilisateurConnecte = utilisateurBDD.obtenirProfil();
         remoteBD = new FireBaseBD(this);
-        String userID = "TODO initialiser l'userID";
+        String userID = utilisateurConnecte.getIdFirebase();//"TODO initialiser l'userID";
         FetchFullDataFromEBDD.fetchallGroups(userID, remoteBD, new OnGroupsReady() {
             @Override
             public void onGroupsReady(List<FullGroupWrapper> groupWrappers) {

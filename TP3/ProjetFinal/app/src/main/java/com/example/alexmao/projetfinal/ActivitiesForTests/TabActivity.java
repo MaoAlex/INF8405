@@ -67,6 +67,7 @@ public class TabActivity extends FragmentActivity implements ActionBar.TabListen
         //On attache l'adapter et les listener pour l'ecoute des swipes entre les parties
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mAppSectionsPagerAdapter);
+        //TabLayout tabLayout = (TabLayout)findViewyId(R.id.tabs);
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {

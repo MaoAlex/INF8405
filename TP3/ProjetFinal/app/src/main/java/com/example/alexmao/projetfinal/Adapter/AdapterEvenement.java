@@ -1,4 +1,4 @@
-package com.example.alexmao.projetfinal.Activites;
+package com.example.alexmao.projetfinal.Adapter;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;

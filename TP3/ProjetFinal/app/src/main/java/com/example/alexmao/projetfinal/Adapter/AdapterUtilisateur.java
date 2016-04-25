@@ -1,4 +1,4 @@
-package com.example.alexmao.projetfinal.Activites;
+package com.example.alexmao.projetfinal.Adapter;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +22,7 @@ public class AdapterUtilisateur extends RecyclerView.Adapter<AdapterUtilisateur.
 
     private List<Utilisateur> persons;
 
-    AdapterUtilisateur(List<Utilisateur> persons){
+    public AdapterUtilisateur(List<Utilisateur> persons){
         this.persons = persons;
         initializeData();
     }

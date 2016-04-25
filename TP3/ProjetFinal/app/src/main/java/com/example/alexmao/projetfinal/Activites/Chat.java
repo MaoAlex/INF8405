@@ -20,7 +20,6 @@ import com.example.alexmao.projetfinal.BDDExterne.ConversationEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.MessageEBDD;
-import com.example.alexmao.projetfinal.BDDExterne.OnMessageReceiveCallback;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.BDDInterne.GroupeBDD;
 import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
@@ -124,13 +123,13 @@ public class Chat extends CustomActivity
         //Creation du Handler
 		handler = new Handler();
         //On met en place le listerner qui nous permet d'etre notifie d'un nouveau message
-        remoteBD.listenToConversation(discussionID, currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
-            @Override
-            public void onNewMessage(MessageEBDD messageEBDD) {
-                Log.d("chat","notification de nouveau message");
-                onNewMsg(messageEBDD);
-            }
-        });
+//        remoteBD.listenToConversation(discussionID, currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
+//            @Override
+//            public void onNewMessage(MessageEBDD messageEBDD) {
+//                Log.d("chat","notification de nouveau message");
+//                onNewMsg(messageEBDD);
+//            }
+//        });
 	}
 
 	@Override
@@ -200,7 +199,7 @@ public class Chat extends CustomActivity
         else
             m.setStatus(Convers.STATUS_FAILED);
         adp.notifyDataSetChanged();
-        remoteBD.notifyUserForMsg(testLocalUserProfil.getDataBaseId(), conversation, discussionID);
+//        remoteBD.notifyUserForMsg(testLocalUserProfil.getDataBaseId(), conversation, discussionID);
         //onSendMsg(s);
 	}
 
@@ -359,7 +358,7 @@ public class Chat extends CustomActivity
         String msgID = remoteBD.addMsgToDiscussion(discussionID, conversation);
 
         adp.notifyDataSetChanged();
-        remoteBD.notifyUserForMsg(testLocalUserProfil.getDataBaseId(), conversation, discussionID);
+//        remoteBD.notifyUserForMsg(testLocalUserProfil.getDataBaseId(), conversation, discussionID);
     }
 
     //Fonction permettant la mise à jour du nouveau message reçu

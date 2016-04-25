@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.alexmao.projetfinal.Adapter.AdapterUtilisateur;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
