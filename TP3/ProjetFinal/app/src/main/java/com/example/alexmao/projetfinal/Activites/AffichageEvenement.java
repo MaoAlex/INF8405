@@ -19,7 +19,7 @@ public class AffichageEvenement extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private String[] myDataset = {"Elem1", "Elem2", "Elem3", "Elem4", "Elem5", "Elem6", "Elem7", "Elem8", "Elem9", "Elem10"};
+    private String[] myDataset = {"Elem1"};//}, "Elem2", "Elem3", "Elem4", "Elem5", "Elem6", "Elem7", "Elem8", "Elem9", "Elem10"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
