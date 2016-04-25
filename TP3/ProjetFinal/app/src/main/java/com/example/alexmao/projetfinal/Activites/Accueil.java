@@ -158,6 +158,7 @@ public class Accueil extends Activity {
     private RecyclerView.LayoutManager mLayoutManager;
     private RemoteBD remoteBD;
     private Utilisateur utilisateurConnecte;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
