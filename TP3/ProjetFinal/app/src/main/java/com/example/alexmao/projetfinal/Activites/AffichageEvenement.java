@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
-
 import com.example.alexmao.projetfinal.Adapter.AdapterEvenement;
 import com.example.alexmao.projetfinal.R;
 
@@ -21,11 +20,13 @@ public class AffichageEvenement extends Activity {
     private RecyclerView.LayoutManager mLayoutManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String[] myDataset;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.coordinator_layout);
 
         Toolbar toolbar =   (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
+        //setActionBar(toolbar);
 
         ViewCompat.setTransitionName(findViewById(R.id.appBarLayout), "Name");
 
@@ -40,7 +41,7 @@ public class AffichageEvenement extends Activity {
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-
+        myDataset = null;//"test"};
         mAdapter = new AdapterEvenement(myDataset);
         mRecyclerView.setAdapter(mAdapter);
     }

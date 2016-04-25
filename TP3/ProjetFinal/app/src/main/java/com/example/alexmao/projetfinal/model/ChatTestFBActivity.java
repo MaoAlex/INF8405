@@ -12,7 +12,6 @@ import com.example.alexmao.projetfinal.BDDExterne.ConversationEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.MessageEBDD;
-import com.example.alexmao.projetfinal.BDDExterne.OnMessageReceiveCallback;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.R;
 
@@ -59,12 +58,12 @@ public class ChatTestFBActivity extends Activity {
         });
 
         //when a new message arrived, we call onNewMsg
-        remoteBD.listenToConversation(discussionID, currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
-            @Override
-            public void onNewMessage(MessageEBDD message) {
-                onNewMsg(message);
-            }
-        });
+//        remoteBD.listenToConversation(discussionID, currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
+//            @Override
+//            public void onNewMessage(MessageEBDD message) {
+//                onNewMsg(message);
+//            }
+//        });
     }
 
     //called whe nthe user when to send a message
@@ -78,7 +77,7 @@ public class ChatTestFBActivity extends Activity {
         conversation.setMessage(content);
         //id firebase
         String msgID = remoteBD.addMsgToDiscussion(discussionID, conversation);
-        remoteBD.notifyUserForMsg(testLocalUserProfil.getDataBaseId(), conversation, discussionID);
+//        remoteBD.notifyUserForMsg(testLocalUserProfil.getDataBaseId(), conversation, discussionID);
     }
 
     //Called when the current user recieved a new message

@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -49,8 +50,12 @@ public class MainActivity extends AppCompatActivity {
     private static final int PROJECTION_END_INDEX = 3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calendrier);
+        Toolbar toolbar =   (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         Button button = (Button) findViewById(R.id.querybut);
         // Run query
