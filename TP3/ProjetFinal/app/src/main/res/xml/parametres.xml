@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:key="rayon"
+        android:title="@string/rayon"
+        android:inputType="number"
+        android:summary="@string/rayon_summary">
+    </EditTextPreference>
+    <SwitchPreference
+        android:key="localisation"
+        android:title="@string/localisation"
+        android:summary="@string/localisation_summary">
+    </SwitchPreference>
+    <SwitchPreference
+        android:key="masquerNom"
+        android:title="@string/masquerNom"
+        android:summary="@string/masquerNom_summary">
+    </SwitchPreference>
+</PreferenceScreen>

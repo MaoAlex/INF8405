@@ -29,6 +29,14 @@
     <string name="mdp_incorrect">Mot de passe incorrect !</string>
     <string name="err_mdp">Mot de passe différent</string>
 
+    <!-- Partie parametres -->
+    <string name="rayon">Rayon de recherche (m)</string>
+    <string name="rayon_summary"> <![CDATA[Le rayon dans lequel vous voulez effectuer la recherche d\'évènements, en mètres.<br/>
+    Actuellement : <b>%1$s</b> m.]]></string>
+    <string name="localisation">Activer la localisation</string>
+    <string name="localisation_summary">Vous permet de choisir si vous souhaitez être localisé pour permettre des recherches dans les environs.</string>
+    <string name="masquerNom">Masquer votre nom</string>
+    <string name="masquerNom_summary">Vous permet de masquer votre nom dans les événements et la messagerie. Les autres utilisateurs ne verront que la première lettre de votre nom</string>
 
 
     <!--partie pour le menu-->
