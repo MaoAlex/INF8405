@@ -21,6 +21,22 @@ import java.util.Date;
  */
 public class FromEBDDToLocalClassTranslator {
 
+    public static Utilisateur utilisateurFromEBDD(LocalUserProfilEBDD userProfil) {
+        Utilisateur localClass = new Utilisateur();
+
+        localClass.setIdFirebase(userProfil.getDataBaseId());
+        localClass.setDateNaissance(userProfil.getDateBirth());
+        localClass.setMail(userProfil.getMailAdr());
+        localClass.setNom(userProfil.getLastName());
+        localClass.setPrenom(userProfil.getFirstName());
+        localClass.setListeConnexion(userProfil.getListeConnexion());
+        localClass.setListeInteretsID(userProfil.getListeInteretsID());
+        localClass.setSports(userProfil.getSports());
+        localClass.setPhoto(null);
+
+        return localClass;
+    }
+
     public static Evenement translateEvent(MyLocalEventEBDD myLocalEvent) {
         //Par exemple dans cette fonction il faudrait convertir organisateur ID en une classe
         //possible en SQL?
