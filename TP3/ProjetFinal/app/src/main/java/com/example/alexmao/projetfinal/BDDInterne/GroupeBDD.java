@@ -72,6 +72,8 @@ public class GroupeBDD extends AbstractBDD {
 
         Groupe groupe = new Groupe();
 
+
+
         //requete pour récupérer la groupe associée à une conversation
         String query = "SELECT *"
                 + " FROM "
@@ -87,8 +89,11 @@ public class GroupeBDD extends AbstractBDD {
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!A completer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         groupe.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
         groupe.setConversation(conversation);
+        groupe.setListeMembre(UtilisateurBDD.obtenirUtilisateurs(c.getInt(NUM_COL_ID)));
         //groupe.setListeMembre();
         c.close();
         return groupe;
     }
+
+
 }

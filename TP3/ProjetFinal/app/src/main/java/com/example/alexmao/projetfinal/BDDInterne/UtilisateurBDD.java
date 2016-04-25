@@ -30,6 +30,7 @@ public class UtilisateurBDD extends AbstractBDD {
     private static final int NUM_COL_LATITUDE = 6;
     private static final int NUM_COL_LONGITUDE = 7;
     private static final int NUM_COL_ID_FIREBASE = 8;
+    private static final int NUM_COL_ID_UTILISATEUR= 1;
 
     public UtilisateurBDD(Context pContext) {
         super(pContext);
@@ -102,7 +103,7 @@ public class UtilisateurBDD extends AbstractBDD {
         return cursorToUtilisateur(c);
     }
     //Cette méthode permet de convertir un cursor en un utilisateur
-    private Utilisateur cursorToUtilisateur(Cursor c){
+    public static Utilisateur cursorToUtilisateur(Cursor c){
 
         //si aucun élément n'a été retourné dans la requéte, on renvoie null
         if (c.getCount() == 0)
@@ -202,6 +203,34 @@ public class UtilisateurBDD extends AbstractBDD {
             listeUtilisateur.add(utilisateur);
 
         }
+        c.close();
+        return listeUtilisateur;
+    }
+
+    //méthode permettant de récupérer tous les utilisateurs stockés dans la table utilisateur
+    public static ArrayList<Utilisateur> obtenirUtilisateurs(int groupeID) {
+        ArrayList<Utilisateur> listeUtilisateur = new ArrayList<>();
+        ArrayList<Integer> listId = new ArrayList<>();
+        String query = "SELECT *"
+                + " FROM "
+                + Table.GROUPE_UTILISATEUR + " WHERE " + Colonne.ID_GROUPE + " = " + groupeID;
+
+        Cursor c = database_.rawQuery(query, null);
+
+        while (c.moveToNext()) {
+            //on l'ajoute l'id à la liste
+            listId.add(c.getInt(NUM_COL_ID_UTILISATEUR));
+        }
+        for (int i = 0; i< listId.size(); i++){
+            query = "SELECT *"
+                    + " FROM "
+                    + Table.UTILISATEUR + " WHERE " + Colonne.ID_UTILISATEUR + " = " + listId.get(i);
+            Log.d("query", query);
+            c = database_.rawQuery(query, null);
+            Utilisateur utilisateurTemp = cursorToUtilisateur(c);
+            listeUtilisateur.add(utilisateurTemp);
+        }
+
         c.close();
         return listeUtilisateur;
     }

@@ -22,6 +22,7 @@ import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.MessageEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.OnMessageReceiveCallback;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
+import com.example.alexmao.projetfinal.BDDInterne.GroupeBDD;
 import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Conversation;
@@ -66,25 +67,21 @@ public class Chat extends CustomActivity
     private LocalUserProfilEBDD testLocalUserProfil;
     private ConversationEBDD discussion;
     private String discussionID;
-	/* (non-Javadoc)
-	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
-	 */
+    private ArrayList<Utilisateur> listeUtilisateur;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.chat);
-        utilisateurConnecte = new Utilisateur();
-        utilisateurConnecte.setNom("TEST");
-        conversation = new Conversation();
-        conversation.setNomConversation("text");
-        conversation.setListeMessage(new ArrayList<Message>());
-        convList = new ArrayList<Convers>();
+        UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
+        utilisateurBDD.open();
+        utilisateurConnecte = utilisateurBDD.obtenirProfil();
+
 		ListView list = (ListView) findViewById(R.id.list);
 		adp = new ChatAdapter();
 		list.setAdapter(adp);
 		list.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-
         //mise en place de la file de messages
 		list.setStackFromBottom(true);
         //Mise en place de la zone de saisie
@@ -93,14 +90,12 @@ public class Chat extends CustomActivity
                 | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         //Mise en place du bouton d'envoie
 		setTouchNClick(R.id.btnSend);
-
         //Recuperation du nom du groupe ou plutot du destinataire
 		buddy = getIntent().getStringExtra(Const.EXTRA_DATA);
         //Mise en place d'un nom quelconque
         buddy = "E T";
         //On met comme titre le nom du destinataire
 		//getActionBar().setTitle(buddy);
-
         remoteBD = new FireBaseBD(this);
         /*currentUserFirebase = new LocalUserProfilEBDD("premier", "compte", "fifi@filou.com");
         Log.d("chat", "ici");
@@ -109,44 +104,23 @@ public class Chat extends CustomActivity
         testLocalUserProfil = new LocalUserProfilEBDD("deuxieme", "compte", "test@test.com");
         String idTest = remoteBD.addUserProfil(testLocalUserProfil);
         testLocalUserProfil.setDataBaseId(idTest);*/
-        currentUserFirebase = new LocalUserProfilEBDD("premier", "compte", "fifi@filou.com");
-        String id = remoteBD.addUserProfil(currentUserFirebase);
-        currentUserFirebase.setDataBaseId(id);
-        testLocalUserProfil = new LocalUserProfilEBDD("deuxieme", "compte", "test@test.com");
-        String idTest = remoteBD.addUserProfil(testLocalUserProfil);
-        testLocalUserProfil.setDataBaseId(idTest);
+//        currentUserFirebase = new LocalUserProfilEBDD("premier", "compte", "fifi@filou.com");
+//        String id = remoteBD.addUserProfil(currentUserFirebase);
+//        currentUserFirebase.setDataBaseId(id);
+//        testLocalUserProfil = new LocalUserProfilEBDD("deuxieme", "compte", "test@test.com");
+//        String idTest = remoteBD.addUserProfil(testLocalUserProfil);
+//        testLocalUserProfil.setDataBaseId(idTest);
+		if (discussionID == null) {
+            discussion = new ConversationEBDD();
+            discussionID = remoteBD.addDiscussion(discussion);
+        }
+        GroupeBDD groupeBDD = new GroupeBDD(this);
+        groupeBDD.open();
+		groupe = groupeBDD.obtenirGroupe(conversation);
 
-
-        discussion = new ConversationEBDD();
-        discussionID = remoteBD.addDiscussion(discussion);
-
-		/*GroupeBDD groupeBDD = new GroupeBDD(this);
-		groupeBDD.open();
-		groupe = new Groupe();*/
         //Partie non encore utilisée
         //partie BDD interne
-        groupe = new Groupe();
-        ArrayList<Utilisateur> listeUtilisateur = new ArrayList<>();
-        Utilisateur u1 = new Utilisateur();
-        u1.setNom("nom");
-        u1.setPrenom("prenom");
-        u1.setDateNaissance(null);
-        ArrayList<String> listeSport = new ArrayList<>();
-        listeSport.add("Footba");
-        u1.setSports(listeSport);
-        u1.setPhoto(null);
-
-/*      private double latitude;
-        private double longitude;
-        private List<Utilisateur> listeConnexion;
-        private List<Integer> listeInterets;
-        private List<Integer> listeParticipations;
-        private String idFirebase;
-        private int idBDD;
-        private ParametresUtilisateur parametres;*/
-        groupe.setListeMembre(new ArrayList<Utilisateur>());
-        groupe.getListeMembre().add(u1);
-//        groupe.getListeMembre();
+        listeUtilisateur = (ArrayList) groupe.getListeMembre();
         //Creation du Handler
 		handler = new Handler();
         //On met en place le listerner qui nous permet d'etre notifie d'un nouveau message
@@ -159,9 +133,6 @@ public class Chat extends CustomActivity
         });
 	}
 
-	/* (non-Javadoc)
-	 * @see android.support.v4.app.FragmentActivity#onResume()
-	 */
 	@Override
 	protected void onResume()
 	{
@@ -171,9 +142,6 @@ public class Chat extends CustomActivity
 		loadConversationList();
 	}
 
-	/* (non-Javadoc)
-	 * @see android.support.v4.app.FragmentActivity#onPause()
-	 */
 	@Override
 	protected void onPause()
 	{
@@ -181,9 +149,6 @@ public class Chat extends CustomActivity
 		isRunning = false;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.socialshare.custom.CustomFragment#onClick(android.view.View)
-	 */
 	@Override
 	public void onClick(View v)
 	{
@@ -197,9 +162,6 @@ public class Chat extends CustomActivity
 	}
 
 	/**
-	 * Call this method to Send message to opponent. It does nothing if the text
-	 * is empty otherwise it creates a Parse object for Chat message and send it
-	 * to Parse server.
      * Fonction permettant l'envoi du message au destinataire.
      * Si le texte est vide l'envoi n'est pas fait, sinon on l'envoie
 	 */
@@ -209,7 +171,6 @@ public class Chat extends CustomActivity
         //cas où l'utilisateur n'a rien rentré
 		if (txt.length() == 0)
 			return;
-
         //Recuperation du message
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(txt.getWindowToken(), 0);
@@ -257,9 +218,6 @@ public class Chat extends CustomActivity
 				onDiscussionReceived(conversationEBDD);
 			}
 		});*/
-
-
-
         /*remoteBD.listenToConversation(discussionID, currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
             @Override
             public void onNewMessage(MessageEBDD message) {
@@ -325,36 +283,24 @@ public class Chat extends CustomActivity
 	private class ChatAdapter extends BaseAdapter
 	{
 
-		/* (non-Javadoc)
-		 * @see android.widget.Adapter#getCount()
-		 */
 		@Override
 		public int getCount()
 		{
 			return conversation.getListeMessage().size();
 		}
 
-		/* (non-Javadoc)
-		 * @see android.widget.Adapter#getItem(int)
-		 */
 		@Override
 		public Message getItem(int arg0)
 		{
 			return conversation.getListeMessage().get(arg0);
 		}
 
-		/* (non-Javadoc)
-		 * @see android.widget.Adapter#getItemId(int)
-		 */
 		@Override
 		public long getItemId(int arg0)
 		{
 			return arg0;
 		}
 
-		/* (non-Javadoc)
-		 * @see android.widget.Adapter#getView(int, android.view.View, android.view.ViewGroup)
-		 */
 		@Override
 		public View getView(int pos, View v, ViewGroup arg2)
 		{
@@ -390,9 +336,6 @@ public class Chat extends CustomActivity
 
 	}
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
-	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
