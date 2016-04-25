@@ -179,6 +179,7 @@ public class Accueil extends Activity {
         mAdapter = new AdapterEvenement(myDataset);
         mRecyclerView.setAdapter(mAdapter);
         UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
+        utilisateurBDD.open();
         utilisateurConnecte = utilisateurBDD.obtenirProfil();
         remoteBD = new FireBaseBD(this);
         String userID = utilisateurConnecte.getIdFirebase();//"TODO initialiser l'userID";
@@ -203,6 +204,7 @@ public class Accueil extends Activity {
             }
         });
         remoteBD.listenToNotification(userID, typesToAction);
+        utilisateurBDD.close();
     }
 
     private void onGroup(List<FullGroupWrapper> groupWrappers) {

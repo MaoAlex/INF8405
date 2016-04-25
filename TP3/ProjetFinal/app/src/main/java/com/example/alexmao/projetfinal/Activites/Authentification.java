@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
-import com.example.alexmao.projetfinal.BDDExterne.FromEBDDToLocalClassTranslator;
 import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.OnStringReceived;
 import com.example.alexmao.projetfinal.BDDExterne.OnUserParamReceived;
@@ -131,7 +130,7 @@ public class Authentification extends CustomActivity
         remoteBD.getUserParam(localUserProfilEBDD.getDataBaseId(), new OnUserParamReceived() {
             @Override
             public void onUserParamReceived(UserParamsEBDD userParamsEBDD) {
-                parametres = FromEBDDToLocalClassTranslator.translateUserParam(userParamsEBDD);
+           //     parametres = FromEBDDToLocalClassTranslator.translateUserParam(userParamsEBDD);
             }
         });
 
