@@ -5,7 +5,22 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.alexmao.projetfinal.BDDExterne.FetchFullDataFromEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
+import com.example.alexmao.projetfinal.BDDExterne.FullGroupWrapper;
+import com.example.alexmao.projetfinal.BDDExterne.MyEventEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.NotificationBDD;
+import com.example.alexmao.projetfinal.BDDExterne.NotificationTypes;
+import com.example.alexmao.projetfinal.BDDExterne.OnGroupsReady;
+import com.example.alexmao.projetfinal.BDDExterne.OnNotificationReceived;
+import com.example.alexmao.projetfinal.BDDExterne.OnTemporaryEvents;
+import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.R;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Accueil extends Activity {
 
@@ -138,10 +153,12 @@ public class Accueil extends Activity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private RemoteBD remoteBD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //TODO passer l'ID firebase de l'utilisateur dans l'INTENT
         setContentView(R.layout.activity_accueil);
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
@@ -157,7 +174,58 @@ public class Accueil extends Activity {
         String[] myDataset = {"test"};
         mAdapter = new AdapterEvenement(myDataset);
         mRecyclerView.setAdapter(mAdapter);
+
+        remoteBD = new FireBaseBD(this);
+        String userID = "TODO initialiser l'userID";
+        FetchFullDataFromEBDD.fetchallGroups(userID, remoteBD, new OnGroupsReady() {
+            @Override
+            public void onGroupsReady(List<FullGroupWrapper> groupWrappers) {
+                onGroup(groupWrappers);
+            }
+        });
+        //Partie écoute notification
+        Map<String, OnNotificationReceived> typesToAction = new HashMap<>();
+        typesToAction.put(NotificationTypes.conctactInvitation, new OnNotificationReceived() {
+            @Override
+            public void onNotificationReceived(NotificationBDD notificationBDD) {
+                onContactInvitation(notificationBDD);
+            }
+        });
+        typesToAction.put(NotificationTypes.eventInvitation, new OnNotificationReceived() {
+            @Override
+            public void onNotificationReceived(NotificationBDD notificationBDD) {
+                onEventInvitation(notificationBDD);
+            }
+        });
+        remoteBD.listenToNotification(userID, typesToAction);
     }
 
+    private void onGroup(List<FullGroupWrapper> groupWrappers) {
+        //faire quelque chose Stocker,
+        for (FullGroupWrapper groupWrapper : groupWrappers) {
+            groupWrapper.getConversationEBDD();
+            groupWrapper.getFullUserWrappers();
+            groupWrapper.getMyLocalEventEBDD();
+        }
 
+        //récupération de tous les événements temporaires
+        remoteBD.getTemporaryEvent(new Date().getTime(), new OnTemporaryEvents() {
+            @Override
+            public void onTemporaryEvents(List<MyEventEBDD> eventEBDDs) {
+                onTemporaryEventReceived(eventEBDDs);
+            }
+        });
+    }
+
+    private void onContactInvitation(NotificationBDD notificationBDD) {
+        //TODO faire quelque chose (invitation connexion)
+    }
+
+    private void onEventInvitation(NotificationBDD notificationBDD) {
+        //TODO faire quelque chose (invitation pour un evenement)
+    }
+
+    private void onTemporaryEventReceived(List<MyEventEBDD> eventEBDDs) {
+        //TODO faire quekque chose, ajouter dans la BD Interne, trier etc
+    }
 }

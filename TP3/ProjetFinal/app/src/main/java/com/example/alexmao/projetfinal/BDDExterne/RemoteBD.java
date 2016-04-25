@@ -63,6 +63,8 @@ public interface RemoteBD {
 
     void getDiscussion(String discussionID, OnConversationReceived onConversationRecievedCallback);
 
+    void updateDiscussion(String discussionID, ConversationEBDD conversationEBDD);
+
     void updateTimeLastChange(String userID, long timeMIlli);
 
     void getTimeLastChange(String userID, OnTimeReceived timeCallback);
@@ -70,22 +72,35 @@ public interface RemoteBD {
     String addMsgToDiscussion(String discussionID, MessageEBDD message);
 
     //envoie un message à un utilisateur
-    String notifyUserForMsg(String userID, MessageEBDD message, String conversationID);
+    String notifyUserForMsg(String userID, MessageEBDD message);
 
     String addMsgAndNotify(String localUserID, MessageEBDD message, String conversationID,
                            MyGroupEBDD receivers);
 
     //ajoute une callback appellée à chaque nouveau message
-    void listenToConversation(String conversationID, final String userBDID,
+    void listenToConversations(final String userBDID,
                               OnMessageReceiveCallback onMessageReceiveCallback);
 
+    //Ajoute un événement
     String addEvent(MyEventEBDD myEvent);
 
+    //Ajoute un event dans la section accessible par tous
+    //il faut avaoir d'abord appelé addEvent sinon le stockage ne sera pas définitif
+    void addEventToTemporary(String eventID);
+
+    void getTemporaryEvent(long date, OnTemporaryEvents callback);
+
     void getEvent(String eventID, OnEventReceived callback);
+
+    void getTimeLastChangeEvent(String eventID, final OnTimeReceived timeCallback);
+
+    void updateTimeLastChangeEvent(String eventID, long timeMillis);
 
     void addEventToGroup(String eventID, String groupID);
 
     void getEventFromGroup(String groupID, OnStringReceived onStringReceived);
+
+    void updateEvent(String eventID, MyEventEBDD myEventEBDD);
 
     void addUserParam(UserParamsEBDD userParamsEBDD, String userID);
 

@@ -57,4 +57,18 @@ public class FullGroupWrapper {
     public void setFullUserWrappers(List<FullUserWrapper> fullUserWrappers) {
         this.fullUserWrappers = fullUserWrappers;
     }
+
+    @Override
+    public String toString() {
+        String mToString = "FullGroupWrapper{" +
+                "conversationEBDD=" + conversationEBDD +
+                ", myLocalGroupEBDD=" + myLocalGroupEBDD +
+                ", myLocalEventEBDD=" + myLocalEventEBDD;
+        mToString += ", ";
+        for (FullUserWrapper fullUserWrapper: fullUserWrappers) {
+            mToString += fullUserWrapper.toString();
+        }
+        mToString += " }\n";
+        return mToString;
+    }
 }
