@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
+import com.example.alexmao.projetfinal.BDDExterne.FromEBDDToLocalClassTranslator;
 import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.OnStringReceived;
 import com.example.alexmao.projetfinal.BDDExterne.OnUserParamReceived;
@@ -17,6 +18,7 @@ import com.example.alexmao.projetfinal.BDDExterne.UserParamsEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.UtilisateurProfilEBDD;
 import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.R;
+import com.example.alexmao.projetfinal.classeApp.ParametresUtilisateur;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 import com.example.alexmao.projetfinal.custom.CustomActivity;
 import com.example.alexmao.projetfinal.utils.Utils;
@@ -125,10 +127,11 @@ public class Authentification extends CustomActivity
                 //On ne récupère que l'utilisateur pour le mettre dans la BDD interne
             }
         });
+        final ParametresUtilisateur parametres;
         remoteBD.getUserParam(localUserProfilEBDD.getDataBaseId(), new OnUserParamReceived() {
             @Override
             public void onUserParamReceived(UserParamsEBDD userParamsEBDD) {
-
+                parametres = FromEBDDToLocalClassTranslator.translateUserParam(userParamsEBDD);
             }
         });
 

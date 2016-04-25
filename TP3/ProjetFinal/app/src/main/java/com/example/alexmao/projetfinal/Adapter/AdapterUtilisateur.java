@@ -79,13 +79,13 @@ public class AdapterUtilisateur extends RecyclerView.Adapter<AdapterUtilisateur.
         u1.setNom("Jean Paul");
         GregorianCalendar test = new GregorianCalendar(1993, 02, 24);
         date = test.getTime();
-        u1.setDateNaissance(date);
+        u1.setDateNaissance(test.getTimeInMillis());
         Utilisateur u2 = new Utilisateur();
         u2.setNom("Poly Technique");
-        u2.setDateNaissance(date);
+        u2.setDateNaissance(test.getTimeInMillis());
         Utilisateur u3 = new Utilisateur();
         u3.setNom("Mont Real");
-        u3.setDateNaissance(date);
+        u3.setDateNaissance(test.getTimeInMillis());
         persons.add(u1);
         persons.add(u2);
         persons.add(u3);

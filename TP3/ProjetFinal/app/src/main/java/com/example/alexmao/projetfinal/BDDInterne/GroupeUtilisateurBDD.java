@@ -4,15 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 
 import com.example.alexmao.projetfinal.classeApp.Groupe;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by alexMAO on 04/04/2016.
@@ -114,14 +111,14 @@ public class GroupeUtilisateurBDD extends AbstractBDD {
             utilisateur.setNom(c.getString(NUM_COL_NOM));
             utilisateur.setPrenom(c.getString(NUM_COL_PRENOM));
             SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
-            Date date = new Date();
-            try {
-                date = formatDate.parse(c.getString(NUM_COL_DATE_NAISSANCE).toString());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            Log.i(TAG, "Date: " + formatDate.format(date));
-            utilisateur.setDateNaissance(date);
+//            Date date = new Date();
+//            try {
+//                date = formatDate.parse(c.getString(NUM_COL_DATE_NAISSANCE).toString());
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            Log.i(TAG, "Date: " + formatDate.format(date));
+            utilisateur.setDateNaissance(c.getLong(NUM_COL_DATE_NAISSANCE));
             utilisateur.setMail(c.getString(NUM_COL_MAIL));
             if(c.getString(NUM_COL_PHOTO)!=""||c.getString(NUM_COL_PHOTO)!=null)
                 utilisateur.setPhoto(Uri.parse(c.getString(NUM_COL_PHOTO)));
