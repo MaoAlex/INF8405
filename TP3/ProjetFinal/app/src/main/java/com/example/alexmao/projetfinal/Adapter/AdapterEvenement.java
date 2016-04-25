@@ -105,10 +105,10 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
 
         Utilisateur u2 = new Utilisateur();
         u2.setNom("Poly Technique");
-        u2.setDateNaissance(date);
+        u2.setDateNaissance(test.getTimeInMillis());
         Utilisateur u3 = new Utilisateur();
         u3.setNom("Mont Real");
-        u3.setDateNaissance(date);
+        u3.setDateNaissance(test.getTimeInMillis());
         g.getListeMembre().add(u2);
         g.getListeMembre().add(u3);
         evenement.setGroupeAssocie(g);
