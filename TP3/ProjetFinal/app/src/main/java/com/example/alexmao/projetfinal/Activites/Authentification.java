@@ -8,9 +8,16 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
+import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.OnStringReceived;
+import com.example.alexmao.projetfinal.BDDExterne.OnUserParamReceived;
+import com.example.alexmao.projetfinal.BDDExterne.OnUserProfilReceived;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
+import com.example.alexmao.projetfinal.BDDExterne.UserParamsEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.UtilisateurProfilEBDD;
+import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.R;
+import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 import com.example.alexmao.projetfinal.custom.CustomActivity;
 import com.example.alexmao.projetfinal.utils.Utils;
 
@@ -63,10 +70,10 @@ public class Authentification extends CustomActivity
 		else
 		{//Cas du bouton Authentification
 
-			String u = mail.getText().toString();
+			final String email = mail.getText().toString();
 			final String p = motDePasse.getText().toString();
             //On vérifie que les champs ont bien été remplis
-            if (u.length() == 0 || p.length() == 0)
+            if (email.length() == 0 || p.length() == 0)
 			{
 				Utils.showDialog(this, R.string.err_fields_empty);
 				return;
@@ -75,13 +82,13 @@ public class Authentification extends CustomActivity
 			final ProgressDialog dia = ProgressDialog.show(this, null,
 					getString(R.string.alert_wait));
 		    //On va chercher le mot de passe sur le serveur externe
-            remoteBD.getMdp(u, new OnStringReceived() {
+            remoteBD.getMdp(email, new OnStringReceived() {
                 @Override
                 public void onStringReceived(String s) {
                     dia.dismiss();
                     //on vérifie que le mot de passe est bien celui associé à ce mail
                     if (s != null && s.equals(p)){
-
+                        //connexionReussi(email);
                         startActivity(new Intent(Authentification.this, ChatList.class));
                         finish();
                     } else {//Sinon on l'annonce à l'utilisateur
@@ -104,5 +111,32 @@ public class Authentification extends CustomActivity
 		if (requestCode == 10 && resultCode == RESULT_OK)
 			finish();
 
+	}
+
+    //fonction permettant de récupérer l'utilisateur depuis la BDD externe
+    //Une fois fois l'authentification réussi, insère l'utilisateur dans la BDD interne
+	private void connexionReussi(String mail){
+		Utilisateur utilisateur;
+        LocalUserProfilEBDD localUserProfilEBDD = new LocalUserProfilEBDD();
+		remoteBD.getUserProfilFromMail(mail, localUserProfilEBDD, new OnUserProfilReceived() {
+            @Override
+            public void onUserProfilReceived(UtilisateurProfilEBDD userProfilEBDD) {
+                //On n'a pas besoin de faire quelque chose ici
+                //On ne récupère que l'utilisateur pour le mettre dans la BDD interne
+            }
+        });
+        remoteBD.getUserParam(localUserProfilEBDD.getDataBaseId(), new OnUserParamReceived() {
+            @Override
+            public void onUserParamReceived(UserParamsEBDD userParamsEBDD) {
+
+            }
+        });
+
+        //utilisateur = new FromEBDDToLocalClassTranslator(localUserProfilEBDD, );
+		UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
+        utilisateurBDD.open();
+        //utilisateurBDD.insererUtilisateur(utilisateur);
+        utilisateurBDD.close();
+        
 	}
 }

@@ -22,7 +22,7 @@ import java.util.Date;
 public class FromEBDDToLocalClassTranslator {
 
     public static Evenement translateEvent(MyLocalEventEBDD myLocalEvent) {
-        //Par exemple dans cette fonctions il faudrait convertir organisateur ID en une classe
+        //Par exemple dans cette fonction il faudrait convertir organisateur ID en une classe
         //possible en SQL?
         Evenement localClass = new Evenement();
         localClass.setDate(new Date(myLocalEvent.getDate()));
@@ -36,16 +36,22 @@ public class FromEBDDToLocalClassTranslator {
         return localClass;
     }
 
-    public static Utilisateur translateUserProfil(LocalUserProfilEBDD userProfil, Position position) {
+    //Création d'un utilisateur à partir de la BDD externe
+    public static Utilisateur translateUserProfil(LocalUserProfilEBDD userProfil, Position position, String idFirebase, ParametresUtilisateur parametresUtilisateur) {
         Utilisateur localClass = new Utilisateur();
         localClass.setLatitude(position.getLatitude());
         localClass.setLongitude(position.getLongitude());
         localClass.setIdFirebase(userProfil.getDataBaseId());
-        localClass.setDateNaissance(new Date(userProfil.getDateBirth()));
+        localClass.setDateNaissance(userProfil.getDateBirth());
         localClass.setMail(userProfil.getMailAdr());
         localClass.setNom(userProfil.getLastName());
         localClass.setPrenom(userProfil.getFirstName());
-
+        localClass.setIdFirebase(idFirebase);
+        localClass.setParametres(parametresUtilisateur);
+        localClass.setListeConnexion(userProfil.getListeConnexion());
+        localClass.setListeInteretsID(userProfil.getListeInteretsID());
+        localClass.setSports(userProfil.getSports());
+        localClass.setPhoto(null);
         return localClass;
     }
 

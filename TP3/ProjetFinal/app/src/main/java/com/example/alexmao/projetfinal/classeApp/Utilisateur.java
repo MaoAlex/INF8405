@@ -5,7 +5,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,13 +13,13 @@ import java.util.List;
 public class Utilisateur implements Parcelable {
     private String nom;
     private String prenom;
-    private Date dateNaissance;
+    private long dateNaissance;
     private String mail;
     private List<String> sports;
     private Uri photo;
     private double latitude;
     private double longitude;
-    private List<Utilisateur> listeConnexion;
+    private List<String> listeConnexion;
     private List<String> listeInteretsID;
     private List<String> listeParticipationsID;
     private String idFirebase;
@@ -28,14 +27,29 @@ public class Utilisateur implements Parcelable {
     private ParametresUtilisateur parametres;
 
     public Utilisateur() {
-        this.listeConnexion = new ArrayList<Utilisateur>();
+        this.listeConnexion = new ArrayList<String>();
         this.sports = new ArrayList<String>();
     }
+
+//    public Utilisateur(UtilisateurProfilEBDD utilisateurProfilEBDD, String idFirebase) {
+//        this.nom = utilisateurProfilEBDD.getLastName();
+//        this.prenom = utilisateurProfilEBDD.getFirstName();
+//        GregorianCalendar gregorianCalendar = new GregorianCalendar();
+//        gregorianCalendar.setTimeInMillis(utilisateurProfilEBDD.getDateBirth());
+//        this.dateNaissance = utilisateurProfilEBDD.getDateBirth(); //gregorianCalendar.getTime();
+//        this.mail = utilisateurProfilEBDD.getMailAdr();
+//        this.sports = utilisateurProfilEBDD.getSports();
+//        this.listeConnexion = utilisateurProfilEBDD.getListeConnexion();
+//        this.listeParticipationsID = utilisateurProfilEBDD.getListeParticipationsID();
+//        this.listeInteretsID = utilisateurProfilEBDD.getListeConnexion();
+//        this.idFirebase = idFirebase;
+//
+//    }
 
     public Utilisateur(Parcel in) {
         nom = in.readString();
         prenom = in.readString();
-        dateNaissance = (Date) in.readSerializable();
+        dateNaissance = in.readLong();
         mail = in.readString();
         sports = in.readArrayList(String.class.getClassLoader());
         photo = in.readParcelable(Uri.class.getClassLoader());
@@ -65,11 +79,11 @@ public class Utilisateur implements Parcelable {
         this.prenom = prenom;
     }
 
-    public Date getDateNaissance() {
+    public long getDateNaissance() {
         return dateNaissance;
     }
 
-    public void setDateNaissance(Date dateNaissance) {
+    public void setDateNaissance(long dateNaissance) {
         this.dateNaissance = dateNaissance;
     }
 
@@ -113,11 +127,11 @@ public class Utilisateur implements Parcelable {
         this.longitude = longitude;
     }
 
-    public List<Utilisateur> getListeConnexion() {
+    public List<String> getListeConnexion() {
         return listeConnexion;
     }
 
-    public void setListeConnexion(List<Utilisateur> listeConnexion) {
+    public void setListeConnexion(List<String> listeConnexion) {
         this.listeConnexion = listeConnexion;
     }
 

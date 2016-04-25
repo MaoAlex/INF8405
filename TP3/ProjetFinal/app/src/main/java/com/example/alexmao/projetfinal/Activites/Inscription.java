@@ -7,11 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
-import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.OnBooleanReceived;
-import com.example.alexmao.projetfinal.BDDExterne.OnUserProfilReceived;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
-import com.example.alexmao.projetfinal.BDDExterne.UtilisateurProfilEBDD;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.custom.CustomActivity;
 import com.example.alexmao.projetfinal.utils.Utils;
@@ -83,6 +80,7 @@ public class Inscription extends CustomActivity
                     if (!profilExistant)
                         onProfilNonExistant(mail, mdp);
                 }
+
             });
         }
     }

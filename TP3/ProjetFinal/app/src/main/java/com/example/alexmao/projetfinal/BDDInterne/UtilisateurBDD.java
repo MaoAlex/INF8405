@@ -8,10 +8,8 @@ import android.util.Log;
 
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  *Classe permettant la manipulation des tables utilisateur et utilisateur connect�
@@ -45,7 +43,7 @@ public class UtilisateurBDD extends AbstractBDD {
         //on lui ajoute une valeur associée � une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
         values.put(Colonne.NOM, utilisateur.getNom());
         values.put(Colonne.PRENOM, utilisateur.getPrenom());
-        values.put(Colonne.DATE_NAISSANTE, utilisateur.getDateNaissance().toString());
+        values.put(Colonne.DATE_NAISSANTE, utilisateur.getDateNaissance());
         values.put(Colonne.MAIL, utilisateur.getMail());
         if(utilisateur.getPhoto()!=null)
             values.put(Colonne.PHOTO, utilisateur.getPhoto().toString());
@@ -68,7 +66,7 @@ public class UtilisateurBDD extends AbstractBDD {
         //on lui ajoute une valeur associée à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
         values.put(Colonne.NOM, utilisateur.getNom());
         values.put(Colonne.PRENOM, utilisateur.getPrenom());
-        values.put(Colonne.DATE_NAISSANTE, utilisateur.getDateNaissance().toString());
+        values.put(Colonne.DATE_NAISSANTE, utilisateur.getDateNaissance());
         values.put(Colonne.MAIL, utilisateur.getMail());
         if(utilisateur.getPhoto()!=null)
             values.put(Colonne.PHOTO, utilisateur.getPhoto().toString());
@@ -118,14 +116,14 @@ public class UtilisateurBDD extends AbstractBDD {
         utilisateur.setNom(c.getString(NUM_COL_NOM));
         utilisateur.setPrenom(c.getString(NUM_COL_PRENOM));
         SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = new Date();
+        /*Date date = new Date();
         try {
              date = formatDate.parse(c.getString(NUM_COL_DATE_NAISSANCE).toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Log.i(TAG, "Date: " + formatDate.format(date));
-        utilisateur.setDateNaissance(date);
+        Log.i(TAG, "Date: " + formatDate.format(date));*/
+        utilisateur.setDateNaissance(c.getLong(NUM_COL_DATE_NAISSANCE));
         utilisateur.setMail(c.getString(NUM_COL_MAIL));
         if(c.getString(NUM_COL_PHOTO)!=""||c.getString(NUM_COL_PHOTO)!=null)
             utilisateur.setPhoto(Uri.parse(c.getString(NUM_COL_PHOTO)));
@@ -183,15 +181,15 @@ public class UtilisateurBDD extends AbstractBDD {
             utilisateur.setIdBDD(c.getInt(NUM_COL_ID));
             utilisateur.setNom(c.getString(NUM_COL_NOM));
             utilisateur.setPrenom(c.getString(NUM_COL_PRENOM));
-            SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+            /*SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
             Date date = new Date();
             try {
                 date = formatDate.parse(c.getString(NUM_COL_DATE_NAISSANCE).toString());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            Log.i(TAG, "Date: " + formatDate.format(date));
-            utilisateur.setDateNaissance(date);
+            Log.i(TAG, "Date: " + formatDate.format(date));*/
+            utilisateur.setDateNaissance(c.getLong(NUM_COL_DATE_NAISSANCE));
             utilisateur.setMail(c.getString(NUM_COL_MAIL));
             if(c.getString(NUM_COL_PHOTO)!=""||c.getString(NUM_COL_PHOTO)!=null)
                 utilisateur.setPhoto(Uri.parse(c.getString(NUM_COL_PHOTO)));
@@ -243,7 +241,7 @@ public class UtilisateurBDD extends AbstractBDD {
         //on lui ajoute une valeur associée a une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
         values.put(Colonne.NOM, utilisateur.getNom());
         values.put(Colonne.PRENOM, utilisateur.getPrenom());
-        values.put(Colonne.DATE_NAISSANTE, utilisateur.getDateNaissance().toString());
+        values.put(Colonne.DATE_NAISSANTE, utilisateur.getDateNaissance());
         values.put(Colonne.MAIL, utilisateur.getMail());
         if(utilisateur.getPhoto()!=null)
             values.put(Colonne.PHOTO, utilisateur.getPhoto().toString());
@@ -267,7 +265,7 @@ public class UtilisateurBDD extends AbstractBDD {
 
     public Utilisateur obtenirProfil(){
         //Récupére dans un Cursor les valeurs correspondant é un utilisateur contenu dans la BDD (ici on sélectionne le utilisateur gréce é son nom)
-        Cursor c = database_.query(Table.UTILISATEUR_CONNECTE, null, null, null, null, null, null);
+            Cursor c = database_.query(Table.UTILISATEUR_CONNECTE, null, null, null, null, null, null);
         //Il est nécessaire de récupérer que la premiére ligne
         //Selon notre logique il ne peut y avoir qu'un utilisateur a la fois
         return cursorToUtilisateur(c);
@@ -288,7 +286,7 @@ public class UtilisateurBDD extends AbstractBDD {
                     + ", son nom est : " + cursor.getString(NUM_COL_NOM)
                     + ", son prenom est : " + cursor.getString(NUM_COL_PRENOM)
                     + ", son mail est : " + cursor.getString(NUM_COL_MAIL)
-                    + ", sa date de naissance est : " + cursor.getString(NUM_COL_DATE_NAISSANCE)
+                    + ", sa date de naissance est : " + cursor.getLong(NUM_COL_DATE_NAISSANCE)
                     + ", son photo est : " + cursor.getString(NUM_COL_PHOTO)
                     + ", son position est : (" + cursor.getDouble(NUM_COL_LATITUDE) + ", " + cursor.getDouble(NUM_COL_LONGITUDE)
                     + ", son id firebase est : " + cursor.getString(NUM_COL_ID_FIREBASE));
