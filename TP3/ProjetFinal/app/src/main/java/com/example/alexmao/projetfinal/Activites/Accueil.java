@@ -1,17 +1,25 @@
 package com.example.alexmao.projetfinal.Activites;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.alexmao.projetfinal.Adapter.AdapterEvenement;
 import com.example.alexmao.projetfinal.BDDExterne.FetchFullDataFromEBDD;
@@ -26,156 +34,42 @@ import com.example.alexmao.projetfinal.BDDExterne.OnTemporaryEvents;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.R;
+import com.example.alexmao.projetfinal.classeApp.Evenement;
+import com.example.alexmao.projetfinal.classeApp.Groupe;
 import com.example.alexmao.projetfinal.classeApp.ParametresUtilisateur;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Accueil extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_accueil);
-//        UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
-//        utilisateurBDD.open();
-//        GroupeBDD groupeBDD = new GroupeBDD(this);
-//        groupeBDD.open();
-//        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-//        setSupportActionBar(myToolbar);
-//
-//    }
 
-    //méthode pour la création du menu, dans notre cas les éléments de la tab bar
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu, menu);
-//        return true;
-//    }
-//
-//    //méthode permettant la gestion des actions en fonctions des boutons
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.menu_about:
-//                // Comportement du bouton "A Propos"
-//                return true;
-//            case R.id.menu_help:
-//                // Comportement du bouton "Aide"
-//                return true;
-//            case R.id.menu_refresh:
-//                // Comportement du bouton "Rafraichir"
-//                return true;
-//            case R.id.menu_search:
-//                // Comportement du bouton "Recherche"
-//                return true;
-//            case R.id.menu_settings:
-//                // Comportement du bouton "Paramètres"
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
-     * three primary sections of the app. We use a {@link android.support.v4.app.FragmentPagerAdapter}
-     * derivative, which will keep every loaded fragment in memory. If this becomes too memory
-     * intensive, it may be best to switch to a {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
+    public final static String SELECTED_TAB_EXTRA_KEY = "selectedTabIndex";
+    public final static int ACCUEIL_TAB = 0;
+    public final static int DECOUVERTES_TAB = 1;
+    public final static int PARTICIPATIONS_TAB = 2;
 
-    /*
-    // This is the Adapter being used to display the list's data
-    SimpleCursorAdapter mAdapter;
-
-    // These are the Contacts rows that we will retrieve
-    static final String[] PROJECTION = new String[] {ContactsContract.Data._ID,
-            ContactsContract.Data.DISPLAY_NAME};
-
-    // This is the select criteria
-    static final String SELECTION = "((" +
-            ContactsContract.Data.DISPLAY_NAME + " NOTNULL) AND (" +
-            ContactsContract.Data.DISPLAY_NAME + " != '' ))";
-
-    // Called when a new Loader needs to be created
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        // Now create and return a CursorLoader that will take care of
-        // creating a Cursor for the data being displayed.
-        return new CursorLoader(this, ContactsContract.Data.CONTENT_URI,
-                PROJECTION, SELECTION, null, null);
-    }
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // Create a progress bar to display while the list loads
-        ProgressBar progressBar = new ProgressBar(this);
-        progressBar.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
-        progressBar.setIndeterminate(true);
-        getListView().setEmptyView(progressBar);
-
-        // Must add the progress bar to the root of the layout
-        ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
-        root.addView(progressBar);
-
-        // For the cursor adapter, specify which columns go into which views
-        String[] fromColumns = {ContactsContract.Data.DISPLAY_NAME};
-        int[] toViews = {android.R.id.text1}; // The TextView in simple_list_item_1
-
-        // Create an empty adapter we will use to display the loaded data.
-        // We pass null for the cursor, then update it in onLoadFinished()
-        mAdapter = new SimpleCursorAdapter(this,
-                android.R.layout.simple_list_item_1, null,
-                fromColumns, toViews, 0);
-        setListAdapter(mAdapter);
-
-        // Prepare the loader.  Either re-connect with an existing one,
-        // or start a new one.
-        getLoaderManager().initLoader(0, null, this);
-    }
-
-
-
-    // Called when a previously created loader has finished loading
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        // Swap the new cursor in.  (The framework will take care of closing the
-        // old cursor once we return.)
-        mAdapter.swapCursor(data);
-    }
-
-    // Called when a previously created loader is reset, making the data unavailable
-    public void onLoaderReset(Loader<Cursor> loader) {
-        // This is called when the last Cursor provided to onLoadFinished()
-        // above is about to be closed.  We need to make sure we are no
-        // longer using it.
-        mAdapter.swapCursor(null);
-    }
-
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        // Do something when a list item is clicked
-    }
-*/
-
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private RemoteBD remoteBD;
     private Utilisateur utilisateurConnecte;
-
+    ViewPager mViewPager;
+    TabLayout tabLayout;
+    PagerAdapter pagerAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //TODO passer l'ID firebase de l'utilisateur dans l'INTENT
         setContentView(R.layout.activity_accueil);
+
+        //Récupération de la toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Récupération du DrawerLayout
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -184,33 +78,67 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
+        //Récupération de la tabLayout
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout1);
 
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        // Definition de la gravité et de son mode
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
-        // specify an adapter (see also next example)
-        String[] myDataset = {"test"};
-        mAdapter = new AdapterEvenement(myDataset);
-        mRecyclerView.setAdapter(mAdapter);
+        // Instanciation du PageAdapter pour la naviagation latéral
+        pagerAdapter = new AccueilPagerAdapter(getSupportFragmentManager(), this);
+
+        // Définition des couleurs à utiliser en cas d'actions sur les tabs
+        // Fonctionnel que si l'association est fait avant l'ajout des tabs
+        tabLayout.setTabTextColors(getResources().getColorStateList(R.color.tab));
+
+        // Récupération du ViewPager
+        mViewPager = (ViewPager) super.findViewById(R.id.viewpager);
+
+        // Affectation de l'adapter au ViewPager
+        mViewPager.setAdapter(pagerAdapter);
+        mViewPager.setClipToPadding(false);
+        mViewPager.setPageMargin(12);
+
+        //Association de la TabLayout au viewPager
+        tabLayout.setupWithViewPager(mViewPager);
+
+        // Ajout d'un listener pour le changement de tab
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+            /*Au clic sur une tab on se met sur la bonne page*/
+                mViewPager.setCurrentItem(tabLayout.getSelectedTabPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {/*do nothing*/}
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {/*do nothing*/}
+        });
+        //Ouverture de la BDD interne sur les Utilisateurs
         UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
         utilisateurBDD.open();
+        //Récupération de l'utilisateur connecté
         utilisateurConnecte = utilisateurBDD.obtenirProfil();
+        //Ouverture de la BDD externe
         remoteBD = new FireBaseBD(this);
         //String userID = utilisateurConnecte.getIdFirebase();//"TODO initialiser l'userID";
         utilisateurConnecte = new Utilisateur();
         utilisateurConnecte.setIdFirebase("a");
+
+        //Initialisation des paramètres de l'utilisateur
         ParametresUtilisateur initialParams = new ParametresUtilisateur();
         initialParams.setRayon(500);
         initialParams.setLocalisation(true);
         initialParams.setMasquerNom(false);
         utilisateurConnecte.setParametres(initialParams);
+
         String userID = utilisateurConnecte.getIdFirebase();
+
+        //récupération de toutes les données associées à l'utilisateur
         FetchFullDataFromEBDD.fetchallGroups(userID, remoteBD, new OnGroupsReady() {
             @Override
             public void onGroupsReady(List<FullGroupWrapper> groupWrappers) {
@@ -269,6 +197,8 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
 
         Fragment fragment;
         if (id == R.id.nav_accueil) {
+            //TODO Retour à la page d'accueil
+
 
         } else if (id == R.id.nav_evenements) {
 
@@ -298,4 +228,220 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
     private void onTemporaryEventReceived(List<MyEventEBDD> eventEBDDs) {
         //TODO faire quekque chose, ajouter dans la BD Interne, trier etc
     }
+
+    //Adapter pour gérér les différentes pages du viewPager
+    public static class AccueilPagerAdapter extends FragmentPagerAdapter {
+
+        private final ArrayList<android.support.v4.app.Fragment> fragments;
+        private RecyclerView mRecyclerView;
+        private Context context;
+        public AccueilPagerAdapter(FragmentManager fm, Context context) {
+            super(fm);
+            fragments = new ArrayList<android.support.v4.app.Fragment>();
+            fragments.add(new EvenenementsFragment());
+            fragments.add(new DecouvertesFragment());
+            this.context = context;
+        }
+
+        @Override
+        public android.support.v4.app.Fragment getItem(int i) {
+            switch (i) {
+                case 0:
+                    // The first section of the app is the most interesting -- it offers
+                    // a launchpad into the other demonstrations in this example application.
+
+                    return fragments.get(i);
+                case 1 :
+                    return fragments.get(i);
+                default:
+                    // Les sections sont actuellements des sections par défaut
+                    android.support.v4.app.Fragment fragment = new ParticipationsFragment();
+                    Bundle args = new Bundle();
+                    args.putInt(ParticipationsFragment.ARG_SECTION_NUMBER, i + 1);
+                    //fragment.setArguments(args);
+                    return fragment;
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            //Assignation des titres aux différentes tab
+            if(position == 0)
+                return "Evenement";
+            else if(position == 1)
+                return "Decouvertes";
+            else
+                return "Participation";
+        }
+
+    }
+
+    /**
+     * Fragment qui correspond au premier onglet
+     * C'est l'onglet qui correspond à l'affichage des préférences de sport de l'utilisateur connecté
+     */
+    public static class EvenenementsFragment extends android.support.v4.app.Fragment {
+        private RecyclerView mRecyclerView;
+        private RecyclerView.Adapter mAdapter;
+        private RecyclerView.LayoutManager mLayoutManager;
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            //On crée un recycler vue pour afficher les éléments sous forme de liste
+            mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_recycler_evenement, container, false);
+            mRecyclerView.setHasFixedSize(true);
+            //Création du LayoutManager
+            mLayoutManager = new LinearLayoutManager(getContext());
+            mRecyclerView.setLayoutManager(mLayoutManager);
+
+            //Création d'un evenement test
+            ArrayList<Evenement> evenements = new ArrayList<>();
+            Date date = new Date();
+            Utilisateur u1 = new Utilisateur();
+            u1.setNom("FR");
+            evenements = new ArrayList<>();
+            Evenement evenement = new Evenement();
+            evenement.setNbreMaxParticipants(7);
+            GregorianCalendar test = new GregorianCalendar(2016, 03, 27);
+            date = test.getTime();
+            evenement.setDate(date);
+            evenement.setLieu("cepsum");
+            evenement.setNomEvenement("One day");
+            evenement.setOrganisateur(u1);
+            evenement.setSport("tennis");
+            Groupe g = new Groupe();
+
+            g.setListeMembre(new ArrayList<Utilisateur>());
+            g.getListeMembre().add(u1);
+
+            Utilisateur u2 = new Utilisateur();
+            u2.setNom("Poly Technique");
+            u2.setDateNaissance(test.getTimeInMillis());
+            Utilisateur u3 = new Utilisateur();
+            u3.setNom("Mont Real");
+            u3.setDateNaissance(test.getTimeInMillis());
+            g.getListeMembre().add(u2);
+            g.getListeMembre().add(u3);
+            evenement.setGroupeAssocie(g);
+            evenements.add(evenement);
+            Evenement evenement1 = new Evenement();
+            evenement1 = evenement;
+            evenements.add(evenement1);
+
+            //Création d'un adapter pour l'affichage des éléments sous forme de carte
+            mAdapter = new AdapterEvenement(evenements);
+            mRecyclerView.setAdapter(mAdapter);
+
+            return mRecyclerView;
+        }
+    }
+
+    /**
+     * Fragment qui servira dans le dernier onglet
+     * C'est dans ce fragment que l'on affiche les événements auxquels participent les utilisateurs
+     * A dummy fragment representing a section of the app, but that simply displays dummy text.
+     */
+    public static class ParticipationsFragment extends android.support.v4.app.Fragment {
+
+        private RecyclerView mRecyclerView;
+        private RecyclerView.Adapter mAdapter;
+        private RecyclerView.LayoutManager mLayoutManager;
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            //Création du recycler vue pour l'affichage des éléments sous forme de liste
+            mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_recycler_participations, container, false);
+            mRecyclerView.setHasFixedSize(true);
+
+            //Création du layoutManager
+            mLayoutManager = new LinearLayoutManager(getContext());
+            mRecyclerView.setLayoutManager(mLayoutManager);
+
+            //Création d'evenements tests
+            ArrayList<Evenement> evenements = new ArrayList<>();
+            Date date = new Date();
+            Utilisateur u1 = new Utilisateur();
+            u1.setNom("FR");
+            evenements = new ArrayList<>();
+            Evenement evenement = new Evenement();
+            evenement.setNbreMaxParticipants(8);
+            GregorianCalendar test = new GregorianCalendar(2016, 03, 27);
+            date = test.getTime();
+            evenement.setDate(date);
+            evenement.setLieu("cepsum");
+            evenement.setNomEvenement("One day");
+            evenement.setOrganisateur(u1);
+            evenement.setSport("basket");
+            Groupe g = new Groupe();
+
+            g.setListeMembre(new ArrayList<Utilisateur>());
+            g.getListeMembre().add(u1);
+
+            Utilisateur u2 = new Utilisateur();
+            u2.setNom("Poly Technique");
+            u2.setDateNaissance(test.getTimeInMillis());
+            Utilisateur u3 = new Utilisateur();
+            u3.setNom("Mont Real");
+            u3.setDateNaissance(test.getTimeInMillis());
+            g.getListeMembre().add(u2);
+            g.getListeMembre().add(u3);
+            evenement.setGroupeAssocie(g);
+            evenements.add(evenement);
+            evenement.setSport("tennis");
+            evenements.add(evenement);
+            evenements.add(evenement);
+            evenements.add(evenement);
+            evenements.add(evenement);
+            evenement.setSport("basket");
+            Evenement evenement1 = new Evenement();
+            evenement1.setDate(date);
+            evenement1.setLieu("Somewhere");
+            evenement1.setNomEvenement("Tomorrow");
+            evenement1.setOrganisateur(u1);
+            evenement1.setSport("tennis");
+            evenement.setNbreMaxParticipants(15);
+            evenement1.setGroupeAssocie(g);
+
+            evenements.add(evenement1);
+            evenement.setGroupeAssocie(g);
+
+            //Création d'un adapter pour l'affichage des événements sous forme de cardView
+            mAdapter = new AdapterEvenement(evenements);
+            mRecyclerView.setAdapter(mAdapter);
+
+            return mRecyclerView;
+        }
+    }
+
+    public static class DecouvertesFragment extends android.support.v4.app.Fragment {
+        private RecyclerView mRecyclerView;
+        private RecyclerView.Adapter mAdapter;
+        private RecyclerView.LayoutManager mLayoutManager;
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            //Création du recycler vue pour l'affichage des éléments sous forme de liste
+            mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_recycler_decouvertes, container, false);
+            mRecyclerView.setHasFixedSize(true);
+            //Création du layoutManager
+            mLayoutManager = new LinearLayoutManager(getContext());
+            mRecyclerView.setLayoutManager(mLayoutManager);
+
+            //Création d'un adapter pour l'affichage des événements sous forme de cardView
+            //Création d'un élément test
+            String[] myDataset = {"test"};
+            mAdapter = new AdapterEvenement(myDataset);
+            mRecyclerView.setAdapter(mAdapter);
+            return mRecyclerView;
+        }
+    }
+
+
+
 }

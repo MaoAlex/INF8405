@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.alexmao.projetfinal.R;
@@ -33,6 +34,7 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
         TextView mNombreParticipant;
         TextView mLieu;
         TextView mOrganisateur;
+        ImageView mPhoto;
         CardView cv;
         public ViewHolder(View v) {
             super(v);
@@ -42,6 +44,7 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
             mNomSport = (TextView)v.findViewById(R.id.nom_sport);
             mNombreParticipant = (TextView)v.findViewById(R.id.nombre_participant);
             mLieu = (TextView)v.findViewById(R.id.nomLieu);
+            mPhoto = (ImageView) v.findViewById(R.id.sport_photo);
             mOrganisateur = (TextView)v.findViewById(R.id.nom_organisateur);
         }
     }
@@ -50,6 +53,11 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
     public AdapterEvenement(String[] myDataset) {
         mDataset = myDataset;
         initializeData();
+    }
+
+    // Constructeur
+    public AdapterEvenement(List<Evenement> evenements) {
+        this.evenements = evenements;
     }
 
     // Crée les nouvelles vues
@@ -74,6 +82,11 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
         holder.mNombreParticipant.setText(evenements.get(position).getGroupeAssocie().getListeMembre().size() + "/" + evenements.get(position).getNbreMaxParticipants());
         holder.mLieu.setText(evenements.get(position).getLieu());
         holder.mOrganisateur.setText(evenements.get(position).getOrganisateur().getNom());
+        if(holder.mNomSport.getText().equals("basket")){
+            holder.mPhoto.setImageResource(R.drawable.basketball);
+        }
+        else if(holder.mNomSport.getText().equals("tennis"))
+            holder.mPhoto.setImageResource(R.drawable.tennis);
 
     }
 

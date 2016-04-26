@@ -16,7 +16,6 @@
 
 package com.example.alexmao.projetfinal.ActivitiesForTests;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -62,11 +61,11 @@ public class CollectionDemoActivity extends FragmentActivity {
         mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager());
 
         // Set up action bar.
-        final ActionBar actionBar = getActionBar();
-
-        // Specify that the Home button should show an "Up" caret, indicating that touching the
-        // button will take the user one step up in the application's hierarchy.
-        actionBar.setDisplayHomeAsUpEnabled(true);
+//        final ActionBar actionBar = getActionBar();
+//
+//        // Specify that the Home button should show an "Up" caret, indicating that touching the
+//        // button will take the user one step up in the application's hierarchy.
+//        actionBar.setDisplayHomeAsUpEnabled(true);
 
         // Set up the ViewPager, attaching the adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
