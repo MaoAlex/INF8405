@@ -73,4 +73,18 @@
     <string name="profil_ajouter_connexion">Demande de connexion</string>
     <string name="profil_connecte">Connecté</string>
     <string name="profil_envoyer_message">Envoyer un message</string>
+
+    <!-- Invitation connexion -->
+    <string name="title_activity_inviter_connexion">Envoyer une invitation de connexion</string>
+    <string name="connexion_email">Courriel de la personne à inviter</string>
+
+    <!-- Créer événement -->
+    <string name="title_activity_creer_evenement">Créer un événement</string>
+    <string name="creer_evt_nomEvenement">Nom de l\'événement</string>
+    <string name="creer_evt_dateEvenement">Date de l\'événement</string>
+    <string name="creer_evt_sport">Sport</string>
+    <string name="creer_evt_lieu">Lieu</string>
+    <string name="creer_evt_maxParticipants">Nombre de participants max</string>
+    <string name="creer_evt_bouton">Créer l\'événement</string>
+
 </resources>
