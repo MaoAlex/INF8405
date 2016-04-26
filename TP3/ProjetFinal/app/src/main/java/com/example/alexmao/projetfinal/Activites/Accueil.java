@@ -256,8 +256,6 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
                 default:
                     // Les sections sont actuellements des sections par défaut
                     android.support.v4.app.Fragment fragment = new ParticipationsFragment();
-                    Bundle args = new Bundle();
-                    args.putInt(ParticipationsFragment.ARG_SECTION_NUMBER, i + 1);
                     //fragment.setArguments(args);
                     return fragment;
             }
