@@ -87,7 +87,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         evenement.setNbreMaxParticipants(10);
         GregorianCalendar test = new GregorianCalendar(2016, 03, 27);
         Date date = test.getTime();
-        evenement.setDate(date);
+        evenement.setDate(test.getTimeInMillis());
         evenement.setLieu("parc kent");
         evenement.setNomEvenement("Fin de session");
         evenement.setOrganisateur(u1);

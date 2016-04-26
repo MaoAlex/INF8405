@@ -129,7 +129,7 @@ public class EvenementBDD extends AbstractBDD {
                 e.printStackTrace();
             }
             Log.i(TAG, "Date: " + formatDate.format(date));
-            evenement.setDate(date);
+            evenement.setDate(c.getLong(NUM_COL_DATE_EVENENEMENT));
             if(c.getString(NUM_COL_PHOTO)!=""||c.getString(NUM_COL_PHOTO)!=null)
                 evenement.setPhoto(Uri.parse(c.getString(NUM_COL_PHOTO)));
             evenement.setSport(c.getString(NUM_COL_SPORT_ASSOCIE));

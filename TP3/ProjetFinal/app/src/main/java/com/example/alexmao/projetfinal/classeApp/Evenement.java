@@ -4,14 +4,12 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Date;
-
 /**
  * Created by Fabien on 02/04/2016.
  */
 public class Evenement implements Parcelable {
     private int nbreMaxParticipants;
-    private Date date;
+    private long date;
     private String lieu;
     private double latitude;
     private double longitude;
@@ -30,7 +28,7 @@ public class Evenement implements Parcelable {
 
     public Evenement(Parcel in) {
         nbreMaxParticipants = in.readInt();
-        date = (Date) in.readSerializable();
+        date = in.readLong();
         lieu = in.readString();
         latitude = in.readDouble();
         longitude = in.readDouble();
@@ -52,11 +50,11 @@ public class Evenement implements Parcelable {
         this.nbreMaxParticipants = nbreMaxParticipants;
     }
 
-    public Date getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -160,15 +158,15 @@ public class Evenement implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(nbreMaxParticipants);
-        dest.writeSerializable(date);
+        dest.writeLong(date);
         dest.writeString(lieu);
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
         dest.writeParcelable(photo, flags);
         dest.writeString(sport);
-        dest.writeParcelable(groupeAssocie, flags);
+        dest.writeParcelable(groupeAssocie, flags);//dest.writeParcelable(groupeAssocie, flags);
         dest.writeString(nomEvenement);
-        dest.writeParcelable(organisateur, flags);
+        dest.writeParcelable(organisateur, flags); //writeParcelable(organisateur, flags);
         dest.writeString(visibilite);
         dest.writeString(idFirebase);
         dest.writeInt(idBDD);

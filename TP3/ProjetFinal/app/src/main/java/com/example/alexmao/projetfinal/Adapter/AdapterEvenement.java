@@ -1,12 +1,16 @@
 package com.example.alexmao.projetfinal.Adapter;
 
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.alexmao.projetfinal.Activites.AffichageEvenement;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
 import com.example.alexmao.projetfinal.classeApp.Groupe;
@@ -33,6 +37,7 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
         TextView mNombreParticipant;
         TextView mLieu;
         TextView mOrganisateur;
+        ImageView mPhoto;
         CardView cv;
         public ViewHolder(View v) {
             super(v);
@@ -42,6 +47,7 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
             mNomSport = (TextView)v.findViewById(R.id.nom_sport);
             mNombreParticipant = (TextView)v.findViewById(R.id.nombre_participant);
             mLieu = (TextView)v.findViewById(R.id.nomLieu);
+            mPhoto = (ImageView) v.findViewById(R.id.sport_photo);
             mOrganisateur = (TextView)v.findViewById(R.id.nom_organisateur);
         }
     }
@@ -52,13 +58,34 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
         initializeData();
     }
 
+    // Constructeur
+    public AdapterEvenement(List<Evenement> evenements) {
+        this.evenements = evenements;
+    }
+
     // Crée les nouvelles vues
     @Override
     public AdapterEvenement.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+                                                   final int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_view, parent, false);
+        v.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                CharSequence text = "Hello toast!";
+                RecyclerView r = (RecyclerView) v.getParent();
+                int pos = r.getChildAdapterPosition(v);
+                Toast.makeText(r.getContext(), text, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(r.getContext(), AffichageEvenement.class);
+                //Parcel parcel =  Parcel.obtain();
+                //evenements.get(pos).writeToParcel(parcel,0);
+                evenements.get(pos).setIdFirebase("test");
+                intent.putExtra("evenement", evenements.get(pos).getIdFirebase());
+                r.getContext().startActivity(intent);
+            }
+        });
         // Mise en forme de la vue
         ViewHolder vh = new ViewHolder(v);
         return vh;
@@ -74,6 +101,11 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
         holder.mNombreParticipant.setText(evenements.get(position).getGroupeAssocie().getListeMembre().size() + "/" + evenements.get(position).getNbreMaxParticipants());
         holder.mLieu.setText(evenements.get(position).getLieu());
         holder.mOrganisateur.setText(evenements.get(position).getOrganisateur().getNom());
+        if(holder.mNomSport.getText().equals("basket")){
+            holder.mPhoto.setImageResource(R.drawable.basketball);
+        }
+        else if(holder.mNomSport.getText().equals("tennis"))
+            holder.mPhoto.setImageResource(R.drawable.tennis);
 
     }
 
@@ -93,7 +125,7 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
         evenement.setNbreMaxParticipants(10);
         GregorianCalendar test = new GregorianCalendar(2016, 03, 27);
         date = test.getTime();
-        evenement.setDate(date);
+        evenement.setDate(test.getTimeInMillis());
         evenement.setLieu("parc kent");
         evenement.setNomEvenement("Fin de session");
         evenement.setOrganisateur(u1);
@@ -121,4 +153,5 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
         evenements.add(evenement1);
 
     }
+
 }

@@ -75,7 +75,7 @@ public class FromClassAppToEBDD {
         ebddClass.setLongitude(evenement.getLongitude());
         ebddClass.setLatitude(evenement.getLatitude());
         ebddClass.setDataBaseId(evenement.getIdFirebase());
-        ebddClass.setDate(evenement.getDate() == null ? 0 : evenement.getDate().getTime());
+        ebddClass.setDate(evenement.getDate());
         ebddClass.setLieu(evenement.getLieu());
         ebddClass.setGroupID(evenement.getGroupeAssocie().getIdFirebase());
         ebddClass.setPicture(new Picture(bitmap));
