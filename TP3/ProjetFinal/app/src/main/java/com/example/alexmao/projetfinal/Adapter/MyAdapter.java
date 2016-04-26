@@ -72,7 +72,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.mLieu.setText(evenement.getLieu());
         holder.mOrganisateur.setText(evenement.getOrganisateur().getNom());
 
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -80,6 +79,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public int getItemCount() {
         return mDataset.length;
     }
+
     private void initializeData(){
         Utilisateur u1 = new Utilisateur();
         u1.setNom("Jean Paul");
