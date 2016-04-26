@@ -1,5 +1,5 @@
 <resources>
-     <string name="app_name">Partner Up</string>
+    <string name="app_name">Partner Up</string>
     <string name="type_msg">Type message</string>
 
     <string name="drawer_open">Open</string>
@@ -63,5 +63,14 @@
     <string name="nav_str_logout">Déconnexion</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_profil_utilisateur">ProfilUtilisateur</string>
 
+    <!-- Vue Profil -->
+    <string name="profil_nom">Identité</string>
+    <string name="profil_email">Courriel</string>
+    <string name="profil_ddn">Date de naissance</string>
+    <string name="profil_sports">Liste des sports</string>
+    <string name="profil_ajouter_connexion">Demande de connexion</string>
+    <string name="profil_connecte">Connecté</string>
+    <string name="profil_envoyer_message">Envoyer un message</string>
 </resources>
