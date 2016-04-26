@@ -308,7 +308,7 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
             evenement.setNbreMaxParticipants(7);
             GregorianCalendar test = new GregorianCalendar(2016, 03, 27);
             date = test.getTime();
-            evenement.setDate(date);
+            evenement.setDate(test.getTimeInMillis());
             evenement.setLieu("cepsum");
             evenement.setNomEvenement("One day");
             evenement.setOrganisateur(u1);
@@ -334,10 +334,13 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
 
             //Création d'un adapter pour l'affichage des éléments sous forme de carte
             mAdapter = new AdapterEvenement(evenements);
+
             mRecyclerView.setAdapter(mAdapter);
 
             return mRecyclerView;
         }
+
+
     }
 
     /**
@@ -371,7 +374,7 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
             evenement.setNbreMaxParticipants(8);
             GregorianCalendar test = new GregorianCalendar(2016, 03, 27);
             date = test.getTime();
-            evenement.setDate(date);
+            evenement.setDate(test.getTimeInMillis());
             evenement.setLieu("cepsum");
             evenement.setNomEvenement("One day");
             evenement.setOrganisateur(u1);
@@ -398,7 +401,7 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
             evenements.add(evenement);
             evenement.setSport("basket");
             Evenement evenement1 = new Evenement();
-            evenement1.setDate(date);
+            evenement1.setDate(test.getTimeInMillis());
             evenement1.setLieu("Somewhere");
             evenement1.setNomEvenement("Tomorrow");
             evenement1.setOrganisateur(u1);

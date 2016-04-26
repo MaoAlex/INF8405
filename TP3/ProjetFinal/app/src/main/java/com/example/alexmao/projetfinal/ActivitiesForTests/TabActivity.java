@@ -373,7 +373,7 @@ public class TabActivity extends AppCompatActivity {
             evenement.setNbreMaxParticipants(10);
             GregorianCalendar test = new GregorianCalendar(2016, 03, 27);
             date = test.getTime();
-            evenement.setDate(date);
+            evenement.setDate(test.getTimeInMillis());
             evenement.setLieu("cepsum");
             evenement.setNomEvenement("One day");
             evenement.setOrganisateur(u1);

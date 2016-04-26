@@ -41,7 +41,7 @@ public class FromEBDDToLocalClassTranslator {
         //Par exemple dans cette fonction il faudrait convertir organisateur ID en une classe
         //possible en SQL?
         Evenement localClass = new Evenement();
-        localClass.setDate(new Date(myLocalEvent.getDate()));
+        localClass.setDate((myLocalEvent.getDate()));
         localClass.setIdFirebase(myLocalEvent.getId());
         localClass.setLatitude(myLocalEvent.getLatitude());
         localClass.setLongitude(myLocalEvent.getLongitude());

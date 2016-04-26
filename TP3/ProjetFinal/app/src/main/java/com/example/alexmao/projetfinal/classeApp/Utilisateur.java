@@ -188,7 +188,7 @@ public class Utilisateur implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(nom);
         dest.writeString(prenom);
-        dest.writeSerializable(dateNaissance);
+        dest.writeLong(dateNaissance);
         dest.writeString(mail);
         dest.writeList(sports);
         dest.writeParcelable(photo, flags);
