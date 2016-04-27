@@ -191,10 +191,19 @@ public class CreerEvenement extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void sendOnEBDD(Evenement evenement) {
+    //Envoie un événement sur la EBDD
+    private void addOnEBDD(Evenement evenement) {
         MyLocalEventEBDD eventEBDD = FromClassAppToEBDD.translateEvenement(evenement, null);
         String eventID = remoteBD.addEvent(eventEBDD);
         eventEBDD.setDataBaseId(eventID);
+
+        if (evenement.getVisibilite().equals("public"))
+            addOnEBDDPublicPart(evenement);
+    }
+
+    //S'il l'événement est public on l'ajoute églement dans la partie temporaire
+    private void addOnEBDDPublicPart(Evenement evenement) {
+        remoteBD.addEventToTemporary(evenement.getIdFirebase());
     }
 
     private void sendInvitation(InvitationEvenement invitationEvenement) {
