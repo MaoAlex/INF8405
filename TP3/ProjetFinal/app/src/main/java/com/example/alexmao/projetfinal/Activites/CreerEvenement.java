@@ -2,6 +2,7 @@ package com.example.alexmao.projetfinal.Activites;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +14,9 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.example.alexmao.projetfinal.ActivitiesForTests.GyroscopeTest;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.FromClassAppToEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.MyLocalEventEBDD;
@@ -27,6 +30,7 @@ import com.example.alexmao.projetfinal.classeApp.Evenement;
 import com.example.alexmao.projetfinal.classeApp.Groupe;
 import com.example.alexmao.projetfinal.classeApp.InvitationEvenement;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -41,6 +45,7 @@ public class CreerEvenement extends AppCompatActivity {
     private EditText sportVue;
     private EditText maxParticipantsVue;
     private Button boutonCreer;
+    private LatLng lieuChoisi;
 
     //Variable pour récupérer et stocker la date
     private DatePicker datePicker;
@@ -90,11 +95,34 @@ public class CreerEvenement extends AppCompatActivity {
                 onButtonClick();
             }
         });
-
+        boutonCreer.setText("Choisir le lieu");
         remoteBD = new FireBaseBD(this);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==ChoisirLieu.ASK_LIEU)
+        {
+            if(resultCode == RESULT_OK) {
+                lieuChoisi = (LatLng) data.getParcelableExtra("lieu");
+                Log.d("Lieu choisi", "Lat : " + String.valueOf(lieuChoisi.latitude) + ", Lng : " + String.valueOf(lieuChoisi.longitude));
+                boutonCreer.setText("Créer l'événement");
+            } else {
+                Toast.makeText(this, "Vous devez choisir un lieu", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(CreerEvenement.this,ChoisirLieu.class);
+                startActivityForResult(intent, ChoisirLieu.ASK_LIEU);
+            }
+        }
+    }
+
     private void onButtonClick() {
+        if(lieuChoisi == null) {
+            Intent intent=new Intent(CreerEvenement.this,ChoisirLieu.class);
+            startActivityForResult(intent, ChoisirLieu.ASK_LIEU);
+            return;
+        }
         // TODO : Créer l'événement / vérifier les champs ...
         UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
         utilisateurBDD.open();
@@ -111,6 +139,8 @@ public class CreerEvenement extends AppCompatActivity {
         evenement.setNomEvenement(nom);
         evenement.setLieu(lieu);
         evenement.setSport(sport);
+        evenement.setLatitude(lieuChoisi.latitude);
+        evenement.setLongitude(lieuChoisi.longitude);
         evenement.setNbreMaxParticipants(maxParticipants);
         evenement.setDate(date.getTimeInMillis());
         evenement.setIdFirebase("yes");
