@@ -3,6 +3,8 @@ package com.example.alexmao.projetfinal.Activites;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -22,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.alexmao.projetfinal.Adapter.AdapterEvenement;
 import com.example.alexmao.projetfinal.BDDExterne.FetchFullDataFromEBDD;
@@ -43,6 +46,7 @@ import com.example.alexmao.projetfinal.classeApp.Groupe;
 import com.example.alexmao.projetfinal.classeApp.InvitationConnexion;
 import com.example.alexmao.projetfinal.classeApp.ParametresUtilisateur;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
+import com.example.alexmao.projetfinal.utils.ShakeEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -61,6 +65,8 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
 
     private RemoteBD remoteBD;
     private Utilisateur utilisateurConnecte;
+    private SensorManager mSensorManager;
+    private ShakeEventListener mSensorListener;
     ViewPager mViewPager;
     TabLayout tabLayout;
     PagerAdapter pagerAdapter;
@@ -107,6 +113,18 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
         mViewPager.setClipToPadding(false);
         mViewPager.setPageMargin(12);
 
+        // Affectation du ShakeEventListener
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mSensorListener = new ShakeEventListener();
+
+        mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
+
+            public void onShake() {
+                if(mViewPager.getCurrentItem() == DECOUVERTES_TAB) {
+                    Toast.makeText(Accueil.this, "Shake!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         //Association de la TabLayout au viewPager
         tabLayout.setupWithViewPager(mViewPager);
 
@@ -469,7 +487,7 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
     }
 
 
-      @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
@@ -487,5 +505,18 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorManager.registerListener(mSensorListener,
+                mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    protected void onPause() {
+        mSensorManager.unregisterListener(mSensorListener);
+        super.onPause();
+    }
 
 }
