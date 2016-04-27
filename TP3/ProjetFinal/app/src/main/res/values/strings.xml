@@ -90,4 +90,8 @@
     <string name="title_activity_gerer_invitations">GererInvitations</string>
     <string name="title_activity_choisir_lieu">Choisir le lieu de l\'événement</string>
 
+
+    <string name="title_activity_inviter_evenement">InviterEvenement</string>
+    <string name="invitation_evt_nom">Nom du contact</string>
+
 </resources>
