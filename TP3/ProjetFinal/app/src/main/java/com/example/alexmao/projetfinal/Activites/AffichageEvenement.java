@@ -88,7 +88,7 @@ public class AffichageEvenement extends AppCompatActivity {
         remoteBD.getEvent(eventID, new OnEventReceived() {
             @Override
             public void onEventReceived(MyEventEBDD myEventEBDD) {
-                onEventReceived(myEventEBDD);
+                onEventReceive(myEventEBDD);
             }
         });
     }
