@@ -3,16 +3,14 @@ package com.example.alexmao.projetfinal.ActivitiesForTests;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.example.alexmao.projetfinal.R;
-import com.example.alexmao.projetfinal.utils.ShakeDetector;
 import com.example.alexmao.projetfinal.utils.ShakeEventListener;
 
-import java.util.Date;
+//import com.example.alexmao.projetfinal.utils.ShakeDetector;
 
 public class GyroscopeTest extends AppCompatActivity {
     private SensorManager mSensorManager;
