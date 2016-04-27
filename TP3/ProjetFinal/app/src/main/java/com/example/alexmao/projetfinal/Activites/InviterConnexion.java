@@ -26,6 +26,7 @@ import com.example.alexmao.projetfinal.BDDExterne.Position;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.BDDExterne.UserParamsEBDD;
 import com.example.alexmao.projetfinal.R;
+import com.example.alexmao.projetfinal.classeApp.InvitationConnexion;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
 import java.util.ArrayList;
@@ -120,11 +121,14 @@ public class InviterConnexion extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void sendConnexionInvitation(InvitationConnexionEBDD invitationConnexionEBDD, String userID) {
+    //Envoie une invitation connexion
+    private void sendConnexionInvitation(InvitationConnexion invitationConnexion, String userID) {
         Map<String,String> params = new HashMap<>();
-        params.put("date", new Date(invitationConnexionEBDD.getDate()).toString());
+        params.put("something", "exemple");
         NotificationBDD notificationBDD = new NotificationBDD(NotificationTypes.conctactInvitation,
-               params, invitationConnexionEBDD.getExpediteur(), invitationConnexionEBDD.getInvite());
+               params, invitationConnexion.getExpediteur().getIdFirebase(),
+                invitationConnexion.getInvite().getIdFirebase());
+        notificationBDD.setDate(invitationConnexion.getDate().getTime());
         remoteBD.addNotificationToUser(userID, notificationBDD);
     }
 }
