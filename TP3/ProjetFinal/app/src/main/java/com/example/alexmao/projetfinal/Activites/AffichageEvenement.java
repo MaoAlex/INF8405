@@ -8,6 +8,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.alexmao.projetfinal.BDDExterne.ConversationEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.FetchFullDataFromEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
+import com.example.alexmao.projetfinal.BDDExterne.FullUserWrapper;
+import com.example.alexmao.projetfinal.BDDExterne.MyEventEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.MyLocalEventEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.MyLocalGroupEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.OnEventReceived;
+import com.example.alexmao.projetfinal.BDDExterne.OnFullGroup;
+import com.example.alexmao.projetfinal.BDDExterne.OnGroupOnly;
+import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
 import com.example.alexmao.projetfinal.classeApp.Groupe;
@@ -15,6 +26,7 @@ import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * Created by alexMAO on 24/04/2016.
@@ -24,6 +36,7 @@ public class AffichageEvenement extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private String[] myDataset = {"Elem1"};//}, "Elem2", "Elem3", "Elem4", "Elem5", "Elem6", "Elem7", "Elem8", "Elem9", "Elem10"};
+    private RemoteBD remoteBD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +82,30 @@ public class AffichageEvenement extends AppCompatActivity {
         evenement.setGroupeAssocie(g);
 
         //getIntent().getParcelableExtra("evenement");
+
+        String eventID = "TODO: recupere l'ID";
+        remoteBD = new FireBaseBD(this);
+        remoteBD.getEvent(eventID, new OnEventReceived() {
+            @Override
+            public void onEventReceived(MyEventEBDD myEventEBDD) {
+                onEventReceived(myEventEBDD);
+            }
+        });
+    }
+
+    private void onEventReceive(final MyEventEBDD myEventEBDD) {
+        FetchFullDataFromEBDD.fetchGroupOnly(myEventEBDD.getGroupID(), remoteBD, new OnGroupOnly() {
+            @Override
+            public void onGroupOnly(MyLocalGroupEBDD myLocalGroupEBDD, List<FullUserWrapper> wrappers) {
+                onInformationUpToDate(myEventEBDD, myLocalGroupEBDD, wrappers);
+            }
+        });
+    }
+
+    private void onInformationUpToDate(MyEventEBDD myEventEBDD,
+                                       MyLocalGroupEBDD myLocalGroupEBDD,
+                                       List<FullUserWrapper> wrappers ) {
+        //TODO update la BD interne
     }
 
     @Override
