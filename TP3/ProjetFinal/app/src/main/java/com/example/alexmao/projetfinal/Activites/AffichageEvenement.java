@@ -8,15 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.alexmao.projetfinal.BDDExterne.ConversationEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.FetchFullDataFromEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.FullUserWrapper;
 import com.example.alexmao.projetfinal.BDDExterne.MyEventEBDD;
-import com.example.alexmao.projetfinal.BDDExterne.MyLocalEventEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.MyLocalGroupEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.OnEventReceived;
-import com.example.alexmao.projetfinal.BDDExterne.OnFullGroup;
 import com.example.alexmao.projetfinal.BDDExterne.OnGroupOnly;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.R;

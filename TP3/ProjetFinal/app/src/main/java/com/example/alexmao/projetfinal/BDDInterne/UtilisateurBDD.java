@@ -52,7 +52,7 @@ public class UtilisateurBDD extends AbstractBDD {
         values.put(Colonne.LATITUDE, utilisateur.getLatitude());
         values.put(Colonne.LONGITUDE, utilisateur.getLongitude());
         values.put(Colonne.ID_FIREBASE, utilisateur.getIdFirebase());
-
+        Log.d("UtilisateurBDD", "insertion en cours");
         //on insère l'objet dans la BDD via le ContentValues,
         return database_.insert(Table.UTILISATEUR, null, values);
 
@@ -160,6 +160,31 @@ public class UtilisateurBDD extends AbstractBDD {
                    + ", son id firebase est : " + cursor.getString(NUM_COL_ID_FIREBASE));
        }
        cursor.close();
+    }
+
+    //insererUtilisateur permet d'inserer l'utilisateur dans la BDD interne
+    //Elle renvoie l'id de l'utilisateur dans la BDD interne
+    public long insererUtilisateurConnecte(Utilisateur utilisateur){
+        //Cr�ation d'un ContentValues (fonctionne comme une HashMap)
+        //On va mettre les valeurs de l'utilisateur en fonction des colonnes
+        ContentValues values = new ContentValues();
+        //on lui ajoute une valeur associée � une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
+        values.put(Colonne.NOM, utilisateur.getNom());
+        values.put(Colonne.PRENOM, utilisateur.getPrenom());
+        values.put(Colonne.DATE_NAISSANTE, utilisateur.getDateNaissance());
+        values.put(Colonne.MAIL, utilisateur.getMail());
+        if(utilisateur.getPhoto()!=null)
+            values.put(Colonne.PHOTO, utilisateur.getPhoto().toString());
+        else
+            values.put(Colonne.PHOTO, "");
+        values.put(Colonne.LATITUDE, utilisateur.getLatitude());
+        values.put(Colonne.LONGITUDE, utilisateur.getLongitude());
+        values.put(Colonne.ID_FIREBASE, utilisateur.getIdFirebase());
+        Log.d("UtilisateurBDD", "insertion en cours");
+        //on insère l'objet dans la BDD via le ContentValues,
+        database_.insert(Table.UTILISATEUR_CONNECTE, null, values);
+        return database_.insert(Table.UTILISATEUR, null, values);
+
     }
 
     //méthode permettant de récupérer tous les utilisateurs stockés dans la table utilisateur
@@ -279,19 +304,34 @@ public class UtilisateurBDD extends AbstractBDD {
         Log.d("query", query);
         Log.d(TAG, "Affichage de l'utilisateur connecté");
         Cursor cursor = database_.rawQuery(query, null);
+        if(cursor.getCount() != 0) {
+            cursor.moveToFirst();
+                //On affiche les différents éléments
+                Log.d(TAG, "L'id de l'utilisateur est : " + cursor.getInt(NUM_COL_ID)
+                        + ", son nom est : " + cursor.getString(NUM_COL_NOM)
+                        + ", son prenom est : " + cursor.getString(NUM_COL_PRENOM)
+                        + ", son mail est : " + cursor.getString(NUM_COL_MAIL)
+                        + ", sa date de naissance est : " + cursor.getLong(NUM_COL_DATE_NAISSANCE)
+                        + ", son photo est : " + cursor.getString(NUM_COL_PHOTO)
+                        + ", son position est : (" + cursor.getDouble(NUM_COL_LATITUDE) + ", " + cursor.getDouble(NUM_COL_LONGITUDE)
+                        + ", son id firebase est : " + cursor.getString(NUM_COL_ID_FIREBASE));
 
-        cursor.moveToFirst();
-        //On affiche les différents éléments
-        Log.d(TAG, "L'id de l'utilisateur est : " + cursor.getInt(NUM_COL_ID)
-                    + ", son nom est : " + cursor.getString(NUM_COL_NOM)
-                    + ", son prenom est : " + cursor.getString(NUM_COL_PRENOM)
-                    + ", son mail est : " + cursor.getString(NUM_COL_MAIL)
-                    + ", sa date de naissance est : " + cursor.getLong(NUM_COL_DATE_NAISSANCE)
-                    + ", son photo est : " + cursor.getString(NUM_COL_PHOTO)
-                    + ", son position est : (" + cursor.getDouble(NUM_COL_LATITUDE) + ", " + cursor.getDouble(NUM_COL_LONGITUDE)
-                    + ", son id firebase est : " + cursor.getString(NUM_COL_ID_FIREBASE));
+        }
 
         cursor.close();
+
+    }
+
+    public boolean estConnecte() {
+        String query = "SELECT *" + " FROM "
+                + Table.UTILISATEUR_CONNECTE ;
+
+        Log.d("query", query);
+        Log.d(TAG, "Affichage de l'utilisateur connecté");
+        Cursor cursor = database_.rawQuery(query, null);
+
+        cursor.moveToFirst();
+        return (cursor.getCount()>0);
 
     }
 }

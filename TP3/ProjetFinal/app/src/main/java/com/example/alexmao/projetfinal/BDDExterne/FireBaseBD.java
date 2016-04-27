@@ -9,7 +9,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.alexmao.projetfinal.R;
-import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -410,9 +409,9 @@ public class FireBaseBD implements RemoteBD {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
-                        Log.d("onDataChanged", "User " + userBDID + " has a new message");
                         ArrayList<String> ids = new ArrayList<String>();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            Log.d("onDataChanged", "User " + userBDID + " has a new message");
                             MessageEBDD conversation = dataSnapshot.getValue(MessageEBDD.class);
                             onMessageReceiveCallback.onNewMessage(conversation);
                             ids.add(dataSnapshot.getKey());

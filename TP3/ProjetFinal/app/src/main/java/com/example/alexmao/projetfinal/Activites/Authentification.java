@@ -13,16 +13,12 @@ import com.example.alexmao.projetfinal.BDDExterne.FromEBDDToLocalClassTranslator
 import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.OnFullUserData;
 import com.example.alexmao.projetfinal.BDDExterne.OnStringReceived;
-import com.example.alexmao.projetfinal.BDDExterne.OnUserParamReceived;
-import com.example.alexmao.projetfinal.BDDExterne.OnUserProfilReceived;
 import com.example.alexmao.projetfinal.BDDExterne.Picture;
 import com.example.alexmao.projetfinal.BDDExterne.Position;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.BDDExterne.UserParamsEBDD;
-import com.example.alexmao.projetfinal.BDDExterne.UtilisateurProfilEBDD;
 import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.R;
-import com.example.alexmao.projetfinal.classeApp.ParametresUtilisateur;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 import com.example.alexmao.projetfinal.custom.CustomActivity;
 import com.example.alexmao.projetfinal.utils.Utils;
@@ -45,22 +41,34 @@ public class Authentification extends CustomActivity
 
 	// Champ pour rentrer le mot de passe
 	private EditText motDePasse;
-
+    private boolean estConnecte = false ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.acitivity_authentification);
-        //connection de la BDD externe
-        remoteBD = new FireBaseBD(this);
-        //Mise en forme des clics sur les boutons
-        setTouchNClick(R.id.btnLogin);
-		setTouchNClick(R.id.btnReg);
-        //Connection des champs
-		mail = (EditText) findViewById(R.id.user);
-		motDePasse = (EditText) findViewById(R.id.motDePasse);
-	}
+        UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
+        utilisateurBDD.open();
+        utilisateurBDD.affichageUtilisateurConnecte();
+        estConnecte = utilisateurBDD.estConnecte();
+        utilisateurBDD.close();
+        if(!estConnecte) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.acitivity_authentification);
+            //connection de la BDD externe
+            remoteBD = new FireBaseBD(this);
+            //Mise en forme des clics sur les boutons
+            setTouchNClick(R.id.btnLogin);
+            setTouchNClick(R.id.btnReg);
+            //Connection des champs
+            mail = (EditText) findViewById(R.id.user);
+            motDePasse = (EditText) findViewById(R.id.motDePasse);
+        }else{
+            super.onCreate(savedInstanceState);
+            Intent intent = new Intent(this, Accueil.class);
+            startActivity(intent);
+            finish();
+        }
+    }
 
     //Méthode gérant le clic sur les différents boutons de cette activité
 	@Override
@@ -156,7 +164,9 @@ public class Authentification extends CustomActivity
 		//TODO fais toi plèz Alex!!!!
 		UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
         utilisateurBDD.open();
+        utilisateurBDD.connexion(utilisateur);
         utilisateurBDD.insererUtilisateur(utilisateur);
+        utilisateurBDD.affichageUtilisateurConnecte();
         utilisateurBDD.close();
         //TODO remove test
 

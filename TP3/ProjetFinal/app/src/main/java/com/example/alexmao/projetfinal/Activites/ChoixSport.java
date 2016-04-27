@@ -1,6 +1,5 @@
 package com.example.alexmao.projetfinal.Activites;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,11 +9,7 @@ import android.widget.ImageView;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.FromClassAppToEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
-import com.example.alexmao.projetfinal.BDDExterne.Picture;
-import com.example.alexmao.projetfinal.BDDExterne.Position;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
-import com.example.alexmao.projetfinal.BDDExterne.UserParamsEBDD;
-import com.example.alexmao.projetfinal.BDDExterne.UtilisateurProfilEBDD;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
