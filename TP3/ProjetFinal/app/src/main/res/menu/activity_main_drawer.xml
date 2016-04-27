@@ -10,7 +10,7 @@
             android:title="@string/nav_str_evenements" />
         <item
             android:id="@+id/nav_rechercher"
-            android:title="@string/nav_str_rechercher" />
+            android:title="@string/nav_str_rechercher_membre" />
         <item
             android:id="@+id/nav_chat"
             android:title="@string/nav_str_chat" />

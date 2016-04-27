@@ -18,6 +18,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,8 +70,8 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
         //Récupération de la toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(android.R.drawable.ic_menu_add);
-        toolbar.inflateMenu(R.menu.menu);
+//        toolbar.setNavigationIcon(android.R.drawable.ic_menu_add);
+//        toolbar.inflateMenu(R.menu.menu);
         //Récupération du DrawerLayout
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -199,17 +200,18 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
 
         Fragment fragment;
         if (id == R.id.nav_accueil) {
-            //TODO Retour à la page d'accueil
-
-
+            mViewPager.setCurrentItem(ACCUEIL_TAB);
         } else if (id == R.id.nav_evenements) {
-
+            mViewPager.setCurrentItem(PARTICIPATIONS_TAB);
         } else if (id == R.id.nav_rechercher) {
-
+            Intent intent = new Intent(this, InviterConnexion.class);
+            startActivity(intent);
         } else if (id == R.id.nav_chat) {
-
+            Intent intent = new Intent(this, ChatList.class);
+            startActivity(intent);
         } else if (id == R.id.nav_profil) {
-
+            Intent intent = new Intent(this, ProfilUtilisateur.class);
+            startActivity(intent);
         } else if (id == R.id.nav_logout) {
 
         }
@@ -446,11 +448,11 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
     }
 
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu, menu);
-//        return true;
-//    }
+      @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
