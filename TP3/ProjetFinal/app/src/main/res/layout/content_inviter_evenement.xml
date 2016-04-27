@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,8 +10,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.alexmao.projetfinal.Activites.InviterConnexion"
-    tools:showIn="@layout/activity_inviter_connexion">
+    tools:context="com.example.alexmao.projetfinal.Activites.InviterEvenement"
+    tools:showIn="@layout/activity_inviter_evenement">
 
     <EditText
         android:layout_width="fill_parent"
@@ -20,7 +19,8 @@
         android:hint="@string/invitation_evt_nom"
         android:id="@+id/invitation_evt_nom"
         android:drawableRight="@android:drawable/ic_menu_search"
-        android:imeOptions="actionSearch" />
+        android:imeOptions="actionSearch"
+        android:maxLines="1" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_inv_evt"
         android:scrollbars="vertical"
