@@ -98,7 +98,7 @@ public class FromClassAppToEBDD {
     public static InvitationConnexionEBDD translateInvitationConnexion(InvitationConnexion invitationConnexion) {
         InvitationConnexionEBDD ebddClass = new InvitationConnexionEBDD();
         ebddClass.setIdFirebase(invitationConnexion.getIdFirebase());
-        ebddClass.setDate(invitationConnexion.getDate().getTime());
+        ebddClass.setDate(invitationConnexion.getDate());
         ebddClass.setExpediteur(invitationConnexion.getExpediteur().getIdFirebase());
         ebddClass.setInvite(invitationConnexion.getInvite().getIdFirebase());
 
@@ -110,7 +110,7 @@ public class FromClassAppToEBDD {
 
         ebddClass.setIdFirebase(invitation.getIdFirebase());
         ebddClass.setInvite(invitation.getInvite().getIdFirebase());
-        ebddClass.setDate(invitation.getDate().getTime());
+        ebddClass.setDate(invitation.getDate());
         ebddClass.setExpediteur(invitation.getIdFirebase());
         ebddClass.setEvenementIdFirebase(invitation.getEvenement().getIdFirebase());
 

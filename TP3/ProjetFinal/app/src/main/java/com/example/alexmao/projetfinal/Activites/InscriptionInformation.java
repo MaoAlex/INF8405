@@ -25,7 +25,7 @@ import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 import com.example.alexmao.projetfinal.custom.CustomActivity;
 import com.example.alexmao.projetfinal.utils.Utils;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 
@@ -50,7 +50,7 @@ public class InscriptionInformation extends CustomActivity
     private int day;
     private int month;
     private int year;
-    private Date date;
+    private long date;
     //Variable pour stocker la photo et l'afficher
     private Bitmap bp;
 
@@ -114,11 +114,11 @@ public class InscriptionInformation extends CustomActivity
         utilisateur.setMail(email);
         utilisateur.setPrenom(prenom);
         utilisateur.setNom(nom);
-        utilisateur.setDateNaissance(date.getTime());
+        utilisateur.setDateNaissance(date);
         user.setMailAdr(email);
         user.setFirstName(prenom);
         user.setLastName(nom);
-        user.setDateBirth(date.getTime());
+        user.setDateBirth(date);
         //Ajout de l'utilisateur dans la BDD externe
         final String idFirebase = remoteBD.addUserProfil(user);
         Log.d("Firebase", "Id Firebse : " + idFirebase);
@@ -150,7 +150,7 @@ public class InscriptionInformation extends CustomActivity
     //méthode permettant l'affichage spécifique du choix de la date de naissance
     private void affichageChoixDate(){
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, datePickerListener, year, month, day);
-        datePickerDialog.updateDate(2016,04,21);
+        datePickerDialog.updateDate(2016,02,21);
         datePickerDialog.show();
     }
 
@@ -158,10 +158,16 @@ public class InscriptionInformation extends CustomActivity
     private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int selectedYear,
                               int selectedMonth, int selectedDay) {
-            dateNaissanceVue.setText(selectedDay + " / " + (selectedMonth + 1) + " / "
-                    + selectedYear);
-            GregorianCalendar test = new GregorianCalendar(year, month, day);
-            date = test.getTime();
+//            dateNaissanceVue.setText(selectedDay + " / " + (selectedMonth + 1) + " / "
+//                    + selectedYear);
+            GregorianCalendar calendar = new GregorianCalendar(selectedYear, selectedMonth, selectedDay);
+            date = calendar.getTimeInMillis();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            dateNaissanceVue.setText(day + " / " + (month + 1) + " / "
+                    + year);
+            Log.d("Information inscription", "valeur de la date de naissance : " + date);
         }
     };
 

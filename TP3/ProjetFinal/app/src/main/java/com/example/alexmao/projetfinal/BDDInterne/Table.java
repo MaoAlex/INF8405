@@ -23,5 +23,6 @@ public class Table {
     public static final String CONVERSATION = "table_conversation";
     public static final String GROUPE = "table_groupe";
     public static final String GROUPE_UTILISATEUR = "table_groupe_utilisateur";
+    public static final String UTILISATEUR_CONNEXIONS = "table_utilisateur_connexions";
 
 }

@@ -173,8 +173,9 @@ public class Authentification extends CustomActivity
         Log.d("Essaie", "On stocke l'utilisateur dans la BDD interne");
 
         utilisateurBDD.open();
+        long id = utilisateurBDD.insererUtilisateur(utilisateur);
+        utilisateur.setIdBDD(id);
         utilisateurBDD.connexion(utilisateur);
-        utilisateurBDD.insererUtilisateur(utilisateur);
         utilisateurBDD.affichageUtilisateurConnecte();
         utilisateurBDD.close();
         //TODO remove test

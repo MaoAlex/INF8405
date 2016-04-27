@@ -1,13 +1,17 @@
 package com.example.alexmao.projetfinal.Adapter;
 
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.alexmao.projetfinal.Activites.ProfilUtilisateur;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
@@ -23,11 +27,20 @@ public class AdapterUtilisateur extends RecyclerView.Adapter<AdapterUtilisateur.
     private List<Utilisateur> persons;
 
     public AdapterUtilisateur(List<Utilisateur> persons){
+        Log.d("AdapterUtilisater", "On crée l'adapter");
         this.persons = persons;
+        //initializeData();
+    }
+
+    public AdapterUtilisateur(){
+        Log.d("AdapterUtilisater", "On crée l'adapter");
         initializeData();
     }
 
-
+    public void ajouterUtilisateur(Utilisateur utilisateur){
+        persons.add(utilisateur);
+        notifyDataSetChanged();
+    }
 
     @Override
     //Retourne le nombre d'éléments dans la liste
@@ -39,14 +52,34 @@ public class AdapterUtilisateur extends RecyclerView.Adapter<AdapterUtilisateur.
     public UtilisateurViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_view_membre, viewGroup, false);
         UtilisateurViewHolder uvh = new UtilisateurViewHolder(v);
+
+        v.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                CharSequence text = "Hello toast!";
+                RecyclerView r = (RecyclerView) v.getParent();
+                int pos = r.getChildAdapterPosition(v);
+                Toast.makeText(r.getContext(), text, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(r.getContext(), ProfilUtilisateur.class);
+                //Parcel parcel =  Parcel.obtain();
+                //evenements.get(pos).writeToParcel(parcel,0);
+                //evenements.get(pos).setIdFirebase("test");
+                Log.d("Adapter Utilisateur", "id de l'utilisateur : "  + persons.get(pos).getIdBDD());
+                intent.putExtra("id", (persons.get(pos).getIdBDD()));
+                r.getContext().startActivity(intent);
+            }
+        });
+
+
         return uvh;
     }
 
     @Override
     //Fonction permettant d'assigner les différents éléments avec leur valeur
     public void onBindViewHolder(AdapterUtilisateur.UtilisateurViewHolder holder, int position) {
-        holder.personName.setText(persons.get(position).getNom());
-        holder.personAge.setText("test");
+        holder.personName.setText(persons.get(position).construireNom());
+        holder.personAge.setText(persons.get(position).construireDDN());
         holder.personPhoto.setImageResource(R.drawable.user_chat1);
     }
 

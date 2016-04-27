@@ -10,7 +10,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.alexmao.projetfinal.Activites.InviterConnexion"
-    tools:showIn="@layout/activity_inviter_connexion">
+    tools:showIn="@layout/activity_inviter_connexion"
+    android:orientation="vertical">
 
     <EditText
         android:layout_width="fill_parent"
@@ -23,6 +24,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_recycler_view"
         android:scrollbars="vertical"
+        android:layout_below="@id/connexion_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>

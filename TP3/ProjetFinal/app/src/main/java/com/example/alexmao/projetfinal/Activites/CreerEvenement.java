@@ -254,7 +254,7 @@ public class CreerEvenement extends AppCompatActivity {
 
     private void sendInvitation(InvitationEvenement invitationEvenement) {
         NotificationBDD notificationBDD = new NotificationBDD();
-        notificationBDD.setDate(invitationEvenement.getDate().getTime());
+        notificationBDD.setDate(invitationEvenement.getDate());
         notificationBDD.setAskerID(invitationEvenement.getExpediteur().getIdFirebase());
         notificationBDD.setDestID(invitationEvenement.getInvite().getIdFirebase());
         Map<String, String> map = new HashMap<>();

@@ -281,7 +281,9 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
             Intent intent = new Intent(this, ChatList.class);
             startActivity(intent);
         } else if (id == R.id.nav_profil) {
+
             Intent intent = new Intent(this, ProfilUtilisateur.class);
+            intent.putExtra("id", utilisateurConnecte.getIdBDD()     );
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
             utilisateurBDD.open();
@@ -299,7 +301,7 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
     private void onContactInvitation(NotificationBDD notificationBDD) {
         //TODO faire quelque chose (invitation connexion)
         InvitationConnexion invitationConnexion = new InvitationConnexion();
-        invitationConnexion.setDate(new Date(notificationBDD.getDate()));
+        invitationConnexion.setDate((notificationBDD.getDate()));
         invitationConnexion.setIdFirebase(notificationBDD.getId());
     }
 
@@ -307,7 +309,7 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
         //TODO faire quelque chose (invitation pour un evenement) utiliser la
         //BD interne pour récupérer les utilisateur ou demander à la EBDD
         InvitationEvenement invitationEvenement = new InvitationEvenement();
-        invitationEvenement.setDate(new Date(notificationBDD.getDate()));
+        invitationEvenement.setDate((notificationBDD.getDate()));
         invitationEvenement.setIdFirebase(notificationBDD.getId());
 
     }

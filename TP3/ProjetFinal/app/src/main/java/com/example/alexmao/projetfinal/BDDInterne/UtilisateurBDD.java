@@ -28,8 +28,8 @@ public class UtilisateurBDD extends AbstractBDD {
     private static final int NUM_COL_LATITUDE = 6;
     private static final int NUM_COL_LONGITUDE = 7;
     private static final int NUM_COL_ID_FIREBASE = 8;
-    private static final int NUM_COL_ID_UTILISATEUR= 1;
-
+    private static final int NUM_COL_ID_UTILISATEUR= 0;
+    private static final int NUM_COL_ID_CONNEXION= 1;
     public UtilisateurBDD(Context pContext) {
         super(pContext);
     }
@@ -57,7 +57,13 @@ public class UtilisateurBDD extends AbstractBDD {
         values.put(Colonne.ID_FIREBASE, utilisateur.getIdFirebase());
         Log.d("UtilisateurBDD", "insertion en cours");
         //on insère l'objet dans la BDD via le ContentValues,
-        return database_.insert(Table.UTILISATEUR, null, values);
+        long id = database_.insert(Table.UTILISATEUR, null, values);
+        if(utilisateur.getListeConnexion()!=null) {
+            for (String idFirebase : utilisateur.getListeConnexion()) {
+                insererConnexion(id, idFirebase);
+            }
+        }
+        return id;
 
     }
 
@@ -103,6 +109,13 @@ public class UtilisateurBDD extends AbstractBDD {
         Cursor c = database_.query(Table.UTILISATEUR, null, Colonne.ID_FIREBASE + " LIKE \"" + idFirebase +"\"", null, null, null, null);
         return cursorToUtilisateur(c);
     }
+
+    public Utilisateur obtenirUtilisateurParId(long id){
+        //Récupére dans un Cursor les valeurs correspondant à un utilisateur contenu dans la BDD (ici on sélectionne le utilisateur grace a son nom)
+        Cursor c = database_.query(Table.UTILISATEUR, null, Colonne.ID_UTILISATEUR + " LIKE \"" + id +"\"", null, null, null, null);
+        return cursorToUtilisateur(c);
+    }
+
     //Cette méthode permet de convertir un cursor en un utilisateur
     public static Utilisateur cursorToUtilisateur(Cursor c){
 
@@ -115,7 +128,8 @@ public class UtilisateurBDD extends AbstractBDD {
         //On créé un utilisateur
         Utilisateur utilisateur = new Utilisateur();
         //on lui affecte toutes les infos grace aux infos contenues dans le Cursor
-        utilisateur.setIdBDD(c.getInt(NUM_COL_ID));
+        long id = c.getLong(NUM_COL_ID);
+        utilisateur.setIdBDD(id);
         utilisateur.setNom(c.getString(NUM_COL_NOM));
         utilisateur.setPrenom(c.getString(NUM_COL_PRENOM));
         SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
@@ -134,7 +148,18 @@ public class UtilisateurBDD extends AbstractBDD {
         utilisateur.setLatitude(c.getDouble(NUM_COL_LONGITUDE));
         utilisateur.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
         //On ferme le cursor
-        c.close();
+
+        String query = "SELECT * "
+                + " FROM "
+                + Table.UTILISATEUR + " WHERE " + Colonne.ID_UTILISATEUR + " = " + id;
+        ;
+        Cursor cursor = database_.rawQuery(query, null);
+        ArrayList<String> connexions = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            connexions.add(cursor.getString(NUM_COL_ID_CONNEXION));
+        }
+        utilisateur.setListeConnexion(connexions);
+        cursor.close();
 
         //On retourne l'utilisateur récupéré de la BDD interne
         return utilisateur;
@@ -267,6 +292,7 @@ public class UtilisateurBDD extends AbstractBDD {
         //On va mettre les valeurs de l'utilisateur en fonction des colonnes
         ContentValues values = new ContentValues();
         //on lui ajoute une valeur associée a une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
+        values.put(Colonne.ID_UTILISATEUR_CONNECTE, utilisateur.getIdBDD());
         values.put(Colonne.NOM, utilisateur.getNom());
         values.put(Colonne.PRENOM, utilisateur.getPrenom());
         values.put(Colonne.DATE_NAISSANTE, utilisateur.getDateNaissance());
@@ -278,7 +304,6 @@ public class UtilisateurBDD extends AbstractBDD {
         values.put(Colonne.LATITUDE, utilisateur.getLatitude());
         values.put(Colonne.LONGITUDE, utilisateur.getLongitude());
         Log.d(TAG, "Insertion Table Utilisateur connecte de l'utilisateur connecté, sont id Firebase est : " + utilisateur.getIdFirebase());
-
         values.put(Colonne.ID_FIREBASE, utilisateur.getIdFirebase());
 
         //On insert l'utilisateur dans la table pour savoir qu'il y a bien un utilisateur connecté
@@ -289,7 +314,23 @@ public class UtilisateurBDD extends AbstractBDD {
     public void deconnexion() {
         //On supprime les données apres deconnexion
         //Il n'y a plus d'information dans la table utilisateur connecte
+//        maBaseSQLite_.onUpgrade(database_, VERSION, VERSION);
         database_.delete(Table.UTILISATEUR_CONNECTE, null, null);
+        database_.delete(Table.UTILISATEUR, null, null);
+        //TODO A supprimer toutes les tables
+//        database_.delete(Table.PARAMETRE_UTILISATEUR, null, null);
+//        database_.delete(Table.EVENEMENT, null, null);
+//        database_.delete(Table.EVENEMENT_INTERESSE, null, null);
+//        database_.delete(Table.PARTICIPANT_EVENEMENT, null, null);
+//        database_.delete(Table.INVITATION_EVENEMENT, null, null);
+//        database_.delete(Table.SPORT_UTILISATEUR, null, null);
+//        database_.delete(Table.INVITATION_CONNEXION, null, null);
+//        database_.delete(Table.MESSAGE, null, null);
+//        database_.delete(Table.MESSAGE_CONVERSATION, null, null);
+//        database_.delete(Table.CONVERSATION, null, null);
+//        database_.delete(Table.GROUPE, null, null);
+//        database_.delete(Table.GROUPE_UTILISATEUR, null, null);
+
 
     }
 
@@ -340,4 +381,20 @@ public class UtilisateurBDD extends AbstractBDD {
         return (cursor.getCount()>0);
 
     }
+
+    public long insererConnexion(long idUtilisateur, String idConnexion){
+        //Cr�ation d'un ContentValues (fonctionne comme une HashMap)
+        //On va mettre les valeurs de l'utilisateur en fonction des colonnes
+        ContentValues values = new ContentValues();
+        //on lui ajoute une valeur associée � une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
+        values.put(Colonne.ID_UTILISATEUR, idUtilisateur);
+        values.put(Colonne.ID_CONNEXION, idConnexion);
+
+        Log.d(TAG, "Insertion Table Utilisateur Connexion de la connexion de lutilisateur, utilisateur id : " + idUtilisateur);
+        Log.d("UtilisateurBDD", "insertion connexion en cours");
+        //on insère l'objet dans la BDD via le ContentValues,
+        return database_.insert(Table.UTILISATEUR_CONNEXIONS, null, values);
+
+    }
+
 }

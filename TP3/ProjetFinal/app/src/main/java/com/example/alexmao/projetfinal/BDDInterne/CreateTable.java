@@ -20,7 +20,7 @@ public class CreateTable {
 
     //Requete pour la création de la table utilisateur connecté
     public static final String UTILISATEUR_CONNECTE = "CREATE TABLE " + Table.UTILISATEUR_CONNECTE + " ("
-            + Colonne.ID_UTILISATEUR_CONNECTE + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + Colonne.ID_UTILISATEUR_CONNECTE + " INTEGER PRIMARY KEY, "
             + Colonne.NOM + " TEXT NOT NULL, "
             + Colonne.PRENOM + " TEXT NOT NULL, "
             + Colonne.DATE_NAISSANTE + " INTEGER,"
@@ -28,9 +28,7 @@ public class CreateTable {
             + Colonne.PHOTO + " TEXT, "
             + Colonne.LATITUDE + " REAL, "
             + Colonne.LONGITUDE + " REAL,"
-            + Colonne.ID_FIREBASE + " TEXT,"
-            + Colonne.ID_UTILISATEUR + " INTEGER,"
-            + " FOREIGN KEY(" + Colonne.ID_UTILISATEUR + ") REFERENCES " + Table.UTILISATEUR + "(id_utilisateur));";
+            + Colonne.ID_FIREBASE + " TEXT );";
 
     //Requete pour la création de la table parametre utilisateur
     public static final String PARAMETRE_UTILISATEUR = "CREATE TABLE " + Table.PARAMETRE_UTILISATEUR + " ("
@@ -143,4 +141,14 @@ public class CreateTable {
             + " PRIMARY KEY (" + Colonne.ID_GROUPE + ", " + Colonne.ID_UTILISATEUR + "), "
             + " FOREIGN KEY (" + Colonne.ID_GROUPE + ")  REFERENCES " + Table.GROUPE + "( " + Colonne.ID_GROUPE + "),"
             + " FOREIGN KEY (" + Colonne.ID_UTILISATEUR + ") REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " )); ";
+
+    //Requete pour la création de la table utilisateur Connexion
+    public static final String UTILISATEUR_CONNEXIONS = "CREATE TABLE " + Table.UTILISATEUR_CONNEXIONS + " ("
+            + Colonne.ID_UTILISATEUR + " INTEGER, "
+            + Colonne.ID_CONNEXION + " TEXT NOT NULL ); ";
+//            + " PRIMARY KEY (" + Colonne.ID_UTILISATEUR + ", " + Colonne.ID_CONNEXION + "), "
+//            + " FOREIGN KEY (" + Colonne.ID_UTILISATEUR + ")  REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + "),"
+//            + " FOREIGN KEY (" + Colonne.ID_CONNEXION + ") REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " )); ";
+//
+
 }
