@@ -12,15 +12,32 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.alexmao.projetfinal.Adapter.AdapterUtilisateur;
+import com.example.alexmao.projetfinal.BDDExterne.FetchFullDataFromEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
+import com.example.alexmao.projetfinal.BDDExterne.FromEBDDToLocalClassTranslator;
+import com.example.alexmao.projetfinal.BDDExterne.InvitationConnexionEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.NotificationBDD;
+import com.example.alexmao.projetfinal.BDDExterne.NotificationTypes;
+import com.example.alexmao.projetfinal.BDDExterne.OnFullUserData;
+import com.example.alexmao.projetfinal.BDDExterne.OnStringReceived;
+import com.example.alexmao.projetfinal.BDDExterne.Picture;
+import com.example.alexmao.projetfinal.BDDExterne.Position;
+import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
+import com.example.alexmao.projetfinal.BDDExterne.UserParamsEBDD;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class InviterConnexion extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private RemoteBD remoteBD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +79,35 @@ public class InviterConnexion extends AppCompatActivity {
                 return handled;
             }
         });
+        remoteBD = new FireBaseBD(this);
     }
 
     private void setupRecyclerView() {
 
     }
 
-    private void rechercherUtilisateur(String query) {
+    private void rechercherUtilisateur(String mail) {
+        remoteBD.getIDFromMail(mail, new OnStringReceived() {
+            @Override
+            public void onStringReceived(String s) {
+                FetchFullDataFromEBDD.fetchUser(s, remoteBD, new OnFullUserData() {
+                    @Override
+                    public void onFullUserData(LocalUserProfilEBDD localUserProfilEBDD,
+                                               Position position,
+                                               Picture picture,
+                                               UserParamsEBDD params) {
+                        Utilisateur utilisateur =
+                                FromEBDDToLocalClassTranslator.utilisateurFromEBDD(localUserProfilEBDD,
+                                        position, params, picture);
+                        onUserReceived(utilisateur);
+                    }
+                });
+            }
+        });
+    }
+
+    private void onUserReceived(Utilisateur utilisateur) {
+        //TODO : Faire quelque chose
     }
 
     @Override
@@ -79,5 +118,13 @@ public class InviterConnexion extends AppCompatActivity {
             finish();
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void sendConnexion(InvitationConnexionEBDD invitationConnexionEBDD, String userID) {
+        Map<String,String> params = new HashMap<>();
+        params.put("date", new Date(invitationConnexionEBDD.getDate()).toString());
+        NotificationBDD notificationBDD = new NotificationBDD(NotificationTypes.conctactInvitation,
+               params, invitationConnexionEBDD.getExpediteur(), invitationConnexionEBDD.getInvite());
+        remoteBD.addNotificationToUser(userID, notificationBDD);
     }
 }

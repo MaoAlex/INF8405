@@ -122,6 +122,39 @@ public class FetchFullDataFromEBDD {
         });
     }
 
+    public static void fetchGroupOnly(final String groupID, final RemoteBD remoteBD,
+                                  final OnGroupOnly callback) {
+        final int[] nbOpDone = new int[1];
+        final int[] sizeWrapper = new int[1];
+        final MyLocalGroupEBDD groupEBDD = new MyLocalGroupEBDD();
+        groupEBDD.setDatabaseID(groupID);
+        final List<FullUserWrapper> mWrappers = new ArrayList<>();
+
+        remoteBD.getGroup(groupID, groupEBDD, new OnGroupReceived() {
+            @Override
+            public void onGroupReceived(MyGroupEBDD myGroupEBDD) {
+                groupEBDD.update(myGroupEBDD);
+                sizeWrapper[0] = groupEBDD.getMembersID().size();
+                for (String id : groupEBDD.getMembersID()) {
+                    fetchUser(id, remoteBD, new OnFullUserData() {
+                        @Override
+                        public void onFullUserData(LocalUserProfilEBDD localUserProfilEBDD,
+                                                   Position position, Picture picture,
+                                                   UserParamsEBDD params) {
+                            final FullUserWrapper wrapper = new FullUserWrapper(localUserProfilEBDD,
+                                    position, picture, params);
+                            mWrappers.add(wrapper);
+                            nbOpDone[0]++;
+                            if (nbOpDone[0] == sizeWrapper[0]) {
+                                callback.onGroupOnly(groupEBDD, mWrappers);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
     //récupère tous les groupes associés à un utilisateur
     public static void fetchallGroups(String userID, final RemoteBD remoteBD, final OnGroupsReady callback) {
         final List<FullGroupWrapper> groupWrappers = new ArrayList<>();
