@@ -50,13 +50,13 @@ public class TestNotificationActivity extends AppCompatActivity {
         Map<String, OnNotificationReceived> receivedMap = new HashMap<>();
         receivedMap.put(NotificationTypes.conctactInvitation, new OnNotificationReceived() {
             @Override
-            public void onNotificationReceived(NotificationBDD notificationBDD) {
+            public void onNotificationReceived(NotificationBDD notificationBDD, String s) {
                 onContactInvitation(notificationBDD);
             }
         });
         receivedMap.put(NotificationTypes.conctactInvitationAnswer, new OnNotificationReceived() {
             @Override
-            public void onNotificationReceived(NotificationBDD notificationBDD) {
+            public void onNotificationReceived(NotificationBDD notificationBDD, String s) {
                 onContactInvitationAnswer(notificationBDD);
             }
         });
