@@ -80,7 +80,8 @@ public class FromClassAppToEBDD {
         ebddClass.setDate(evenement.getDate());
         ebddClass.setLieu(evenement.getLieu());
         ebddClass.setGroupID(evenement.getGroupeAssocie().getIdFirebase());
-        ebddClass.setPicture(new Picture(bitmap));
+        if (bitmap != null)
+            ebddClass.setPicture(new Picture(bitmap));
 
         return ebddClass;
     }
