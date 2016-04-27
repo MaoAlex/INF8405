@@ -197,6 +197,7 @@ public class CreerEvenement extends AppCompatActivity {
         String eventID = remoteBD.addEvent(eventEBDD);
         eventEBDD.setDataBaseId(eventID);
 
+        //TODO: Alex vérifie que la visibilité public correnpond bien à un événement public
         if (evenement.getVisibilite().equals("public"))
             addOnEBDDPublicPart(evenement);
     }
