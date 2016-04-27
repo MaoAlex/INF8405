@@ -5,6 +5,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -23,7 +25,7 @@ public class Utilisateur implements Parcelable {
     private List<String> listeInteretsID;
     private List<String> listeParticipationsID;
     private String idFirebase;
-    private int idBDD;
+    private long idBDD;
     private ParametresUtilisateur parametres;
 
     public Utilisateur() {
@@ -59,7 +61,7 @@ public class Utilisateur implements Parcelable {
         listeInteretsID = in.readArrayList(String.class.getClassLoader());
         listeParticipationsID = in.readArrayList(String.class.getClassLoader());
         idFirebase = in.readString();
-        idBDD = in.readInt();
+        idBDD = in.readLong();
         parametres = in.readParcelable(ParametresUtilisateur.class.getClassLoader());
     }
 
@@ -159,11 +161,11 @@ public class Utilisateur implements Parcelable {
         this.idFirebase = idFirebase;
     }
 
-    public int getIdBDD() {
+    public long getIdBDD() {
         return idBDD;
     }
 
-    public void setIdBDD(int idBDD) {
+    public void setIdBDD(long idBDD) {
         this.idBDD = idBDD;
     }
 
@@ -199,7 +201,7 @@ public class Utilisateur implements Parcelable {
         dest.writeList(listeInteretsID);
         dest.writeList(listeParticipationsID);
         dest.writeString(idFirebase);
-        dest.writeInt(idBDD);
+        dest.writeLong(idBDD);
         dest.writeParcelable(parametres, flags);
 
     }
@@ -214,4 +216,26 @@ public class Utilisateur implements Parcelable {
             return new Utilisateur[size];
         }
     };
+
+    public String construireDDN() {
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(dateNaissance);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        String dateNaissance = new String(String.valueOf(day));
+        dateNaissance = dateNaissance.concat("/");
+        dateNaissance = dateNaissance.concat(String.valueOf(month));
+        dateNaissance = dateNaissance.concat("/");
+        dateNaissance = dateNaissance.concat(String.valueOf(year));
+
+        return dateNaissance;
+    }
+
+    public String construireNom() {
+        String identite = new String(prenom);
+        identite = identite.concat(" ");
+        identite = identite.concat(nom);
+        return identite;
+    }
 }

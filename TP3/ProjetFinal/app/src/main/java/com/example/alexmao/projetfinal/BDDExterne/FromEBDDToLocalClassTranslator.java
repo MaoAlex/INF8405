@@ -1,6 +1,5 @@
 package com.example.alexmao.projetfinal.BDDExterne;
 
-import com.example.alexmao.projetfinal.BDDInterne.ParametreUtilisateurBDD;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
 import com.example.alexmao.projetfinal.classeApp.Groupe;
 import com.example.alexmao.projetfinal.classeApp.InvitationConnexion;
@@ -106,7 +105,7 @@ public class FromEBDDToLocalClassTranslator {
 
     public static InvitationConnexion translateInvitationConnexionEBDD(InvitationConnexionEBDD invitationConnexionEBDD) {
         InvitationConnexion localClass = new InvitationConnexion();
-        localClass.setDate(new Date(invitationConnexionEBDD.getDate()));
+        localClass.setDate((invitationConnexionEBDD.getDate()));
         localClass.setIdFirebase(invitationConnexionEBDD.getIdFirebase());
 
         return localClass;
@@ -115,7 +114,7 @@ public class FromEBDDToLocalClassTranslator {
     public static InvitationEvenement translateInvitationEvenementEBDD(InvitationEvenementEBDD invitationEvenementEBDD) {
         InvitationEvenement localClass = new InvitationEvenement();
         localClass.setIdFirebase(invitationEvenementEBDD.getIdFirebase());
-        localClass.setDate(new Date(invitationEvenementEBDD.getDate()));
+        localClass.setDate((invitationEvenementEBDD.getDate()));
 
         return localClass;
     }

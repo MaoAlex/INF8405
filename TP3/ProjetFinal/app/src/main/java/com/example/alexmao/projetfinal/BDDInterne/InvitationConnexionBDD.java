@@ -8,10 +8,8 @@ import android.util.Log;
 import com.example.alexmao.projetfinal.classeApp.InvitationConnexion;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  *Classe permettant de gérer les invitations de connexion entre utilisateurs
@@ -36,7 +34,7 @@ public class InvitationConnexionBDD extends AbstractBDD {
         ContentValues values = new ContentValues();
         //on lui ajoute une valeur associée à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
         values.put(Colonne.ID_INVITE, invitationConnexion.getInvite().getIdBDD());
-        values.put(Colonne.DATE_INVITATION, invitationConnexion.getDate().toString());
+        values.put(Colonne.DATE_INVITATION, invitationConnexion.getDate());
         values.put(Colonne.ID_FIREBASE, invitationConnexion.getIdFirebase());
 
         return database_.insert(Table.INVITATION_CONNEXION, null, values);
@@ -65,14 +63,14 @@ public class InvitationConnexionBDD extends AbstractBDD {
             //invitationConnexion.setExpediteur();
             invitationConnexion.setInvite(utilisateur);
             SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
-            Date date = new Date();
-            try {
-                date = formatDate.parse(c.getString(NUM_COL_DATE).toString());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            Log.i(TAG, "Date: " + formatDate.format(date));
-            invitationConnexion.setDate(date);
+//            Date date = new Date();
+//            try {
+//                date = formatDate.parse(c.getString(NUM_COL_DATE).toString());
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            Log.i(TAG, "Date: " + formatDate.format(date));
+            invitationConnexion.setDate(c.getLong(NUM_COL_DATE));
             invitationConnexion.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
             invitationConnexion.setIdBDD(c.getInt(NUM_COL_ID));
 
@@ -81,5 +79,25 @@ public class InvitationConnexionBDD extends AbstractBDD {
         c.close();
         return listeInvitationConnexion;
 
+    }
+
+    //fonction de debuggage pour afficher les invitations connexion présents dans la BDD interne
+    public void affichageInvitationConnexion() {
+        String query = "SELECT * "
+                + " FROM "
+                + Table.EVENEMENT ;
+
+        Log.d("query", query);
+        Cursor cursor = database_.rawQuery(query, null);
+        //
+        //on insère l'objet dans la BDD via le ContentValues
+        while (cursor.moveToNext()) {
+            Log.d(TAG, "L'id de l''invitation connexion est : " + cursor.getInt(NUM_COL_ID)
+                    + ", l'id de l'expediteur est : " + cursor.getInt(NUM_COL_ID_EXPEDITEUR)
+                    + ", l'id de l'invite est : " + cursor.getInt(NUM_COL_ID_INVITE)
+                    + ", la date est : " + cursor.getLong(NUM_COL_DATE)
+                    + ", l'id firebase est : " + cursor.getString(NUM_COL_ID_FIREBASE));
+        }
+        cursor.close();
     }
 }

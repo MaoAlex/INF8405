@@ -47,7 +47,7 @@ public class TabActivity extends AppCompatActivity {
 
     /**
      * PagerAdapter va fournir les fragments pour chaque sections
-     * FragmentPagerAdapter  va permettre de garder les fragments en mémoire
+     * FragmentPagerAdapter  va permettre de garder les fragments en émoire
      * Possibilité d'utiliser FragmentStatePagerAdapter pour economiser de la mémoire
      *
      */

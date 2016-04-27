@@ -8,10 +8,8 @@ import android.util.Log;
 import com.example.alexmao.projetfinal.classeApp.InvitationEvenement;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by alexMAO on 04/04/2016.
@@ -37,7 +35,7 @@ public class InvitationEvenementBDD extends AbstractBDD {
         //on lui ajoute une valeur associée à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
         values.put(Colonne.ID_EXPEDITEUR, invitationEvenement.getExpediteur().getIdBDD());
         values.put(Colonne.ID_INVITE, invitationEvenement.getInvite().getIdBDD());
-        values.put(Colonne.DATE_INVITATION, invitationEvenement.getDate().toString());
+        values.put(Colonne.DATE_INVITATION, invitationEvenement.getDate());
         values.put(Colonne.ID_FIREBASE, invitationEvenement.getIdFirebase());
 
         return database_.insert(Table.INVITATION_EVENEMENT, null, values);
@@ -66,14 +64,14 @@ public class InvitationEvenementBDD extends AbstractBDD {
             //invitationEvenement.setExpediteur();
             invitationEvenement.setInvite(utilisateur);
             SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
-            Date date = new Date();
-            try {
-                date = formatDate.parse(c.getString(NUM_COL_DATE).toString());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            Log.i(TAG, "Date: " + formatDate.format(date));
-            invitationEvenement.setDate(date);
+//            Date date = new Date();
+//            try {
+//                date = formatDate.parse(c.getString(NUM_COL_DATE).toString());
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            Log.i(TAG, "Date: " + formatDate.format(date));
+            invitationEvenement.setDate(c.getLong(NUM_COL_DATE));
             //invitationEvenement.setEvenement();
             invitationEvenement.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
             invitationEvenement.setIdBDD(c.getInt(NUM_COL_ID));

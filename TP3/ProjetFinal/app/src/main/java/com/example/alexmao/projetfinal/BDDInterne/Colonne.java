@@ -20,7 +20,6 @@ public class Colonne {
 
     //Nom des colonnes pour la table utilisateur connecte
     public static final String ID_UTILISATEUR_CONNECTE = "id_utilisateur_connecte";
-//    public static final String ID_UTILISATEUR = "id_utilisateur";
 //    public static final String NOM = "nom";
 //    public static final String PRENOM = "prenom";
 //    public static final String DATE_NAISSANTE = "date_naissance";
@@ -106,5 +105,9 @@ public class Colonne {
     //Nom des colonnes pour la table groupe utilisateur
 //    public static final String ID_GROUPE = "id_groupe";
 //    public static final String ID_UTILISATEUR = "id_utilisateur";
+
+    //Nom des colonnes pour la table utilisateurs connexions
+//    public static final String ID_UTILISATEUR = "id_utilisateur";
+    public static final String ID_CONNEXION = "id_connexion";
 
 }

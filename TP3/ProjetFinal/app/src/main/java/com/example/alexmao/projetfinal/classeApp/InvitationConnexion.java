@@ -3,15 +3,13 @@ package com.example.alexmao.projetfinal.classeApp;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Date;
-
 /**
  * Created by Fabien on 02/04/2016.
  */
 public class InvitationConnexion implements Parcelable {
     private Utilisateur expediteur;
     private Utilisateur invite;
-    private Date date;
+    private long date;
     private String idFirebase;
     private int idBDD;
 
@@ -22,7 +20,7 @@ public class InvitationConnexion implements Parcelable {
     public InvitationConnexion(Parcel in) {
         expediteur = in.readParcelable(Utilisateur.class.getClassLoader());
         invite = in.readParcelable(Utilisateur.class.getClassLoader());
-        date = (Date) in.readSerializable();
+        date = in.readLong();
         idFirebase = in.readString();
         idBDD = in.readInt();
     }
@@ -43,11 +41,11 @@ public class InvitationConnexion implements Parcelable {
         this.invite = invite;
     }
 
-    public Date getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -80,7 +78,7 @@ public class InvitationConnexion implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(expediteur, flags);
         dest.writeParcelable(invite, flags);
-        dest.writeSerializable(date);
+        dest.writeLong(date);
         dest.writeString(idFirebase);
         dest.writeInt(idBDD);
     }

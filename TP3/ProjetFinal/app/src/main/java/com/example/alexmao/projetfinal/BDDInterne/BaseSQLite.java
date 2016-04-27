@@ -64,6 +64,9 @@ public class BaseSQLite extends SQLiteOpenHelper {
         Log.d(TAG, "onCreate: Creation de la table groupe réussie");
         db.execSQL(CreateTable.GROUPE_UTILISATEUR);
         Log.d(TAG, "onCreate: Creation de la table groupe utilisateur réussie");
+        db.execSQL(CreateTable.UTILISATEUR_CONNEXIONS);
+        Log.d(TAG, "onCreate: Creation de la table groupe utilisateur réussie");
+
     }
 
     @Override
@@ -100,6 +103,8 @@ public class BaseSQLite extends SQLiteOpenHelper {
         Log.d(TAG, "onUpgrade: Creation de la table groupe réussie");
         db.execSQL("DROP TABLE IF EXISTS " + Table.GROUPE_UTILISATEUR + ";");
         Log.d(TAG, "onUpgrade: Creation de la table groupe utilisateur réussie");
+        db.execSQL("DROP TABLE IF EXISTS " + Table.UTILISATEUR_CONNEXIONS + ";");
+        Log.d(TAG, "onUpgrade: Creation de la table utilisateur connexion réussie");
 
         onCreate(db);
     }
