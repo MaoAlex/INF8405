@@ -14,6 +14,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
+import com.example.alexmao.projetfinal.BDDExterne.FromClassAppToEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.MyLocalEventEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
 
@@ -36,6 +40,9 @@ public class CreerEvenement extends AppCompatActivity {
     private int year;
     private int hours;
     private int minutes;
+
+    //BD Externe
+    private RemoteBD remoteBD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +76,8 @@ public class CreerEvenement extends AppCompatActivity {
                 onButtonClick();
             }
         });
+
+        remoteBD = new FireBaseBD(this);
     }
 
     private void onButtonClick() {
@@ -148,5 +157,11 @@ public class CreerEvenement extends AppCompatActivity {
             finish();
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void sendOnEBDD(Evenement evenement) {
+        MyLocalEventEBDD eventEBDD = FromClassAppToEBDD.translateEvenement(evenement, null);
+        String eventID = remoteBD.addEvent(eventEBDD);
+        eventEBDD.setDataBaseId(eventID);
     }
 }
