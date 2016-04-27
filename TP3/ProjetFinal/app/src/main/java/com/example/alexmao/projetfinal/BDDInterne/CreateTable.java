@@ -16,7 +16,7 @@ public class CreateTable {
             + Colonne.PHOTO + " TEXT, "
             + Colonne.LATITUDE + " REAL, "
             + Colonne.LONGITUDE + " REAL,"
-            + Colonne.ID_FIREBASE + " TEXT NOT NULL );";
+            + Colonne.ID_FIREBASE + " TEXT );";
 
     //Requete pour la création de la table utilisateur connecté
     public static final String UTILISATEUR_CONNECTE = "CREATE TABLE " + Table.UTILISATEUR_CONNECTE + " ("
@@ -28,9 +28,9 @@ public class CreateTable {
             + Colonne.PHOTO + " TEXT, "
             + Colonne.LATITUDE + " REAL, "
             + Colonne.LONGITUDE + " REAL,"
+            + Colonne.ID_FIREBASE + " TEXT,"
             + Colonne.ID_UTILISATEUR + " INTEGER,"
-            + Colonne.ID_FIREBASE + " TEXT NOT NULL,"
-            + " FOREIGN KEY(" + Colonne.ID_UTILISATEUR + ") REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " ));";
+            + " FOREIGN KEY(" + Colonne.ID_UTILISATEUR + ") REFERENCES " + Table.UTILISATEUR + "(id_utilisateur));";
 
     //Requete pour la création de la table parametre utilisateur
     public static final String PARAMETRE_UTILISATEUR = "CREATE TABLE " + Table.PARAMETRE_UTILISATEUR + " ("
@@ -55,7 +55,7 @@ public class CreateTable {
             + Colonne.ID_ORGANISATEUR + " INTEGER, "
             + Colonne.VISIBILITE + " TEXT, "
             + " FOREIGN KEY (" + Colonne.ID_GROUPE + ")  REFERENCES " + Table.GROUPE + "( " + Colonne.ID_GROUPE + "),"
-            + " FOREIGN KEY (" + Colonne.ID_GROUPE + ")  REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " ));";
+            + " FOREIGN KEY (" + Colonne.ID_ORGANISATEUR + ")  REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " ));";
 
     //Requete pour la création de la table evenement interesse
     public static final String EVENEMENT_INTERESSE = "CREATE TABLE " + Table.EVENEMENT_INTERESSE + " ("

@@ -95,5 +95,30 @@ public class GroupeBDD extends AbstractBDD {
         return groupe;
     }
 
+    //On peut aussi récupérer une conversation entre plusieurs personnes qui forment juste un groupe
+    public Groupe affichageGroupe(){
+
+        Groupe groupe = new Groupe();
+
+        //requete pour récupérer la groupe associée à une conversation
+        String query = "SELECT *"
+                + " FROM "
+                + Table.GROUPE;
+
+        Log.d("query", query);
+
+        Cursor cursor = database_.rawQuery(query, null);
+        //On récupère la groupe associée à une conversation, ce groupe est unique
+           while (cursor.moveToNext()) {
+            Log.d(TAG, "L'id de du groupe est : " + cursor.getInt(NUM_COL_ID)
+                    + ", son id conver est : " + cursor.getInt(NUM_COL_ID_CONVERSATION)
+                    + ", son evenemnt est : " + cursor.getInt(NUM_COL_ID_EVENEMENT)
+                    + ", son idFirebase est : " + cursor.getString(NUM_COL_ID_FIREBASE));
+        }
+        cursor.close();
+
+        return groupe;
+    }
+
 
 }

@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.BDDExterne.UtilisateurProfilEBDD;
+import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 import com.example.alexmao.projetfinal.custom.CustomActivity;
@@ -106,18 +108,37 @@ public class InscriptionInformation extends CustomActivity
                 getString(R.string.alert_wait));
         //Création de la variable utilisateur qui va être envoyé au serveur
         final UtilisateurProfilEBDD user = new UtilisateurProfilEBDD();
+        Utilisateur utilisateur = new Utilisateur();
         Intent intent = getIntent();
         String email = intent.getStringExtra("mail");
+        utilisateur.setMail(email);
+        utilisateur.setPrenom(prenom);
+        utilisateur.setNom(nom);
+        utilisateur.setDateNaissance(date.getTime());
         user.setMailAdr(email);
-        user.setLastName(prenom);
-        user.setFirstName(nom);
+        user.setFirstName(prenom);
+        user.setLastName(nom);
         user.setDateBirth(date.getTime());
         //Ajout de l'utilisateur dans la BDD externe
         final String idFirebase = remoteBD.addUserProfil(user);
+        Log.d("Firebase", "Id Firebse : " + idFirebase);
+
         //Ajout du mot de passe associé à cet utilisateur et son adresse mail
         String mdp = intent.getStringExtra("mdp");
         remoteBD.addMdpToUser(email, mdp);
+        utilisateur.setIdFirebase(idFirebase);
 
+        Log.d("Firebase", "Id Firebse : " + utilisateur.getIdFirebase());
+
+        UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
+        utilisateurBDD.open();
+        utilisateurBDD.connexion(utilisateur);
+        utilisateurBDD.insererUtilisateur(utilisateur);
+
+        utilisateurBDD.affichageUtilisateurs();
+        utilisateurBDD.affichageUtilisateurConnecte();
+        utilisateurBDD.close();
+        //sendToEBDD(utilisateur);
         //Une fois l'envoie des données réussi sur le serveur, on passe à la page d'accueil
         startActivity(new Intent(InscriptionInformation.this, Accueil.class));
         setResult(RESULT_OK);
@@ -218,7 +239,11 @@ public class InscriptionInformation extends CustomActivity
         profilEBDD.setListeInteretsID(utilisateur.getListeInteretsID());
         profilEBDD.setListeParticipationsID(utilisateur.getListeParticipationsID());
         profilEBDD.setListeConnexion(utilisateur.getListeConnexion());
-        profilEBDD.setDataBaseId(remoteBD.addUserProfil(profilEBDD));
+        String idFirebase = remoteBD.addUserProfil(profilEBDD);
+        profilEBDD.setDataBaseId(idFirebase);
         //TODO: insert in data base
+        Log.d("DOnnes", "On stocke l'utilisateur dans la BDD interne");
+
+
     }
 }

@@ -51,6 +51,9 @@ public class UtilisateurBDD extends AbstractBDD {
             values.put(Colonne.PHOTO, "");
         values.put(Colonne.LATITUDE, utilisateur.getLatitude());
         values.put(Colonne.LONGITUDE, utilisateur.getLongitude());
+
+        Log.d(TAG, "Insertion Table Utilisateur de l'utilisateur connecté, sont id Firebase est : " + utilisateur.getIdFirebase());
+
         values.put(Colonne.ID_FIREBASE, utilisateur.getIdFirebase());
         Log.d("UtilisateurBDD", "insertion en cours");
         //on insère l'objet dans la BDD via le ContentValues,
@@ -154,7 +157,7 @@ public class UtilisateurBDD extends AbstractBDD {
                    + ", son nom est : " + cursor.getString(NUM_COL_NOM)
                    + ", son prenom est : " + cursor.getString(NUM_COL_PRENOM)
                    + ", son mail est : " + cursor.getString(NUM_COL_MAIL)
-                   + ", sa date de naissance est : " + cursor.getString(NUM_COL_DATE_NAISSANCE)
+                   + ", sa date de naissance est : " + cursor.getLong(NUM_COL_DATE_NAISSANCE)
                    + ", son photo est : " + cursor.getString(NUM_COL_PHOTO)
                    + ", sa position est : (" + cursor.getDouble(NUM_COL_LATITUDE) + ", " + cursor.getDouble(NUM_COL_LONGITUDE)
                    + ", son id firebase est : " + cursor.getString(NUM_COL_ID_FIREBASE));
@@ -274,7 +277,10 @@ public class UtilisateurBDD extends AbstractBDD {
             values.put(Colonne.PHOTO, "");
         values.put(Colonne.LATITUDE, utilisateur.getLatitude());
         values.put(Colonne.LONGITUDE, utilisateur.getLongitude());
+        Log.d(TAG, "Insertion Table Utilisateur connecte de l'utilisateur connecté, sont id Firebase est : " + utilisateur.getIdFirebase());
+
         values.put(Colonne.ID_FIREBASE, utilisateur.getIdFirebase());
+
         //On insert l'utilisateur dans la table pour savoir qu'il y a bien un utilisateur connecté
         //Il est ainsi plus simple d'accéder aux données
         database_.insert(Table.UTILISATEUR_CONNECTE, null, values);

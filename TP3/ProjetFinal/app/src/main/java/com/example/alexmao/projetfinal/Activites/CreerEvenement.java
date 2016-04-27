@@ -19,10 +19,15 @@ import com.example.alexmao.projetfinal.BDDExterne.FromClassAppToEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.MyLocalEventEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.NotificationBDD;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
+import com.example.alexmao.projetfinal.BDDInterne.EvenementBDD;
+import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
+import com.example.alexmao.projetfinal.classeApp.Groupe;
 import com.example.alexmao.projetfinal.classeApp.InvitationEvenement;
+import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +48,7 @@ public class CreerEvenement extends AppCompatActivity {
     private int year;
     private int hours;
     private int minutes;
-
+    private Utilisateur utilisateurConnecte;
     //BD Externe
     private RemoteBD remoteBD;
 
@@ -85,6 +90,9 @@ public class CreerEvenement extends AppCompatActivity {
 
     private void onButtonClick() {
         // TODO : Créer l'événement / vérifier les champs ...
+        UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
+        utilisateurBDD.open();
+        utilisateurConnecte = utilisateurBDD.obtenirProfil();
 
         String nom = nomVue.getText().toString();
         String sport = sportVue.getText().toString();
@@ -98,6 +106,27 @@ public class CreerEvenement extends AppCompatActivity {
         evenement.setSport(sport);
         evenement.setNbreMaxParticipants(maxParticipants);
         evenement.setDate(date.getTimeInMillis());
+        ArrayList<Utilisateur> listUtilisateur = new ArrayList<>();
+        evenement.setOrganisateur(utilisateurConnecte);
+
+        Groupe g = new Groupe();
+        listUtilisateur.add(utilisateurConnecte);
+        g.setListeMembre(listUtilisateur);
+//        GroupeBDD groupeBDD = new GroupeBDD(this);
+//        groupeBDD.open();
+//        groupeBDD.insererGroupe(g);
+//
+//        groupeBDD.affichageGroupe();
+//        groupeBDD.close();
+        evenement.setGroupeAssocie(g);
+        MyLocalEventEBDD myLocalEventEBDD = FromClassAppToEBDD.translateEvenement(evenement, null);
+        String idFirebaseEve = remoteBD.addEvent(myLocalEventEBDD);
+        EvenementBDD evenementBDD = new EvenementBDD(this);
+        evenementBDD.open();
+        evenementBDD.insererEvenement(evenement);
+        evenementBDD.affichageEvenements();
+        evenementBDD.close();
+        utilisateurBDD.close();
         // TODO : Event is ready !
         Log.d("CreerEvenement","Bouton cliqué");
     }

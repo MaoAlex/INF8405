@@ -42,7 +42,7 @@ public class Authentification extends CustomActivity
 	// Champ pour rentrer le mot de passe
 	private EditText motDePasse;
     private boolean estConnecte = false ;
-
+    private static Utilisateur utilisateur;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -101,16 +101,15 @@ public class Authentification extends CustomActivity
                 public void onStringReceived(String s) {
                     dia.dismiss();
                     //on vérifie que le mot de passe est bien celui associé à ce mail
-                    if (s != null && s.equals(p)){
+                    if (s != null && s.equals(p)) {
                         connexionReussi(email);
                         Log.d("Test", "recuperation reussi du mail");
-                        startActivity(new Intent(Authentification.this, Accueil.class));
-                        finish();
+
                     } else {//Sinon on l'annonce à l'utilisateur
                         Log.d("Authentification", "erreur de mdp");
                         //notification de l'echec de acitivity_authentification
-						motDePasse.setError(getString(R.string.mdp_incorrect));
-						motDePasse.requestFocus();
+                        motDePasse.setError(getString(R.string.mdp_incorrect));
+                        motDePasse.requestFocus();
                     }
                 }
             });
@@ -157,9 +156,11 @@ public class Authentification extends CustomActivity
 											   Picture picture,
 											   UserParamsEBDD params) {
                         Log.d("Essaie", "valeur id firebase : " + localUserProfilEBDD.getDataBaseId());
-						Utilisateur utilisateur = FromEBDDToLocalClassTranslator.utilisateurFromEBDD(localUserProfilEBDD,
+						utilisateur = FromEBDDToLocalClassTranslator.utilisateurFromEBDD(localUserProfilEBDD,
 								position, params, picture);
                         onUserReceived(utilisateur);
+                        startActivity(new Intent(Authentification.this, Accueil.class));
+                        finish();
 					}
 				});
 			}
