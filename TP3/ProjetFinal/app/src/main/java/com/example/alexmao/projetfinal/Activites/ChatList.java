@@ -3,6 +3,8 @@ package com.example.alexmao.projetfinal.Activites;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -41,7 +43,12 @@ public class ChatList extends CustomActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_list);
 
-		getActionBar().setDisplayHomeAsUpEnabled(false);
+		//Récupération de la toolbar et mise en place
+		Toolbar toolbar =   (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		//Mise en place de la flèche pour le retour en arrière
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
         uList = new ArrayList<>();
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setNom("salut");
@@ -221,4 +228,14 @@ public class ChatList extends CustomActivity
 		}
 
 	}
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        //Gestion du clique sur le retour en arrière
+        if(id == android.R.id.home)
+            finish();
+
+        return super.onOptionsItemSelected(item);
+    }
 }

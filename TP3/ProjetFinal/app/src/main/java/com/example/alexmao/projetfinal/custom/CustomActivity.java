@@ -1,7 +1,7 @@
 package com.example.alexmao.projetfinal.custom;
 
 import android.app.ActionBar;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -13,7 +13,7 @@ import com.example.alexmao.projetfinal.utils.TouchEffect;
  * inherit the common behaviors like implementing a common interface that can be
  * used in all child activities.
  */
-public class CustomActivity extends FragmentActivity implements OnClickListener
+public class CustomActivity extends AppCompatActivity implements OnClickListener
 {
 
 	/**

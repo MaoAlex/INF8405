@@ -3,17 +3,15 @@ package com.example.alexmao.projetfinal.Activites;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TimePicker;
 
 import com.example.alexmao.projetfinal.R;
@@ -46,6 +44,10 @@ public class CreerEvenement extends AppCompatActivity {
         setContentView(R.layout.activity_creer_evenement);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //Mise en place de la flèche pour le retour en arrière
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         nomVue = (EditText) findViewById(R.id.creer_evt_nomEvement);
         lieuVue = (EditText) findViewById(R.id.creer_evt_lieu);
@@ -121,5 +123,15 @@ public class CreerEvenement extends AppCompatActivity {
         //méthode permettant l'affichage spécifique du choix de l'heure
             TimePickerDialog timePickerDialog = new TimePickerDialog(this, timePickerListener, hours, minutes, true);
             timePickerDialog.show();
-        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        //Gestion du clique sur le retour en arrière
+        if(id == android.R.id.home)
+            finish();
+
+        return super.onOptionsItemSelected(item);
+    }
 }

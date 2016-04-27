@@ -19,9 +19,17 @@
     <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>-->
 
     <!-- A RecyclerView with some commonly used attributes -->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_collapseMode="pin"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
         android:id="@+id/rv"
         />
 </RelativeLayout>

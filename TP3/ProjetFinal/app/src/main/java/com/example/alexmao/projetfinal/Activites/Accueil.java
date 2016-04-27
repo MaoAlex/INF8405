@@ -2,6 +2,7 @@ package com.example.alexmao.projetfinal.Activites;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -68,7 +69,8 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
         //Récupération de la toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        toolbar.setNavigationIcon(android.R.drawable.ic_menu_add);
+        toolbar.inflateMenu(R.menu.menu);
         //Récupération du DrawerLayout
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -443,6 +445,24 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
         }
     }
 
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu, menu);
+//        return true;
+//    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.menu_add) {
+            Intent intent = new Intent(this, CreerEvenement.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 
 }

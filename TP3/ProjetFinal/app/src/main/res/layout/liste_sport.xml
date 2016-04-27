@@ -1,9 +1,9 @@
-<android:LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_weight="30"
     android:weightSum="90"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    >
     <ImageView
         android:id="@+id/waterpolo"
         android:layout_width="0dp"
@@ -34,4 +34,4 @@
         android:paddingTop="5dp"
         android:src="@drawable/waterpolo"
         android:layout_weight="30"/>
-</android:LinearLayout>
+</LinearLayout>

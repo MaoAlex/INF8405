@@ -5,6 +5,8 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
@@ -27,24 +29,18 @@ public class AffichageEvenement extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_evenement);
-
+        //Récupération de la toolbar et mise en place
         Toolbar toolbar =   (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        //Mise en place de la flèche pour le retour en arrière
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //Mise en place de l'image qui va se réduire
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle("Evenement");
         collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
 
-//        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-//
-//        mRecyclerView.setHasFixedSize(true);
-//
-//        // use a linear layout manager
-//        mLayoutManager = new LinearLayoutManager(this);
-//        mRecyclerView.setLayoutManager(mLayoutManager);
-//
-//        mAdapter = new MyAdapter(myDataset);
-//        mRecyclerView.setAdapter(mAdapter);
+        //Mise en place des éléments de test
         String idFirebase = getIntent().getStringExtra("evenement");
         Evenement evenement = new Evenement();
         evenement.setNbreMaxParticipants(10);
@@ -75,19 +71,28 @@ public class AffichageEvenement extends AppCompatActivity {
         //getIntent().getParcelableExtra("evenement");
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        //Gestion du clique sur le retour en arrière
+        if(id == android.R.id.home)
+            finish();
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        finish();
+    }
 }

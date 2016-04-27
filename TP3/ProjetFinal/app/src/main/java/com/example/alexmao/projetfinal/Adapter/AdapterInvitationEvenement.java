@@ -13,7 +13,6 @@ import com.example.alexmao.projetfinal.Activites.interfaces.BtnEvenementAccepter
 import com.example.alexmao.projetfinal.Activites.interfaces.BtnEvenementRefuserClickListener;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
-import com.example.alexmao.projetfinal.classeApp.InvitationConnexion;
 import com.example.alexmao.projetfinal.classeApp.InvitationEvenement;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
@@ -129,7 +128,7 @@ public class AdapterInvitationEvenement extends RecyclerView.Adapter<AdapterInvi
         evenement.setNbreMaxParticipants(10);
         GregorianCalendar test2 = new GregorianCalendar(2016, 03, 27);
         date = test2.getTime();
-        evenement.setDate(date.getTime());
+        evenement.setDate(test2.getTimeInMillis());
         evenement.setLieu("parc kent");
         evenement.setNomEvenement("Fin de session");
         evenement.setOrganisateur(u1);
