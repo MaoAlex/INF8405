@@ -109,6 +109,7 @@ public class InviterConnexion extends AppCompatActivity {
 
     private void onUserReceived(Utilisateur utilisateur) {
         //TODO : Faire quelque chose
+        //ex afficher le s données de l'utilisateur issu de la recherche
     }
 
     @Override
