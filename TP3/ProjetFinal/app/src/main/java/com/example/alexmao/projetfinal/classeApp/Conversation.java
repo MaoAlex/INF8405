@@ -13,6 +13,7 @@ public class Conversation implements Parcelable {
     private List<Message> listeMessage;
     private int idBDD;
     private String idFirebase;
+    private String groupID;
 
     public Conversation() {
 
@@ -57,9 +58,17 @@ public class Conversation implements Parcelable {
         this.idFirebase = idFirebase;
     }
 
+    public String getGroupID() {
+        return groupID;
+    }
+
+    public void setGroupID(String groupID) {
+        this.groupID = groupID;
+    }
+
     /*
-     * Parcel methods
-     */
+         * Parcel methods
+         */
     @Override
     public int describeContents() {
         return 0;

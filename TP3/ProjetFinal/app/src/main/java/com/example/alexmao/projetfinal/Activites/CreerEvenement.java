@@ -14,11 +14,19 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
+import com.example.alexmao.projetfinal.BDDExterne.FromClassAppToEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.MyLocalEventEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.NotificationBDD;
+import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
+import com.example.alexmao.projetfinal.classeApp.InvitationEvenement;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CreerEvenement extends AppCompatActivity {
 
@@ -36,6 +44,9 @@ public class CreerEvenement extends AppCompatActivity {
     private int year;
     private int hours;
     private int minutes;
+
+    //BD Externe
+    private RemoteBD remoteBD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +80,8 @@ public class CreerEvenement extends AppCompatActivity {
                 onButtonClick();
             }
         });
+
+        remoteBD = new FireBaseBD(this);
     }
 
     private void onButtonClick() {
@@ -148,5 +161,22 @@ public class CreerEvenement extends AppCompatActivity {
             finish();
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void sendOnEBDD(Evenement evenement) {
+        MyLocalEventEBDD eventEBDD = FromClassAppToEBDD.translateEvenement(evenement, null);
+        String eventID = remoteBD.addEvent(eventEBDD);
+        eventEBDD.setDataBaseId(eventID);
+    }
+
+    private void sendInvitation(InvitationEvenement invitationEvenement) {
+        NotificationBDD notificationBDD = new NotificationBDD();
+        notificationBDD.setDate(invitationEvenement.getDate().getTime());
+        notificationBDD.setAskerID(invitationEvenement.getExpediteur().getIdFirebase());
+        notificationBDD.setDestID(invitationEvenement.getInvite().getIdFirebase());
+        Map<String, String> map = new HashMap<>();
+        notificationBDD.setParams(map);
+
+        remoteBD.addNotificationToUser(notificationBDD.getDestID(), notificationBDD);
     }
 }

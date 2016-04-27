@@ -3,6 +3,7 @@ package com.example.alexmao.projetfinal.classeApp;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ public class Groupe implements Parcelable {
     private Evenement evenement;
 
     public Groupe() {
-
+        listeMembre = new LinkedList<>();
     }
 
     public Groupe(Parcel in) {
@@ -65,6 +66,10 @@ public class Groupe implements Parcelable {
 
     public void setEvenement(Evenement evenement) {
         this.evenement = evenement;
+    }
+
+    public void addMember(Utilisateur utilisateur) {
+        listeMembre.add(utilisateur);
     }
 
      /*

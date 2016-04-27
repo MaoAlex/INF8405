@@ -37,13 +37,17 @@ import com.example.alexmao.projetfinal.BDDExterne.NotificationTypes;
 import com.example.alexmao.projetfinal.BDDExterne.OnGroupsReady;
 import com.example.alexmao.projetfinal.BDDExterne.OnMessageReceiveCallback;
 import com.example.alexmao.projetfinal.BDDExterne.OnNotificationReceived;
+import com.example.alexmao.projetfinal.BDDExterne.OnPositionReceived;
 import com.example.alexmao.projetfinal.BDDExterne.OnTemporaryEvents;
+import com.example.alexmao.projetfinal.BDDExterne.Position;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
+import com.example.alexmao.projetfinal.MapResources.ConnectedMapActivity;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
 import com.example.alexmao.projetfinal.classeApp.Groupe;
 import com.example.alexmao.projetfinal.classeApp.InvitationConnexion;
+import com.example.alexmao.projetfinal.classeApp.InvitationEvenement;
 import com.example.alexmao.projetfinal.classeApp.ParametresUtilisateur;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 import com.example.alexmao.projetfinal.utils.ShakeEventListener;
@@ -55,7 +59,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Accueil extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Accueil extends ConnectedMapActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     public final static String SELECTED_TAB_EXTRA_KEY = "selectedTabIndex";
@@ -193,10 +197,23 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
                 onNewMsg(message);
             }
         });
+
+        //Gestion les positions
+        startPositionUpdateProcess(userID, new OnPositionReceived() {
+            @Override
+            public void onPostionReceived(Position position) {
+                onPositionChanged(position);
+            }
+        });
     }
 
     private void onNewMsg(MessageEBDD messageEBDD) {
         //TODO gèrer l'arrivée dans nouveau message
+    }
+
+    //appelée à intervalle régulier mettre à jour la position
+    private void onPositionChanged(Position position) {
+        //TODO faire qulque chose avec la position
     }
 
     private void onGroup(List<FullGroupWrapper> groupWrappers) {
@@ -261,11 +278,16 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
         //TODO faire quelque chose (invitation connexion)
         InvitationConnexion invitationConnexion = new InvitationConnexion();
         invitationConnexion.setDate(new Date(notificationBDD.getDate()));
-
+        invitationConnexion.setIdFirebase(notificationBDD.getId());
     }
 
     private void onEventInvitation(NotificationBDD notificationBDD) {
-        //TODO faire quelque chose (invitation pour un evenement)
+        //TODO faire quelque chose (invitation pour un evenement) utiliser la
+        //BD interne pour récupérer les utilisateur ou demander à la EBDD
+        InvitationEvenement invitationEvenement = new InvitationEvenement();
+        invitationEvenement.setDate(new Date(notificationBDD.getDate()));
+        invitationEvenement.setIdFirebase(notificationBDD.getId());
+
     }
 
     private void onTemporaryEventReceived(List<MyEventEBDD> eventEBDDs) {

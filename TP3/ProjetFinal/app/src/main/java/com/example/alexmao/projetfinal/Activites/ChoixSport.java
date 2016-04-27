@@ -90,6 +90,8 @@ public class ChoixSport extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    //appeler pour mettre le profil utilisateur à jour
     private void pushModifications(Utilisateur utilisateur) {
         LocalUserProfilEBDD profilEBDD = new LocalUserProfilEBDD();
         FromClassAppToEBDD.translateUtilisateur(utilisateur, profilEBDD, null, null);
