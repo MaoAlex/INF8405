@@ -5,58 +5,71 @@ import android.content.Context;
 import com.example.alexmao.projetfinal.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Fabien on 27/04/2016.
  */
 public class Sport {
     private String nom;
-    private int drawableId;
+    private int sportId;
 
     public static String[] listeSports;
-    public static int[] listeDrawablesId;
+    public static int[] listeIds;
+    public static HashMap<String, Integer> stringToPosition = new HashMap<>();
+    public static boolean initialized = false;
 
+    public static void initialize() {
+        if(!initialized) {
+            Sport.listeSports();
+            for (int i = 0; i < listeSports.length; i++) {
+                Sport.stringToPosition.put(listeSports[i],i);
+            }
+
+            initialized = true;
+        }
+    }
     public static void listeSports() {
         listeSports = new String[16];
-        listeDrawablesId = new int[16];
+        listeIds = new int[16];
 
         listeSports[0] = "art_martial";
-        listeDrawablesId[0] = R.drawable.art_martial;
+        listeIds[0] = R.id.art_martial;
         listeSports[1] = "athletisme";
-        listeDrawablesId[1] = R.drawable.athletisme;
+        listeIds[1] = R.id.athletisme;
         listeSports[2] = "badminton";
-        listeDrawablesId[2] = R.drawable.badminton;
+        listeIds[2] = R.id.badminton;
         listeSports[3] = "baseball";
-        listeDrawablesId[3] = R.drawable.baseball;
+        listeIds[3] = R.id.baseball;
         listeSports[4] = "basketball";
-        listeDrawablesId[4] = R.drawable.basketball;
+        listeIds[4] = R.id.basketball;
         listeSports[5] = "boxe";
-        listeDrawablesId[5] = R.drawable.boxe;
+        listeIds[5] = R.id.boxe;
         listeSports[6] = "fitness";
-        listeDrawablesId[6] = R.drawable.fitness;
+        listeIds[6] = R.id.fitness;
         listeSports[7] = "football";
-        listeDrawablesId[7] = R.drawable.football;
+        listeIds[7] = R.id.football;
         listeSports[8] = "golf";
-        listeDrawablesId[8] = R.drawable.golf;
+        listeIds[8] = R.id.golf;
         listeSports[9] = "hockey";
-        listeDrawablesId[9] = R.drawable.hockey;
+        listeIds[9] = R.id.hockey;
         listeSports[10] = "natation";
-        listeDrawablesId[10] = R.drawable.natation;
+        listeIds[10] = R.id.natation;
         listeSports[11] = "pingpong";
-        listeDrawablesId[11] = R.drawable.pingpong;
+        listeIds[11] = R.id.pingpong;
         listeSports[12] = "rugby";
-        listeDrawablesId[12] = R.drawable.rugby;
+        listeIds[12] = R.id.rugby;
         listeSports[13] = "tennis";
-        listeDrawablesId[13] = R.drawable.tennis;
+        listeIds[13] = R.id.tennis;
         listeSports[14] = "voleyball";
-        listeDrawablesId[14] = R.drawable.voleyball;
+        listeIds[14] = R.id.voleyball;
         listeSports[15] = "waterpolo";
-        listeDrawablesId[15] = R.drawable.waterpolo;
+        listeIds[15] = R.id.waterpolo;
     }
 
-    public Sport(String nom, int drawableId) {
+    public Sport(String nom, int sportId) {
         this.nom = nom;
-        this.drawableId = drawableId;
+        this.sportId = sportId;
     }
 
     public String getNom() {
@@ -67,12 +80,12 @@ public class Sport {
         this.nom = nom;
     }
 
-    public int getDrawableId() {
-        return drawableId;
+    public int getSportId() {
+        return sportId;
     }
 
-    public void setDrawableId(int drawableId) {
-        this.drawableId = drawableId;
+    public void setSportId(int sportId) {
+        this.sportId = sportId;
     }
 
     @Override
