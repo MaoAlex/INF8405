@@ -32,7 +32,7 @@ public class FromClassAppToEBDD {
     public static MyLocalGroupEBDD translateGroupe(Groupe  groupe) {
         MyLocalGroupEBDD ebddClass = new MyLocalGroupEBDD();
         ebddClass.setDatabaseID(groupe.getIdFirebase());
-        ebddClass.setConversationID(groupe.getConversation().getIdFirebase());
+        ebddClass.setConversationID(groupe.getConversation());
         List<String> userIDs = new ArrayList<>();
         for (Utilisateur utilisateur: groupe.getListeMembre()) {
             userIDs.add(utilisateur.getIdFirebase());

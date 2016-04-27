@@ -45,7 +45,7 @@ public class CreateTable {
             + Colonne.NOMBRE_PARTICIPANTS + " INTEGER, "
             + Colonne.DATE_EVENEMENT + " INTEGER, "
             + Colonne.PHOTO + " TEXT, "
-            + Colonne.SPORT_ASSOCIE + "TEXT NOT NULL, "
+            + Colonne.SPORT_ASSOCIE + " TEXT NOT NULL, "
             + Colonne.NOM_EVENEMENT + " TEXT, "
             + Colonne.ID_FIREBASE + " TEXT NOT NULL, "
             + Colonne.ID_GROUPE + " INTEGER, "
@@ -131,10 +131,10 @@ public class CreateTable {
     //Requete pour la création de la table groupe
     public static final String GROUPE = "CREATE TABLE " + Table.GROUPE + " ("
             + Colonne.ID_GROUPE + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + Colonne.ID_CONVERSATION + " INTEGER, "
-            + Colonne.ID_FIREBASE + " TEXT NOT NULL, "
-            + Colonne.ID_EVENEMENT + " INTEGER, "
-            + " FOREIGN KEY(" + Colonne.ID_CONVERSATION + ") REFERENCES " + Table.CONVERSATION + "( " + Colonne.ID_CONVERSATION + "));";
+            + Colonne.ID_CONVERSATION + " TEXT, "
+            + Colonne.ID_FIREBASE + " TEXT NOT NULL);";
+//            + Colonne.ID_EVENEMENT + " INTEGER ); ";
+            //+ " FOREIGN KEY(" + Colonne.ID_CONVERSATION + ") REFERENCES " + Table.CONVERSATION + "( " + Colonne.ID_CONVERSATION + "));";
 
     //Requete pour la création de la table groupe utilisateur
     public static final String GROUPE_UTILISATEUR = "CREATE TABLE " + Table.GROUPE_UTILISATEUR + " ("

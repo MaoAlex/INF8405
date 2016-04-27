@@ -12,8 +12,8 @@ import java.util.List;
 public class Groupe implements Parcelable {
     private List<Utilisateur> listeMembre;
     private String idFirebase;
-    private int idBDD;
-    private Conversation conversation;
+    private long idBDD;
+    private String idFirebaseConversation;
     private Evenement evenement;
 
     public Groupe() {
@@ -24,7 +24,7 @@ public class Groupe implements Parcelable {
         listeMembre = in.readArrayList(Utilisateur.class.getClassLoader());
         idFirebase = in.readString();
         idBDD = in.readInt();
-        conversation = in.readParcelable(Conversation.class.getClassLoader());
+        idFirebaseConversation = in.readParcelable(Conversation.class.getClassLoader());
         evenement = in.readParcelable(Evenement.class.getClassLoader());
     }
 
@@ -44,20 +44,20 @@ public class Groupe implements Parcelable {
         this.idFirebase = idFirebase;
     }
 
-    public int getIdBDD() {
+    public long getIdBDD() {
         return idBDD;
     }
 
-    public void setIdBDD(int idBDD) {
+    public void setIdBDD(long idBDD) {
         this.idBDD = idBDD;
     }
 
-    public Conversation getConversation() {
-        return conversation;
+    public String getConversation() {
+        return idFirebaseConversation;
     }
 
-    public void setConversation(Conversation conversation) {
-        this.conversation = conversation;
+    public void setConversation(String idFirebaseConversation) {
+        this.idFirebaseConversation = idFirebaseConversation;
     }
 
     public Evenement getEvenement() {
@@ -85,8 +85,8 @@ public class Groupe implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeList(listeMembre);
         dest.writeString(idFirebase);
-        dest.writeInt(idBDD);
-        dest.writeParcelable(conversation, flags);
+        dest.writeLong(idBDD);
+        dest.writeString(idFirebaseConversation);
         dest.writeParcelable(evenement, flags);
     }
 
