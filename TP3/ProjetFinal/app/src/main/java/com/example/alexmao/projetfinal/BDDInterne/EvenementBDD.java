@@ -70,7 +70,7 @@ public class EvenementBDD extends AbstractBDD {
         //on insère l'objet dans la BDD via le ContentValues,
         long idEvenement = database_.insert(Table.EVENEMENT, null, values);
 
-        GroupeBDD.miseAJourEvenement(evenement.getGroupeAssocie().getIdBDD(), idEvenement);
+//        GroupeBDD.miseAJourEvenement(evenement.getGroupeAssocie().getIdBDD(), idEvenement);
         for(Utilisateur utilisateur : evenement.getGroupeAssocie().getListeMembre()){
             ParticipantEvenementBDD.insererParticipant(idEvenement, utilisateur);
         }

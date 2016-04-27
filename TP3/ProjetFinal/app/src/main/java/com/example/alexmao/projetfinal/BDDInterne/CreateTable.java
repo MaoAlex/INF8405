@@ -123,6 +123,7 @@ public class CreateTable {
     //Requete pour la création de la table conversation
     public static final String CONVERSATION = "CREATE TABLE " + Table.CONVERSATION + " ("
             + Colonne.ID_CONVERSATION + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + Colonne.ID_FIREBASE + " TEXT, "
             + Colonne.NOM_CONVERSATION + " TEXT); ";
 
     //Requete pour la création de la table groupe

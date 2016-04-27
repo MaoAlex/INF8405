@@ -82,7 +82,7 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
                 Intent intent = new Intent(r.getContext(), AffichageEvenement.class);
                 //Parcel parcel =  Parcel.obtain();
                 //evenements.get(pos).writeToParcel(parcel,0);
-                evenements.get(pos).setIdFirebase("test");
+                //evenements.get(pos).getIdFirebase();
                 intent.putExtra("evenement", evenements.get(pos).getIdFirebase());
                 r.getContext().startActivity(intent);
             }
