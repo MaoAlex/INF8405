@@ -44,6 +44,7 @@ import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
 import com.example.alexmao.projetfinal.classeApp.Groupe;
 import com.example.alexmao.projetfinal.classeApp.InvitationConnexion;
+import com.example.alexmao.projetfinal.classeApp.InvitationEvenement;
 import com.example.alexmao.projetfinal.classeApp.ParametresUtilisateur;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
@@ -259,11 +260,16 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
         //TODO faire quelque chose (invitation connexion)
         InvitationConnexion invitationConnexion = new InvitationConnexion();
         invitationConnexion.setDate(new Date(notificationBDD.getDate()));
-
+        invitationConnexion.setIdFirebase(notificationBDD.getId());
     }
 
     private void onEventInvitation(NotificationBDD notificationBDD) {
-        //TODO faire quelque chose (invitation pour un evenement)
+        //TODO faire quelque chose (invitation pour un evenement) utiliser la
+        //BD interne pour récupérer les utilisateur ou demander à la EBDD
+        InvitationEvenement invitationEvenement = new InvitationEvenement();
+        invitationEvenement.setDate(new Date(notificationBDD.getDate()));
+        invitationEvenement.setIdFirebase(notificationBDD.getId());
+
     }
 
     private void onTemporaryEventReceived(List<MyEventEBDD> eventEBDDs) {
