@@ -88,5 +88,6 @@
     <string name="creer_evt_maxParticipants">Nombre de participants max</string>
     <string name="creer_evt_bouton">Créer l\'événement</string>
     <string name="title_activity_gerer_invitations">GererInvitations</string>
+    <string name="title_activity_choisir_lieu">Choisir le lieu de l\'événement</string>
 
 </resources>
