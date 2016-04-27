@@ -35,6 +35,7 @@ import com.example.alexmao.projetfinal.utils.Const;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * The Class Chat is the Activity class that holds main chat screen. It shows
@@ -55,7 +56,7 @@ public class Chat extends CustomActivity
 	/** The user name of buddy. */
 	private String buddy;
 	/** The date of last message in conversation. */
-	private Date lastMsgDate;
+	private long lastMsgDate;
 	/** Flag to hold if the activity is running or not. */
 	private boolean isRunning;
 	/** The handler. */
@@ -180,7 +181,8 @@ public class Chat extends CustomActivity
 		final Convers c = new Convers(s, new Date(),
 				groupe.getListeMembre().get(0).getNom());
 		c.setStatus(Convers.STATUS_SENDING);*/
-        final Message m = new Message(s, new Date(), utilisateurConnecte);
+		GregorianCalendar calendar = new GregorianCalendar();
+        final Message m = new Message(s, calendar.getTimeInMillis(), utilisateurConnecte);
         conversation.getListeMessage().add(m);
 		adp.notifyDataSetChanged();
         //On remet un champ vide
@@ -312,7 +314,7 @@ public class Chat extends CustomActivity
 
 			TextView lbl = (TextView) v.findViewById(R.id.lbl1);
 			lbl.setText(DateUtils.getRelativeDateTimeString(Chat.this, message
-					.getDate().getTime(), DateUtils.SECOND_IN_MILLIS,
+					.getDate(), DateUtils.SECOND_IN_MILLIS,
 					DateUtils.DAY_IN_MILLIS, 0));
 
 			lbl = (TextView) v.findViewById(R.id.lbl2);
@@ -368,16 +370,16 @@ public class Chat extends CustomActivity
         if (messageEBDD == null)
             return;
 		//TODO faire attention le message reçu n'est pas nécessairement de cette conversation
-        Date date = new Date(messageEBDD.getDate());
-
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(messageEBDD.getDate());
         UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
         //Utilisateur expediteur = utilisateurBDD.obtenirUtilisateurParIdFirebase(messageEBDD.getExpediteurID());
         Utilisateur expediteur = new Utilisateur();
         expediteur.setIdBDD(135);
-        Message m= new Message(messageEBDD.getMessage(), date, expediteur);
+        Message m= new Message(messageEBDD.getMessage(), messageEBDD.getDate(), expediteur);
         conversation.getListeMessage().add(m);
-        if (lastMsgDate == null
-                || lastMsgDate.before(m.getDate()))
+        if (lastMsgDate == 0)
+                //|| lastMsgDate.before(m.getDate()))
             lastMsgDate = m.getDate();
         //on notifie l'adaptater des changements
         adp.notifyDataSetChanged();

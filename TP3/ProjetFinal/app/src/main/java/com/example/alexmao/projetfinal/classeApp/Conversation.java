@@ -11,7 +11,7 @@ import java.util.List;
 public class Conversation implements Parcelable {
     private String nomConversation;
     private List<Message> listeMessage;
-    private int idBDD;
+    private long idBDD;
     private String idFirebase;
     private String groupID;
 
@@ -22,7 +22,7 @@ public class Conversation implements Parcelable {
     public Conversation(Parcel in) {
         nomConversation = in.readString();
         listeMessage = in.readArrayList(Message.class.getClassLoader());
-        idBDD = in.readInt();
+        idBDD = in.readLong();
         idFirebase = in.readString();
     }
 
@@ -42,11 +42,11 @@ public class Conversation implements Parcelable {
         this.listeMessage = listeMessage;
     }
 
-    public int getIdBDD() {
+    public long getIdBDD() {
         return idBDD;
     }
 
-    public void setIdBDD(int idBDD) {
+    public void setIdBDD(long idBDD) {
         this.idBDD = idBDD;
     }
 
@@ -78,7 +78,7 @@ public class Conversation implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(nomConversation);
         dest.writeList(listeMessage);
-        dest.writeInt(idBDD);
+        dest.writeLong(idBDD);
         dest.writeString(idFirebase);
     }
 

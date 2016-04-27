@@ -23,7 +23,7 @@ public class FromClassAppToEBDD {
     public static MessageEBDD transalateMessage(Message message) {
         MessageEBDD ebddClass = new MessageEBDD();
         ebddClass.setMessage(message.getMessage());
-        ebddClass.setDate(message.getDate().getTime());
+        ebddClass.setDate(message.getDate());
         ebddClass.setExpediteurID(message.getExpediteur().getIdFirebase());
 
         return ebddClass;

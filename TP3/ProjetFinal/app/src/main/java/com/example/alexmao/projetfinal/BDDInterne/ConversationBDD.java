@@ -6,9 +6,6 @@ import android.database.Cursor;
 import android.util.Log;
 
 import com.example.alexmao.projetfinal.classeApp.Conversation;
-import com.example.alexmao.projetfinal.classeApp.Message;
-
-import java.util.ArrayList;
 
 /**
  *Classe permettant de gérer la conversation associée à un groupe
@@ -57,11 +54,12 @@ public class ConversationBDD extends AbstractBDD
         Cursor c = database_.rawQuery(query, null);
         //On récupère la conversation associée à un groupe
         c.moveToFirst();
-        conversation.setIdBDD(c.getInt(NUM_COL_ID));
+        long conversationId = c.getInt(NUM_COL_ID);
+        conversation.setIdBDD(conversationId);
         conversation.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
         conversation.setNomConversation(c.getString(NUM_COL_NOM_CONVERSATION));
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!A completer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        ArrayList<Message> messages = new ArrayList<>();
+        conversation.setListeMessage(MessageConversationBDD.obtenirMessageConversation(conversationId));
+
         c.close();
         return conversation;
     }

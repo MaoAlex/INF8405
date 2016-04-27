@@ -8,8 +8,6 @@ import com.example.alexmao.projetfinal.classeApp.Message;
 import com.example.alexmao.projetfinal.classeApp.ParametresUtilisateur;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
-import java.util.Date;
-
 /**
  * Created by filou on 07/04/16.
  */
@@ -82,7 +80,7 @@ public class FromEBDDToLocalClassTranslator {
     public static Message translateMessageBDD(MessageEBDD messageEBDD) {
         Message localClass = new Message();
         localClass.setMessage(messageEBDD.getMessage());
-        localClass.setDate(new Date(messageEBDD.getDate()));
+        localClass.setDate((messageEBDD.getDate()));
 
         return localClass;
     }
