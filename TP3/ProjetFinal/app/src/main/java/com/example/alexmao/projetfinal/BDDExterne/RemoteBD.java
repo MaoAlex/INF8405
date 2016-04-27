@@ -110,6 +110,8 @@ public interface RemoteBD {
 
     String addNotificationToUser(String userID, NotificationBDD notificationBDD);
 
+    void removeNotification(String notificationID, String userID);
+
     void listenToNotification(String userID, Map<String,
             OnNotificationReceived> typeToActionCallback);
 }

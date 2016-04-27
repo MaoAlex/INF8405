@@ -15,9 +15,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
+import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.Picture;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.BDDExterne.UtilisateurProfilEBDD;
 import com.example.alexmao.projetfinal.R;
+import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 import com.example.alexmao.projetfinal.custom.CustomActivity;
 import com.example.alexmao.projetfinal.utils.Utils;
 
@@ -34,7 +37,6 @@ import java.util.GregorianCalendar;
 public class InscriptionInformation extends CustomActivity
 {
     //les différents éléments de la Vue
-    private RemoteBD remoteBD;
     private EditText nomVue;
     private EditText prenomVue;
     private EditText dateNaissanceVue;
@@ -49,7 +51,10 @@ public class InscriptionInformation extends CustomActivity
     private int year;
     private Date date;
     //Variable pour stocker la photo et l'afficher
-    Bitmap bp;
+    private Bitmap bp;
+
+    //base de données externe
+    private RemoteBD remoteBD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -200,5 +205,21 @@ public class InscriptionInformation extends CustomActivity
             startActivityForResult(intent, 0);
 
         }
+    }
+
+    private void sendToEBDD(Utilisateur utilisateur) {
+        LocalUserProfilEBDD profilEBDD = new LocalUserProfilEBDD(utilisateur.getPrenom(),
+                utilisateur.getNom(), utilisateur.getMail());
+        //TODO gérer la photo
+        //Bitmap bitmap = la photo en bitmap
+//        Picture picture = new Picture(bitmap);
+//        profilEBDD.setPicture(new Picture());
+        profilEBDD.setDateBirth(utilisateur.getDateNaissance());
+        profilEBDD.setSports(utilisateur.getSports());
+        profilEBDD.setListeInteretsID(utilisateur.getListeInteretsID());
+        profilEBDD.setListeParticipationsID(utilisateur.getListeParticipationsID());
+        profilEBDD.setListeConnexion(utilisateur.getListeConnexion());
+        profilEBDD.setDataBaseId(remoteBD.addUserProfil(profilEBDD));
+        //TODO: insert in data base
     }
 }

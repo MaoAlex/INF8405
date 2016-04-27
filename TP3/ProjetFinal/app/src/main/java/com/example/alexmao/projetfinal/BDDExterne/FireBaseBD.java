@@ -708,14 +708,9 @@ public class FireBaseBD implements RemoteBD {
                     NotificationBDD notificationBDD = dataSnapshot.getValue(NotificationBDD.class);
 
                     typeToActionCallback.get(notificationBDD.getType())
-                            .onNotificationReceived(notificationBDD);
+                            .onNotificationReceived(notificationBDD, dataSnapshot.getKey());
 
                     ids.add(dataSnapshot.getKey());
-                }
-
-                for (String id : ids) {
-                    myFireBaseRef.child("users").child("notifications").child(userBDID)
-                            .child(id).removeValue();
                 }
             }
 
@@ -724,5 +719,12 @@ public class FireBaseBD implements RemoteBD {
                 Log.d(TAG, "onCancelled: " + firebaseError.getMessage());
             }
         });
+    }
+
+    @Override
+    public void removeNotification(String notificationID, String userID) {
+        Firebase notificationBD = myFireBaseRef.child("users").child("notifications")
+                .child(userID).child(notificationID);
+        notificationBD.removeValue();
     }
 }

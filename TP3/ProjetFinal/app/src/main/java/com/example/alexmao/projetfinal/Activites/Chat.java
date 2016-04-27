@@ -20,6 +20,7 @@ import com.example.alexmao.projetfinal.BDDExterne.ConversationEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.MessageEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.OnMessageReceiveCallback;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.BDDInterne.GroupeBDD;
 import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
@@ -123,13 +124,13 @@ public class Chat extends CustomActivity
         //Creation du Handler
 		handler = new Handler();
         //On met en place le listerner qui nous permet d'etre notifie d'un nouveau message
-//        remoteBD.listenToConversation(discussionID, currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
-//            @Override
-//            public void onNewMessage(MessageEBDD messageEBDD) {
-//                Log.d("chat","notification de nouveau message");
-//                onNewMsg(messageEBDD);
-//            }
-//        });
+        remoteBD.listenToConversations(currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
+			@Override
+			public void onNewMessage(MessageEBDD messageEBDD) {
+				Log.d("chat", "notification de nouveau message");
+				onNewMsg(messageEBDD);
+			}
+		});
 	}
 
 	@Override
@@ -366,9 +367,7 @@ public class Chat extends CustomActivity
         Log.d("Chat", "On est dans la r�cup�ration des nouveaux messages");
         if (messageEBDD == null)
             return;
-        /*TextView textView = new TextView(this);
-        //set the content
-        textView.setText(message.getMessage());*/
+		//TODO faire attention le message reçu n'est pas nécessairement de cette conversation
         Date date = new Date(messageEBDD.getDate());
 
         UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
