@@ -3,8 +3,10 @@ package com.example.alexmao.projetfinal.Activites;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 import com.example.alexmao.projetfinal.custom.CustomActivity;
@@ -18,23 +20,41 @@ public class ProfilUtilisateur extends CustomActivity {
 
     private Utilisateur utilisateur;
 
+    //Element de la page
+    ImageView vPhotoProfil;
+    TextView vNom;
+    TextView vEmail;
+    TextView vDate;
+    TextView vSports;
+
+    //BDD interne
+    private UtilisateurBDD utilisateurBDD;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil_utilisateur);
 
-        chargerUtilisateur();
+        //chargerUtilisateur();
 
-        initialiserProfil();
+//        initialiserProfil();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //Mise en place de la flèche pour le retour en arrière
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         //Mise en place de l'image qui va se réduire
 //        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 //        collapsingToolbarLayout.setTitle("Evenement");
+        utilisateurBDD = new UtilisateurBDD(this);
+        utilisateurBDD.open();
+        utilisateur = utilisateurBDD.obtenirProfil();
+        utilisateurBDD.close();
 
+        //TODO modifier la photo de profil
+        //if(utilisateur.getPhoto()!=null)
+            //vPhotoProfil.setImageBitmap();
+        initialiserProfil();
     }
 
     private String construireNom() {
