@@ -1,22 +1,16 @@
 package com.example.alexmao.projetfinal.Activites;
 
-import android.app.SearchManager;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
+import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.alexmao.projetfinal.Adapter.AdapterEvenement;
 import com.example.alexmao.projetfinal.Adapter.AdapterUtilisateur;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
@@ -35,6 +29,10 @@ public class InviterConnexion extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.title_activity_inviter_connexion);
+        //Mise en place de la flèche pour le retour en arrière
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
@@ -73,5 +71,13 @@ public class InviterConnexion extends AppCompatActivity {
     private void rechercherUtilisateur(String query) {
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        //Gestion du clique sur le retour en arrière
+        if(id == android.R.id.home)
+            finish();
 
+        return super.onOptionsItemSelected(item);
+    }
 }

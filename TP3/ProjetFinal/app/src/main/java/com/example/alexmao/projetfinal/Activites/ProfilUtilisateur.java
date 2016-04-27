@@ -1,24 +1,21 @@
 package com.example.alexmao.projetfinal.Activites;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.EditText;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
+import com.example.alexmao.projetfinal.custom.CustomActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class ProfilUtilisateur extends FragmentActivity {
+public class ProfilUtilisateur extends CustomActivity {
 
     private Utilisateur utilisateur;
 
@@ -30,8 +27,12 @@ public class ProfilUtilisateur extends FragmentActivity {
         chargerUtilisateur();
 
         initialiserProfil();
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        //Mise en place de l'image qui va se réduire
+        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitle("Evenement");
+
     }
 
     private String construireNom() {
@@ -98,4 +99,16 @@ public class ProfilUtilisateur extends FragmentActivity {
         utilisateur.setSports(sports);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        //Gestion du clique sur le retour en arrière
+        if(id == android.R.id.home)
+            finish();
+
+        return super.onOptionsItemSelected(item);
+    }
 }

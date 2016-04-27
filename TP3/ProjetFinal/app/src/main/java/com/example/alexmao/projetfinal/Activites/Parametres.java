@@ -2,6 +2,7 @@ package com.example.alexmao.projetfinal.Activites;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.example.alexmao.projetfinal.Activites.fragments.ParametresFragment;
 import com.example.alexmao.projetfinal.R;
@@ -21,6 +22,9 @@ public class Parametres extends CustomActivity implements ParametresFragment.OnR
 
         // Chargement de l'utilisateur courant
         this.chargerUtilisateur();
+        //Mise en place de la flèche pour le retour en arrière
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Transmission des paramètres actuels (pour affichage et initialisation
         Bundle bundle = new Bundle();
@@ -74,6 +78,16 @@ public class Parametres extends CustomActivity implements ParametresFragment.OnR
         initialParams.setLocalisation(true);
         initialParams.setMasquerNom(false);
         utilisateur.setParametres(initialParams);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        //Gestion du clique sur le retour en arrière
+        if(id == android.R.id.home)
+            finish();
+
+        return super.onOptionsItemSelected(item);
     }
 }
 
