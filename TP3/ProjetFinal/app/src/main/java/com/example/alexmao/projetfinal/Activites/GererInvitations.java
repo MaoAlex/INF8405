@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 
 import com.example.alexmao.projetfinal.Activites.interfaces.BtnConnexionAccepterClickListener;
 import com.example.alexmao.projetfinal.Activites.interfaces.BtnConnexionRefuserClickListener;
@@ -33,7 +34,8 @@ public class GererInvitations extends AppCompatActivity implements BtnConnexionA
         setContentView(R.layout.activity_gerer_invitations);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         mRecyclerViewC = (RecyclerView) findViewById(R.id.rv_invc);
 
         //Permet l'optimisation des performances
@@ -97,5 +99,18 @@ public class GererInvitations extends AppCompatActivity implements BtnConnexionA
         Log.d("Evenement refusé", invEvenement.getEvenement().getNomEvenement());
         //TODO : Traitement du refus
         mAdapterE.removeItem(invEvenement);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        //Gestion du clique sur le retour en arrière
+        if(id == android.R.id.home)
+            finish();
+
+        return super.onOptionsItemSelected(item);
     }
 }
