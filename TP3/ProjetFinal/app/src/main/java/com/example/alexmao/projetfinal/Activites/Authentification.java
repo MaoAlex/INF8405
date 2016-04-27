@@ -103,6 +103,7 @@ public class Authentification extends CustomActivity
                     //on vérifie que le mot de passe est bien celui associé à ce mail
                     if (s != null && s.equals(p)){
                         connexionReussi(email);
+                        Log.d("Test", "recuperation reussi du mail");
                         startActivity(new Intent(Authentification.this, Accueil.class));
                         finish();
                     } else {//Sinon on l'annonce à l'utilisateur
@@ -130,10 +131,14 @@ public class Authentification extends CustomActivity
     //fonction permettant de récupérer l'utilisateur depuis la BDD externe
     //Une fois fois l'authentification réussi, insère l'utilisateur dans la BDD interne
 	private void connexionReussi(String mail){
-		remoteBD.getIDFromMail(mail, new OnStringReceived() {
+        Log.d("Authentification", "On est dans connexionReussi");
+
+        remoteBD.getIDFromMail(mail, new OnStringReceived() {
 			@Override
 			public void onStringReceived(String s) {
-				onIDreceived(s);
+                Log.d("Authentification", "On recoit un string");
+
+                onIDreceived(s);
 			}
 		});
         
@@ -151,6 +156,7 @@ public class Authentification extends CustomActivity
 											   Position position,
 											   Picture picture,
 											   UserParamsEBDD params) {
+                        Log.d("Essaie", "valeur id firebase : " + localUserProfilEBDD.getDataBaseId());
 						Utilisateur utilisateur = FromEBDDToLocalClassTranslator.utilisateurFromEBDD(localUserProfilEBDD,
 								position, params, picture);
                         onUserReceived(utilisateur);
@@ -163,6 +169,8 @@ public class Authentification extends CustomActivity
 	private void onUserReceived(Utilisateur utilisateur) {
 		//TODO fais toi plèz Alex!!!!
 		UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
+        Log.d("Essaie", "On stocke l'utilisateur dans la BDD interne");
+
         utilisateurBDD.open();
         utilisateurBDD.connexion(utilisateur);
         utilisateurBDD.insererUtilisateur(utilisateur);

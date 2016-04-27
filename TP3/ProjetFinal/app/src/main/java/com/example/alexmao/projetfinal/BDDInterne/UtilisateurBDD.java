@@ -290,7 +290,7 @@ public class UtilisateurBDD extends AbstractBDD {
 
     public Utilisateur obtenirProfil(){
         //Récupére dans un Cursor les valeurs correspondant é un utilisateur contenu dans la BDD (ici on sélectionne le utilisateur gréce é son nom)
-            Cursor c = database_.query(Table.UTILISATEUR_CONNECTE, null, null, null, null, null, null);
+        Cursor c = database_.query(Table.UTILISATEUR_CONNECTE, null, null, null, null, null, null);
         //Il est nécessaire de récupérer que la premiére ligne
         //Selon notre logique il ne peut y avoir qu'un utilisateur a la fois
         return cursorToUtilisateur(c);

@@ -1,12 +1,10 @@
 package com.example.alexmao.projetfinal.Activites;
 
 import android.app.Fragment;
-import android.app.assist.AssistStructure;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -17,7 +15,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -103,15 +100,12 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        photoProfil = (ImageView) findViewById(R.id.photo_profil_nav);
-        vNom = (TextView) findViewById(R.id.menu_nom);
-        vAdresse = (TextView) findViewById(R.id.menu_adresse);
+        View v = (View) navigationView.getHeaderView(0);//R.id.nav_header_bar);
+        photoProfil = (ImageView) v.findViewById(R.id.photo_profil_nav);
+        vNom = (TextView) v.findViewById(R.id.menu_nom);
+        vAdresse = (TextView) v.findViewById(R.id.menu_adresse);
 
-        if(utilisateurConnecte.getPhoto()!=null) {
-            //photoProfil.setImageResource(utilisateurConnecte.getPhoto());
-        }
-        vNom.setText(utilisateurConnecte.getNom() + " " + utilisateurConnecte.getPrenom());
-        vAdresse.setText(utilisateurConnecte.getMail());
+
 
         //Récupération de la tabLayout
         tabLayout = (TabLayout) findViewById(R.id.tabLayout1);
@@ -142,7 +136,7 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
         mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
 
             public void onShake() {
-                if(mViewPager.getCurrentItem() == DECOUVERTES_TAB) {
+                if (mViewPager.getCurrentItem() == DECOUVERTES_TAB) {
                     Toast.makeText(Accueil.this, "Shake!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -167,14 +161,18 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
         //Ouverture de la BDD interne sur les Utilisateurs
         UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
         utilisateurBDD.open();
+        utilisateurBDD.affichageUtilisateurConnecte();;
         //Récupération de l'utilisateur connecté
         utilisateurConnecte = utilisateurBDD.obtenirProfil();
         //Ouverture de la BDD externe
         remoteBD = new FireBaseBD(this);
         //String userID = utilisateurConnecte.getIdFirebase();//"TODO initialiser l'userID";
-        utilisateurConnecte = new Utilisateur();
-        utilisateurConnecte.setIdFirebase("a");
 
+        if(utilisateurConnecte.getPhoto()!=null) {
+            //photoProfil.setImageResource(utilisateurConnecte.getPhoto());
+        }
+        vNom.setText(utilisateurConnecte.getNom() + " " + utilisateurConnecte.getPrenom());
+        vAdresse.setText(utilisateurConnecte.getMail());
         //Initialisation des paramètres de l'utilisateur
         ParametresUtilisateur initialParams = new ParametresUtilisateur();
         initialParams.setRayon(500);
