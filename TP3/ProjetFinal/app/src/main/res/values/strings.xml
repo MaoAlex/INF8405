@@ -57,7 +57,7 @@
     <!-- Nav Drawer items -->
     <string name="nav_str_accueil">Accueil</string>
     <string name="nav_str_evenements">Mes événements</string>
-    <string name="nav_str_rechercher">Rechercher</string>
+    <string name="nav_str_rechercher_membre">Rechercher un membre</string>
     <string name="nav_str_chat">Messagerie</string>
     <string name="nav_str_profil">Mon profil</string>
     <string name="nav_str_logout">Déconnexion</string>
