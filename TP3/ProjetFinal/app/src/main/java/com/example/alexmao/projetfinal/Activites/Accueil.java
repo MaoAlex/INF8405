@@ -221,6 +221,9 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
         } else if (id == R.id.nav_rechercher) {
             Intent intent = new Intent(this, InviterConnexion.class);
             startActivity(intent);
+        } else if(id == R.id.nav_invitations) {
+            Intent intent = new Intent(this, GererInvitations.class);
+            startActivity(intent);
         } else if (id == R.id.nav_chat) {
             Intent intent = new Intent(this, ChatList.class);
             startActivity(intent);
