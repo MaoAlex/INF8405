@@ -86,6 +86,7 @@ public class Parametres extends CustomActivity implements ParametresFragment.OnR
         utilisateur.setParametres(initialParams);
     }
 
+    //TODO appeler cette fonction pour mettre à jour les données
     private void updateParamOnServer(ParametresUtilisateur parametresUtilisateur, String userID) {
         UserParamsEBDD paramsEBDD = FromClassAppToEBDD.translateParametres(parametresUtilisateur);
         remoteBD.updateUserParams(userID, paramsEBDD);
