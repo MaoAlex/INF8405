@@ -36,9 +36,11 @@ public class Picture {
     }
 
     public void update(Picture picture) {
-        mChunks = picture.mChunks;
-        mBitmap = picture.mBitmap;
-        mStringChunks = picture.mStringChunks;
+        if (picture != null) {
+            mChunks = picture.mChunks;
+            mBitmap = picture.mBitmap;
+            mStringChunks = picture.mStringChunks;
+        }
     }
 
     //for firebase, do not change

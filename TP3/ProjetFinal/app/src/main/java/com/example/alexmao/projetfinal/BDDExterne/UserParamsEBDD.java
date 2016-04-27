@@ -25,9 +25,11 @@ public class UserParamsEBDD {
     }
 
     public void update(UserParamsEBDD userParamsEBDD) {
-        rayon = userParamsEBDD.getRayon();
-        localisation = userParamsEBDD.isLocalisation();
-        masquerNom = userParamsEBDD.isMasquerNom();
+        if (userParamsEBDD != null) {
+            rayon = userParamsEBDD.getRayon();
+            localisation = userParamsEBDD.isLocalisation();
+            masquerNom = userParamsEBDD.isMasquerNom();
+        }
     }
 
     public int getRayon() {

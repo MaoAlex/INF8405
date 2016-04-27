@@ -49,6 +49,8 @@ public interface RemoteBD {
 
     void getExistUser(String mailADR, OnBooleanReceived onBooleanReceivedCallback);
 
+    void getIDFromMail(String mailADR, OnStringReceived onStringReceived);
+
     void changeMail(LocalUserProfilEBDD localUserProfil, String newMail);
 
     void addPicToUser(String userID, Picture picture);

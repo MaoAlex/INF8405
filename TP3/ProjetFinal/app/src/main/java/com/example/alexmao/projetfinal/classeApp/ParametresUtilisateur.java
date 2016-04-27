@@ -17,6 +17,12 @@ public class ParametresUtilisateur implements Parcelable {
         this.masquerNom = false;
     }
 
+    public ParametresUtilisateur(int rayon, boolean localisation, boolean masquerNom) {
+        this.rayon = rayon;
+        this.localisation = localisation;
+        this.masquerNom = masquerNom;
+    }
+
     public ParametresUtilisateur(Parcel in) {
         rayon = in.readInt();
         localisation = in.readByte() != 0;
