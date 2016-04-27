@@ -1,10 +1,12 @@
 package com.example.alexmao.projetfinal.Activites;
 
 import android.app.Fragment;
+import android.app.assist.AssistStructure;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -24,6 +26,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alexmao.projetfinal.Adapter.AdapterEvenement;
@@ -74,6 +78,10 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
     ViewPager mViewPager;
     TabLayout tabLayout;
     PagerAdapter pagerAdapter;
+    ImageView photoProfil;
+    TextView vNom;
+    TextView vAdresse;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +102,16 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        photoProfil = (ImageView) findViewById(R.id.photo_profil_nav);
+        vNom = (TextView) findViewById(R.id.menu_nom);
+        vAdresse = (TextView) findViewById(R.id.menu_adresse);
+
+        if(utilisateurConnecte.getPhoto()!=null) {
+            //photoProfil.setImageResource(utilisateurConnecte.getPhoto());
+        }
+        vNom.setText(utilisateurConnecte.getNom() + " " + utilisateurConnecte.getPrenom());
+        vAdresse.setText(utilisateurConnecte.getMail());
 
         //Récupération de la tabLayout
         tabLayout = (TabLayout) findViewById(R.id.tabLayout1);
