@@ -120,7 +120,7 @@ public class InviterConnexion extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void sendConnexion(InvitationConnexionEBDD invitationConnexionEBDD, String userID) {
+    private void sendConnexionInvitation(InvitationConnexionEBDD invitationConnexionEBDD, String userID) {
         Map<String,String> params = new HashMap<>();
         params.put("date", new Date(invitationConnexionEBDD.getDate()).toString());
         NotificationBDD notificationBDD = new NotificationBDD(NotificationTypes.conctactInvitation,
