@@ -129,7 +129,7 @@ public class AdapterInvitationEvenement extends RecyclerView.Adapter<AdapterInvi
         evenement.setNbreMaxParticipants(10);
         GregorianCalendar test2 = new GregorianCalendar(2016, 03, 27);
         date = test2.getTime();
-        evenement.setDate(date);
+        evenement.setDate(date.getTime());
         evenement.setLieu("parc kent");
         evenement.setNomEvenement("Fin de session");
         evenement.setOrganisateur(u1);
