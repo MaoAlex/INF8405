@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.alexmao.projetfinal.Activites.fragments.ParametresFragment;
+import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
+import com.example.alexmao.projetfinal.BDDExterne.FromClassAppToEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
+import com.example.alexmao.projetfinal.BDDExterne.UserParamsEBDD;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.ParametresUtilisateur;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
@@ -13,6 +17,7 @@ import com.example.alexmao.projetfinal.custom.CustomActivity;
 public class Parametres extends CustomActivity implements ParametresFragment.OnRayonChangeListener, ParametresFragment.OnLocalisationChangeListener, ParametresFragment.OnMasquerNomChangeListener {
 
     private Utilisateur utilisateur;
+    private RemoteBD remoteBD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -36,6 +41,7 @@ public class Parametres extends CustomActivity implements ParametresFragment.OnR
                 .replace(R.id.preferences_frag, frag)
                 .commit();
         setContentView(R.layout.activity_parametres);
+        remoteBD = new FireBaseBD(this);
     }
 
     /**
@@ -78,6 +84,11 @@ public class Parametres extends CustomActivity implements ParametresFragment.OnR
         initialParams.setLocalisation(true);
         initialParams.setMasquerNom(false);
         utilisateur.setParametres(initialParams);
+    }
+
+    private void updateParamOnServer(ParametresUtilisateur parametresUtilisateur, String userID) {
+        UserParamsEBDD paramsEBDD = FromClassAppToEBDD.translateParametres(parametresUtilisateur);
+        remoteBD.updateUserParams(userID, paramsEBDD);
     }
 
     @Override
