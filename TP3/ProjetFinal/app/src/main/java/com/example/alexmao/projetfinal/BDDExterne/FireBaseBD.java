@@ -727,4 +727,28 @@ public class FireBaseBD implements RemoteBD {
                 .child(userID).child(notificationID);
         notificationBD.removeValue();
     }
+
+    @Override
+    public void updateUserProfil(String id, UtilisateurProfilEBDD utilisateurProfilEBDD) {
+        Firebase userBD = myFireBaseRef.child("users").child("profil").child(id);
+        userBD.setValue(utilisateurProfilEBDD);
+    }
+
+    @Override
+    public void updateGroup(String groupID, MyGroupEBDD myGroupEBDD) {
+        Firebase groupBD = myFireBaseRef.child("groups").child(groupID);
+        groupBD.setValue(myGroupEBDD);
+    }
+
+    @Override
+    public void updatePicture(String userID, Picture picture) {
+        Firebase picBD = myFireBaseRef.child("pictures").child(userID);
+        picBD.setValue(picture);
+    }
+
+    @Override
+    public void updateUserParams(String userID, UserParamsEBDD userParamsEBDD) {
+        Firebase paramBD = myFireBaseRef.child("users").child("params").child(userID);
+        paramBD.setValue(userParamsEBDD);
+    }
 }

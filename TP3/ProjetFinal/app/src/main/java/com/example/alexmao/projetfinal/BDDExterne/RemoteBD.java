@@ -19,6 +19,8 @@ public interface RemoteBD {
     void getUserProfilFromMail(String mailAdr, LocalUserProfilEBDD user,
                                OnUserProfilReceived onUserProfilReceivedCallback);
 
+    void updateUserProfil(String id, UtilisateurProfilEBDD utilisateurProfilEBDD);
+
     //Mise à jour de l'utilisateur
     void listenToChangeOnUser(final LocalUserProfilEBDD user, final String userBDID);
 
@@ -30,6 +32,8 @@ public interface RemoteBD {
 
     void getGroup(String groupID, MyLocalGroupEBDD myGroup,
                   OnGroupReceived onGroupReceivedCallback);
+
+    void updateGroup(String groupID, MyGroupEBDD myGroupEBDD);
 
     void updateTimeLastChangeGroup(String groupID, long timeMillis);
 
@@ -60,6 +64,8 @@ public interface RemoteBD {
 
     void getUserPIc(Picture picture, String userID,
                     OnPictureReceived onPictureReceivedCallback);
+
+    void updatePicture(String userID, Picture picture);
 
     String addDiscussion(ConversationEBDD discussion);
 
@@ -107,6 +113,8 @@ public interface RemoteBD {
     void addUserParam(UserParamsEBDD userParamsEBDD, String userID);
 
     void getUserParam(String userID, OnUserParamReceived onUserParamReceivedCallback);
+
+    void updateUserParams(String userID, UserParamsEBDD  userParamsEBDD);
 
     String addNotificationToUser(String userID, NotificationBDD notificationBDD);
 
