@@ -102,7 +102,7 @@ public class ConnectedMapActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
         if (mGoogleApiClient.isConnected()) {
             startLocationUpdates();
