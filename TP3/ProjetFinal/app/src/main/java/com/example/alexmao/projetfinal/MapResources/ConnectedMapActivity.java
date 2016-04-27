@@ -170,6 +170,11 @@ public class ConnectedMapActivity extends AppCompatActivity implements
         }
     }
 
+    public void startPositionUpdateProcess(String userID, OnPositionReceived curentUserCallback) {
+        this.onPositionReceived = curentUserCallback;
+        this.currentUserID = userID;
+    }
+
     public void setCurrentUserID(String currentUserID) {
         this.currentUserID = currentUserID;
     }
