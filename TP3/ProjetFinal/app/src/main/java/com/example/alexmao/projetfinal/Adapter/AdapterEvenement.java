@@ -61,6 +61,7 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
     // Constructeur
     public AdapterEvenement(List<Evenement> evenements) {
         this.evenements = evenements;
+        notifyDataSetChanged();
     }
 
     // Crée les nouvelles vues

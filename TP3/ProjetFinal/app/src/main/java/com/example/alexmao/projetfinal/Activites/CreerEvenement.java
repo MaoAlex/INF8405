@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.alexmao.projetfinal.ActivitiesForTests.GyroscopeTest;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.FromClassAppToEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.MyLocalEventEBDD;
@@ -158,7 +157,7 @@ public class CreerEvenement extends AppCompatActivity {
         long idGroupe = groupeBDD.insererGroupe(g);
 
         groupeBDD.affichageGroupe();
-        groupeBDD.close();
+
         g.setIdBDD(idGroupe);
 
         evenement.setGroupeAssocie(g);
@@ -168,9 +167,11 @@ public class CreerEvenement extends AppCompatActivity {
         addOnEBDD(evenement);
 
         evenementBDD.open();
-        evenementBDD.insererEvenement(evenement);
+        long idEvenement = evenementBDD.insererEvenement(evenement);
         evenementBDD.affichageEvenements();
+        evenement.setIdBDD(idEvenement);
         evenementBDD.close();
+        groupeBDD.close();
         utilisateurBDD.close();
         // TODO : Event is ready !
         Log.d("CreerEvenement","Bouton cliqué");

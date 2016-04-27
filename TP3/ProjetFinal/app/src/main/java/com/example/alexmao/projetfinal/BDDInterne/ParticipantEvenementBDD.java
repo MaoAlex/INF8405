@@ -3,7 +3,6 @@ package com.example.alexmao.projetfinal.BDDInterne;
 import android.content.ContentValues;
 import android.content.Context;
 
-import com.example.alexmao.projetfinal.classeApp.Evenement;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
 /**
@@ -31,11 +30,11 @@ public class ParticipantEvenementBDD extends AbstractBDD {
         super(pContext);
     }
 
-    public long insererParticipant(Evenement evenement, Utilisateur utilisateur){
+    public static long insererParticipant(long idEvenement, Utilisateur utilisateur){
         //Création d'un ContentValues (fonctionne comme une HashMap)
         //On va mettre les valeurs l'id de l'évenement avec l'id de l'utilisateur interessé
         ContentValues values = new ContentValues();
-        values.put(Colonne.ID_EVENEMENT, evenement.getIdBDD());
+        values.put(Colonne.ID_EVENEMENT, idEvenement);
         values.put(Colonne.ID_UTILISATEUR, utilisateur.getIdBDD());
 
         return database_.insert(Table.PARTICIPANT_EVENEMENT, null, values);

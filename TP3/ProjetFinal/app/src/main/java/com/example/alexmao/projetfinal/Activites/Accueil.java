@@ -42,11 +42,13 @@ import com.example.alexmao.projetfinal.BDDExterne.OnPositionReceived;
 import com.example.alexmao.projetfinal.BDDExterne.OnTemporaryEvents;
 import com.example.alexmao.projetfinal.BDDExterne.Position;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
+import com.example.alexmao.projetfinal.BDDInterne.EvenementBDD;
+import com.example.alexmao.projetfinal.BDDInterne.InvitationConnexionBDD;
+import com.example.alexmao.projetfinal.BDDInterne.InvitationEvenementBDD;
 import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.MapResources.ConnectedMapActivity;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
-import com.example.alexmao.projetfinal.classeApp.Groupe;
 import com.example.alexmao.projetfinal.classeApp.InvitationConnexion;
 import com.example.alexmao.projetfinal.classeApp.InvitationEvenement;
 import com.example.alexmao.projetfinal.classeApp.ParametresUtilisateur;
@@ -55,7 +57,6 @@ import com.example.alexmao.projetfinal.utils.ShakeEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,7 +70,7 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
     public final static int PARTICIPATIONS_TAB = 2;
 
     private RemoteBD remoteBD;
-    private Utilisateur utilisateurConnecte;
+    private static Utilisateur utilisateurConnecte;
     private SensorManager mSensorManager;
     private ShakeEventListener mSensorListener;
     ViewPager mViewPager;
@@ -81,6 +82,9 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
 
     //BDD Interne
     private UtilisateurBDD utilisateurBDD;
+    private static EvenementBDD evenementBDD;
+    private static InvitationConnexionBDD invitationConnexionBDD;
+    private static InvitationEvenementBDD invitationEvenementBDD;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,7 +112,11 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
         vAdresse = (TextView) v.findViewById(R.id.menu_adresse);
 
 
-
+        evenementBDD = new EvenementBDD(this);
+        evenementBDD.open();
+        evenementBDD.affichageEvenements();
+        invitationConnexionBDD = new InvitationConnexionBDD(this);
+        invitationEvenementBDD = new InvitationEvenementBDD(this);
         //Récupération de la tabLayout
         tabLayout = (TabLayout) findViewById(R.id.tabLayout1);
 
@@ -303,6 +311,8 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
         InvitationConnexion invitationConnexion = new InvitationConnexion();
         invitationConnexion.setDate((notificationBDD.getDate()));
         invitationConnexion.setIdFirebase(notificationBDD.getId());
+        invitationConnexionBDD.open();
+        invitationConnexionBDD.insererInvitationConnexion(invitationConnexion);
     }
 
     private void onEventInvitation(NotificationBDD notificationBDD) {
@@ -311,6 +321,7 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
         InvitationEvenement invitationEvenement = new InvitationEvenement();
         invitationEvenement.setDate((notificationBDD.getDate()));
         invitationEvenement.setIdFirebase(notificationBDD.getId());
+        invitationEvenementBDD.insererInvitationEvenement(invitationEvenement);
 
     }
 
@@ -386,40 +397,13 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
             //Création du LayoutManager
             mLayoutManager = new LinearLayoutManager(getContext());
             mRecyclerView.setLayoutManager(mLayoutManager);
+            evenementBDD.open();
 
             //Création d'un evenement test
             ArrayList<Evenement> evenements = new ArrayList<>();
-            Date date = new Date();
-            Utilisateur u1 = new Utilisateur();
-            u1.setNom("FR");
-            evenements = new ArrayList<>();
-            Evenement evenement = new Evenement();
-            evenement.setNbreMaxParticipants(7);
-            GregorianCalendar test = new GregorianCalendar(2016, 03, 27);
-            date = test.getTime();
-            evenement.setDate(test.getTimeInMillis());
-            evenement.setLieu("cepsum");
-            evenement.setNomEvenement("One day");
-            evenement.setOrganisateur(u1);
-            evenement.setSport("tennis");
-            Groupe g = new Groupe();
+            evenements = evenementBDD.obtenirEvenements(utilisateurConnecte.getSports());
 
-            g.setListeMembre(new ArrayList<Utilisateur>());
-            g.getListeMembre().add(u1);
-
-            Utilisateur u2 = new Utilisateur();
-            u2.setNom("Poly Technique");
-            u2.setDateNaissance(test.getTimeInMillis());
-            Utilisateur u3 = new Utilisateur();
-            u3.setNom("Mont Real");
-            u3.setDateNaissance(test.getTimeInMillis());
-            g.getListeMembre().add(u2);
-            g.getListeMembre().add(u3);
-            evenement.setGroupeAssocie(g);
-            evenements.add(evenement);
-            Evenement evenement1 = new Evenement();
-            evenement1 = evenement;
-            evenements.add(evenement1);
+            evenementBDD.affichageEvenements();
 
             //Création d'un adapter pour l'affichage des éléments sous forme de carte
             mAdapter = new AdapterEvenement(evenements);
@@ -453,53 +437,10 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
             mLayoutManager = new LinearLayoutManager(getContext());
             mRecyclerView.setLayoutManager(mLayoutManager);
 
+            evenementBDD.open();
             //Création d'evenements tests
             ArrayList<Evenement> evenements = new ArrayList<>();
-            Date date = new Date();
-            Utilisateur u1 = new Utilisateur();
-            u1.setNom("FR");
-            evenements = new ArrayList<>();
-            Evenement evenement = new Evenement();
-            evenement.setNbreMaxParticipants(8);
-            GregorianCalendar test = new GregorianCalendar(2016, 03, 27);
-            date = test.getTime();
-            evenement.setDate(test.getTimeInMillis());
-            evenement.setLieu("cepsum");
-            evenement.setNomEvenement("One day");
-            evenement.setOrganisateur(u1);
-            evenement.setSport("basket");
-            Groupe g = new Groupe();
-
-            g.setListeMembre(new ArrayList<Utilisateur>());
-            g.getListeMembre().add(u1);
-
-            Utilisateur u2 = new Utilisateur();
-            u2.setNom("Poly Technique");
-            u2.setDateNaissance(test.getTimeInMillis());
-            Utilisateur u3 = new Utilisateur();
-            u3.setNom("Mont Real");
-            u3.setDateNaissance(test.getTimeInMillis());
-            g.getListeMembre().add(u2);
-            g.getListeMembre().add(u3);
-            evenement.setGroupeAssocie(g);
-            evenements.add(evenement);
-            evenement.setSport("tennis");
-            evenements.add(evenement);
-            evenements.add(evenement);
-            evenements.add(evenement);
-            evenements.add(evenement);
-            evenement.setSport("basket");
-            Evenement evenement1 = new Evenement();
-            evenement1.setDate(test.getTimeInMillis());
-            evenement1.setLieu("Somewhere");
-            evenement1.setNomEvenement("Tomorrow");
-            evenement1.setOrganisateur(u1);
-            evenement1.setSport("tennis");
-            evenement.setNbreMaxParticipants(15);
-            evenement1.setGroupeAssocie(g);
-
-            evenements.add(evenement1);
-            evenement.setGroupeAssocie(g);
+            evenements = evenementBDD.obtenirEvenements(utilisateurConnecte);
 
             //Création d'un adapter pour l'affichage des événements sous forme de cardView
             mAdapter = new AdapterEvenement(evenements);
@@ -523,10 +464,12 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
             mLayoutManager = new LinearLayoutManager(getContext());
             mRecyclerView.setLayoutManager(mLayoutManager);
 
+            evenementBDD.open();
             //Création d'un adapter pour l'affichage des événements sous forme de cardView
             //Création d'un élément test
-            String[] myDataset = {"test"};
-            mAdapter = new AdapterEvenement(myDataset);
+            ArrayList<Evenement> evenements;
+            evenements = evenementBDD.obtenirEvenements();
+            mAdapter = new AdapterEvenement(evenements);
             mRecyclerView.setAdapter(mAdapter);
             return mRecyclerView;
         }
