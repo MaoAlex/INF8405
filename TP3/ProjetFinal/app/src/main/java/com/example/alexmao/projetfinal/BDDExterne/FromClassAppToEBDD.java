@@ -2,6 +2,7 @@ package com.example.alexmao.projetfinal.BDDExterne;
 
 import android.graphics.Bitmap;
 
+import com.example.alexmao.projetfinal.classeApp.Conversation;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
 import com.example.alexmao.projetfinal.classeApp.Groupe;
 import com.example.alexmao.projetfinal.classeApp.InvitationConnexion;
@@ -11,6 +12,7 @@ import com.example.alexmao.projetfinal.classeApp.ParametresUtilisateur;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -110,6 +112,23 @@ public class FromClassAppToEBDD {
         ebddClass.setDate(invitation.getDate().getTime());
         ebddClass.setExpediteur(invitation.getIdFirebase());
         ebddClass.setEvenementIdFirebase(invitation.getEvenement().getIdFirebase());
+
+        return ebddClass;
+    }
+
+    public static ConversationEBDD translateConversation(Conversation conversation) {
+        ConversationEBDD ebddClass = new ConversationEBDD();
+
+        ebddClass.setDataBaseId(conversation.getIdFirebase());
+        ebddClass.setNomConversation(conversation.getNomConversation());
+        ebddClass.setGroupID(conversation.getGroupID());
+
+        List<MessageEBDD> messageEBDDs = new LinkedList<>();
+        for (Message msg :conversation.getListeMessage()) {
+            messageEBDDs.add(FromClassAppToEBDD.transalateMessage(msg));
+        }
+
+        ebddClass.setListeMessage(messageEBDDs);
 
         return ebddClass;
     }
