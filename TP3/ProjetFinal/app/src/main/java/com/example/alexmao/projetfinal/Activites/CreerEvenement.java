@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 
 import com.example.alexmao.projetfinal.R;
+import com.example.alexmao.projetfinal.classeApp.Evenement;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -35,8 +36,6 @@ public class CreerEvenement extends AppCompatActivity {
     private int year;
     private int hours;
     private int minutes;
-    private int seconds;
-    private Date date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +73,20 @@ public class CreerEvenement extends AppCompatActivity {
 
     private void onButtonClick() {
         // TODO : Créer l'événement / vérifier les champs ...
+
+        String nom = nomVue.getText().toString();
+        String sport = sportVue.getText().toString();
+        String lieu = lieuVue.getText().toString();
+        int maxParticipants = Integer.parseInt(maxParticipantsVue.getText().toString());
+        GregorianCalendar date = new GregorianCalendar(year, month, day, hours, minutes, 0);
+
+        Evenement evenement = new Evenement();
+        evenement.setNomEvenement(nom);
+        evenement.setLieu(lieu);
+        evenement.setSport(sport);
+        evenement.setNbreMaxParticipants(maxParticipants);
+        evenement.setDate(date.getTimeInMillis());
+        // TODO : Event is ready !
         Log.d("CreerEvenement","Bouton cliqué");
     }
 
@@ -90,8 +103,9 @@ public class CreerEvenement extends AppCompatActivity {
                               int selectedMonth, int selectedDay) {
             dateVue.setText(selectedDay + " / " + (selectedMonth + 1) + " / "
                     + selectedYear);
-            GregorianCalendar test = new GregorianCalendar(year, month, day);
-            date = test.getTime();
+            year = selectedYear;
+            month = selectedMonth;
+            day = selectedDay;
 
             affichageChoixHeure();
         }
@@ -114,7 +128,8 @@ public class CreerEvenement extends AppCompatActivity {
 
             dateVue.setText(dateAct);
             GregorianCalendar test = new GregorianCalendar(year, month, day, selectedHour, selectedMinute);
-            date = test.getTime();
+            hours = selectedHour;
+            minutes = selectedMinute;
 
         }
     };
