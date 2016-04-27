@@ -47,7 +47,7 @@ public class EvenementBDD extends AbstractBDD {
         ContentValues values = new ContentValues();
         //on lui ajoute une valeur associée à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
         values.put(Colonne.NOMBRE_PARTICIPANTS, evenement.getNbreMaxParticipants());
-        //values.put(Colonne.DATE_EVENEMENT, evenement.getDate());
+        values.put(Colonne.DATE_EVENEMENT, evenement.getDate());
         if(evenement.getPhoto()!=null)
             values.put(Colonne.PHOTO, evenement.getPhoto().toString());
         else
@@ -55,7 +55,7 @@ public class EvenementBDD extends AbstractBDD {
         //
         //!!!!!!!!!!!a completer!!!!!!!!!!!
         //
-        //values.put(Colonne.ID_SPORT_ASSOCIE, evenement.getSport());
+        values.put(Colonne.SPORT_ASSOCIE, evenement.getSport());
         values.put(Colonne.NOM_EVENEMENT, evenement.getNomEvenement());
         values.put(Colonne.ID_GROUPE, evenement.getGroupeAssocie().getIdBDD());
         values.put(Colonne.LATITUDE, evenement.getLatitude());
@@ -84,7 +84,7 @@ public class EvenementBDD extends AbstractBDD {
         //
         //!!!!!!!!!!!a completer!!!!!!!!!!!
         //
-        //values.put(Colonne.ID_SPORT_ASSOCIE, evenement.getSport());
+        values.put(Colonne.SPORT_ASSOCIE, evenement.getSport());
         values.put(Colonne.NOM_EVENEMENT, evenement.getNomEvenement());
         values.put(Colonne.ID_GROUPE, evenement.getGroupeAssocie().getIdBDD());
         values.put(Colonne.LATITUDE, evenement.getLatitude());

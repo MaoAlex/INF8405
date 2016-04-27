@@ -20,6 +20,7 @@ import com.example.alexmao.projetfinal.BDDExterne.MyLocalEventEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.NotificationBDD;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.BDDInterne.EvenementBDD;
+import com.example.alexmao.projetfinal.BDDInterne.GroupeBDD;
 import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
@@ -52,6 +53,8 @@ public class CreerEvenement extends AppCompatActivity {
     //BD Externe
     private RemoteBD remoteBD;
 
+    //BDD Interne
+    private EvenementBDD evenementBDD;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +65,10 @@ public class CreerEvenement extends AppCompatActivity {
         //Mise en place de la flèche pour le retour en arrière
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        evenementBDD = new EvenementBDD(this);
+        evenementBDD.open();
+        evenementBDD.affichageEvenements();
+        evenementBDD.close();
         nomVue = (EditText) findViewById(R.id.creer_evt_nomEvement);
         lieuVue = (EditText) findViewById(R.id.creer_evt_lieu);
         sportVue = (EditText) findViewById(R.id.creer_evt_sport);
@@ -100,28 +106,37 @@ public class CreerEvenement extends AppCompatActivity {
         int maxParticipants = Integer.parseInt(maxParticipantsVue.getText().toString());
         GregorianCalendar date = new GregorianCalendar(year, month, day, hours, minutes, 0);
 
+
         Evenement evenement = new Evenement();
         evenement.setNomEvenement(nom);
         evenement.setLieu(lieu);
         evenement.setSport(sport);
         evenement.setNbreMaxParticipants(maxParticipants);
         evenement.setDate(date.getTimeInMillis());
+        evenement.setIdFirebase("yes");
         ArrayList<Utilisateur> listUtilisateur = new ArrayList<>();
         evenement.setOrganisateur(utilisateurConnecte);
 
         Groupe g = new Groupe();
         listUtilisateur.add(utilisateurConnecte);
         g.setListeMembre(listUtilisateur);
-//        GroupeBDD groupeBDD = new GroupeBDD(this);
-//        groupeBDD.open();
-//        groupeBDD.insererGroupe(g);
-//
-//        groupeBDD.affichageGroupe();
-//        groupeBDD.close();
+        //Données test à modifier
+        g.setIdFirebase("test");
+        g.setConversation("conversationTest");
+        GroupeBDD groupeBDD = new GroupeBDD(this);
+        groupeBDD.open();
+        long idGroupe = groupeBDD.insererGroupe(g);
+
+        groupeBDD.affichageGroupe();
+        groupeBDD.close();
+        g.setIdBDD(idGroupe);
+
         evenement.setGroupeAssocie(g);
-        MyLocalEventEBDD myLocalEventEBDD = FromClassAppToEBDD.translateEvenement(evenement, null);
-        String idFirebaseEve = remoteBD.addEvent(myLocalEventEBDD);
-        EvenementBDD evenementBDD = new EvenementBDD(this);
+        evenement.setVisibilite("public");
+//        MyLocalEventEBDD myLocalEventEBDD = FromClassAppToEBDD.translateEvenement(evenement, null);
+//        String idFirebaseEve = remoteBD.addEvent(myLocalEventEBDD);
+        addOnEBDD(evenement);
+
         evenementBDD.open();
         evenementBDD.insererEvenement(evenement);
         evenementBDD.affichageEvenements();
@@ -196,9 +211,9 @@ public class CreerEvenement extends AppCompatActivity {
         MyLocalEventEBDD eventEBDD = FromClassAppToEBDD.translateEvenement(evenement, null);
         String eventID = remoteBD.addEvent(eventEBDD);
         eventEBDD.setDataBaseId(eventID);
-
+        evenement.setIdFirebase(eventID);
         //TODO: Alex vérifie que la visibilité public correnpond bien à un événement public
-        if (evenement.getVisibilite().equals("public"))
+        if (evenement.getVisibilite().equals(null) || evenement.getVisibilite().equals("public"))
             addOnEBDDPublicPart(evenement);
     }
 

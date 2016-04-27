@@ -43,8 +43,8 @@ public class Colonne {
 //    public static final String PHOTO = "photo";
     public static final String SPORT_ASSOCIE = "sport_associe";
     public static final String NOM_EVENEMENT = "nom_evenement";
-//    public static final String ID_GROUPE = "id_groupe";
-//    public static final String ID_FIREBASE = "id_firebase";
+    //    public static final String ID_FIREBASE = "id_firebase";
+    //    public static final String ID_GROUPE = "id_groupe";
 //    public static final String LATITUDE = "latitude";
 //    public static final String LONGITUDE = "longitude";
     public static final String NOM_LIEU = "nom_lieu";

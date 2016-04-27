@@ -116,7 +116,7 @@ public class Chat extends CustomActivity
         }
         GroupeBDD groupeBDD = new GroupeBDD(this);
         groupeBDD.open();
-		groupe = groupeBDD.obtenirGroupe(conversation);
+		groupe = groupeBDD.obtenirGroupe(conversation.getIdFirebase());
 
         //Partie non encore utilisée
         //partie BDD interne

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
-import com.example.alexmao.projetfinal.classeApp.Conversation;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
 import com.example.alexmao.projetfinal.classeApp.Groupe;
 
@@ -19,7 +18,7 @@ public class GroupeBDD extends AbstractBDD {
     private static final int NUM_COL_ID = 0;
     private static final int NUM_COL_ID_CONVERSATION = 1;
     private static final int NUM_COL_ID_FIREBASE = 2;
-    private static final int NUM_COL_ID_EVENEMENT = 3;
+//    private static final int NUM_COL_ID_EVENEMENT = 3;
 
 
     public GroupeBDD(Context pContext) {
@@ -30,9 +29,9 @@ public class GroupeBDD extends AbstractBDD {
         //Création d'un ContentValues (fonctionne comme une HashMap)
         //On va mettre les valeurs nécessaire au stockage dans la table de la groupe
         ContentValues values = new ContentValues();
-        values.put(Colonne.ID_CONVERSATION, groupe.getConversation().getIdBDD());
+        values.put(Colonne.ID_CONVERSATION, groupe.getConversation());
         values.put(Colonne.ID_FIREBASE, groupe.getIdFirebase());
-        values.put(Colonne.ID_EVENEMENT, groupe.getEvenement().getIdBDD());
+//        values.put(Colonne.ID_EVENEMENT, groupe.getEvenement().getIdBDD());
 
         return database_.insert(Table.GROUPE, null, values);
     }
@@ -50,7 +49,7 @@ public class GroupeBDD extends AbstractBDD {
         //requete pour récupérer la groupe associée à un événement
         String query = "SELECT *"
                 + " FROM "
-                + Table.GROUPE + " WHERE " + Colonne.ID_EVENEMENT + " = " + evenement.getIdBDD() ;
+                + Table.GROUPE + " WHERE " + Colonne.ID_GROUPE + " = " + evenement.getGroupeAssocie().getIdBDD() ;
 
         Log.d("query", query);
 
@@ -58,7 +57,7 @@ public class GroupeBDD extends AbstractBDD {
         //On récupère la groupe associée à un événement, il est unique
         c.moveToFirst();
         groupe.setIdBDD(c.getInt(NUM_COL_ID));
-        groupe.setEvenement(evenement);
+//        groupe.setEvenement(evenement);
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!A completer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         groupe.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
         //groupe.setConversation();
@@ -68,7 +67,7 @@ public class GroupeBDD extends AbstractBDD {
     }
 
     //On peut aussi récupérer une conversation entre plusieurs personnes qui forment juste un groupe
-    public Groupe obtenirGroupe(Conversation conversation){
+    public Groupe obtenirGroupe(String idConversation){
 
         Groupe groupe = new Groupe();
 
@@ -77,7 +76,7 @@ public class GroupeBDD extends AbstractBDD {
         //requete pour récupérer la groupe associée à une conversation
         String query = "SELECT *"
                 + " FROM "
-                + Table.GROUPE + " WHERE " + Colonne.ID_CONVERSATION + " = " + conversation.getIdBDD() ;
+                + Table.GROUPE + " WHERE " + Colonne.ID_CONVERSATION + " = " + idConversation ;
 
         Log.d("query", query);
 
@@ -88,7 +87,7 @@ public class GroupeBDD extends AbstractBDD {
         //groupe.setEvenement(c.getString(NUM_COL_NOM_CONVERSATION));
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!A completer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         groupe.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
-        groupe.setConversation(conversation);
+        groupe.setConversation(idConversation);
         groupe.setListeMembre(UtilisateurBDD.obtenirUtilisateurs(c.getInt(NUM_COL_ID)));
         //groupe.setListeMembre();
         c.close();
@@ -112,7 +111,7 @@ public class GroupeBDD extends AbstractBDD {
            while (cursor.moveToNext()) {
             Log.d(TAG, "L'id de du groupe est : " + cursor.getInt(NUM_COL_ID)
                     + ", son id conver est : " + cursor.getInt(NUM_COL_ID_CONVERSATION)
-                    + ", son evenemnt est : " + cursor.getInt(NUM_COL_ID_EVENEMENT)
+//                    + ", son evenemnt est : " + cursor.getInt(NUM_COL_ID_EVENEMENT)
                     + ", son idFirebase est : " + cursor.getString(NUM_COL_ID_FIREBASE));
         }
         cursor.close();

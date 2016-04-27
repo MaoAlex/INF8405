@@ -79,6 +79,8 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
     TextView vNom;
     TextView vAdresse;
 
+    //BDD Interne
+    private UtilisateurBDD utilisateurBDD;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,7 +161,7 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
             public void onTabReselected(TabLayout.Tab tab) {/*do nothing*/}
         });
         //Ouverture de la BDD interne sur les Utilisateurs
-        UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
+        utilisateurBDD = new UtilisateurBDD(this);
         utilisateurBDD.open();
         utilisateurBDD.affichageUtilisateurConnecte();;
         //Récupération de l'utilisateur connecté
@@ -282,7 +284,11 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
             Intent intent = new Intent(this, ProfilUtilisateur.class);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
-
+            utilisateurBDD.open();
+            utilisateurBDD.deconnexion();
+            Intent intent = new Intent(this, Authentification.class);
+            startActivity(intent);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
