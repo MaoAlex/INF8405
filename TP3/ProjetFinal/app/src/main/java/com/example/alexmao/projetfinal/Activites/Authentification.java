@@ -1,7 +1,11 @@
 package com.example.alexmao.projetfinal.Activites;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +27,8 @@ import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 import com.example.alexmao.projetfinal.custom.CustomActivity;
 import com.example.alexmao.projetfinal.utils.Utils;
 
+import java.io.FileOutputStream;
+
 /**
  *
  * La classe authentificaiton est l'activité qui est celle affiché lors du lancement de l'application
@@ -42,10 +48,38 @@ public class Authentification extends CustomActivity
 	// Champ pour rentrer le mot de passe
 	private EditText motDePasse;
     private boolean estConnecte = false ;
+	private boolean batteryRead = false;
     private static Utilisateur utilisateur;
+
+	private BroadcastReceiver mBatInfoReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context ctxt, Intent intent) {
+			if(batteryRead) {
+				return;
+			}
+			int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+			int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, 0);
+			double batteryPct = level/(float)scale;
+			String filename = "batteryinfo";
+			String string = String.valueOf(batteryPct);
+			FileOutputStream outputStream;
+
+			try {
+				outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+				outputStream.write(string.getBytes());
+				outputStream.close();
+				Log.d("Fichier", "Fichier créé");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		batteryRead = true;
+		}
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+		this.registerReceiver(this.mBatInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
         utilisateurBDD.open();
         utilisateurBDD.affichageUtilisateurConnecte();
@@ -97,22 +131,22 @@ public class Authentification extends CustomActivity
 					getString(R.string.alert_wait));
 		    //On va chercher le mot de passe sur le serveur externe
             remoteBD.getMdp(email, new OnStringReceived() {
-                @Override
-                public void onStringReceived(String s) {
-                    dia.dismiss();
-                    //on vérifie que le mot de passe est bien celui associé à ce mail
-                    if (s != null && s.equals(p)) {
-                        connexionReussi(email);
-                        Log.d("Test", "recuperation reussi du mail");
+				@Override
+				public void onStringReceived(String s) {
+					dia.dismiss();
+					//on vérifie que le mot de passe est bien celui associé à ce mail
+					if (s != null && s.equals(p)) {
+						connexionReussi(email);
+						Log.d("Test", "recuperation reussi du mail");
 
-                    } else {//Sinon on l'annonce à l'utilisateur
-                        Log.d("Authentification", "erreur de mdp");
-                        //notification de l'echec de acitivity_authentification
-                        motDePasse.setError(getString(R.string.mdp_incorrect));
-                        motDePasse.requestFocus();
-                    }
-                }
-            });
+					} else {//Sinon on l'annonce à l'utilisateur
+						Log.d("Authentification", "erreur de mdp");
+						//notification de l'echec de acitivity_authentification
+						motDePasse.setError(getString(R.string.mdp_incorrect));
+						motDePasse.requestFocus();
+					}
+				}
+			});
 		}
 	}
 
@@ -135,9 +169,9 @@ public class Authentification extends CustomActivity
         remoteBD.getIDFromMail(mail, new OnStringReceived() {
 			@Override
 			public void onStringReceived(String s) {
-                Log.d("Authentification", "On recoit un string");
+				Log.d("Authentification", "On recoit un string");
 
-                onIDreceived(s);
+				onIDreceived(s);
 			}
 		});
         
@@ -155,16 +189,26 @@ public class Authentification extends CustomActivity
 											   Position position,
 											   Picture picture,
 											   UserParamsEBDD params) {
-                        Log.d("Essaie", "valeur id firebase : " + localUserProfilEBDD.getDataBaseId());
+						Log.d("Essaie", "valeur id firebase : " + localUserProfilEBDD.getDataBaseId());
 						utilisateur = FromEBDDToLocalClassTranslator.utilisateurFromEBDD(localUserProfilEBDD,
 								position, params, picture);
-                        onUserReceived(utilisateur);
-                        startActivity(new Intent(Authentification.this, Accueil.class));
-                        finish();
+						onUserReceived(utilisateur);
+						startActivity(new Intent(Authentification.this, Accueil.class));
+						finish();
 					}
 				});
 			}
 		});
+	}
+
+	protected void onPause() {
+		super.onPause();
+		this.unregisterReceiver(mBatInfoReceiver);
+	}
+
+	protected void onResume() {
+		super.onResume();
+		this.registerReceiver(this.mBatInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 	}
 
 	private void onUserReceived(Utilisateur utilisateur) {
