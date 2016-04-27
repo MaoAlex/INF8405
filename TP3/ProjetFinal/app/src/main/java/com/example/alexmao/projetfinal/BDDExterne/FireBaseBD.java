@@ -260,6 +260,23 @@ public class FireBaseBD implements RemoteBD {
         });
     }
 
+    @Override
+    public void getIDFromMail(String mailAdr, final OnStringReceived onStringReceived) {
+        Firebase userBD = myFireBaseRef.child("userToID").child(mailAdr.replace('.', ')'));
+        userBD.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String userID = (String) dataSnapshot.getValue();
+                onStringReceived.onStringReceived(userID);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
     //affirme si un utilisateur existe
     //Garantie: lorsque la callback est appelée, on a reçu les données
     @Override

@@ -7,12 +7,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.alexmao.projetfinal.BDDExterne.FetchFullDataFromEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.FromEBDDToLocalClassTranslator;
 import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.OnFullUserData;
 import com.example.alexmao.projetfinal.BDDExterne.OnStringReceived;
 import com.example.alexmao.projetfinal.BDDExterne.OnUserParamReceived;
 import com.example.alexmao.projetfinal.BDDExterne.OnUserProfilReceived;
+import com.example.alexmao.projetfinal.BDDExterne.Picture;
+import com.example.alexmao.projetfinal.BDDExterne.Position;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.BDDExterne.UserParamsEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.UtilisateurProfilEBDD;
@@ -90,8 +94,8 @@ public class Authentification extends CustomActivity
                     dia.dismiss();
                     //on vérifie que le mot de passe est bien celui associé à ce mail
                     if (s != null && s.equals(p)){
-                        //connexionReussi(email);
-                        startActivity(new Intent(Authentification.this, ChatList.class));
+                        connexionReussi(email);
+                        startActivity(new Intent(Authentification.this, Accueil.class));
                         finish();
                     } else {//Sinon on l'annonce à l'utilisateur
                         Log.d("Authentification", "erreur de mdp");
@@ -118,28 +122,43 @@ public class Authentification extends CustomActivity
     //fonction permettant de récupérer l'utilisateur depuis la BDD externe
     //Une fois fois l'authentification réussi, insère l'utilisateur dans la BDD interne
 	private void connexionReussi(String mail){
-		Utilisateur utilisateur;
-        LocalUserProfilEBDD localUserProfilEBDD = new LocalUserProfilEBDD();
-		remoteBD.getUserProfilFromMail(mail, localUserProfilEBDD, new OnUserProfilReceived() {
-            @Override
-            public void onUserProfilReceived(UtilisateurProfilEBDD userProfilEBDD) {
-                //On n'a pas besoin de faire quelque chose ici
-                //On ne récupère que l'utilisateur pour le mettre dans la BDD interne
-            }
-        });
-        final ParametresUtilisateur parametres;
-        remoteBD.getUserParam(localUserProfilEBDD.getDataBaseId(), new OnUserParamReceived() {
-            @Override
-            public void onUserParamReceived(UserParamsEBDD userParamsEBDD) {
-           //     parametres = FromEBDDToLocalClassTranslator.translateUserParam(userParamsEBDD);
-            }
-        });
+		remoteBD.getIDFromMail(mail, new OnStringReceived() {
+			@Override
+			public void onStringReceived(String s) {
+				onIDreceived(s);
+			}
+		});
+        
+	}
 
-        utilisateur = FromEBDDToLocalClassTranslator.utilisateurFromEBDD(localUserProfilEBDD);
+	private void onIDreceived(final String userID) {
+		FetchFullDataFromEBDD.fetchUser(userID, remoteBD, new OnFullUserData() {
+			@Override
+			public void onFullUserData(LocalUserProfilEBDD localUserProfilEBDD,
+									   Position position,
+									   Picture picture, UserParamsEBDD params) {
+				FetchFullDataFromEBDD.fetchUser(userID, remoteBD, new OnFullUserData() {
+					@Override
+					public void onFullUserData(LocalUserProfilEBDD localUserProfilEBDD,
+											   Position position,
+											   Picture picture,
+											   UserParamsEBDD params) {
+						Utilisateur utilisateur = FromEBDDToLocalClassTranslator.utilisateurFromEBDD(localUserProfilEBDD,
+								position, params, picture);
+                        onUserReceived(utilisateur);
+					}
+				});
+			}
+		});
+	}
+
+	private void onUserReceived(Utilisateur utilisateur) {
+		//TODO fais toi plèz Alex!!!!
 		UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
         utilisateurBDD.open();
         utilisateurBDD.insererUtilisateur(utilisateur);
         utilisateurBDD.close();
-        
+        //TODO remove test
+
 	}
 }

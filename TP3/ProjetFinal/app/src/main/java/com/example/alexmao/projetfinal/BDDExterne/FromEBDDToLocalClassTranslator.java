@@ -1,5 +1,6 @@
 package com.example.alexmao.projetfinal.BDDExterne;
 
+import com.example.alexmao.projetfinal.BDDInterne.ParametreUtilisateurBDD;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
 import com.example.alexmao.projetfinal.classeApp.Groupe;
 import com.example.alexmao.projetfinal.classeApp.InvitationConnexion;
@@ -21,7 +22,9 @@ import java.util.Date;
  */
 public class FromEBDDToLocalClassTranslator {
 
-    public static Utilisateur utilisateurFromEBDD(LocalUserProfilEBDD userProfil) {
+    public static Utilisateur utilisateurFromEBDD(LocalUserProfilEBDD userProfil, Position position,
+                                                  UserParamsEBDD userParamsEBDD,
+                                                  Picture picture) {
         Utilisateur localClass = new Utilisateur();
 
         localClass.setIdFirebase(userProfil.getDataBaseId());
@@ -33,6 +36,12 @@ public class FromEBDDToLocalClassTranslator {
         localClass.setListeInteretsID(userProfil.getListeInteretsID());
         localClass.setSports(userProfil.getSports());
         localClass.setPhoto(null);
+        localClass.setParametres(new ParametresUtilisateur(userParamsEBDD.getRayon(),
+                userParamsEBDD.isLocalisation(), userParamsEBDD.isMasquerNom()));
+        if (position != null) {
+            localClass.setLatitude(position.getLatitude());
+            localClass.setLongitude(position.getLongitude());
+        }
 
         return localClass;
     }
