@@ -1,9 +1,13 @@
 package com.example.alexmao.projetfinal.Activites;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
@@ -11,20 +15,25 @@ import com.example.alexmao.projetfinal.BDDExterne.FromClassAppToEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.R;
+import com.example.alexmao.projetfinal.classeApp.Sport;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by alexMAO on 24/04/2016.
  */
 public class ChoixSport extends AppCompatActivity {
+    private List<Sport> listeSports;
+    private List<Sport> selectedSports;
+    private boolean modeUnique;
     private RemoteBD remoteBD;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choix_sports);
@@ -35,44 +44,86 @@ public class ChoixSport extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        loadImages();
+        loadSports();
+        selectedSports = new ArrayList<>();
+        definirParametres(getIntent());
+        adapterTransparence();
         remoteBD = new FireBaseBD(this);
     }
 
-    private void loadImages() {
-        ImageView artMartial = (ImageView) findViewById(R.id.art_martial);
-        WeakReference wArtMartial = new WeakReference(artMartial);
-        artMartial.setImageDrawable(getResources().getDrawable(R.drawable.art_martial));
-        ImageView athletisme = (ImageView) findViewById(R.id.athletisme);
-        athletisme.setImageDrawable(getResources().getDrawable(R.drawable.athletisme));
-        ImageView badminton = (ImageView) findViewById(R.id.badminton);
-        artMartial.setImageDrawable(getResources().getDrawable(R.drawable.art_martial));
-        ImageView baseball = (ImageView) findViewById(R.id.baseball);
-        baseball.setImageDrawable(getResources().getDrawable(R.drawable.baseball));
-        ImageView basketball = (ImageView) findViewById(R.id.basketball);
-        basketball.setImageDrawable(getResources().getDrawable(R.drawable.basketball));
-        ImageView boxe = (ImageView) findViewById(R.id.boxe);
-//        boxe.setImageDrawable(getResources().getDrawable(R.drawable.boxe));
-//        ImageView fitness = (ImageView) findViewById(R.id.fitness);
-//        fitness.setImageDrawable(getResources().getDrawable(R.drawable.fitness));
-//        ImageView football = (ImageView) findViewById(R.id.football);
-//        football.setImageDrawable(getResources().getDrawable(R.drawable.football));
-//        ImageView golf = (ImageView) findViewById(R.id.golf);
-//        golf.setImageDrawable(getResources().getDrawable(R.drawable.golf));
-//        ImageView hockey = (ImageView) findViewById(R.id.hockey);
-//        hockey.setImageDrawable(getResources().getDrawable(R.drawable.hockey));
-//        ImageView natation = (ImageView) findViewById(R.id.natation);
-//        natation.setImageDrawable(getResources().getDrawable(R.drawable.natation));
-//        ImageView pingpong = (ImageView) findViewById(R.id.pingpong);
-//        pingpong.setImageDrawable(getResources().getDrawable(R.drawable.pingpong));
-//        ImageView rugby = (ImageView) findViewById(R.id.rugby);
-//        rugby.setImageDrawable(getResources().getDrawable(R.drawable.rugby));
-//        ImageView tennis = (ImageView) findViewById(R.id.tennis);
-//        tennis.setImageDrawable(getResources().getDrawable(R.drawable.tennis));
-//        ImageView voleyball = (ImageView) findViewById(R.id.voleyball);
-//        voleyball.setImageDrawable(getResources().getDrawable(R.drawable.voleyball));
-        ImageView waterpolo = (ImageView) findViewById(R.id.waterpolo);
-        waterpolo.setImageDrawable(getResources().getDrawable(R.drawable.waterpolo));
+    private void definirParametres(Intent intent) {
+        if(intent == null) {
+            return;
+        } else {
+            if(intent.getBooleanExtra("estEvenement", false)) {
+                modeUnique = true;
+                // TODO : Pour trouver la position correspondant à la String du sport,
+                // TODO : Sport.stringToPosition (key : String, element : Integer)
+                // TODO : Ensuite l'objet Sport (listeSport(position) peut être ajouté à selectedSports())
+            }
+            else {
+                modeUnique = false;
+                // TODO : C'est un utilisateur : penser à récupérer les événements
+            }
+        }
+    }
+
+    private void loadSports() {
+        listeSports = new ArrayList<>();
+        Sport.initialize();
+        for(int i=0; i<Sport.listeSports.length; i++) {
+            Sport nouveauSport = new Sport(Sport.listeSports[i], Sport.listeIds[i]);
+            listeSports.add(nouveauSport);
+        }
+    }
+
+    private void adapterTransparence() {
+        for(int i=0; i<listeSports.size(); i++) {
+            Sport sport = listeSports.get(i);
+            ImageView view = (ImageView) findViewById(listeSports.get(i).getSportId());
+            view.setTag(sport);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectionner(v);
+                }
+            });
+            if(!selectedSports.contains(sport)) {
+                view.setAlpha((float)0.5);
+            }
+            else {
+                view.setAlpha((float)1.0);
+            }
+        }
+    }
+
+    private void selectionner(View v) {
+        Sport sport = (Sport) v.getTag();
+        if(selectedSports.contains(sport)) {
+            selectedSports.remove(sport);
+            v.setAlpha((float)0.5);
+        } else {
+            if(modeUnique == true) {
+                selectedSports = new ArrayList<>();
+                decocherTout();
+            }
+            selectedSports.add(sport);
+            v.setAlpha((float) 1.0);
+        }
+    }
+
+    private void decocherTout() {
+        for(int i=0; i<listeSports.size(); i++) {
+            Sport sport = listeSports.get(i);
+            ImageView view = (ImageView) findViewById(listeSports.get(i).getSportId());
+            view.setAlpha((float)0.5);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_invitation, menu);
+        return true;
     }
 
     @Override
@@ -81,10 +132,39 @@ public class ChoixSport extends AppCompatActivity {
         //Gestion du clique sur le retour en arrière
         if(id == android.R.id.home)
             finish();
+        if(id == R.id.menu_send)
+            envoyerSports();
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void envoyerSports() {
+        ArrayList<String> sports = new ArrayList<>();
+        for(int i=0; i<selectedSports.size(); i++) {
+           sports.add(selectedSports.get(i).getNom());
+        }
+        Intent intent = new Intent();
+        intent.putStringArrayListExtra("sports", sports);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    /**
+     * Rempli la liste des sports selectionnés à partir d'une liste de strings représentant les sports
+     * @param listeStrings : la liste de strings de sports de l'utilisateur/événement (si événement 1 seul sport)
+     */
+    private void fromStringsToSelected(List<String> listeStrings) {
+        for(int i=0; i<listeStrings.size(); i++) {
+            Integer pos = Sport.stringToPosition.get(listeStrings.get(i));
+            if(pos != null) {
+                if(modeUnique) {
+                    selectedSports = new ArrayList<>();
+                }
+                selectedSports.add(listeSports.get(pos));
+            }
+        }
+        adapterTransparence();
+    }
 
     //appeler pour mettre le profil utilisateur à jour
     private void pushModifications(Utilisateur utilisateur) {
