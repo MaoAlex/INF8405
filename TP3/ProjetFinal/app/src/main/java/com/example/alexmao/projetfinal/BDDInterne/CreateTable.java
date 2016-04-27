@@ -52,8 +52,7 @@ public class CreateTable {
             + Colonne.NOM_LIEU + " TEXT, "
             + Colonne.ID_ORGANISATEUR + " INTEGER, "
             + Colonne.VISIBILITE + " TEXT, "
-            + " FOREIGN KEY (" + Colonne.ID_GROUPE + ")  REFERENCES " + Table.GROUPE + "( " + Colonne.ID_GROUPE + "),"
-            + " FOREIGN KEY (" + Colonne.ID_ORGANISATEUR + ")  REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " ));";
+            + " FOREIGN KEY (" + Colonne.ID_GROUPE + ")  REFERENCES " + Table.GROUPE + "( " + Colonne.ID_GROUPE + "));";
 
     //Requete pour la création de la table evenement interesse
     public static final String EVENEMENT_INTERESSE = "CREATE TABLE " + Table.EVENEMENT_INTERESSE + " ("
@@ -124,6 +123,7 @@ public class CreateTable {
     //Requete pour la création de la table conversation
     public static final String CONVERSATION = "CREATE TABLE " + Table.CONVERSATION + " ("
             + Colonne.ID_CONVERSATION + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + Colonne.ID_FIREBASE + " TEXT, "
             + Colonne.NOM_CONVERSATION + " TEXT); ";
 
     //Requete pour la création de la table groupe

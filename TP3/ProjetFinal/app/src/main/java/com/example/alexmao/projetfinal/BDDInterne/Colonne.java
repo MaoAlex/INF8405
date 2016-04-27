@@ -94,6 +94,7 @@ public class Colonne {
 
     //Nom des colonnes pour la table conversation
     public static final String ID_CONVERSATION = "id_conversation";
+    //    public static final String ID_FIREBASE = "id_firebase";
     public static final String NOM_CONVERSATION = "nom_conversation";
 
     //Nom des colonnes pour la table groupe

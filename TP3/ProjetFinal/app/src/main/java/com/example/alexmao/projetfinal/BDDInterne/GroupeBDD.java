@@ -5,8 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
-import com.example.alexmao.projetfinal.classeApp.Evenement;
 import com.example.alexmao.projetfinal.classeApp.Groupe;
+import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
 /**
  * Created by alexMAO on 04/04/2016.
@@ -25,7 +25,7 @@ public class GroupeBDD extends AbstractBDD {
         super(pContext);
     }
 
-    public long insererGroupe(Groupe groupe){
+    public static long insererGroupe(Groupe groupe){
         //Création d'un ContentValues (fonctionne comme une HashMap)
         //On va mettre les valeurs nécessaire au stockage dans la table de la groupe
         ContentValues values = new ContentValues();
@@ -33,23 +33,34 @@ public class GroupeBDD extends AbstractBDD {
         values.put(Colonne.ID_FIREBASE, groupe.getIdFirebase());
 //        values.put(Colonne.ID_EVENEMENT, groupe.getEvenement().getIdBDD());
 
-        return database_.insert(Table.GROUPE, null, values);
+        long idGroupe = database_.insert(Table.GROUPE, null, values);
+        if(groupe.getListeMembre()!=null){
+            for (Utilisateur utilisateur : groupe.getListeMembre())
+            GroupeUtilisateurBDD.insererGroupeUtilisateur(idGroupe,utilisateur);
+        }
+        return idGroupe;
     }
 
-    public int supprimerGroupe(int idGroupe){
+    public static int supprimerGroupe(int idGroupe){
         //cette groupe n'est plus utile, nous la supprimons
         return database_.delete(Table.GROUPE, Colonne.ID_GROUPE + " = " + idGroupe, null);
     }
 
+    public static long miseAJourEvenement(long idGroupe, long idEvenement){
+        ContentValues values = new ContentValues();
+        values.put(Colonne.ID_EVENEMENT, idEvenement);
+        return database_.update(Table.GROUPE, values, Colonne.ID_GROUPE + " = " + idGroupe , null);
+
+    }
     //Un unique groupe est associé à un événement
-    public Groupe obtenirGroupe(Evenement evenement){
+    public static Groupe obtenirGroupe(int idGroupe){
 
         Groupe groupe = new Groupe();
 
         //requete pour récupérer la groupe associée à un événement
         String query = "SELECT *"
                 + " FROM "
-                + Table.GROUPE + " WHERE " + Colonne.ID_GROUPE + " = " + evenement.getGroupeAssocie().getIdBDD() ;
+                + Table.GROUPE + " WHERE " + Colonne.ID_GROUPE + " = " + idGroupe ;
 
         Log.d("query", query);
 
@@ -60,6 +71,7 @@ public class GroupeBDD extends AbstractBDD {
 //        groupe.setEvenement(evenement);
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!A completer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         groupe.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
+        groupe.setListeMembre(UtilisateurBDD.obtenirUtilisateurs(c.getInt(NUM_COL_ID)));
         //groupe.setConversation();
         //groupe.setListeMembre();
         c.close();
@@ -67,7 +79,7 @@ public class GroupeBDD extends AbstractBDD {
     }
 
     //On peut aussi récupérer une conversation entre plusieurs personnes qui forment juste un groupe
-    public Groupe obtenirGroupe(String idConversation){
+    public static Groupe obtenirGroupe(String idConversation){
 
         Groupe groupe = new Groupe();
 
@@ -95,7 +107,7 @@ public class GroupeBDD extends AbstractBDD {
     }
 
     //On peut aussi récupérer une conversation entre plusieurs personnes qui forment juste un groupe
-    public Groupe affichageGroupe(){
+    public static Groupe affichageGroupe(){
 
         Groupe groupe = new Groupe();
 

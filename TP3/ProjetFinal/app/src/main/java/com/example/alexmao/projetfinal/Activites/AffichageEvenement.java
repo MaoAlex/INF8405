@@ -80,7 +80,7 @@ public class AffichageEvenement extends AppCompatActivity {
 
         //getIntent().getParcelableExtra("evenement");
 
-        String eventID = "TODO: recupere l'ID";
+        String eventID = idFirebase;
         remoteBD = new FireBaseBD(this);
         remoteBD.getEvent(eventID, new OnEventReceived() {
             @Override

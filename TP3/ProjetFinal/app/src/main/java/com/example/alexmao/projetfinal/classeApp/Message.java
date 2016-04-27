@@ -3,8 +3,6 @@ package com.example.alexmao.projetfinal.classeApp;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Date;
-
 /**
  * Created by Fabien on 02/04/2016.
  */
@@ -23,18 +21,18 @@ public class Message implements Parcelable {
     private int status = STATUS_SENT;
 
     private String message;
-    private Date date;
+    private long date;
     private Utilisateur expediteur;
-    private int idBDD;
+    private long idBDD;
 
     public Message(Parcel in) {
         message = in.readString();
-        date = (Date) in.readSerializable();
+        date = (long) in.readLong();
         expediteur = in.readParcelable(Utilisateur.class.getClassLoader());
-        idBDD = in.readInt();
+        idBDD = in.readLong();
     }
 
-    public Message(String s, Date date, Utilisateur utilisateur) {
+    public Message(String s, long date, Utilisateur utilisateur) {
         message = s;
         this.date = date;
         expediteur = utilisateur;
@@ -42,7 +40,6 @@ public class Message implements Parcelable {
 
     public Message() {
         this.message = "";
-        this.date = new Date();
         this.expediteur = new Utilisateur();
     }
 
@@ -54,11 +51,11 @@ public class Message implements Parcelable {
         this.message = message;
     }
 
-    public Date getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -70,11 +67,11 @@ public class Message implements Parcelable {
         this.expediteur = expediteur;
     }
 
-    public int getIdBDD() {
+    public long getIdBDD() {
         return idBDD;
     }
 
-    public void setIdBDD(int idBDD) {
+    public void setIdBDD(long idBDD) {
         this.idBDD = idBDD;
     }
 
@@ -99,7 +96,7 @@ public class Message implements Parcelable {
         dest.writeString(message);
         dest.writeSerializable(date);
         dest.writeParcelable(expediteur, flags);
-        dest.writeInt(idBDD);
+        dest.writeLong(idBDD);
     }
 
     // Creator

@@ -38,11 +38,11 @@ public class GroupeUtilisateurBDD extends AbstractBDD {
         super(pContext);
     }
 
-    public long insererGroupeUtilisateur(Groupe groupe, Utilisateur utilisateur){
+    public static long insererGroupeUtilisateur(long id, Utilisateur utilisateur){
         //Création d'un ContentValues (fonctionne comme une HashMap)
         //On va mettre les valeurs l'id du groupe avec l'id de la utilisateur
         ContentValues values = new ContentValues();
-        values.put(Colonne.ID_GROUPE, groupe.getIdBDD());
+        values.put(Colonne.ID_GROUPE, id);
         values.put(Colonne.ID_UTILISATEUR, utilisateur.getIdBDD());
 
         return database_.insert(Table.GROUPE_UTILISATEUR, null, values);

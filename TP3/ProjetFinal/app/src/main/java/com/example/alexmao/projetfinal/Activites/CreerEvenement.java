@@ -16,19 +16,21 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.alexmao.projetfinal.ActivitiesForTests.GyroscopeTest;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.FromClassAppToEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.MyLocalEventEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.NotificationBDD;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
+import com.example.alexmao.projetfinal.BDDExterne.Sender;
 import com.example.alexmao.projetfinal.BDDInterne.EvenementBDD;
 import com.example.alexmao.projetfinal.BDDInterne.GroupeBDD;
 import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.R;
+import com.example.alexmao.projetfinal.classeApp.Conversation;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
 import com.example.alexmao.projetfinal.classeApp.Groupe;
 import com.example.alexmao.projetfinal.classeApp.InvitationEvenement;
+import com.example.alexmao.projetfinal.classeApp.Message;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -155,22 +157,30 @@ public class CreerEvenement extends AppCompatActivity {
         g.setConversation("conversationTest");
         GroupeBDD groupeBDD = new GroupeBDD(this);
         groupeBDD.open();
-        long idGroupe = groupeBDD.insererGroupe(g);
+        Conversation conversation = new Conversation();
+        conversation.setNomConversation(evenement.getNomEvenement());
+        conversation.setListeMessage(new ArrayList<Message>());
 
         groupeBDD.affichageGroupe();
-        groupeBDD.close();
-        g.setIdBDD(idGroupe);
 
         evenement.setGroupeAssocie(g);
         evenement.setVisibilite("public");
 //        MyLocalEventEBDD myLocalEventEBDD = FromClassAppToEBDD.translateEvenement(evenement, null);
 //        String idFirebaseEve = remoteBD.addEvent(myLocalEventEBDD);
-        addOnEBDD(evenement);
+        //addOnEBDD(evenement);
+        //Envoie du groupe, de l'evenement et de la conversation sur la BD externe
+        Sender.addGroupDiscussionEvent(g, evenement, conversation, remoteBD);
+
+        long idGroupe = groupeBDD.insererGroupe(g);
+
+        g.setIdBDD(idGroupe);
 
         evenementBDD.open();
-        evenementBDD.insererEvenement(evenement);
+        long idEvenement = evenementBDD.insererEvenement(evenement);
         evenementBDD.affichageEvenements();
+        evenement.setIdBDD(idEvenement);
         evenementBDD.close();
+        groupeBDD.close();
         utilisateurBDD.close();
         // TODO : Event is ready !
         Log.d("CreerEvenement","Bouton cliqué");
@@ -242,6 +252,7 @@ public class CreerEvenement extends AppCompatActivity {
         String eventID = remoteBD.addEvent(eventEBDD);
         eventEBDD.setDataBaseId(eventID);
         evenement.setIdFirebase(eventID);
+        evenement.setVisibilite("public");
         //TODO: Alex vérifie que la visibilité public correnpond bien à un événement public
         if (evenement.getVisibilite().equals(null) || evenement.getVisibilite().equals("public"))
             addOnEBDDPublicPart(evenement);

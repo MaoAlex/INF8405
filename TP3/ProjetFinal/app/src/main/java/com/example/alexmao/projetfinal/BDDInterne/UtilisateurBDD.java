@@ -36,7 +36,7 @@ public class UtilisateurBDD extends AbstractBDD {
 
     //insererUtilisateur permet d'inserer l'utilisateur dans la BDD interne
     //Elle renvoie l'id de l'utilisateur dans la BDD interne
-    public long insererUtilisateur(Utilisateur utilisateur){
+    public static long insererUtilisateur(Utilisateur utilisateur){
         //Cr�ation d'un ContentValues (fonctionne comme une HashMap)
         //On va mettre les valeurs de l'utilisateur en fonction des colonnes
         ContentValues values = new ContentValues();
@@ -68,7 +68,7 @@ public class UtilisateurBDD extends AbstractBDD {
     }
 
     //A verifier la valeur de retour
-    public long modifierUtilisateur(int id, Utilisateur utilisateur){
+    public static long modifierUtilisateur(int id, Utilisateur utilisateur){
         //La mise à jour d'un utilisateur dans la BDD fonctionne plus ou moins comme une insertion
         //il faut simplement préciser quel utilisateur on doit mettre à jour grace à l'ID
         ContentValues values = new ContentValues();
@@ -87,30 +87,30 @@ public class UtilisateurBDD extends AbstractBDD {
         return database_.update(Table.UTILISATEUR, values, Colonne.ID_UTILISATEUR + " = " + id, null);
     }
 
-    public int supprimerUtilisateurParId(int id){
+    public static int supprimerUtilisateurParId(int id){
         //Suppression d'un utilisateur de la BDD grace a l'ID
         return database_.delete(Table.UTILISATEUR, Colonne.ID_UTILISATEUR + " = " + id, null);
     }
 
-    public Utilisateur obtenirUtilisateurParNom(String nom){
+    public static Utilisateur obtenirUtilisateurParNom(String nom){
         //Racupare dans un Cursor les valeurs correspondant a un utilisateur contenu dans la BDD (ici on sélectionne le utilisateur grace a son nom)
         Cursor c = database_.query(Table.UTILISATEUR, null, Colonne.NOM + " LIKE \"" + nom +"\"", null, null, null, null);
         return cursorToUtilisateur(c);
     }
 
-    public Utilisateur obtenirUtilisateurParMail(String mail){
+    public static Utilisateur obtenirUtilisateurParMail(String mail){
         //Récupére dans un Cursor les valeurs correspondant à un utilisateur contenu dans la BDD (ici on sélectionne le utilisateur grace a son nom)
         Cursor c = database_.query(Table.UTILISATEUR, null, Colonne.MAIL + " LIKE \"" + mail +"\"", null, null, null, null);
         return cursorToUtilisateur(c);
     }
 
-    public Utilisateur obtenirUtilisateurParIdFirebase(String idFirebase){
+    public static Utilisateur obtenirUtilisateurParIdFirebase(String idFirebase){
         //Récupére dans un Cursor les valeurs correspondant à un utilisateur contenu dans la BDD (ici on sélectionne le utilisateur grace a son nom)
         Cursor c = database_.query(Table.UTILISATEUR, null, Colonne.ID_FIREBASE + " LIKE \"" + idFirebase +"\"", null, null, null, null);
         return cursorToUtilisateur(c);
     }
 
-    public Utilisateur obtenirUtilisateurParId(long id){
+    public static Utilisateur obtenirUtilisateurParId(long id){
         //Récupére dans un Cursor les valeurs correspondant à un utilisateur contenu dans la BDD (ici on sélectionne le utilisateur grace a son nom)
         Cursor c = database_.query(Table.UTILISATEUR, null, Colonne.ID_UTILISATEUR + " LIKE \"" + id +"\"", null, null, null, null);
         return cursorToUtilisateur(c);
@@ -382,7 +382,7 @@ public class UtilisateurBDD extends AbstractBDD {
 
     }
 
-    public long insererConnexion(long idUtilisateur, String idConnexion){
+    public static long insererConnexion(long idUtilisateur, String idConnexion){
         //Cr�ation d'un ContentValues (fonctionne comme une HashMap)
         //On va mettre les valeurs de l'utilisateur en fonction des colonnes
         ContentValues values = new ContentValues();

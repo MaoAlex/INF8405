@@ -7,11 +7,13 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.example.alexmao.projetfinal.classeApp.Evenement;
+import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *Classe permettant la manipulation de la table evenement
@@ -62,11 +64,18 @@ public class EvenementBDD extends AbstractBDD {
         values.put(Colonne.LONGITUDE, evenement.getLongitude());
         values.put(Colonne.NOM_LIEU, evenement.getLieu());
         values.put(Colonne.ID_FIREBASE, evenement.getIdFirebase());
-        values.put(Colonne.ID_ORGANISATEUR, evenement.getOrganisateur().getIdBDD());
+        values.put(Colonne.ID_ORGANISATEUR, evenement.getOrganisateur().getIdFirebase());
         values.put(Colonne.VISIBILITE, evenement.getVisibilite());
 
         //on insère l'objet dans la BDD via le ContentValues,
-        return database_.insert(Table.EVENEMENT, null, values);
+        long idEvenement = database_.insert(Table.EVENEMENT, null, values);
+
+//        GroupeBDD.miseAJourEvenement(evenement.getGroupeAssocie().getIdBDD(), idEvenement);
+        for(Utilisateur utilisateur : evenement.getGroupeAssocie().getListeMembre()){
+            ParticipantEvenementBDD.insererParticipant(idEvenement, utilisateur);
+        }
+
+        return idEvenement;
     }
 
     //méthode permettant de modifier un événement par son id et les nouvelles valeur de l'évenement
@@ -141,8 +150,8 @@ public class EvenementBDD extends AbstractBDD {
             //
             //!!!!!!!!!!!!!!!!!!!A COMPLETER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             //
-            //evenement.setGroupeAssocie();
-            //evenement.setOrganisateur();
+            evenement.setGroupeAssocie(GroupeBDD.obtenirGroupe(c.getInt(NUM_COL_ID_GROUPE)));
+            evenement.setOrganisateur(UtilisateurBDD.obtenirUtilisateurParIdFirebase(c.getString(NUM_COL_ID_ORGANISATEUR)));
             evenement.setVisibilite(c.getString(NUM_COL_VISIBILITE));
             //on l'ajoute à la liste d'evenement
             listeEvenement.add(evenement);
@@ -152,9 +161,107 @@ public class EvenementBDD extends AbstractBDD {
         return listeEvenement;
     }
 
+    public ArrayList<Evenement> obtenirEvenements(List<String> listeSport) {
+        ArrayList<Evenement> listeEvenement = new ArrayList<>();
+        if(listeSport!=null &&!listeSport.isEmpty()) {
+            for (String sport : listeSport) {
+                String query = "SELECT *"
+                        + " FROM "
+                        + Table.EVENEMENT + " WHERE " + Colonne.SPORT + " = ? ";
+
+                Log.d("query", query);
+                Cursor c = database_.rawQuery(query,  new String[]{sport});
+                //
+                //on insère l'objet dans la BDD via le ContentValues
+                while (c.moveToNext()) {
+
+                    //On créé un événement
+                    Evenement evenement = new Evenement();
+                    //on lui affecte toutes les infos grâce aux infos contenues dans le Cursor
+                    evenement.setIdBDD(c.getInt(NUM_COL_ID));
+                    evenement.setNbreMaxParticipants(c.getInt(NUM_COL_NOMBRE_PARTICIPANT));
+                    SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+                    Date date = new Date();
+                    try {
+                        date = formatDate.parse(c.getString(NUM_COL_DATE_EVENENEMENT).toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    Log.i(TAG, "Date: " + formatDate.format(date));
+                    evenement.setDate(c.getLong(NUM_COL_DATE_EVENENEMENT));
+                    if (c.getString(NUM_COL_PHOTO) != "" || c.getString(NUM_COL_PHOTO) != null)
+                        evenement.setPhoto(Uri.parse(c.getString(NUM_COL_PHOTO)));
+                    evenement.setSport(c.getString(NUM_COL_SPORT_ASSOCIE));
+                    evenement.setNomEvenement(c.getString(NUM_COL_NOM_EVENEMENT));
+                    evenement.setLatitude(c.getDouble(NUM_COL_LATITUDE));
+                    evenement.setLatitude(c.getDouble(NUM_COL_LONGITUDE));
+                    evenement.setLieu(c.getString(NUM_COL_NOM_LIEU));
+                    evenement.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
+                    evenement.setGroupeAssocie(GroupeBDD.obtenirGroupe(c.getInt(NUM_COL_ID_GROUPE)));
+                    evenement.setOrganisateur(UtilisateurBDD.obtenirUtilisateurParIdFirebase(c.getString(NUM_COL_ID_ORGANISATEUR)));
+                    evenement.setVisibilite(c.getString(NUM_COL_VISIBILITE));
+                    //on l'ajoute à la liste d'evenement
+                    listeEvenement.add(evenement);
+
+                }
+                c.close();
+            }
+        }
+        return listeEvenement;
+    }
+
+    public ArrayList<Evenement> obtenirEvenements(Utilisateur utilisateur) {
+        ArrayList<Evenement> listeEvenement = new ArrayList<>();
+        if(utilisateur.getListeParticipationsID()!=null && !utilisateur.getListeParticipationsID().isEmpty()) {
+            for (String idFEvenement : utilisateur.getListeParticipationsID()) {
+                String query = "SELECT *"
+                        + " FROM "
+                        + Table.EVENEMENT + " WHERE " + Colonne.ID_FIREBASE + " = ? ";
+
+                Log.d("query", query);
+                Cursor c = database_.rawQuery(query,  new String[]{idFEvenement});
+                //
+                //on insère l'objet dans la BDD via le ContentValues
+                while (c.moveToNext()) {
+
+                    //On créé un événement
+                    Evenement evenement = new Evenement();
+                    //on lui affecte toutes les infos grâce aux infos contenues dans le Cursor
+                    evenement.setIdBDD(c.getInt(NUM_COL_ID));
+                    evenement.setNbreMaxParticipants(c.getInt(NUM_COL_NOMBRE_PARTICIPANT));
+                    SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+                    Date date = new Date();
+                    try {
+                        date = formatDate.parse(c.getString(NUM_COL_DATE_EVENENEMENT).toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    Log.i(TAG, "Date: " + formatDate.format(date));
+                    evenement.setDate(c.getLong(NUM_COL_DATE_EVENENEMENT));
+                    if (c.getString(NUM_COL_PHOTO) != "" || c.getString(NUM_COL_PHOTO) != null)
+                        evenement.setPhoto(Uri.parse(c.getString(NUM_COL_PHOTO)));
+                    evenement.setSport(c.getString(NUM_COL_SPORT_ASSOCIE));
+                    evenement.setNomEvenement(c.getString(NUM_COL_NOM_EVENEMENT));
+                    evenement.setLatitude(c.getDouble(NUM_COL_LATITUDE));
+                    evenement.setLatitude(c.getDouble(NUM_COL_LONGITUDE));
+                    evenement.setLieu(c.getString(NUM_COL_NOM_LIEU));
+                    evenement.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
+                    evenement.setGroupeAssocie(GroupeBDD.obtenirGroupe(c.getInt(NUM_COL_ID_GROUPE)));
+                    evenement.setOrganisateur(UtilisateurBDD.obtenirUtilisateurParIdFirebase(c.getString(NUM_COL_ID_ORGANISATEUR)));
+                    evenement.setVisibilite(c.getString(NUM_COL_VISIBILITE));
+                    //on l'ajoute à la liste d'evenement
+                    listeEvenement.add(evenement);
+
+                }
+                c.close();
+            }
+        }
+        return listeEvenement;
+    }
+
     //fonction de debuggage pour afficher les événements présents dans la BDD interne
     public void affichageEvenements() {
-        String query = "SELECT * "
+        String query = "SELECT *"
                 + " FROM "
                 + Table.EVENEMENT ;
 
@@ -169,11 +276,19 @@ public class EvenementBDD extends AbstractBDD {
                     + ", sa photo est : " + cursor.getString(NUM_COL_PHOTO)
                     + ", le sport associé est : " + cursor.getString(NUM_COL_SPORT_ASSOCIE)
                     + ", le nom de l'evenement est : " + cursor.getString(NUM_COL_NOM_EVENEMENT)
-                    + ", l'id du groupe est : (" + cursor.getString(NUM_COL_ID_GROUPE)
+                    + ", l'id du groupe est : " + cursor.getInt(NUM_COL_ID_GROUPE)
+                    + ", l'id de l'organisateur est : " + cursor.getInt(NUM_COL_ID_ORGANISATEUR)
                     + ", sa position est : (" + cursor.getDouble(NUM_COL_LATITUDE) + ", " + cursor.getDouble(NUM_COL_LONGITUDE)
                     + ", le nom du lieu est : " + cursor.getString(NUM_COL_NOM_LIEU)
                     + ", son id firebase est : " + cursor.getString(NUM_COL_ID_FIREBASE));
         }
         cursor.close();
     }
+
+    public Utilisateur obtenirUtilisateurParMail(String mail){
+        //Récupére dans un Cursor les valeurs correspondant à un utilisateur contenu dans la BDD (ici on sélectionne le utilisateur grace a son nom)
+        Cursor c = database_.query(Table.UTILISATEUR, null, Colonne.MAIL + " LIKE \"" + mail +"\"", null, null, null, null);
+        return UtilisateurBDD.cursorToUtilisateur(c);
+    }
+
 }

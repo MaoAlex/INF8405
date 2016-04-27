@@ -20,7 +20,7 @@ public class Evenement implements Parcelable {
     private Utilisateur organisateur;
     private String visibilite;
     private String idFirebase;
-    private int idBDD;
+    private long idBDD;
 
     public Evenement() {
 
@@ -39,7 +39,7 @@ public class Evenement implements Parcelable {
         organisateur = in.readParcelable(Utilisateur.class.getClassLoader());
         visibilite = in.readString();
         idFirebase = in.readString();
-        idBDD = in.readInt();
+        idBDD = in.readLong();
     }
 
     public int getNbreMaxParticipants() {
@@ -138,11 +138,11 @@ public class Evenement implements Parcelable {
         this.idFirebase = idFirebase;
     }
 
-    public int getIdBDD() {
+    public long getIdBDD() {
         return idBDD;
     }
 
-    public void setIdBDD(int idBDD) {
+    public void setIdBDD(long idBDD) {
         this.idBDD = idBDD;
     }
 
@@ -169,7 +169,7 @@ public class Evenement implements Parcelable {
         dest.writeParcelable(organisateur, flags); //writeParcelable(organisateur, flags);
         dest.writeString(visibilite);
         dest.writeString(idFirebase);
-        dest.writeInt(idBDD);
+        dest.writeLong(idBDD);
     }
 
     // Creator
