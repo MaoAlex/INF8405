@@ -26,10 +26,12 @@ import com.example.alexmao.projetfinal.Adapter.AdapterEvenement;
 import com.example.alexmao.projetfinal.BDDExterne.FetchFullDataFromEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.FullGroupWrapper;
+import com.example.alexmao.projetfinal.BDDExterne.MessageEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.MyEventEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.NotificationBDD;
 import com.example.alexmao.projetfinal.BDDExterne.NotificationTypes;
 import com.example.alexmao.projetfinal.BDDExterne.OnGroupsReady;
+import com.example.alexmao.projetfinal.BDDExterne.OnMessageReceiveCallback;
 import com.example.alexmao.projetfinal.BDDExterne.OnNotificationReceived;
 import com.example.alexmao.projetfinal.BDDExterne.OnTemporaryEvents;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
@@ -37,6 +39,7 @@ import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
 import com.example.alexmao.projetfinal.classeApp.Groupe;
+import com.example.alexmao.projetfinal.classeApp.InvitationConnexion;
 import com.example.alexmao.projetfinal.classeApp.ParametresUtilisateur;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
@@ -151,18 +154,30 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
         Map<String, OnNotificationReceived> typesToAction = new HashMap<>();
         typesToAction.put(NotificationTypes.conctactInvitation, new OnNotificationReceived() {
             @Override
-            public void onNotificationReceived(NotificationBDD notificationBDD) {
+            public void onNotificationReceived(NotificationBDD notificationBDD, String notId) {
+                notificationBDD.setId(notId);
                 onContactInvitation(notificationBDD);
             }
         });
         typesToAction.put(NotificationTypes.eventInvitation, new OnNotificationReceived() {
             @Override
-            public void onNotificationReceived(NotificationBDD notificationBDD) {
+            public void onNotificationReceived(NotificationBDD notificationBDD, String notId) {
+                notificationBDD.setId(notId);
                 onEventInvitation(notificationBDD);
             }
         });
         remoteBD.listenToNotification(userID, typesToAction);
         utilisateurBDD.close();
+        remoteBD.listenToConversations(userID, new OnMessageReceiveCallback() {
+            @Override
+            public void onNewMessage(MessageEBDD message) {
+                onNewMsg(message);
+            }
+        });
+    }
+
+    private void onNewMsg(MessageEBDD messageEBDD) {
+        //TODO gèrer l'arrivée dans nouveau message
     }
 
     private void onGroup(List<FullGroupWrapper> groupWrappers) {
@@ -221,6 +236,9 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
 
     private void onContactInvitation(NotificationBDD notificationBDD) {
         //TODO faire quelque chose (invitation connexion)
+        InvitationConnexion invitationConnexion = new InvitationConnexion();
+        invitationConnexion.setDate(new Date(notificationBDD.getDate()));
+
     }
 
     private void onEventInvitation(NotificationBDD notificationBDD) {

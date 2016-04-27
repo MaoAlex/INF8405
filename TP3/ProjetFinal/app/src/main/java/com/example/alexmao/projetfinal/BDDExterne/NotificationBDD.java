@@ -6,8 +6,10 @@ import java.util.Map;
  * Created by filou on 12/04/16.
  */
 public class NotificationBDD {
+    String id;
     String type;
     Map<String, String> params;
+    long date;
     String askerID;
     String destID;
 
@@ -27,6 +29,14 @@ public class NotificationBDD {
         params = notificationBDD.getParams();
         askerID = notificationBDD.getAskerID();
         destID = notificationBDD.getDestID();
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
     }
 
     public String getAskerID() {
@@ -59,5 +69,13 @@ public class NotificationBDD {
 
     public void setParams(Map<String, String>  params) {
         this.params = params;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
