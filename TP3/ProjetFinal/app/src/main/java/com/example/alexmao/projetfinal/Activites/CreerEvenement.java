@@ -1,5 +1,6 @@
 package com.example.alexmao.projetfinal.Activites;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -79,10 +81,51 @@ public class CreerEvenement extends AppCompatActivity {
         evenementBDD.affichageEvenements();
         evenementBDD.close();
         nomVue = (EditText) findViewById(R.id.creer_evt_nomEvement);
+        nomVue.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
         lieuVue = (EditText) findViewById(R.id.creer_evt_lieu);
+        lieuVue.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
         sportVue = (EditText) findViewById(R.id.creer_evt_sport);
+        sportVue.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
         dateVue = (EditText) findViewById(R.id.creer_evt_dateEvenement);
+        dateVue.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+
         maxParticipantsVue = (EditText) findViewById(R.id.creer_evt_maxParticipants);
+        maxParticipantsVue.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
         boutonCreer = (Button) findViewById(R.id.creer_evt_bouton);
 
         dateVue.setInputType(InputType.TYPE_NULL);
@@ -115,6 +158,11 @@ public class CreerEvenement extends AppCompatActivity {
         Intent intent=new Intent(CreerEvenement.this,ChoixSport.class);
         intent.putExtra("estEvenement", true);
         startActivityForResult(intent, ChoixSport.ASK_SPORT);
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     @Override
