@@ -117,6 +117,8 @@ public class Chat extends CustomActivity
 		if (conversationID == null) {
             discussion = new ConversationEBDD();
             conversationID = remoteBD.addDiscussion(discussion);
+        }else{
+            conversationID = conversation.getIdFirebase();
         }
         GroupeBDD groupeBDD = new GroupeBDD(this);
         groupeBDD.open();
@@ -308,12 +310,12 @@ public class Chat extends CustomActivity
         if (content == null)
             return;
         //Create a class
-        MessageEBDD conversation   = new MessageEBDD();
-        conversation.setDate(new Date().getTime());
+        MessageEBDD messageEBDD   = new MessageEBDD();
+        messageEBDD.setDate(new Date().getTime());
         //content is what the user has written on the screen (in short the message body)
-        conversation.setMessage(content);
+        messageEBDD.setMessage(content);
         //id firebase
-        String msgID = remoteBD.addMsgToDiscussion(conversationID, conversation);
+        String msgID = remoteBD.addMsgToDiscussion(conversationID, messageEBDD);
 
         adp.notifyDataSetChanged();
 //        remoteBD.
