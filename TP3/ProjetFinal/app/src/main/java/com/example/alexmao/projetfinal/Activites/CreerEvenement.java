@@ -22,6 +22,7 @@ import com.example.alexmao.projetfinal.BDDExterne.MyLocalEventEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.NotificationBDD;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.BDDExterne.Sender;
+import com.example.alexmao.projetfinal.BDDInterne.ConversationBDD;
 import com.example.alexmao.projetfinal.BDDInterne.EvenementBDD;
 import com.example.alexmao.projetfinal.BDDInterne.GroupeBDD;
 import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
@@ -169,7 +170,6 @@ public class CreerEvenement extends AppCompatActivity {
         utilisateurConnecte = utilisateurBDD.obtenirProfil();
 
         String nom = nomVue.getText().toString();
-        String sport = sportVue.getText().toString();
         String lieu = lieuVue.getText().toString();
         int maxParticipants = Integer.parseInt(maxParticipantsVue.getText().toString());
         GregorianCalendar date = new GregorianCalendar(year, month, day, hours, minutes, 0);
@@ -178,7 +178,7 @@ public class CreerEvenement extends AppCompatActivity {
         Evenement evenement = new Evenement();
         evenement.setNomEvenement(nom);
         evenement.setLieu(lieu);
-        evenement.setSport(sport);
+        evenement.setSport(sportChoisi);
         evenement.setLatitude(lieuChoisi.latitude);
         evenement.setLongitude(lieuChoisi.longitude);
         evenement.setNbreMaxParticipants(maxParticipants);
@@ -186,35 +186,47 @@ public class CreerEvenement extends AppCompatActivity {
         ArrayList<Utilisateur> listUtilisateur = new ArrayList<>();
         evenement.setOrganisateur(utilisateurConnecte);
 
-        Groupe g = new Groupe();
+        Groupe groupe = new Groupe();
         listUtilisateur.add(utilisateurConnecte);
-        g.setListeMembre(listUtilisateur);
+        groupe.setListeMembre(listUtilisateur);
         //Données test à modifier
         GroupeBDD groupeBDD = new GroupeBDD(this);
         groupeBDD.open();
-        g.setEvenement(evenement);
+        groupe.setEvenement(evenement);
         Conversation conversation = new Conversation();
         conversation.setNomConversation(evenement.getNomEvenement());
         conversation.setListeMessage(new ArrayList<Message>());
         evenement.setPhoto(null);
         groupeBDD.affichageGroupe();
 
-        evenement.setGroupeAssocie(g);
+
         evenement.setVisibilite("public");
 //        MyLocalEventEBDD myLocalEventEBDD = FromClassAppToEBDD.translateEvenement(evenement, null);
 //        String idFirebaseEve = remoteBD.addEvent(myLocalEventEBDD);
         //addOnEBDD(evenement);
         //Envoie du groupe, de l'evenement et de la conversation sur la BD externe
-        Sender.addGroupDiscussionEvent(g, evenement, conversation, remoteBD);
+        Sender.addGroupDiscussionEvent(groupe, evenement, conversation, remoteBD);
+        ConversationBDD conversationBDD = new ConversationBDD(this);
+        conversationBDD.open();
 
-        long idGroupe = groupeBDD.insererGroupe(g);
+        long idConversation = conversationBDD.insererConversation(conversation);
 
-        g.setIdBDD(idGroupe);
 
+        long idGroupe = groupeBDD.insererGroupe(groupe);
+
+        groupe.setIdBDD(idGroupe);
+        evenement.setGroupeAssocie(groupe);
         evenementBDD.open();
         long idEvenement = evenementBDD.insererEvenement(evenement);
         evenementBDD.affichageEvenements();
         evenement.setIdBDD(idEvenement);
+
+
+        groupeBDD.affichageGroupe();
+        evenementBDD.affichageEvenements();
+        conversationBDD.affichageConversation();
+        conversationBDD.close();
+
         evenementBDD.close();
         groupeBDD.close();
         utilisateurBDD.close();

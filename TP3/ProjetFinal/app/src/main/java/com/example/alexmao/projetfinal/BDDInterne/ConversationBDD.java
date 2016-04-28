@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.util.Log;
 
 import com.example.alexmao.projetfinal.classeApp.Conversation;
+import com.example.alexmao.projetfinal.classeApp.Groupe;
 
 /**
  *Classe permettant de gérer la conversation associée à un groupe
@@ -62,6 +63,29 @@ public class ConversationBDD extends AbstractBDD
 
         c.close();
         return conversation;
+    }
+
+    //On peut aussi récupérer une conversation entre plusieurs personnes qui forment juste un groupe
+    public static void affichageConversation(){
+
+        Groupe groupe = new Groupe();
+
+        //requete pour récupérer la groupe associée à une conversation
+        String query = "SELECT *"
+                + " FROM "
+                + Table.CONVERSATION;
+
+        Log.d("query", query);
+
+        Cursor cursor = database_.rawQuery(query, null);
+        //On récupère la groupe associée à une conversation, ce groupe est unique
+        while (cursor.moveToNext()) {
+            Log.d(TAG, "L'id de la conversation est : " + cursor.getInt(NUM_COL_ID)
+                    + ", son id firebase est : " + cursor.getString(NUM_COL_ID_FIREBASE)
+//                    + ", son evenemnt est : " + cursor.getInt(NUM_COL_ID_EVENEMENT)
+                    + ", son nom est : " + cursor.getString(NUM_COL_NOM_CONVERSATION));
+        }
+        cursor.close();
     }
 
 

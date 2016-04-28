@@ -72,6 +72,7 @@ public class EvenementBDD extends AbstractBDD {
 
 //        GroupeBDD.miseAJourEvenement(evenement.getGroupeAssocie().getIdBDD(), idEvenement);
         for(Utilisateur utilisateur : evenement.getGroupeAssocie().getListeMembre()){
+            Log.d("Insertion PE", "Insertion particpant evenement");
             ParticipantEvenementBDD.insererParticipant(idEvenement, utilisateur);
         }
 
@@ -160,6 +161,54 @@ public class EvenementBDD extends AbstractBDD {
         c.close();
         return listeEvenement;
     }
+
+
+    //méthode permettant de récuperer tous les événements stockés dans la BDD interne
+    public Evenement obtenirEvenement(String idFirebase) {
+        Evenement evenement = new Evenement();
+        String query = "SELECT *"
+                + " FROM "
+                + Table.EVENEMENT + " WHERE " + Colonne.ID_FIREBASE + " = ?" ;
+
+        Log.d("query", query);
+        Cursor c = database_.rawQuery(query,  new String[]{idFirebase});
+
+        if(c.getCount() == 0)
+            return  evenement;
+        //on insère l'objet dans la BDD via le ContentValues
+       c.moveToFirst();
+
+            //On créé un événement
+            //on lui affecte toutes les infos grâce aux infos contenues dans le Cursor
+            evenement.setIdBDD(c.getInt(NUM_COL_ID));
+            evenement.setNbreMaxParticipants(c.getInt(NUM_COL_NOMBRE_PARTICIPANT));
+//            SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+//            Date date = new Date();
+//            try {
+//                date = formatDate.parse(c.getString(NUM_COL_DATE_EVENENEMENT).toString());
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            Log.i(TAG, "Date: " + formatDate.format(date));
+            evenement.setDate(c.getLong(NUM_COL_DATE_EVENENEMENT));
+            if(c.getString(NUM_COL_PHOTO)!=""||c.getString(NUM_COL_PHOTO)!=null)
+                evenement.setPhoto(Uri.parse(c.getString(NUM_COL_PHOTO)));
+            evenement.setSport(c.getString(NUM_COL_SPORT_ASSOCIE));
+            evenement.setNomEvenement(c.getString(NUM_COL_NOM_EVENEMENT));
+            evenement.setLatitude(c.getDouble(NUM_COL_LATITUDE));
+            evenement.setLatitude(c.getDouble(NUM_COL_LONGITUDE));
+            evenement.setLieu(c.getString(NUM_COL_NOM_LIEU));
+            evenement.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
+
+            evenement.setGroupeAssocie(GroupeBDD.obtenirGroupe(c.getInt(NUM_COL_ID_GROUPE)));
+            evenement.setOrganisateur(UtilisateurBDD.obtenirUtilisateurParIdFirebase(c.getString(NUM_COL_ID_ORGANISATEUR)));
+            evenement.setVisibilite(c.getString(NUM_COL_VISIBILITE));
+            //on l'ajoute à la liste d'evenement
+
+        c.close();
+        return evenement;
+    }
+
 
     public ArrayList<Evenement> obtenirEvenements(List<String> listeSport) {
         ArrayList<Evenement> listeEvenement = new ArrayList<>();

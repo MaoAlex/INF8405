@@ -107,7 +107,7 @@ public class GroupeBDD extends AbstractBDD {
     }
 
     //On peut aussi récupérer une conversation entre plusieurs personnes qui forment juste un groupe
-    public static Groupe affichageGroupe(){
+    public static void affichageGroupe(){
 
         Groupe groupe = new Groupe();
 
@@ -128,7 +128,7 @@ public class GroupeBDD extends AbstractBDD {
         }
         cursor.close();
 
-        return groupe;
+
     }
 
 
