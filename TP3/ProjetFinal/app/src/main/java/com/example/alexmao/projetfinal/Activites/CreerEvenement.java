@@ -206,6 +206,11 @@ public class CreerEvenement extends AppCompatActivity {
         //addOnEBDD(evenement);
         //Envoie du groupe, de l'evenement et de la conversation sur la BD externe
         Sender.addGroupDiscussionEvent(groupe, evenement, conversation, remoteBD);
+        ConversationBDD conversationBDD = new ConversationBDD(this);
+        conversationBDD.open();
+
+        long idConversation = conversationBDD.insererConversation(conversation);
+
 
         long idGroupe = groupeBDD.insererGroupe(groupe);
 
@@ -215,10 +220,8 @@ public class CreerEvenement extends AppCompatActivity {
         long idEvenement = evenementBDD.insererEvenement(evenement);
         evenementBDD.affichageEvenements();
         evenement.setIdBDD(idEvenement);
-        ConversationBDD conversationBDD = new ConversationBDD(this);
-        conversationBDD.open();
 
-        conversationBDD.insererConversation(conversation);
+
         groupeBDD.affichageGroupe();
         evenementBDD.affichageEvenements();
         conversationBDD.affichageConversation();

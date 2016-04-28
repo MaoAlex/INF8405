@@ -132,8 +132,9 @@ public class InscriptionInformation extends CustomActivity
 
         UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
         utilisateurBDD.open();
+        long idUtilisateur = utilisateurBDD.insererUtilisateur(utilisateur);
+        utilisateur.setIdBDD(idUtilisateur);
         utilisateurBDD.connexion(utilisateur);
-        utilisateurBDD.insererUtilisateur(utilisateur);
 
         utilisateurBDD.affichageUtilisateurs();
         utilisateurBDD.affichageUtilisateurConnecte();
