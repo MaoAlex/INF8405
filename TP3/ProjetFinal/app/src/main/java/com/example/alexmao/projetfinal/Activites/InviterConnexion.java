@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.alexmao.projetfinal.Adapter.AdapterUtilisateur;
 import com.example.alexmao.projetfinal.BDDExterne.FetchFullDataFromEBDD;
@@ -89,18 +90,23 @@ public class InviterConnexion extends AppCompatActivity {
     private void rechercherUtilisateur(final String mail) {
         remoteBD.getIDFromMail(mail, new OnStringReceived() {
             @Override
-            public void onStringReceived(String s) {
+            public void onStringReceived(final String s) {
                 FetchFullDataFromEBDD.fetchUser(s, remoteBD, new OnFullUserData() {
                     @Override
                     public void onFullUserData(LocalUserProfilEBDD localUserProfilEBDD,
                                                Position position,
                                                Picture picture,
                                                UserParamsEBDD params) {
-                        Utilisateur utilisateur =
-                                FromEBDDToLocalClassTranslator.utilisateurFromEBDD(localUserProfilEBDD,
-                                        position, params, picture);
-                        Log.d("Inviter Connexion", "recherche du mail :" + mail);
-                        onUserReceived(utilisateur);
+                        if(!s.equals(null)) {
+                            Utilisateur utilisateur =
+                                    FromEBDDToLocalClassTranslator.utilisateurFromEBDD(localUserProfilEBDD,
+                                            position, params, picture);
+                            Log.d("Inviter Connexion", "recherche du mail :" + mail);
+                            onUserReceived(utilisateur);
+                        }else{
+                            Toast.makeText(InviterConnexion.this, "L'utilisateur n'hésite pas !", Toast.LENGTH_SHORT).show();
+
+                        }
 
 
 

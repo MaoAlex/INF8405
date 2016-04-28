@@ -57,18 +57,12 @@ public class CreateTable {
     //Requete pour la création de la table evenement interesse
     public static final String EVENEMENT_INTERESSE = "CREATE TABLE " + Table.EVENEMENT_INTERESSE + " ("
             + Colonne.ID_UTILISATEUR + " INTEGER, "
-            + Colonne.ID_EVENEMENT + " INTEGER, "
-            + " PRIMARY KEY (" + Colonne.ID_UTILISATEUR + ", " + Colonne.ID_EVENEMENT + "), "
-            + " FOREIGN KEY (" + Colonne.ID_UTILISATEUR + ")  REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + "),"
-            + " FOREIGN KEY (" + Colonne.ID_EVENEMENT + ") REFERENCES " + Table.EVENEMENT + "( " + Colonne.ID_EVENEMENT + " )); ";
+            + Colonne.ID_EVENEMENT + " TEXT );";
 
     //Requete pour la création de la table utilisateur evenement participant
     public static final String PARTICIPANT_EVENEMENT = "CREATE TABLE " + Table.PARTICIPANT_EVENEMENT + " ("
             + Colonne.ID_UTILISATEUR + " INTEGER, "
-            + Colonne.ID_EVENEMENT + " INTEGER, "
-            + " PRIMARY KEY (" + Colonne.ID_UTILISATEUR + ", " + Colonne.ID_EVENEMENT + "), "
-            + " FOREIGN KEY (" + Colonne.ID_UTILISATEUR + ")  REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + "),"
-            + " FOREIGN KEY (" + Colonne.ID_EVENEMENT + ") REFERENCES " + Table.EVENEMENT + "( " + Colonne.ID_EVENEMENT + " )); ";
+            + Colonne.ID_EVENEMENT + " TEXT );";
 
     //Requete pour la création de la table invitation evenement
     public static final String INVITATION_EVENEMENT = "CREATE TABLE " + Table.INVITATION_EVENEMENT + " ("

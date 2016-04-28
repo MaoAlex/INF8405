@@ -159,6 +159,18 @@ public class UtilisateurBDD extends AbstractBDD {
             connexions.add(cursor.getString(NUM_COL_ID_CONNEXION));
         }
         utilisateur.setListeConnexion(connexions);
+
+        query = "SELECT * "
+                + " FROM "
+                + Table.PARTICIPANT_EVENEMENT + " WHERE " + Colonne.ID_UTILISATEUR + " = " + id;
+        ;
+        cursor = database_.rawQuery(query, null);
+        ArrayList<String> evenementId = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            evenementId.add(cursor.getString(NUM_COL_ID));
+        }
+
+        utilisateur.setListeParticipationsID(evenementId);
         cursor.close();
 
         //On retourne l'utilisateur récupéré de la BDD interne

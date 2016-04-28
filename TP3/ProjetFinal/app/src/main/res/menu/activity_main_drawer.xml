@@ -15,11 +15,17 @@
             android:id="@+id/nav_invitations"
             android:title="@string/nav_str_invitations" />
         <item
+            android:id="@+id/nav_batterie"
+            android:title="@string/nav_str_batterie" />
+        <item
             android:id="@+id/nav_chat"
             android:title="@string/nav_str_chat" />
         <item
             android:id="@+id/nav_profil"
             android:title="@string/nav_str_profil" />
+        <item
+            android:id="@+id/nav_parametres"
+            android:title="Parametres" />
         <item
             android:id="@+id/nav_logout"
             android:title="@string/nav_str_logout" />

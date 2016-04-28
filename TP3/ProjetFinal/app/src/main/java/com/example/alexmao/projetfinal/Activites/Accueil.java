@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.example.alexmao.projetfinal.Adapter.AdapterEvenement;
 import com.example.alexmao.projetfinal.BDDExterne.FetchFullDataFromEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
+import com.example.alexmao.projetfinal.BDDExterne.FromEBDDToLocalClassTranslator;
 import com.example.alexmao.projetfinal.BDDExterne.FullGroupWrapper;
 import com.example.alexmao.projetfinal.BDDExterne.MessageEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.MyEventEBDD;
@@ -45,12 +46,14 @@ import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.BDDInterne.EvenementBDD;
 import com.example.alexmao.projetfinal.BDDInterne.InvitationConnexionBDD;
 import com.example.alexmao.projetfinal.BDDInterne.InvitationEvenementBDD;
+import com.example.alexmao.projetfinal.BDDInterne.MessageBDD;
 import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.MapResources.ConnectedMapActivity;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
 import com.example.alexmao.projetfinal.classeApp.InvitationConnexion;
 import com.example.alexmao.projetfinal.classeApp.InvitationEvenement;
+import com.example.alexmao.projetfinal.classeApp.Message;
 import com.example.alexmao.projetfinal.classeApp.ParametresUtilisateur;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 import com.example.alexmao.projetfinal.utils.ShakeEventListener;
@@ -235,6 +238,12 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
 
     private void onNewMsg(MessageEBDD messageEBDD) {
         //TODO gèrer l'arrivée dans nouveau message
+        Message message =FromEBDDToLocalClassTranslator.translateMessageBDD(messageEBDD);
+        MessageBDD messageBDD = new MessageBDD(this);
+        messageBDD.open();
+        messageBDD.insererMessage(message);
+        Toast.makeText(Accueil.this, "Vous avez un nouveau message", Toast.LENGTH_SHORT).show();
+
     }
 
     //appelée à intervalle régulier mettre à jour la position
@@ -293,7 +302,11 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
             Intent intent = new Intent(this, ProfilUtilisateur.class);
             intent.putExtra("id", utilisateurConnecte.getIdBDD()     );
             startActivity(intent);
-        } else if (id == R.id.nav_batterie) {
+        }  else if (id == R.id.nav_parametres) {
+
+            Intent intent = new Intent(this, Parametres.class);
+            startActivity(intent);
+        }else if (id == R.id.nav_batterie) {
             Intent intent = new Intent(this, BatterieInformation.class);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
@@ -314,8 +327,8 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
         InvitationConnexion invitationConnexion = new InvitationConnexion();
         invitationConnexion.setDate((notificationBDD.getDate()));
         invitationConnexion.setIdFirebase(notificationBDD.getId());
-        invitationConnexionBDD.open();
-        invitationConnexionBDD.insererInvitationConnexion(invitationConnexion);
+//        invitationConnexionBDD.open();
+//        invitationConnexionBDD.insererInvitationConnexion(invitationConnexion);
     }
 
     private void onEventInvitation(NotificationBDD notificationBDD) {
@@ -324,12 +337,15 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
         InvitationEvenement invitationEvenement = new InvitationEvenement();
         invitationEvenement.setDate((notificationBDD.getDate()));
         invitationEvenement.setIdFirebase(notificationBDD.getId());
-        invitationEvenementBDD.insererInvitationEvenement(invitationEvenement);
+//        invitationEvenementBDD.insererInvitationEvenement(invitationEvenement);
 
     }
 
     private void onTemporaryEventReceived(List<MyEventEBDD> eventEBDDs) {
         //TODO faire quekque chose, ajouter dans la BD Interne, trier etc
+//        for (MyLO myEventEBDD : eventEBDDs){
+//            Evenement evenement = FromEBDDToLocalClassTranslator.tra()
+//        }
     }
 
     //Adapter pour gérér les différentes pages du viewPager
@@ -343,6 +359,7 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
             fragments = new ArrayList<android.support.v4.app.Fragment>();
             fragments.add(new EvenenementsFragment());
             fragments.add(new DecouvertesFragment());
+            fragments.add(new ParticipationsFragment());
             this.context = context;
         }
 
@@ -390,7 +407,10 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
         private RecyclerView mRecyclerView;
         private RecyclerView.Adapter mAdapter;
         private RecyclerView.LayoutManager mLayoutManager;
-
+//        public static ArrayList<Evenement> listEvenement;
+//        public EvenenementsFragment(){
+//
+//        }
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {

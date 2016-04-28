@@ -73,7 +73,7 @@ public class EvenementBDD extends AbstractBDD {
 //        GroupeBDD.miseAJourEvenement(evenement.getGroupeAssocie().getIdBDD(), idEvenement);
         for(Utilisateur utilisateur : evenement.getGroupeAssocie().getListeMembre()){
             Log.d("Insertion PE", "Insertion particpant evenement");
-            ParticipantEvenementBDD.insererParticipant(idEvenement, utilisateur);
+            ParticipantEvenementBDD.insererParticipant(evenement.getIdFirebase(), utilisateur);
         }
 
         return idEvenement;

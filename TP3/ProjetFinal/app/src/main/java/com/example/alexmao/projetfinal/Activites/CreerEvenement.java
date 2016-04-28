@@ -210,7 +210,7 @@ public class CreerEvenement extends AppCompatActivity {
         conversationBDD.open();
 
         long idConversation = conversationBDD.insererConversation(conversation);
-
+        Log.d("CreationEvenement", "l'id de la coenversation est : "+ groupe.getConversation());
 
         long idGroupe = groupeBDD.insererGroupe(groupe);
 

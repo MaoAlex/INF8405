@@ -211,7 +211,9 @@ public class ProfilUtilisateur extends CustomActivity {
         String idFirebase = remoteBD.addNotificationToUser(userID, notificationBDD);
         //Ajout dans la BD interne
         invitationConnexion.setIdFirebase(idFirebase);
+        invitationConnexionBDD.open();
         invitationConnexionBDD.insererInvitationConnexion(invitationConnexion);
+
         invitationConnexionBDD.close();
     }
 

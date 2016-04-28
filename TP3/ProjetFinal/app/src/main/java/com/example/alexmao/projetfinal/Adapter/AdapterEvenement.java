@@ -67,6 +67,12 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
         notifyDataSetChanged();
     }
 
+    public void AjouterEvenement(Evenement evenement) {
+        Sport.initialize();
+        evenements.add(evenement);
+        notifyDataSetChanged();
+    }
+
     // Crée les nouvelles vues
     @Override
     public AdapterEvenement.ViewHolder onCreateViewHolder(ViewGroup parent,

@@ -30,7 +30,7 @@ public class ParticipantEvenementBDD extends AbstractBDD {
         super(pContext);
     }
 
-    public static long insererParticipant(long idEvenement, Utilisateur utilisateur){
+    public static long insererParticipant(String idEvenement, Utilisateur utilisateur){
         //Création d'un ContentValues (fonctionne comme une HashMap)
         //On va mettre les valeurs l'id de l'évenement avec l'id de l'utilisateur interessé
         ContentValues values = new ContentValues();
