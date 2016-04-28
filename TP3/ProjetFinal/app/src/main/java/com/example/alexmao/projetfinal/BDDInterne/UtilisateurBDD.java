@@ -331,10 +331,8 @@ public class UtilisateurBDD extends AbstractBDD {
         //Il n'y a plus d'information dans la table utilisateur connecte
 //        maBaseSQLite_.onUpgrade(database_, VERSION, VERSION);
         database_.delete(Table.UTILISATEUR_CONNECTE, null, null);
-        database_.delete(Table.UTILISATEUR, null, null);
         //TODO A supprimer toutes les tables
         database_.delete(Table.PARAMETRE_UTILISATEUR, null, null);
-        database_.delete(Table.EVENEMENT, null, null);
         database_.delete(Table.EVENEMENT_INTERESSE, null, null);
         database_.delete(Table.PARTICIPANT_EVENEMENT, null, null);
         database_.delete(Table.INVITATION_EVENEMENT, null, null);
@@ -343,9 +341,11 @@ public class UtilisateurBDD extends AbstractBDD {
         database_.delete(Table.MESSAGE, null, null);
         database_.delete(Table.MESSAGE_CONVERSATION, null, null);
         database_.delete(Table.CONVERSATION, null, null);
-        database_.delete(Table.GROUPE, null, null);
         database_.delete(Table.GROUPE_UTILISATEUR, null, null);
         database_.delete(Table.UTILISATEUR_CONNEXIONS, null,null);
+        database_.delete(Table.GROUPE, null, null);
+        database_.delete(Table.EVENEMENT, null, null);
+        database_.delete(Table.UTILISATEUR, null, null);
 
     }
 

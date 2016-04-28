@@ -91,6 +91,7 @@ public class InviterConnexion extends AppCompatActivity {
         remoteBD.getIDFromMail(mail, new OnStringReceived() {
             @Override
             public void onStringReceived(final String s) {
+                if(s != null){
                 FetchFullDataFromEBDD.fetchUser(s, remoteBD, new OnFullUserData() {
                     @Override
                     public void onFullUserData(LocalUserProfilEBDD localUserProfilEBDD,
@@ -111,9 +112,13 @@ public class InviterConnexion extends AppCompatActivity {
 
 
                     }
-                });
+                });}else{
+                    Toast.makeText(InviterConnexion.this, "L'utilisateur n'hésite pas !", Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
+
     }
 
     private void onUserReceived(Utilisateur utilisateur) {

@@ -15,6 +15,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -39,7 +40,6 @@ import com.example.alexmao.projetfinal.BDDExterne.NotificationTypes;
 import com.example.alexmao.projetfinal.BDDExterne.OnGroupsReady;
 import com.example.alexmao.projetfinal.BDDExterne.OnMessageReceiveCallback;
 import com.example.alexmao.projetfinal.BDDExterne.OnNotificationReceived;
-import com.example.alexmao.projetfinal.BDDExterne.OnPositionReceived;
 import com.example.alexmao.projetfinal.BDDExterne.OnTemporaryEvents;
 import com.example.alexmao.projetfinal.BDDExterne.Position;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
@@ -48,7 +48,6 @@ import com.example.alexmao.projetfinal.BDDInterne.InvitationConnexionBDD;
 import com.example.alexmao.projetfinal.BDDInterne.InvitationEvenementBDD;
 import com.example.alexmao.projetfinal.BDDInterne.MessageBDD;
 import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
-import com.example.alexmao.projetfinal.MapResources.ConnectedMapActivity;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
 import com.example.alexmao.projetfinal.classeApp.InvitationConnexion;
@@ -64,7 +63,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Accueil extends ConnectedMapActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Accueil extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     public final static String SELECTED_TAB_EXTRA_KEY = "selectedTabIndex";
@@ -73,7 +72,7 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
     public final static int PARTICIPATIONS_TAB = 2;
 
     private RemoteBD remoteBD;
-    private static Utilisateur utilisateurConnecte;
+    private Utilisateur utilisateurConnecte;
     private SensorManager mSensorManager;
     private ShakeEventListener mSensorListener;
     ViewPager mViewPager;
@@ -85,9 +84,9 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
 
     //BDD Interne
     private UtilisateurBDD utilisateurBDD;
-    private static EvenementBDD evenementBDD;
-    private static InvitationConnexionBDD invitationConnexionBDD;
-    private static InvitationEvenementBDD invitationEvenementBDD;
+    private EvenementBDD evenementBDD;
+    private InvitationConnexionBDD invitationConnexionBDD;
+    private InvitationEvenementBDD invitationEvenementBDD;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -227,13 +226,13 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
             }
         });
 
-        //Gestion les positions
-        startPositionUpdateProcess(userID, new OnPositionReceived() {
-            @Override
-            public void onPostionReceived(Position position) {
-                onPositionChanged(position);
-            }
-        });
+//        //Gestion les positions
+//        startPositionUpdateProcess(userID, new OnPositionReceived() {
+//            @Override
+//            public void onPostionReceived(Position position) {
+//                onPositionChanged(position);
+//            }
+//        });
     }
 
     private void onNewMsg(MessageEBDD messageEBDD) {
@@ -420,11 +419,14 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
             //Création du LayoutManager
             mLayoutManager = new LinearLayoutManager(getContext());
             mRecyclerView.setLayoutManager(mLayoutManager);
-            evenementBDD.open();
+            EvenementBDD evenementBDD = new EvenementBDD(getContext());
 
+            evenementBDD.open();
+            UtilisateurBDD utilisateurBDD = new UtilisateurBDD(getContext());
+            Utilisateur utilisateur = utilisateurBDD.obtenirProfil();
             //Création d'un evenement test
             ArrayList<Evenement> evenements = new ArrayList<>();
-            evenements = evenementBDD.obtenirEvenements(utilisateurConnecte.getSports());
+            evenements = evenementBDD.obtenirEvenements(utilisateur.getSports());
 
             evenementBDD.affichageEvenements();
 
@@ -459,11 +461,13 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
             //Création du layoutManager
             mLayoutManager = new LinearLayoutManager(getContext());
             mRecyclerView.setLayoutManager(mLayoutManager);
-
+            EvenementBDD evenementBDD = new EvenementBDD(getContext());
             evenementBDD.open();
             //Création d'evenements tests
             ArrayList<Evenement> evenements = new ArrayList<>();
-            evenements = evenementBDD.obtenirEvenements(utilisateurConnecte);
+            UtilisateurBDD utilisateurBDD = new UtilisateurBDD(getContext());
+            Utilisateur utilisateur = utilisateurBDD.obtenirProfil();
+            evenements = evenementBDD.obtenirEvenements(utilisateur);
 
             //Création d'un adapter pour l'affichage des événements sous forme de cardView
             mAdapter = new AdapterEvenement(evenements);
@@ -486,7 +490,7 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
             //Création du layoutManager
             mLayoutManager = new LinearLayoutManager(getContext());
             mRecyclerView.setLayoutManager(mLayoutManager);
-
+            EvenementBDD evenementBDD = new EvenementBDD(getContext());
             evenementBDD.open();
             //Création d'un adapter pour l'affichage des événements sous forme de cardView
             //Création d'un élément test

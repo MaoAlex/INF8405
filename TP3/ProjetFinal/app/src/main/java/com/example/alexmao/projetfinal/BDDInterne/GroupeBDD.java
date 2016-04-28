@@ -29,6 +29,9 @@ public class GroupeBDD extends AbstractBDD {
         //Création d'un ContentValues (fonctionne comme une HashMap)
         //On va mettre les valeurs nécessaire au stockage dans la table de la groupe
         ContentValues values = new ContentValues();
+        Log.d("Insertion Groupe", "On insére le groupe d'idFirebase "+ groupe.getIdFirebase());
+        Log.d("Insertion Groupe", "Ce groupe à pour idFIrebase Conversation : " + groupe.getConversation());
+
         values.put(Colonne.ID_CONVERSATION, groupe.getConversation());
         values.put(Colonne.ID_FIREBASE, groupe.getIdFirebase());
 //        values.put(Colonne.ID_EVENEMENT, groupe.getEvenement().getIdBDD());
@@ -122,7 +125,7 @@ public class GroupeBDD extends AbstractBDD {
         //On récupère la groupe associée à une conversation, ce groupe est unique
            while (cursor.moveToNext()) {
             Log.d(TAG, "L'id de du groupe est : " + cursor.getInt(NUM_COL_ID)
-                    + ", son id conver est : " + cursor.getInt(NUM_COL_ID_CONVERSATION)
+                    + ", son id conver est : " + cursor.getString(NUM_COL_ID_CONVERSATION)
 //                    + ", son evenemnt est : " + cursor.getInt(NUM_COL_ID_EVENEMENT)
                     + ", son idFirebase est : " + cursor.getString(NUM_COL_ID_FIREBASE));
         }
