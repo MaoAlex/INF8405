@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.ViewHolder> {
     private String[] mDataset;
-    public static List<Evenement> evenements;
+    public List<Evenement> evenements;
     // Fourni une référence à la vue pour chaque élément
     // Les objets avec des données complexes peuvent avoir besoin de plus d'une vue
     //L'accès à toutes les vues se fait à traver le view holder

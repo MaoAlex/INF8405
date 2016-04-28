@@ -105,9 +105,11 @@ public class Picture {
 
     public String uniteStringChunks() {
         String bitmap = "";
+        if(mStringChunks!=null) {
             for (String chunk : mStringChunks) {
                 bitmap += chunk;
             }
+        }
         return bitmap;
     }
 }

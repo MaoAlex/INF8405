@@ -50,11 +50,13 @@ public class ConversationBDD extends AbstractBDD
         //requete pour récupérer la conversation associée à un groupe
         String query = "SELECT *"
                 + " FROM "
-                + Table.CONVERSATION + " WHERE " + Colonne.ID_GROUPE + " = " + groupe.getIdBDD() ;
+                + Table.CONVERSATION + " WHERE " + Colonne.ID_FIREBASE + " = ?"  ;
 
         Log.d("query", query);
 
-        Cursor c = database_.rawQuery(query, null);
+        Cursor c = database_.rawQuery(query, new String[]{groupe.getConversation()});
+        if(c.getCount()==0)
+            return null;
         //On récupère la conversation associée à un groupe
         c.moveToFirst();
         long conversationId = c.getInt(NUM_COL_ID);

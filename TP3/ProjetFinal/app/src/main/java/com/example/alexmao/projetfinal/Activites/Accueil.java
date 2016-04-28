@@ -21,7 +21,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,7 +44,6 @@ import com.example.alexmao.projetfinal.BDDExterne.OnFullUserData;
 import com.example.alexmao.projetfinal.BDDExterne.OnGroupsReady;
 import com.example.alexmao.projetfinal.BDDExterne.OnMessageReceiveCallback;
 import com.example.alexmao.projetfinal.BDDExterne.OnNotificationReceived;
-import com.example.alexmao.projetfinal.BDDExterne.OnPictureReceived;
 import com.example.alexmao.projetfinal.BDDExterne.OnTemporaryEvents;
 import com.example.alexmao.projetfinal.BDDExterne.OnUserProfilReceived;
 import com.example.alexmao.projetfinal.BDDExterne.Picture;
@@ -433,20 +431,21 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
 
         @Override
         public android.support.v4.app.Fragment getItem(int i) {
-            switch (i) {
-                case 0:
-                    // The first section of the app is the most interesting -- it offers
-                    // a launchpad into the other demonstrations in this example application.
-
-                    return fragments.get(i);
-                case 1 :
-                    return fragments.get(i);
-                default:
-                    // Les sections sont actuellements des sections par défaut
-                    android.support.v4.app.Fragment fragment = new ParticipationsFragment();
-                    //fragment.setArguments(args);
-                    return fragment;
-            }
+//            switch (i) {
+//                case 0:
+//                    // The first section of the app is the most interesting -- it offers
+//                    // a launchpad into the other demonstrations in this example application.
+//
+//                    return fragments.get(i);
+//                case 1 :
+//                    return fragments.get(i);
+//                default:
+//                    // Les sections sont actuellements des sections par défaut
+//                    android.support.v4.app.Fragment fragment = new ParticipationsFragment();
+//                    //fragment.setArguments(args);
+//                    return fragment;
+//            }
+            return fragments.get(i);
         }
 
         @Override
