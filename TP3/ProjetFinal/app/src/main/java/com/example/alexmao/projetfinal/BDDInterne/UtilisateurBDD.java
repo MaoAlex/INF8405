@@ -65,9 +65,9 @@ public class UtilisateurBDD extends AbstractBDD {
                     insererConnexion(id, idFirebase);
                 }
             }
-        }else
+        }else{
             Log.d(TAG, "l'utilisateur est présent");
-        id = modifierUtilisateur((int)utilisateur.getIdBDD(), utilisateur);
+        id = modifierUtilisateur((int)utilisateur.getIdBDD(), utilisateur);}
         return id;
 
     }
@@ -427,7 +427,7 @@ public class UtilisateurBDD extends AbstractBDD {
         Log.d("query", query);
         Log.d(TAG, "Presence de l'utilisateur dans la BD Interne");
         Cursor cursor = database_.rawQuery(query, new String[]{idFirebase});
-
+        cursor.moveToFirst();
         return (cursor.getCount()>0);
 
     }
