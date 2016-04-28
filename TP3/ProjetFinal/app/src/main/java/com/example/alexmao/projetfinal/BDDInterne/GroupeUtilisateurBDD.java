@@ -121,7 +121,7 @@ public class GroupeUtilisateurBDD extends AbstractBDD {
             utilisateur.setDateNaissance(c.getLong(NUM_COL_DATE_NAISSANCE));
             utilisateur.setMail(c.getString(NUM_COL_MAIL));
             if(c.getString(NUM_COL_PHOTO)!=""||c.getString(NUM_COL_PHOTO)!=null)
-                utilisateur.setPhoto(Uri.parse(c.getString(NUM_COL_PHOTO)));
+                utilisateur.setPhoto(c.getString(NUM_COL_PHOTO));
             utilisateur.setLatitude(c.getDouble(NUM_COL_LATITUDE));
             utilisateur.setLatitude(c.getDouble(NUM_COL_LONGITUDE));
             utilisateur.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE_UTILISATEUR));

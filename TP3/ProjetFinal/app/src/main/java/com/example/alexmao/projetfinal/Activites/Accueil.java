@@ -3,6 +3,7 @@ package com.example.alexmao.projetfinal.Activites;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -191,7 +192,10 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
         //String userID = utilisateurConnecte.getIdFirebase();//"TODO initialiser l'userID";
 
         if(utilisateurConnecte.getPhoto()!=null) {
-            //photoProfil.setImageResource(utilisateurConnecte.getPhoto());
+            String strPhoto = utilisateurConnecte.getPhoto();
+            Bitmap bp = Utilisateur.fromStringToBitmap(strPhoto);
+            if(bp != null)
+                photoProfil.setImageBitmap(bp);
         }
         vNom.setText(utilisateurConnecte.getNom() + " " + utilisateurConnecte.getPrenom());
         vAdresse.setText(utilisateurConnecte.getMail());

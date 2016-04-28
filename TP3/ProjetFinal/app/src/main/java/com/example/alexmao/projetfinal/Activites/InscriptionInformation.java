@@ -17,6 +17,7 @@ import android.widget.ImageView;
 
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
+import com.example.alexmao.projetfinal.BDDExterne.Picture;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.BDDExterne.UtilisateurProfilEBDD;
 import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
@@ -139,9 +140,17 @@ public class InscriptionInformation extends CustomActivity
         String mdp = intent.getStringExtra("mdp");
         remoteBD.addMdpToUser(email, mdp);
         utilisateur.setIdFirebase(idFirebase);
+        Picture pic = new Picture(bp);
+        remoteBD.addPicToUser(idFirebase, pic);
+        List<String> chuncksPicture = pic.getStringChunks();
 
+        String picStr = "";
+        for(int i=0; i<chuncksPicture.size(); i++) {
+            picStr = picStr.concat(chuncksPicture.get(i));
+        }
+
+        utilisateur.setPhoto(picStr);
         Log.d("Firebase", "Id Firebse : " + utilisateur.getIdFirebase());
-
         UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
         utilisateurBDD.open();
         long idUtilisateur = utilisateurBDD.insererUtilisateur(utilisateur);

@@ -1,8 +1,11 @@
 package com.example.alexmao.projetfinal.classeApp;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Base64;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,7 +21,7 @@ public class Utilisateur implements Parcelable {
     private long dateNaissance;
     private String mail;
     private List<String> sports;
-    private Uri photo;
+    private String photo;
     private double latitude;
     private double longitude;
     private List<String> listeConnexion;
@@ -54,7 +57,7 @@ public class Utilisateur implements Parcelable {
         dateNaissance = in.readLong();
         mail = in.readString();
         sports = in.readArrayList(String.class.getClassLoader());
-        photo = in.readParcelable(Uri.class.getClassLoader());
+        photo = in.readString();
         latitude = in.readDouble();
         longitude = in.readDouble();
         listeConnexion = in.readArrayList(Utilisateur.class.getClassLoader());
@@ -105,11 +108,11 @@ public class Utilisateur implements Parcelable {
         this.sports = sports;
     }
 
-    public Uri getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(Uri photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 
@@ -193,10 +196,9 @@ public class Utilisateur implements Parcelable {
         dest.writeLong(dateNaissance);
         dest.writeString(mail);
         dest.writeList(sports);
-        dest.writeParcelable(photo, flags);
+        dest.writeString(photo);
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
-        dest.writeParcelable(photo, flags);
         dest.writeList(listeConnexion);
         dest.writeList(listeInteretsID);
         dest.writeList(listeParticipationsID);
@@ -237,5 +239,10 @@ public class Utilisateur implements Parcelable {
         identite = identite.concat(" ");
         identite = identite.concat(nom);
         return identite;
+    }
+
+    public static Bitmap fromStringToBitmap(String rawPicture) {
+        byte[] decodedBytes = Base64.decode(rawPicture, 0);
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 }
