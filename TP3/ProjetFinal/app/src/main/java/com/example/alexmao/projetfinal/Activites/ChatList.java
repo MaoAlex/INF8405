@@ -77,14 +77,11 @@ public class ChatList extends CustomActivity
 	protected void onResume()
 	{
 		super.onResume();
-		loadUserList();
+		loadConversation();
 	}
 
 	/**
-	 * Update user status.
-	 * 
-	 * @param online
-	 *            true if user is online
+     * Permet de mettre à jour le statut de la conversation
 	 */
 	private void updateUserStatus(boolean online)
 	{
@@ -93,53 +90,12 @@ public class ChatList extends CustomActivity
 	}
 
 	/**
-	 * Load list of users.
+     * Récupération de la liste des conversation
 	 */
-	private void loadUserList()
+	private void loadConversation()
 	{
 		final ProgressDialog dia = ProgressDialog.show(this, null,
 				getString(R.string.alert_loading));
-		/*ParseUser.getQuery().whereNotEqualTo("username", user.getNom())
-				.findInBackground(new FindCallback<ParseUser>() {
-
-					@Override
-					public void done(List<ParseUser> li, ParseException e)
-					{
-						dia.dismiss();
-						if (li != null)
-						{
-							if (li.size() == 0)
-								Toast.makeText(ChatList.this,
-										R.string.msg_no_user_found,
-										Toast.LENGTH_SHORT).show();
-
-							uList = new ArrayList<Utilisateur>();
-							uList = (ArrayList)li;
-							ListView list = (ListView) findViewById(R.id.list);
-							list.setAdapter(new UserAdapter());
-							list.setOnItemClickListener(new OnItemClickListener() {
-
-								@Override
-								public void onItemClick(AdapterView<?> arg0,
-										View arg1, int pos, long arg3)
-								{
-									startActivity(new Intent(ChatList.this,
-											Chat.class).putExtra(
-											Const.EXTRA_DATA, uList.get(pos)
-													.getNom()));
-								}
-							});
-						}
-						else
-						{
-							Utils.showDialog(
-									ChatList.this,
-									getString(R.string.err_users) + " "
-											+ e.getMessage());
-							e.printStackTrace();
-						}
-					}
-				});*/
 
         dia.dismiss();
         if (uList != null)
@@ -177,7 +133,8 @@ public class ChatList extends CustomActivity
 	/**
 	 * The Class UserAdapter is the adapter class for Utilisateur ListView. This
 	 * adapter shows the user name and it's only online status for each item.
-	 */
+	 *Adapter pour l'affichage de la liste des conversation
+     */
 	private class UserAdapter extends BaseAdapter
 	{
 
