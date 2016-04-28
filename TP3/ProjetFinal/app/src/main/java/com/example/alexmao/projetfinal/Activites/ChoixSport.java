@@ -30,7 +30,7 @@ public class ChoixSport extends AppCompatActivity {
     private List<Sport> selectedSports;
     private boolean modeUnique;
     private RemoteBD remoteBD;
-
+    public static final int ASK_SPORT = 11;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
