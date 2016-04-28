@@ -3,7 +3,6 @@ package com.example.alexmao.projetfinal.BDDInterne;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.util.Log;
 
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
@@ -58,7 +57,8 @@ public class UtilisateurBDD extends AbstractBDD {
         Log.d("UtilisateurBDD", "insertion en cours");
         //on insère l'objet dans la BDD via le ContentValues,
         long id;
-        if(estPresentUtilisateur(utilisateur.getIdFirebase())){
+        if(!estPresentUtilisateur(utilisateur.getIdFirebase())){
+            Log.d(TAG, "l'utilisateur n'est pas présent");
             id = database_.insert(Table.UTILISATEUR, null, values);
             if(utilisateur.getListeConnexion()!=null) {
                 for (String idFirebase : utilisateur.getListeConnexion()) {
@@ -66,7 +66,8 @@ public class UtilisateurBDD extends AbstractBDD {
                 }
             }
         }else
-            id = modifierUtilisateur((int)utilisateur.getIdBDD(), utilisateur);
+            Log.d(TAG, "l'utilisateur est présent");
+        id = modifierUtilisateur((int)utilisateur.getIdBDD(), utilisateur);
         return id;
 
     }
