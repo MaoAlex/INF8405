@@ -51,7 +51,7 @@ public class InvitationConnexionBDD extends AbstractBDD {
 
     public int supprimerInvitationConnexion(InvitationConnexion invitationConnexion){
         //Suppression de l'invitation à l'événement de la BDD
-        return database_.delete(Table.INVITATION_CONNEXION, Colonne.ID_INVITATION_CONNEXION + " = " + invitationConnexion.getIdBDD(), null);
+        return database_.delete(Table.INVITATION_CONNEXION, Colonne.ID_FIREBASE + " = ?", new String[]{invitationConnexion.getIdFirebase()});
     }
 
     //permet d'obtenir toutes les invitations pour un utilisateur donné
@@ -109,4 +109,20 @@ public class InvitationConnexionBDD extends AbstractBDD {
         }
         cursor.close();
     }
+
+    //fonction de debuggage pour afficher les invitations connexion présents dans la BDD interne
+    public boolean estPresentInvitationConnexion(String idFirebase) {
+        String query = "SELECT * "
+                + " FROM "
+                + Table.INVITATION_CONNEXION + " WHERE " + " = ?";
+
+        Log.d("query", query);
+        Cursor cursor = database_.rawQuery(query, new String[]{idFirebase});
+        //
+        //on insère l'objet dans la BDD via le ContentValues
+
+        return cursor.getCount()>=0;
+    }
+
+
 }

@@ -43,7 +43,7 @@ public class InvitationEvenementBDD extends AbstractBDD {
 
     public int supprimerInvitationEvenement(InvitationEvenement invitationEvenement){
         //Suppression de l'invitation à l'événement de la BDD
-        return database_.delete(Table.INVITATION_EVENEMENT, Colonne.ID_INVITATION_EVENEMENT + " = " + invitationEvenement.getIdBDD(), null);
+        return database_.delete(Table.INVITATION_EVENEMENT, Colonne.ID_FIREBASE + " = ? ", new String[]{invitationEvenement.getIdFirebase()});
     }
 
     //permet d'obtenir toutes les invitations pour un utilisateur donné
