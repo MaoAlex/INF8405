@@ -27,6 +27,7 @@ import com.example.alexmao.projetfinal.utils.Utils;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 
 /**
@@ -54,6 +55,7 @@ public class InscriptionInformation extends CustomActivity
     //Variable pour stocker la photo et l'afficher
     private Bitmap bp;
 
+    private List<String> sports;
     //base de données externe
     private RemoteBD remoteBD;
 
@@ -93,6 +95,12 @@ public class InscriptionInformation extends CustomActivity
     public void onClick(View v)
     {
         super.onClick(v);
+
+        if(sports==null) {
+            startActivityForResult(new Intent(InscriptionInformation.this, ChoixSport.class), ChoixSport.ASK_SPORT);
+            return;
+        }
+
         //On récupére les différents éléments entrés par l'utilisateur
         String nom = nomVue.getText().toString();
         String prenom = prenomVue.getText().toString();
@@ -115,6 +123,10 @@ public class InscriptionInformation extends CustomActivity
         utilisateur.setPrenom(prenom);
         utilisateur.setNom(nom);
         utilisateur.setDateNaissance(date);
+        if(sports!=null) {
+            utilisateur.setSports(sports);
+            user.setSports(sports);
+        }
         user.setMailAdr(email);
         user.setFirstName(prenom);
         user.setLastName(nom);
@@ -175,27 +187,42 @@ public class InscriptionInformation extends CustomActivity
 
     //Méthode appelée après le choix d'un photo de profil
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //vérification de la non-nullité de la photo récupérée
-        if(data!=null) {
-            super.onActivityResult(requestCode, resultCode, data);
-            if (data.getExtras() != null) {
-                //On transforme la photo en bitmap
-                bp = (Bitmap) data.getExtras().get("data");
-
-                if (bp != null) {
-                   //A compléter, ajout de la photo au profil
-                    //on remplace l'image de profil par la photo
-                    photoProfilVue.setImageBitmap(bp);
+        if(requestCode == ChoixSport.ASK_SPORT) {
+            if (resultCode == RESULT_OK) {
+                List<String> sports = data.getStringArrayListExtra("sports");
+                if (sports != null) {
+                    this.sports = sports;
                 } else {
-                    //Cas où l'utilisateur a choisi une photo de sa gallerie photo
-                    Uri u = data.getData();
-                    //on remplace l'image de profil par la photo
-                    photoProfilVue.setImageURI(u);
-                    //A compléter, ajout de la photo au profil et envoie ua serveur
+                    startActivityForResult(new Intent(InscriptionInformation.this, ChoixSport.class), ChoixSport.ASK_SPORT);
+                }
+            } else {
+                startActivityForResult(new Intent(InscriptionInformation.this, ChoixSport.class), ChoixSport.ASK_SPORT);
+            }
+            return;
+        }
 
+
+        //vérification de la non-nullité de la photo récupérée
+            if(data!=null) {
+                super.onActivityResult(requestCode, resultCode, data);
+                if (data.getExtras() != null) {
+                    //On transforme la photo en bitmap
+                    bp = (Bitmap) data.getExtras().get("data");
+
+                    if (bp != null) {
+                       //A compléter, ajout de la photo au profil
+                        //on remplace l'image de profil par la photo
+                        photoProfilVue.setImageBitmap(bp);
+                    } else {
+                        //Cas où l'utilisateur a choisi une photo de sa gallerie photo
+                        Uri u = data.getData();
+                        //on remplace l'image de profil par la photo
+                        photoProfilVue.setImageURI(u);
+                        //A compléter, ajout de la photo au profil et envoie ua serveur
+
+                    }
                 }
             }
-        }
     }
 
     //Méthode affichant le choix de prendre une photo ou d'aller dans la gallerie photo

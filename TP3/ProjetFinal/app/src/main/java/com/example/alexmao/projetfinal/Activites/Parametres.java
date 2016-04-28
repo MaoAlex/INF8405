@@ -3,6 +3,7 @@ package com.example.alexmao.projetfinal.Activites;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.support.v7.widget.Toolbar;
 
 import com.example.alexmao.projetfinal.Activites.fragments.ParametresFragment;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
@@ -25,11 +26,14 @@ public class Parametres extends CustomActivity implements ParametresFragment.OnR
         super.onCreate(savedInstanceState);
         ParametresFragment frag = new ParametresFragment();
 
-        // Chargement de l'utilisateur courant
-        this.chargerUtilisateur();
+        setContentView(R.layout.activity_parametres);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         //Mise en place de la flèche pour le retour en arrière
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        // Chargement de l'utilisateur courant
+        this.chargerUtilisateur();
 
         // Transmission des paramètres actuels (pour affichage et initialisation
         Bundle bundle = new Bundle();
@@ -40,7 +44,6 @@ public class Parametres extends CustomActivity implements ParametresFragment.OnR
         getFragmentManager().beginTransaction()
                 .replace(R.id.preferences_frag, frag)
                 .commit();
-        setContentView(R.layout.activity_parametres);
         remoteBD = new FireBaseBD(this);
     }
 
