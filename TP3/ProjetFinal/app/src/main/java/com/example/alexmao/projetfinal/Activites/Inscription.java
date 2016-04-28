@@ -67,7 +67,7 @@ public class Inscription extends CustomActivity
 			else
                 Utils.showDialog(this, R.string.err_fields_empty);
 			return;
-		} else if (mdpConfirmation.length() != mdp.length()) {
+		} else if (mdpConfirmation.length() != mdp.length() || !mdpConfirmation.equals(mdp)) {
 		    //Vérification que les mdps rentrés sont identiques
             Utils.showDialog(this, R.string.err_mdp);
             return;
