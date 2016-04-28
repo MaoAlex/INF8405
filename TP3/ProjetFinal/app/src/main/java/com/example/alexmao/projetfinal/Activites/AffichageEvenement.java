@@ -1,5 +1,6 @@
 package com.example.alexmao.projetfinal.Activites;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -70,13 +73,29 @@ public class AffichageEvenement extends AppCompatActivity {
         nombreParticipants.setText(String.valueOf(evenement.getGroupeAssocie().getListeMembre().size())+"/"+String.valueOf(evenement.getNbreMaxParticipants()));
         TextView nomLieu = (TextView) findViewById(R.id.nomLieu);
         nomLieu.setText(evenement.getLieu());
-        ImageView image = (ImageView) findViewById(R.id.person_photo);
-        image.setImageResource(Sport.stringToDrawable.get(evenement.getSport()));
         TextView organisateur = (TextView) findViewById(R.id.nom_organisateur);
         organisateur.setText(evenement.getOrganisateur().construireNom());
         TextView dateEvenement = (TextView) findViewById(R.id.date_evenement);
-        //dateEvenement.setText(evenement.construireDateEvt());
-//        evenement.setNbreMaxParticipants(10);
+        dateEvenement.setText(evenement.construireDateEvt());
+        Button btnParticiper = (Button) findViewById(R.id.bouton_participer);
+        btnParticiper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AffichageEvenement.this, InviterEvenement.class);
+                intent.putExtra("evenementID", evenement.getIdBDD());
+                startActivity(intent);
+            }
+        });
+        Button btnParticipants = (Button) findViewById(R.id.bouton_participants);
+        btnParticipants.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AffichageEvenement.this, AffichageParticipant.class);
+                intent.putExtra("evenement", evenement.getIdFirebase());
+                startActivity(intent);
+            }
+        });
+////        evenement.setNbreMaxParticipants(10);
 //        Utilisateur u1 = new Utilisateur();
 //        u1.setNom("Jean Paul");
 //
