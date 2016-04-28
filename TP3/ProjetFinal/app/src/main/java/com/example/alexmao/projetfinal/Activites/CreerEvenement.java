@@ -48,6 +48,7 @@ public class CreerEvenement extends AppCompatActivity {
     private EditText maxParticipantsVue;
     private Button boutonCreer;
     private LatLng lieuChoisi;
+    private String sportChoisi;
 
     //Variable pour récupérer et stocker la date
     private DatePicker datePicker;
@@ -91,6 +92,14 @@ public class CreerEvenement extends AppCompatActivity {
             }
         });
 
+        sportVue.setInputType(InputType.TYPE_NULL);
+        sportVue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                affichageChoixSport();
+            }
+        });
+
         boutonCreer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +108,12 @@ public class CreerEvenement extends AppCompatActivity {
         });
         boutonCreer.setText("Choisir le lieu");
         remoteBD = new FireBaseBD(this);
+    }
+
+    private void affichageChoixSport() {
+        Intent intent=new Intent(CreerEvenement.this,ChoixSport.class);
+        intent.putExtra("estEvenement", true);
+        startActivityForResult(intent, ChoixSport.ASK_SPORT);
     }
 
     @Override
@@ -117,12 +132,35 @@ public class CreerEvenement extends AppCompatActivity {
                 startActivityForResult(intent, ChoisirLieu.ASK_LIEU);
             }
         }
+        if(requestCode==ChoixSport.ASK_SPORT)
+        {
+            if(resultCode == RESULT_OK) {
+
+                ArrayList<String> listeSports = data.getStringArrayListExtra("sports");
+                if(listeSports.size() == 1) {
+                    sportChoisi = listeSports.get(0);
+                }
+                Log.d("Sport", sportChoisi);
+                sportVue.setText(sportChoisi);
+            } else {
+                Toast.makeText(this, "Vous devez choisir un sport", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(CreerEvenement.this,ChoixSport.class);
+                intent.putExtra("estEvenement", true);
+                startActivityForResult(intent, ChoixSport.ASK_SPORT);
+            }
+        }
     }
 
     private void onButtonClick() {
         if(lieuChoisi == null) {
             Intent intent=new Intent(CreerEvenement.this,ChoisirLieu.class);
             startActivityForResult(intent, ChoisirLieu.ASK_LIEU);
+            return;
+        }
+        if(sportChoisi == null) {
+            Intent intent=new Intent(CreerEvenement.this,ChoixSport.class);
+            intent.putExtra("estEvenement", true);
+            startActivityForResult(intent, ChoixSport.ASK_SPORT);
             return;
         }
         // TODO : Créer l'événement / vérifier les champs ...
