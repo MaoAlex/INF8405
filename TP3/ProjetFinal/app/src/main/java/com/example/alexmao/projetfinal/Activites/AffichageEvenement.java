@@ -5,6 +5,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,13 +17,10 @@ import com.example.alexmao.projetfinal.BDDExterne.MyLocalGroupEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.OnEventReceived;
 import com.example.alexmao.projetfinal.BDDExterne.OnGroupOnly;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
+import com.example.alexmao.projetfinal.BDDInterne.EvenementBDD;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
-import com.example.alexmao.projetfinal.classeApp.Groupe;
-import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -34,7 +32,7 @@ public class AffichageEvenement extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private String[] myDataset = {"Elem1"};//}, "Elem2", "Elem3", "Elem4", "Elem5", "Elem6", "Elem7", "Elem8", "Elem9", "Elem10"};
     private RemoteBD remoteBD;
-
+    private Evenement evenement;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,35 +50,40 @@ public class AffichageEvenement extends AppCompatActivity {
 
         //Mise en place des éléments de test
         String idFirebase = getIntent().getStringExtra("evenement");
-        Evenement evenement = new Evenement();
-        evenement.setNbreMaxParticipants(10);
-        Utilisateur u1 = new Utilisateur();
-        u1.setNom("Jean Paul");
+        Log.d("Affichage information", "if Firebase :" + idFirebase);
+        evenement = new Evenement();
+        EvenementBDD evenementBDD = new EvenementBDD(this);
+        evenementBDD.open();
 
-        GregorianCalendar test = new GregorianCalendar(2016, 03, 27);
-        evenement.setDate(test.getTimeInMillis());
-        evenement.setLieu("parc kent");
-        evenement.setNomEvenement("Fin de session");
-        evenement.setOrganisateur(u1);
-        evenement.setSport("foot");
-        Groupe g = new Groupe();
-
-        g.setListeMembre(new ArrayList<Utilisateur>());
-        g.getListeMembre().add(u1);
-
-        Utilisateur u2 = new Utilisateur();
-        u2.setNom("Poly Technique");
-        u2.setDateNaissance(test.getTimeInMillis());
-        Utilisateur u3 = new Utilisateur();
-        u3.setNom("Mont Real");
-        u3.setDateNaissance(test.getTimeInMillis());
-        g.getListeMembre().add(u2);
-        g.getListeMembre().add(u3);
-        evenement.setGroupeAssocie(g);
+        evenement = evenementBDD.obtenirEvenement(idFirebase);
+//        evenement.setNbreMaxParticipants(10);
+//        Utilisateur u1 = new Utilisateur();
+//        u1.setNom("Jean Paul");
+//
+//        GregorianCalendar test = new GregorianCalendar(2016, 03, 27);
+//        evenement.setDate(test.getTimeInMillis());
+//        evenement.setLieu("parc kent");
+//        evenement.setNomEvenement("Fin de session");
+//        evenement.setOrganisateur(u1);
+//        evenement.setSport("foot");
+//        Groupe g = new Groupe();
+//
+//        g.setListeMembre(new ArrayList<Utilisateur>());
+//        g.getListeMembre().add(u1);
+//
+//        Utilisateur u2 = new Utilisateur();
+//        u2.setNom("Poly Technique");
+//        u2.setDateNaissance(test.getTimeInMillis());
+//        Utilisateur u3 = new Utilisateur();
+//        u3.setNom("Mont Real");
+//        u3.setDateNaissance(test.getTimeInMillis());
+//        g.getListeMembre().add(u2);
+//        g.getListeMembre().add(u3);
+//        evenement.setGroupeAssocie(g);
 
         //getIntent().getParcelableExtra("evenement");
 
-        String eventID = idFirebase;
+        String eventID = evenement.getIdFirebase();
         remoteBD = new FireBaseBD(this);
         remoteBD.getEvent(eventID, new OnEventReceived() {
             @Override
