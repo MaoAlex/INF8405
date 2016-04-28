@@ -81,10 +81,7 @@ public class ChatList extends CustomActivity
 	}
 
 	/**
-	 * Update user status.
-	 * 
-	 * @param online
-	 *            true if user is online
+     * Permet de mettre à jour le statut de la conversation
 	 */
 	private void updateUserStatus(boolean online)
 	{
@@ -136,7 +133,8 @@ public class ChatList extends CustomActivity
 	/**
 	 * The Class UserAdapter is the adapter class for Utilisateur ListView. This
 	 * adapter shows the user name and it's only online status for each item.
-	 */
+	 *Adapter pour l'affichage de la liste des conversation
+     */
 	private class UserAdapter extends BaseAdapter
 	{
 

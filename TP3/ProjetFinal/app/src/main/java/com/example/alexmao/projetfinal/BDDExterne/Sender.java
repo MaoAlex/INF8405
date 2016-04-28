@@ -1,5 +1,7 @@
 package com.example.alexmao.projetfinal.BDDExterne;
 
+import android.util.Log;
+
 import com.example.alexmao.projetfinal.classeApp.Conversation;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
 import com.example.alexmao.projetfinal.classeApp.Groupe;
@@ -16,15 +18,20 @@ public class Sender {
         MyLocalGroupEBDD groupEBDD = FromClassAppToEBDD.translateGroupe(groupe);
         MyLocalEventEBDD eventEBDD = FromClassAppToEBDD.translateEvenement(evenement, null);
         ConversationEBDD conversationEBDD = FromClassAppToEBDD.translateConversation(conversation);
-        eventEBDD.setDataBaseId(remoteBD.addEvent(eventEBDD));
+        String idEvent = remoteBD.addEvent(eventEBDD);
+        eventEBDD.setDataBaseId(idEvent);
+        Log.d("Sender", "l'id event : " + idEvent);
+        Log.d("Sender", "l'id event dans eventEBDD : " + eventEBDD.getDataBaseId());
         conversationEBDD.setDataBaseId(remoteBD.addDiscussion(conversationEBDD));
-        groupEBDD.setEventID(eventEBDD.getId());
+        groupEBDD.setEventID(eventEBDD.getDataBaseId());
         groupEBDD.setConversationID(conversationEBDD.getDataBaseId());
         groupEBDD.setDatabaseID(remoteBD.addGroup(groupEBDD));
         eventEBDD.setGroupID(groupEBDD.getDatabaseID());
         conversationEBDD.setGroupID(groupEBDD.getDatabaseID());
+        if(eventEBDD!=null)
+            Log.d("Sender", "l'id event : " + eventEBDD.getDataBaseId());
         remoteBD.updateDiscussion(conversationEBDD.getDataBaseId(), conversationEBDD);
-        remoteBD.updateEvent(eventEBDD.getId(), eventEBDD);
+        remoteBD.updateEvent(eventEBDD.getDataBaseId(), eventEBDD);
 
         groupe.setIdFirebase(groupEBDD.getDatabaseID());
         evenement.setIdFirebase(eventEBDD.getDataBaseId());
