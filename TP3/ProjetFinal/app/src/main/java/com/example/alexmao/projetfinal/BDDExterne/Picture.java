@@ -35,6 +35,7 @@ public class Picture {
     public Picture() {
     }
 
+
     public void update(Picture picture) {
         if (picture != null) {
             mChunks = picture.mChunks;
@@ -102,11 +103,11 @@ public class Picture {
     }
 
 
-    private String uniteStringChunks() {
+    public String uniteStringChunks() {
         String bitmap = "";
-        for (String chunk : mStringChunks) {
-            bitmap += chunk;
-        }
+            for (String chunk : mStringChunks) {
+                bitmap += chunk;
+            }
         return bitmap;
     }
 }

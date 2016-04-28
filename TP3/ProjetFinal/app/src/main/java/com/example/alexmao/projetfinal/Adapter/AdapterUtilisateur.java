@@ -1,6 +1,7 @@
 package com.example.alexmao.projetfinal.Adapter;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -65,7 +66,7 @@ public class AdapterUtilisateur extends RecyclerView.Adapter<AdapterUtilisateur.
                 //Parcel parcel =  Parcel.obtain();
                 //evenements.get(pos).writeToParcel(parcel,0);
                 //evenements.get(pos).setIdFirebase("test");
-                Log.d("Adapter Utilisateur", "id de l'utilisateur : "  + persons.get(pos).getIdBDD());
+                Log.d("Adapter Utilisateur", "id de l'utilisateur : " + persons.get(pos).getIdBDD());
                 intent.putExtra("id", (persons.get(pos).getIdBDD()));
                 r.getContext().startActivity(intent);
             }
@@ -80,7 +81,12 @@ public class AdapterUtilisateur extends RecyclerView.Adapter<AdapterUtilisateur.
     public void onBindViewHolder(AdapterUtilisateur.UtilisateurViewHolder holder, int position) {
         holder.personName.setText(persons.get(position).construireNom());
         holder.personAge.setText(persons.get(position).construireDDN());
-        holder.personPhoto.setImageResource(R.drawable.user_chat1);
+        if(persons.get(position).getPhoto() != null) {
+            Bitmap bp = Utilisateur.fromStringToBitmap(persons.get(position).getPhoto());
+            holder.personPhoto.setImageBitmap(bp);
+        } else {
+            holder.personPhoto.setImageResource(R.drawable.user_chat1);
+        }
     }
 
 

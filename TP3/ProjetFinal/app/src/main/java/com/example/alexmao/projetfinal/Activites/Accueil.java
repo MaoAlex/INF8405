@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,13 +41,17 @@ import com.example.alexmao.projetfinal.BDDExterne.MessageEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.MyEventEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.NotificationBDD;
 import com.example.alexmao.projetfinal.BDDExterne.NotificationTypes;
+import com.example.alexmao.projetfinal.BDDExterne.OnFullUserData;
 import com.example.alexmao.projetfinal.BDDExterne.OnGroupsReady;
 import com.example.alexmao.projetfinal.BDDExterne.OnMessageReceiveCallback;
 import com.example.alexmao.projetfinal.BDDExterne.OnNotificationReceived;
+import com.example.alexmao.projetfinal.BDDExterne.OnPictureReceived;
 import com.example.alexmao.projetfinal.BDDExterne.OnTemporaryEvents;
 import com.example.alexmao.projetfinal.BDDExterne.OnUserProfilReceived;
+import com.example.alexmao.projetfinal.BDDExterne.Picture;
 import com.example.alexmao.projetfinal.BDDExterne.Position;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
+import com.example.alexmao.projetfinal.BDDExterne.UserParamsEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.UtilisateurProfilEBDD;
 import com.example.alexmao.projetfinal.BDDInterne.EvenementBDD;
 import com.example.alexmao.projetfinal.BDDInterne.InvitationConnexionBDD;
@@ -84,6 +89,7 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
 
     private RemoteBD remoteBD;
     private Utilisateur utilisateurConnecte;
+    private Utilisateur utilisateurDistant;
     private SensorManager mSensorManager;
     private ShakeEventListener mSensorListener;
     ViewPager mViewPager;
@@ -191,11 +197,26 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
         remoteBD = new FireBaseBD(this);
         //String userID = utilisateurConnecte.getIdFirebase();//"TODO initialiser l'userID";
 
-        if(utilisateurConnecte.getPhoto()!=null) {
+        if(!utilisateurConnecte.getPhoto().equals("")) {
             String strPhoto = utilisateurConnecte.getPhoto();
             Bitmap bp = Utilisateur.fromStringToBitmap(strPhoto);
             if(bp != null)
                 photoProfil.setImageBitmap(bp);
+        } else {
+            FetchFullDataFromEBDD.fetchUser(utilisateurConnecte.getIdFirebase(), remoteBD, new OnFullUserData() {
+                @Override
+                public void onFullUserData(LocalUserProfilEBDD localUserProfilEBDD,
+                                           Position position,
+                                           Picture picture,
+                                           UserParamsEBDD params) {
+                        Utilisateur utilisateur =
+                                FromEBDDToLocalClassTranslator.utilisateurFromEBDD(localUserProfilEBDD,
+                                        position, params, picture);
+                        utilisateurConnecte.setPhoto(picture.uniteStringChunks());
+                        onConnectedPictureReceived();
+
+                }
+            });
         }
         vNom.setText(utilisateurConnecte.getNom() + " " + utilisateurConnecte.getPrenom());
         vAdresse.setText(utilisateurConnecte.getMail());
@@ -248,6 +269,15 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
 //            }
 //        });
     }
+
+    private void onConnectedPictureReceived() {
+        String strPhoto = utilisateurConnecte.getPhoto();
+        Bitmap bp = Utilisateur.fromStringToBitmap(strPhoto);
+        if(bp != null)
+            photoProfil.setImageBitmap(bp);
+        UtilisateurBDD.modifierUtilisateur(utilisateurConnecte.getIdFirebase(), utilisateurConnecte);
+    }
+
 
     private void onNewMsg(MessageEBDD messageEBDD) {
         //TODO gèrer l'arrivée dans nouveau message

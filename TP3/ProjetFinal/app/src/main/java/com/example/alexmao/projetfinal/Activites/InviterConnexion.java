@@ -102,6 +102,7 @@ public class InviterConnexion extends AppCompatActivity {
                             Utilisateur utilisateur =
                                     FromEBDDToLocalClassTranslator.utilisateurFromEBDD(localUserProfilEBDD,
                                             position, params, picture);
+                                utilisateur.setPhoto(picture.uniteStringChunks());
                             Log.d("Inviter Connexion", "recherche du mail :" + mail);
                             onUserReceived(utilisateur);
                         }else{
