@@ -24,7 +24,8 @@ public class FromClassAppToEBDD {
         MessageEBDD ebddClass = new MessageEBDD();
         ebddClass.setMessage(message.getMessage());
         ebddClass.setDate(message.getDate());
-        ebddClass.setExpediteurID(message.getExpediteur().getIdFirebase());
+        if (message.getExpediteur() != null)
+            ebddClass.setExpediteurID(message.getExpediteur().getIdFirebase());
 
         return ebddClass;
     }
@@ -38,7 +39,8 @@ public class FromClassAppToEBDD {
             userIDs.add(utilisateur.getIdFirebase());
         }
         ebddClass.setMembersID(userIDs);
-        ebddClass.setEventID(groupe.getEvenement().getIdFirebase());
+        if (groupe.getEvenement() != null)
+            ebddClass.setEventID(groupe.getEvenement().getIdFirebase());
 
         return ebddClass;
     }
@@ -79,7 +81,8 @@ public class FromClassAppToEBDD {
         ebddClass.setDataBaseId(evenement.getIdFirebase());
         ebddClass.setDate(evenement.getDate());
         ebddClass.setLieu(evenement.getLieu());
-        ebddClass.setGroupID(evenement.getGroupeAssocie().getIdFirebase());
+        if (evenement.getGroupeAssocie() != null)
+            ebddClass.setGroupID(evenement.getGroupeAssocie().getIdFirebase());
         if (bitmap != null)
             ebddClass.setPicture(new Picture(bitmap));
 
@@ -125,7 +128,7 @@ public class FromClassAppToEBDD {
         ebddClass.setGroupID(conversation.getGroupID());
 
         List<MessageEBDD> messageEBDDs = new LinkedList<>();
-        for (Message msg :conversation.getListeMessage()) {
+        for (Message msg : conversation.getListeMessage()) {
             messageEBDDs.add(FromClassAppToEBDD.transalateMessage(msg));
         }
 
