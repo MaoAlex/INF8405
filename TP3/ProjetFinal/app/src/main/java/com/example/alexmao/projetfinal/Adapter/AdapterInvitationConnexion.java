@@ -2,6 +2,7 @@ package com.example.alexmao.projetfinal.Adapter;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,8 @@ public class AdapterInvitationConnexion extends RecyclerView.Adapter<AdapterInvi
                                       BtnConnexionRefuserClickListener listenerCR){
 //        this.invitationsConnexions = new ArrayList<>();
         this.invitationsConnexions = invitationConnexions;
+        if(invitationConnexions.isEmpty())
+            Log.d("Adapter", "la liste des connexions est vide");
         this.listenerCA = listenerCA;
         this.listenerCR = listenerCR;
         //initializeData();

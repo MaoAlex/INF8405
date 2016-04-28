@@ -57,12 +57,16 @@ public class UtilisateurBDD extends AbstractBDD {
         values.put(Colonne.ID_FIREBASE, utilisateur.getIdFirebase());
         Log.d("UtilisateurBDD", "insertion en cours");
         //on insère l'objet dans la BDD via le ContentValues,
-        long id = database_.insert(Table.UTILISATEUR, null, values);
-        if(utilisateur.getListeConnexion()!=null) {
-            for (String idFirebase : utilisateur.getListeConnexion()) {
-                insererConnexion(id, idFirebase);
+        long id;
+        if(estPresentUtilisateur(utilisateur.getIdFirebase())){
+            id = database_.insert(Table.UTILISATEUR, null, values);
+            if(utilisateur.getListeConnexion()!=null) {
+                for (String idFirebase : utilisateur.getListeConnexion()) {
+                    insererConnexion(id, idFirebase);
+                }
             }
-        }
+        }else
+            id = modifierUtilisateur((int)utilisateur.getIdBDD(), utilisateur);
         return id;
 
     }
@@ -85,6 +89,25 @@ public class UtilisateurBDD extends AbstractBDD {
         values.put(Colonne.LONGITUDE, utilisateur.getLongitude());
         values.put(Colonne.ID_FIREBASE, utilisateur.getIdFirebase());
         return database_.update(Table.UTILISATEUR, values, Colonne.ID_UTILISATEUR + " = " + id, null);
+    }
+    //A verifier la valeur de retour
+    public static long modifierUtilisateur(String idFirebase, Utilisateur utilisateur){
+        //La mise à jour d'un utilisateur dans la BDD fonctionne plus ou moins comme une insertion
+        //il faut simplement préciser quel utilisateur on doit mettre à jour grace à l'ID
+        ContentValues values = new ContentValues();
+        //on lui ajoute une valeur associée à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
+        values.put(Colonne.NOM, utilisateur.getNom());
+        values.put(Colonne.PRENOM, utilisateur.getPrenom());
+        values.put(Colonne.DATE_NAISSANTE, utilisateur.getDateNaissance());
+        values.put(Colonne.MAIL, utilisateur.getMail());
+        if(utilisateur.getPhoto()!=null)
+            values.put(Colonne.PHOTO, utilisateur.getPhoto().toString());
+        else
+            values.put(Colonne.PHOTO, "");
+        values.put(Colonne.LATITUDE, utilisateur.getLatitude());
+        values.put(Colonne.LONGITUDE, utilisateur.getLongitude());
+        values.put(Colonne.ID_FIREBASE, utilisateur.getIdFirebase());
+        return database_.update(Table.UTILISATEUR, values, Colonne.ID_FIREBASE + " = ?", new String[]{idFirebase});
     }
 
     public static int supprimerUtilisateurParId(int id){
@@ -342,7 +365,7 @@ public class UtilisateurBDD extends AbstractBDD {
         database_.delete(Table.MESSAGE_CONVERSATION, null, null);
         database_.delete(Table.CONVERSATION, null, null);
         database_.delete(Table.GROUPE_UTILISATEUR, null, null);
-        database_.delete(Table.UTILISATEUR_CONNEXIONS, null,null);
+        database_.delete(Table.UTILISATEUR_CONNEXIONS, null, null);
         database_.delete(Table.GROUPE, null, null);
         database_.delete(Table.EVENEMENT, null, null);
         database_.delete(Table.UTILISATEUR, null, null);
@@ -392,7 +415,18 @@ public class UtilisateurBDD extends AbstractBDD {
         Log.d(TAG, "Affichage de l'utilisateur connecté");
         Cursor cursor = database_.rawQuery(query, null);
 
-        cursor.moveToFirst();
+        return (cursor.getCount()>0);
+
+    }
+
+    public static boolean estPresentUtilisateur(String idFirebase) {
+        String query = "SELECT *" + " FROM "
+                + Table.UTILISATEUR + " WHERE " + Colonne.ID_FIREBASE + " = ?"  ;
+
+        Log.d("query", query);
+        Log.d(TAG, "Presence de l'utilisateur dans la BD Interne");
+        Cursor cursor = database_.rawQuery(query, new String[]{idFirebase});
+
         return (cursor.getCount()>0);
 
     }

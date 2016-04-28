@@ -20,7 +20,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +34,7 @@ import com.example.alexmao.projetfinal.BDDExterne.FetchFullDataFromEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
 import com.example.alexmao.projetfinal.BDDExterne.FromEBDDToLocalClassTranslator;
 import com.example.alexmao.projetfinal.BDDExterne.FullGroupWrapper;
+import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.MessageEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.MyEventEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.NotificationBDD;
@@ -43,8 +43,10 @@ import com.example.alexmao.projetfinal.BDDExterne.OnGroupsReady;
 import com.example.alexmao.projetfinal.BDDExterne.OnMessageReceiveCallback;
 import com.example.alexmao.projetfinal.BDDExterne.OnNotificationReceived;
 import com.example.alexmao.projetfinal.BDDExterne.OnTemporaryEvents;
+import com.example.alexmao.projetfinal.BDDExterne.OnUserProfilReceived;
 import com.example.alexmao.projetfinal.BDDExterne.Position;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
+import com.example.alexmao.projetfinal.BDDExterne.UtilisateurProfilEBDD;
 import com.example.alexmao.projetfinal.BDDInterne.EvenementBDD;
 import com.example.alexmao.projetfinal.BDDInterne.InvitationConnexionBDD;
 import com.example.alexmao.projetfinal.BDDInterne.InvitationEvenementBDD;
@@ -329,19 +331,32 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
         return true;
     }
 
-    private void onContactInvitation(NotificationBDD notificationBDD) {
+    private void onContactInvitation(final NotificationBDD notificationBDD) {
         //TODO faire quelque chose (invitation connexion)
-        InvitationConnexion invitationConnexion = new InvitationConnexion();
+        final InvitationConnexion invitationConnexion = new InvitationConnexion();
         invitationConnexion.setDate((notificationBDD.getDate()));
         invitationConnexion.setIdFirebase(notificationBDD.getId());
-
-        final View coordinatorLayoutView = findViewById(R.id.snackbarPosition);
-
-        Snackbar.make(coordinatorLayoutView, "Invitation de connexion reçue !", Snackbar.LENGTH_LONG)
-                .setAction("VOIR", clickListener)
-                .show();
-//        invitationConnexionBDD.open();
+        invitationConnexion.setInvite(utilisateurConnecte);
+        final LocalUserProfilEBDD localUserProfilEBDD = new LocalUserProfilEBDD();
+        invitationConnexionBDD.open();
 //        invitationConnexionBDD.insererInvitationConnexion(invitationConnexion);
+        final Position position = new Position();
+        final ParametresUtilisateur parametres = new ParametresUtilisateur();
+        remoteBD.getUserProfil(notificationBDD.getAskerID(), localUserProfilEBDD, new OnUserProfilReceived() {
+            @Override
+            public void onUserProfilReceived(UtilisateurProfilEBDD userProfilEBDD) {
+                final View coordinatorLayoutView = findViewById(R.id.snackbarPosition);
+                Snackbar.make(coordinatorLayoutView, "Invitation de connexion reçue !", Snackbar.LENGTH_LONG)
+                        .setAction("VOIR", clickListener)
+                        .show();
+                invitationConnexion.setExpediteur(FromEBDDToLocalClassTranslator.translateUserProfil(localUserProfilEBDD, position, notificationBDD.getAskerID(), parametres));
+                invitationConnexionBDD.insererInvitationConnexion(invitationConnexion);
+                invitationConnexionBDD.affichageInvitationConnexion();
+            }
+        });
+
+
+
     }
 
     private void onEventInvitation(NotificationBDD notificationBDD) {

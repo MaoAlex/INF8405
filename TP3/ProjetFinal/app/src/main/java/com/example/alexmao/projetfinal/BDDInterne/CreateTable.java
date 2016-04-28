@@ -68,12 +68,10 @@ public class CreateTable {
     public static final String INVITATION_EVENEMENT = "CREATE TABLE " + Table.INVITATION_EVENEMENT + " ("
             + Colonne.ID_INVITATION_EVENEMENT + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + Colonne.ID_EVENEMENT + " TEXT, "
-            + Colonne.ID_EXPEDITEUR + " INTEGER, "
+            + Colonne.ID_EXPEDITEUR + " TEXT, "
             + Colonne.ID_INVITE + " INTEGER,"
             + Colonne.DATE_INVITATION + " INTEGER, "
             + Colonne.ID_FIREBASE + " TEXT NOT NULL, "
-            + " FOREIGN KEY (" + Colonne.ID_EVENEMENT + ")  REFERENCES " + Table.EVENEMENT + "( " + Colonne.ID_EVENEMENT + "),"
-            + " FOREIGN KEY (" + Colonne.ID_EXPEDITEUR + ")  REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + "),"
             + " FOREIGN KEY (" + Colonne.ID_INVITE + ") REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " )); ";
 
     //Requete pour la création de la table sport
@@ -91,11 +89,10 @@ public class CreateTable {
     //Requete pour la création de la table invitation connexion
     public static final String INVITATION_CONNEXION = "CREATE TABLE " + Table.INVITATION_CONNEXION + " ("
             + Colonne.ID_INVITATION_CONNEXION + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + Colonne.ID_EXPEDITEUR + " INTEGER, "
+            + Colonne.ID_EXPEDITEUR + " TEXT, "
             + Colonne.ID_INVITE + " INTEGER, "
             + Colonne.DATE_INVITATION + " INTEGER, "
             + Colonne.ID_FIREBASE + " TEXT NOT NULL, "
-            + " FOREIGN KEY (" + Colonne.ID_EXPEDITEUR + ")  REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + "),"
             + " FOREIGN KEY (" + Colonne.ID_INVITE + ") REFERENCES " + Table.UTILISATEUR + "( " + Colonne.ID_UTILISATEUR + " )); ";
 
     //Requete pour la création de la table message

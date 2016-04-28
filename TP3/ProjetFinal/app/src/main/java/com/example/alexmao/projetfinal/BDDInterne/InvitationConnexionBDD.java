@@ -36,6 +36,14 @@ public class InvitationConnexionBDD extends AbstractBDD {
         values.put(Colonne.ID_INVITE, invitationConnexion.getInvite().getIdBDD());
         values.put(Colonne.DATE_INVITATION, invitationConnexion.getDate());
         values.put(Colonne.ID_FIREBASE, invitationConnexion.getIdFirebase());
+        long idExpediteur;
+        if(UtilisateurBDD.estPresentUtilisateur(invitationConnexion.getExpediteur().getIdFirebase())) {
+            idExpediteur = UtilisateurBDD.modifierUtilisateur(invitationConnexion.getIdFirebase(), invitationConnexion.getExpediteur());
+        }else{
+            idExpediteur = UtilisateurBDD.insererUtilisateur(invitationConnexion.getExpediteur());
+        }
+        values.put(Colonne.ID_EXPEDITEUR, invitationConnexion.getExpediteur().getIdFirebase());
+
 
         return database_.insert(Table.INVITATION_CONNEXION, null, values);
     }
@@ -73,7 +81,7 @@ public class InvitationConnexionBDD extends AbstractBDD {
             invitationConnexion.setDate(c.getLong(NUM_COL_DATE));
             invitationConnexion.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
             invitationConnexion.setIdBDD(c.getInt(NUM_COL_ID));
-            invitationConnexion.setExpediteur(UtilisateurBDD.obtenirUtilisateurParId(c.getLong(NUM_COL_ID_EXPEDITEUR)));
+            invitationConnexion.setExpediteur(UtilisateurBDD.obtenirUtilisateurParIdFirebase(c.getString(NUM_COL_ID_EXPEDITEUR)));
             listeInvitationConnexion.add(invitationConnexion);
         }
         c.close();
@@ -93,7 +101,7 @@ public class InvitationConnexionBDD extends AbstractBDD {
         //on insère l'objet dans la BDD via le ContentValues
         while (cursor.moveToNext()) {
             Log.d(TAG, "L'id de l''invitation connexion est : " + cursor.getLong(NUM_COL_ID)
-                    + ", l'id de l'expediteur est : " + cursor.getLong(NUM_COL_ID_EXPEDITEUR)
+                    + ", l'idFirebase de l'expediteur est : " + cursor.getString(NUM_COL_ID_EXPEDITEUR)
                     + ", l'id de l'invite est : " + cursor.getLong(NUM_COL_ID_INVITE)
                     + ", la date est : " + cursor.getLong(NUM_COL_DATE)
                     + ", l'id firebase est : " + cursor.getString(NUM_COL_ID_FIREBASE));

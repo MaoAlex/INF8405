@@ -33,7 +33,7 @@ public class InvitationEvenementBDD extends AbstractBDD {
         //On va mettre les valeurs de l'invitation en fonction des colonnes
         ContentValues values = new ContentValues();
         //on lui ajoute une valeur associée à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
-        values.put(Colonne.ID_EXPEDITEUR, invitationEvenement.getExpediteur().getIdBDD());
+        values.put(Colonne.ID_EXPEDITEUR, invitationEvenement.getExpediteur().getIdFirebase());
         values.put(Colonne.ID_INVITE, invitationEvenement.getInvite().getIdBDD());
         values.put(Colonne.DATE_INVITATION, invitationEvenement.getDate());
         values.put(Colonne.ID_FIREBASE, invitationEvenement.getIdFirebase());
@@ -75,7 +75,7 @@ public class InvitationEvenementBDD extends AbstractBDD {
             invitationEvenement.setEvenement(EvenementBDD.obtenirEvenement(c.getLong(NUM_COL_ID_EVENEMENT)));
             invitationEvenement.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
             invitationEvenement.setIdBDD(c.getInt(NUM_COL_ID));
-            invitationEvenement.setExpediteur(UtilisateurBDD.obtenirUtilisateurParId(c.getLong(NUM_COL_ID_EXPEDITEUR)));
+            invitationEvenement.setExpediteur(UtilisateurBDD.obtenirUtilisateurParIdFirebase(c.getString(NUM_COL_ID_EXPEDITEUR)));
 
             listeInvitationEvenement.add(invitationEvenement);
         }
