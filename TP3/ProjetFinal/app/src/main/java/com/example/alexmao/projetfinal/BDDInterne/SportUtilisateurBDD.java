@@ -76,4 +76,24 @@ public class SportUtilisateurBDD extends AbstractBDD {
 
         return listeSport;
     }
+
+    public static void affichageSportUtilisateur() {
+        String query = "SELECT *" + " FROM "
+                + Table.SPORT_UTILISATEUR ;
+
+        Log.d("query", query);
+        Log.d(TAG, "Affichage de des sports et utilisateur");
+        Cursor cursor = database_.rawQuery(query, null);
+        if(cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            //On affiche les différents éléments
+            Log.d(TAG, "L'id du truc est : " + cursor.getLong(NUM_COL_ID)
+                    + ", id de l'utilisateur: " + cursor.getLong(NUM_COL_ID_UTILISATEUR)
+                    + ", sport pratique : " + cursor.getString(NUM_COL_SPORT));
+
+        }
+
+        cursor.close();
+
+    }
 }

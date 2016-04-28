@@ -63,7 +63,8 @@ public class UtilisateurBDD extends AbstractBDD {
                     insererConnexion(id, idFirebase);
                 }
             }
-
+        utilisateur.setIdBDD(id);
+        SportUtilisateurBDD.insererListeSp  ort(utilisateur);
         return id;
 
     }
@@ -86,7 +87,6 @@ public class UtilisateurBDD extends AbstractBDD {
         values.put(Colonne.LATITUDE, utilisateur.getLatitude());
         values.put(Colonne.LONGITUDE, utilisateur.getLongitude());
         values.put(Colonne.ID_FIREBASE, utilisateur.getIdFirebase());
-        SportUtilisateurBDD.insererListeSport(utilisateur);
         return database_.update(Table.UTILISATEUR, values, Colonne.ID_UTILISATEUR + " = " + id, null);
     }
     //A verifier la valeur de retour
