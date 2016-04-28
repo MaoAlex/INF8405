@@ -41,7 +41,7 @@ public class SportUtilisateurBDD extends AbstractBDD {
                 + " AND " + Colonne.SPORT + " = ?", new String[]{sport});
     }
 
-    public ArrayList<String> obtenirSportUtilisateur(int idUtilisateur){
+    public static ArrayList<String> obtenirSportUtilisateur(long idUtilisateur){
         ArrayList<String> listeSport = new ArrayList<>();
 
         //requete pour récupérer les différentes invitations à destination de l'utilisateur
