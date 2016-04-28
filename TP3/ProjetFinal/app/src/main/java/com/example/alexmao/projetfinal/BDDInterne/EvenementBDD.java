@@ -151,7 +151,7 @@ public class EvenementBDD extends AbstractBDD {
             //
             //!!!!!!!!!!!!!!!!!!!A COMPLETER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             //
-            evenement.setGroupeAssocie(GroupeBDD.obtenirGroupe(c.getInt(NUM_COL_ID_GROUPE)));
+            evenement.setGroupeAssocie(GroupeBDD.obtenirGroupe(c.getLong(NUM_COL_ID_GROUPE)));
             evenement.setOrganisateur(UtilisateurBDD.obtenirUtilisateurParId(c.getLong(NUM_COL_ID_ORGANISATEUR)));
             evenement.setVisibilite(c.getString(NUM_COL_VISIBILITE));
             //on l'ajoute à la liste d'evenement
@@ -323,14 +323,14 @@ public class EvenementBDD extends AbstractBDD {
                     //on lui affecte toutes les infos grâce aux infos contenues dans le Cursor
                     evenement.setIdBDD(c.getInt(NUM_COL_ID));
                     evenement.setNbreMaxParticipants(c.getInt(NUM_COL_NOMBRE_PARTICIPANT));
-                    SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
-                    Date date = new Date();
-                    try {
-                        date = formatDate.parse(c.getString(NUM_COL_DATE_EVENENEMENT).toString());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    Log.i(TAG, "Date: " + formatDate.format(date));
+//                    SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+//                    Date date = new Date();
+//                    try {
+//                        date = formatDate.parse(c.getString(NUM_COL_DATE_EVENENEMENT).toString());
+//                    } catch (ParseException e) {
+//                        e.printStackTrace();
+//                    }
+//                    Log.i(TAG, "Date: " + formatDate.format(date));
                     evenement.setDate(c.getLong(NUM_COL_DATE_EVENENEMENT));
                     if (c.getString(NUM_COL_PHOTO) != "" || c.getString(NUM_COL_PHOTO) != null)
                         evenement.setPhoto(Uri.parse(c.getString(NUM_COL_PHOTO)));

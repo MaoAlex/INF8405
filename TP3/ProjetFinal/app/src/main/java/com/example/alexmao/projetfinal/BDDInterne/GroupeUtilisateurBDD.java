@@ -3,7 +3,6 @@ package com.example.alexmao.projetfinal.BDDInterne;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 
 import com.example.alexmao.projetfinal.classeApp.Groupe;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
@@ -47,6 +46,7 @@ public class GroupeUtilisateurBDD extends AbstractBDD {
 
         return database_.insert(Table.GROUPE_UTILISATEUR, null, values);
     }
+
 
     //méthode permettant de supprimer un utilisateur d'un groupe
     public int supprimerGroupeUtilisateur(int idGroupe, int idUtilisateur){

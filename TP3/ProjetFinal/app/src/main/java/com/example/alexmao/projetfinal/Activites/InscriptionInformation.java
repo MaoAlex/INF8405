@@ -55,7 +55,7 @@ public class InscriptionInformation extends CustomActivity
     private long date;
     //Variable pour stocker la photo et l'afficher
     private Bitmap bp;
-
+    private Utilisateur utilisateur;
     private List<String> sports;
     //base de données externe
     private RemoteBD remoteBD;
@@ -81,7 +81,7 @@ public class InscriptionInformation extends CustomActivity
                 affichageChoixDate();
             }
         });
-
+        utilisateur = new Utilisateur();
         //On met en place la possibilité de prendre une photo ou d'en choisir une sur le clic de l'image de l'image de profil
         photoProfilVue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +117,7 @@ public class InscriptionInformation extends CustomActivity
                 getString(R.string.alert_wait));
         //Création de la variable utilisateur qui va être envoyé au serveur
         final UtilisateurProfilEBDD user = new UtilisateurProfilEBDD();
-        Utilisateur utilisateur = new Utilisateur();
+
         Intent intent = getIntent();
         String email = intent.getStringExtra("mail");
         utilisateur.setMail(email);
@@ -203,6 +203,7 @@ public class InscriptionInformation extends CustomActivity
                 List<String> sports = data.getStringArrayListExtra("sports");
                 if (sports != null) {
                     this.sports = sports;
+                    utilisateur.setSports(sports);
                 } else {
                     startActivityForResult(new Intent(InscriptionInformation.this, ChoixSport.class), ChoixSport.ASK_SPORT);
                 }

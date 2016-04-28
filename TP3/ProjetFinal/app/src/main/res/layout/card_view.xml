@@ -92,7 +92,21 @@
                 android:layout_toRightOf="@+id/organisateur"
                 android:layout_below="@+id/lieu"
                 />
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/date"
+                android:layout_toRightOf="@+id/sport_photo"
+                android:layout_below="@+id/organisateur"
+                android:text="Date : "
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/date_evenement"
+                android:layout_toRightOf="@+id/date"
+                android:layout_below="@+id/organisateur"
+                />
         </RelativeLayout>
         <TextView
             android:id="@+id/info_text"

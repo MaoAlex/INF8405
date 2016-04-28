@@ -7,7 +7,6 @@ import android.util.Log;
 
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -83,9 +82,11 @@ public class UtilisateurBDD extends AbstractBDD {
             values.put(Colonne.PHOTO, utilisateur.getPhoto().toString());
         else
             values.put(Colonne.PHOTO, "");
+
         values.put(Colonne.LATITUDE, utilisateur.getLatitude());
         values.put(Colonne.LONGITUDE, utilisateur.getLongitude());
         values.put(Colonne.ID_FIREBASE, utilisateur.getIdFirebase());
+        SportUtilisateurBDD.insererListeSport(utilisateur);
         return database_.update(Table.UTILISATEUR, values, Colonne.ID_UTILISATEUR + " = " + id, null);
     }
     //A verifier la valeur de retour
@@ -105,6 +106,10 @@ public class UtilisateurBDD extends AbstractBDD {
         values.put(Colonne.LATITUDE, utilisateur.getLatitude());
         values.put(Colonne.LONGITUDE, utilisateur.getLongitude());
         values.put(Colonne.ID_FIREBASE, utilisateur.getIdFirebase());
+        if(utilisateur.getIdBDD()!=0) {
+            SportUtilisateurBDD.supprimerSportUtilisateur(utilisateur.getIdBDD());
+            SportUtilisateurBDD.insererListeSport(utilisateur);
+        }
         return database_.update(Table.UTILISATEUR, values, Colonne.ID_FIREBASE + " = ?", new String[]{idFirebase});
     }
 
@@ -153,7 +158,7 @@ public class UtilisateurBDD extends AbstractBDD {
         utilisateur.setIdBDD(id);
         utilisateur.setNom(c.getString(NUM_COL_NOM));
         utilisateur.setPrenom(c.getString(NUM_COL_PRENOM));
-        SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+//        SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
         /*Date date = new Date();
         try {
              date = formatDate.parse(c.getString(NUM_COL_DATE_NAISSANCE).toString());
@@ -188,7 +193,7 @@ public class UtilisateurBDD extends AbstractBDD {
         cursor = database_.rawQuery(query, null);
         ArrayList<String> evenementId = new ArrayList<>();
         while (cursor.moveToNext()) {
-            evenementId.add(cursor.getString(NUM_COL_ID));
+            evenementId.add(cursor.getString(1));
         }
 
         ArrayList<String> sports = SportUtilisateurBDD.obtenirSportUtilisateur(id);
@@ -295,7 +300,7 @@ public class UtilisateurBDD extends AbstractBDD {
     }
 
     //méthode permettant de récupérer tous les utilisateurs stockés dans la table utilisateur
-    public static ArrayList<Utilisateur> obtenirUtilisateurs(int groupeID) {
+    public static ArrayList<Utilisateur> obtenirUtilisateurs(long groupeID) {
         ArrayList<Utilisateur> listeUtilisateur = new ArrayList<>();
         ArrayList<Integer> listId = new ArrayList<>();
         String query = "SELECT *"
@@ -353,6 +358,8 @@ public class UtilisateurBDD extends AbstractBDD {
 //        maBaseSQLite_.onUpgrade(database_, VERSION, VERSION);
         database_.delete(Table.UTILISATEUR_CONNECTE, null, null);
         //TODO A supprimer toutes les tables
+        database_.delete(Table.UTILISATEUR_CONNEXIONS, null, null);
+
         database_.delete(Table.PARAMETRE_UTILISATEUR, null, null);
         database_.delete(Table.EVENEMENT_INTERESSE, null, null);
         database_.delete(Table.PARTICIPANT_EVENEMENT, null, null);
@@ -362,9 +369,8 @@ public class UtilisateurBDD extends AbstractBDD {
         database_.delete(Table.MESSAGE, null, null);
         database_.delete(Table.MESSAGE_CONVERSATION, null, null);
         database_.delete(Table.CONVERSATION, null, null);
-        database_.delete(Table.GROUPE_UTILISATEUR, null, null);
-        database_.delete(Table.UTILISATEUR_CONNEXIONS, null, null);
         database_.delete(Table.GROUPE, null, null);
+        database_.delete(Table.GROUPE_UTILISATEUR, null, null);
         database_.delete(Table.EVENEMENT, null, null);
         database_.delete(Table.UTILISATEUR, null, null);
 

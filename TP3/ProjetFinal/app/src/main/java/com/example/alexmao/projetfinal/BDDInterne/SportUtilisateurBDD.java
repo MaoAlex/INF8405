@@ -25,7 +25,7 @@ public class SportUtilisateurBDD extends AbstractBDD {
         super(pContext);
     }
 
-    public long insererSportUtilisateur(String sport, Utilisateur utilisateur){
+    public static long insererSportUtilisateur(String sport, Utilisateur utilisateur){
         //Création d'un ContentValues (fonctionne comme une HashMap)
         //On va mettre les valeurs l'id de l'évenement avec l'id de l'utilisateur interessé
         ContentValues values = new ContentValues();
@@ -35,13 +35,27 @@ public class SportUtilisateurBDD extends AbstractBDD {
         return database_.insert(Table.SPORT_UTILISATEUR, null, values);
     }
 
-    public int supprimerSportUtilisateur(String sport, int idUtilisateur){
+    public static int supprimerSport(String sport, int idUtilisateur){
         //l'utilisateur n'aime plus ce sport, nous le supprimons donc
         return database_.delete(Table.SPORT_UTILISATEUR, Colonne.ID_UTILISATEUR + " = " + idUtilisateur
                 + " AND " + Colonne.SPORT + " = ?", new String[]{sport});
     }
 
-    public static ArrayList<String> obtenirSportUtilisateur(long idUtilisateur){
+    public static void insererListeSport(Utilisateur utilisateur){
+        if(utilisateur.getSports()!=null && !utilisateur.getSports().isEmpty()){
+            for (String sport : utilisateur.getSports()){
+                insererSportUtilisateur(sport, utilisateur);
+            }
+        }
+    }
+
+    public static int supprimerSportUtilisateur(long idUtilisateur){
+        //l'utilisateur n'aime plus ce sport, nous le supprimons donc
+        return database_.delete(Table.SPORT_UTILISATEUR, Colonne.ID_UTILISATEUR + " = " + idUtilisateur
+                , null);
+    }
+
+    public  static ArrayList<String> obtenirSportUtilisateur(long idUtilisateur){
         ArrayList<String> listeSport = new ArrayList<>();
 
         //requete pour récupérer les différentes invitations à destination de l'utilisateur
