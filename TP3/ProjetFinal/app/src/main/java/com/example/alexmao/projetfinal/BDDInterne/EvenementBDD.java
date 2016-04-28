@@ -261,7 +261,7 @@ public class EvenementBDD extends AbstractBDD {
             for (String sport : listeSport) {
                 String query = "SELECT *"
                         + " FROM "
-                        + Table.EVENEMENT + " WHERE " + Colonne.SPORT + " = ? ";
+                        + Table.EVENEMENT + " WHERE " + Colonne.SPORT_ASSOCIE + " = ? ";
 
                 Log.d("query", query);
                 Cursor c = database_.rawQuery(query,  new String[]{sport});

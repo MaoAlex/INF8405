@@ -281,6 +281,7 @@ public class CreerEvenement extends AppCompatActivity {
         utilisateurBDD.close();
         // TODO : Event is ready !
         Log.d("CreerEvenement","Bouton cliqué");
+        finish();
     }
 
     //méthode permettant l'affichage spécifique du choix de la date de naissance

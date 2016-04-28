@@ -64,7 +64,7 @@ public class UtilisateurBDD extends AbstractBDD {
                 }
             }
         utilisateur.setIdBDD(id);
-        SportUtilisateurBDD.insererListeSp  ort(utilisateur);
+        SportUtilisateurBDD.insererListeSport(utilisateur);
         return id;
 
     }

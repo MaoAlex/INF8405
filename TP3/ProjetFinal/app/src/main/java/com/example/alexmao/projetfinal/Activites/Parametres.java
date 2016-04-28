@@ -1,9 +1,8 @@
 package com.example.alexmao.projetfinal.Activites;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.example.alexmao.projetfinal.Activites.fragments.ParametresFragment;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
@@ -39,7 +38,7 @@ public class Parametres extends CustomActivity implements ParametresFragment.OnR
         Bundle bundle = new Bundle();
         bundle.putParcelable("params", utilisateur.getParametres());
 
-        frag.onAttach((Context) this);
+        frag.onAttach(this);
         frag.setArguments(bundle);
         getFragmentManager().beginTransaction()
                 .replace(R.id.preferences_frag, frag)

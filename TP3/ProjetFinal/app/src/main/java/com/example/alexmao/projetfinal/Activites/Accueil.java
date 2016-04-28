@@ -401,6 +401,9 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
         invitationEvenement.setDate((notificationBDD.getDate()));
         invitationEvenement.setIdFirebase(notificationBDD.getId());
 
+        invitationEvenementBDD.open();
+        invitationEvenementBDD.insererInvitationEvenement(invitationEvenement);
+
         final View coordinatorLayoutView = findViewById(R.id.snackbarPosition);
 
         Snackbar.make(coordinatorLayoutView, "Invitation à un événement reçue !", Snackbar.LENGTH_LONG)
@@ -420,7 +423,7 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
     //Adapter pour gérér les différentes pages du viewPager
     public static class AccueilPagerAdapter extends FragmentPagerAdapter {
 
-        private final ArrayList<android.support.v4.app.Fragment> fragments;
+        public final ArrayList<android.support.v4.app.Fragment> fragments;
         private RecyclerView mRecyclerView;
         private Context context;
         public AccueilPagerAdapter(FragmentManager fm, Context context) {
@@ -438,8 +441,8 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
 //                case 0:
 //                    // The first section of the app is the most interesting -- it offers
 //                    // a launchpad into the other demonstrations in this example application.
-//
-//                    return fragments.get(i);
+//                    fragments.get(i).onResume();
+//                    return  fragments.get(i);
 //                case 1 :
 //                    return fragments.get(i);
 //                default:
@@ -448,7 +451,9 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
 //                    //fragment.setArguments(args);
 //                    return fragment;
 //            }
-            return fragments.get(i);
+//            return fragments.get(i);
+            fragments.get(i).onResume();
+            return  fragments.get(i);
         }
 
         @Override
@@ -467,6 +472,7 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
                 return "Participation";
         }
 
+
     }
 
     /**
@@ -481,6 +487,7 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
 //        public EvenenementsFragment(){
 //
 //        }
+        ArrayList<Evenement> evenementsSport;
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -496,19 +503,35 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
             UtilisateurBDD utilisateurBDD = new UtilisateurBDD(getContext());
             Utilisateur utilisateur = utilisateurBDD.obtenirProfil();
             //Création d'un evenement test
-            ArrayList<Evenement> evenements = new ArrayList<>();
-            evenements = evenementBDD.obtenirEvenements(utilisateur.getSports());
-
+            evenementsSport = evenementBDD.obtenirEvenements(utilisateur.getSports());
             evenementBDD.affichageEvenements();
 
             //Création d'un adapter pour l'affichage des éléments sous forme de carte
-            mAdapter = new AdapterEvenement(evenements);
+            mAdapter = new AdapterEvenement(evenementsSport);
 
             mRecyclerView.setAdapter(mAdapter);
 
             return mRecyclerView;
         }
 
+        public void updateEvenement(){
+            EvenementBDD evenementBDD = new EvenementBDD(getContext());
+            evenementBDD.open();
+            UtilisateurBDD utilisateurBDD = new UtilisateurBDD(getContext());
+            Utilisateur utilisateur = utilisateurBDD.obtenirProfil();
+          evenementsSport = evenementBDD.obtenirEvenements(utilisateur.getSports());
+        }
+//        @Override
+//        public void onResume(){
+//            super.onResume();
+//
+//            EvenementBDD evenementBDD = new EvenementBDD(getContext());
+//            evenementBDD.open();
+//            UtilisateurBDD utilisateurBDD = new UtilisateurBDD(getContext());
+//            Utilisateur utilisateur = utilisateurBDD.obtenirProfil();
+//            evenementsSport = evenementBDD.obtenirEvenements(utilisateur.getSports());
+//
+//        }
 
     }
 
@@ -522,6 +545,8 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
         private RecyclerView mRecyclerView;
         private RecyclerView.Adapter mAdapter;
         private RecyclerView.LayoutManager mLayoutManager;
+        public static ArrayList<Evenement> evenements;
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -535,7 +560,6 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
             EvenementBDD evenementBDD = new EvenementBDD(getContext());
             evenementBDD.open();
             //Création d'evenements tests
-            ArrayList<Evenement> evenements = new ArrayList<>();
             UtilisateurBDD utilisateurBDD = new UtilisateurBDD(getContext());
             Utilisateur utilisateur = utilisateurBDD.obtenirProfil();
             evenements = evenementBDD.obtenirEvenements(utilisateur);
@@ -546,12 +570,37 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
 
             return mRecyclerView;
         }
+
+//        @Override
+//        public void onResume(){
+//            super.onResume();
+//
+//            EvenementBDD evenementBDD = new EvenementBDD(getContext());
+//            evenementBDD.open();
+//            //Création d'evenements tests
+//            UtilisateurBDD utilisateurBDD = new UtilisateurBDD(getContext());
+//            Utilisateur utilisateur = utilisateurBDD.obtenirProfil();
+//            evenements = evenementBDD.obtenirEvenements(utilisateur);
+//            onResume();
+//        }
+
+        public void updateDecouverte(){
+            EvenementBDD evenementBDD = new EvenementBDD(getContext());
+            evenementBDD.open();
+            //Création d'evenements tests
+            UtilisateurBDD utilisateurBDD = new UtilisateurBDD(getContext());
+            Utilisateur utilisateur = utilisateurBDD.obtenirProfil();
+            evenements = evenementBDD.obtenirEvenements(utilisateur);
+            onResume();
+        }
+
     }
 
     public static class DecouvertesFragment extends android.support.v4.app.Fragment {
         private RecyclerView mRecyclerView;
         private RecyclerView.Adapter mAdapter;
         private RecyclerView.LayoutManager mLayoutManager;
+        public static ArrayList<Evenement> evenementDecouverte;
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -565,12 +614,27 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
             evenementBDD.open();
             //Création d'un adapter pour l'affichage des événements sous forme de cardView
             //Création d'un élément test
-            ArrayList<Evenement> evenements;
-            evenements = evenementBDD.obtenirEvenements();
-            mAdapter = new AdapterEvenement(evenements);
+            evenementDecouverte = evenementBDD.obtenirEvenements();
+            mAdapter = new AdapterEvenement(evenementDecouverte);
             mRecyclerView.setAdapter(mAdapter);
             return mRecyclerView;
         }
+
+        public void updateDecouverte(){
+
+            EvenementBDD evenementBDD = new EvenementBDD(getContext());
+            evenementBDD.open();
+            evenementDecouverte = evenementBDD.obtenirEvenements();
+        }
+
+//        @Override
+//        public void onResume(){
+//            super.onResume();
+//            EvenementBDD evenementBDD = new EvenementBDD(getContext());
+//            evenementBDD.open();
+//            evenementDecouverte = evenementBDD.obtenirEvenements();
+//
+//        }
     }
 
 
