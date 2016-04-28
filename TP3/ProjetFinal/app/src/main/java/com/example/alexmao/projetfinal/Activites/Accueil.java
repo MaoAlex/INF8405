@@ -168,6 +168,7 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
             public void onShake() {
                 if (mViewPager.getCurrentItem() == DECOUVERTES_TAB) {
                     Toast.makeText(Accueil.this, "Shake!", Toast.LENGTH_SHORT).show();
+                    onRestart();
                 }
             }
         });
