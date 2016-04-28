@@ -35,6 +35,7 @@ public class Sport {
     public static void listeSports() {
         listeSports = new String[16];
         listeIds = new int[16];
+        listeDrawingsIds = new int[16];
 
         listeSports[0] = "art_martial";
         listeIds[0] = R.id.art_martial;

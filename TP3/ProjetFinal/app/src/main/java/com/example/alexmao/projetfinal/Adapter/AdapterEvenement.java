@@ -57,7 +57,7 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
     public AdapterEvenement(String[] myDataset) {
         Sport.initialize();
         mDataset = myDataset;
-        initializeData();
+        //initializeData();
     }
 
     // Constructeur
