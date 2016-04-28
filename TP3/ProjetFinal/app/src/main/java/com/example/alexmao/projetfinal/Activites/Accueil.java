@@ -7,6 +7,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -19,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -70,6 +72,12 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
     public final static int ACCUEIL_TAB = 0;
     public final static int DECOUVERTES_TAB = 1;
     public final static int PARTICIPATIONS_TAB = 2;
+
+    final View.OnClickListener clickListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            startActivity(new Intent(Accueil.this, GererInvitations.class));
+        }
+    };
 
     private RemoteBD remoteBD;
     private Utilisateur utilisateurConnecte;
@@ -326,6 +334,12 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
         InvitationConnexion invitationConnexion = new InvitationConnexion();
         invitationConnexion.setDate((notificationBDD.getDate()));
         invitationConnexion.setIdFirebase(notificationBDD.getId());
+
+        final View coordinatorLayoutView = findViewById(R.id.snackbarPosition);
+
+        Snackbar.make(coordinatorLayoutView, "Invitation de connexion reçue !", Snackbar.LENGTH_LONG)
+                .setAction("VOIR", clickListener)
+                .show();
 //        invitationConnexionBDD.open();
 //        invitationConnexionBDD.insererInvitationConnexion(invitationConnexion);
     }
@@ -336,6 +350,12 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
         InvitationEvenement invitationEvenement = new InvitationEvenement();
         invitationEvenement.setDate((notificationBDD.getDate()));
         invitationEvenement.setIdFirebase(notificationBDD.getId());
+
+        final View coordinatorLayoutView = findViewById(R.id.snackbarPosition);
+
+        Snackbar.make(coordinatorLayoutView, "Invitation à un événement reçue !", Snackbar.LENGTH_LONG)
+                .setAction("VOIR", clickListener)
+                .show();
 //        invitationEvenementBDD.insererInvitationEvenement(invitationEvenement);
 
     }
