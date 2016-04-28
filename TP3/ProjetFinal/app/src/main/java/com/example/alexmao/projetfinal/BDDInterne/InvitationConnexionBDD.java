@@ -34,6 +34,7 @@ public class InvitationConnexionBDD extends AbstractBDD {
         ContentValues values = new ContentValues();
         //on lui ajoute une valeur associée à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
         values.put(Colonne.ID_INVITE, invitationConnexion.getInvite().getIdBDD());
+        Log.d("Invitation Connexion", "Id invite : " + invitationConnexion.getInvite().getIdBDD());
         values.put(Colonne.DATE_INVITATION, invitationConnexion.getDate());
         values.put(Colonne.ID_FIREBASE, invitationConnexion.getIdFirebase());
         long idExpediteur;

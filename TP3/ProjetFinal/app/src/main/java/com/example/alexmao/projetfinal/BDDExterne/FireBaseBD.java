@@ -133,7 +133,7 @@ public class FireBaseBD implements RemoteBD {
             public void onDataChange(DataSnapshot snapshot) {
                 UtilisateurProfilEBDD userSnapshot = snapshot.getValue(UtilisateurProfilEBDD.class);
                 user.update(userSnapshot);
-                onUserProfilReceivedCallback.onUserProfilReceived(userSnapshot);
+                 onUserProfilReceivedCallback.onUserProfilReceived(userSnapshot);
             }
 
             @Override
