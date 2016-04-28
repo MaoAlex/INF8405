@@ -58,7 +58,7 @@ public class CreerEvenement extends AppCompatActivity {
     private int minutes;
     private Utilisateur utilisateurConnecte;
     //BD Externe
-    private RemoteBD remoteBD;
+    private static RemoteBD remoteBD;
 
     //BDD Interne
     private EvenementBDD evenementBDD;
@@ -145,7 +145,6 @@ public class CreerEvenement extends AppCompatActivity {
         evenement.setLongitude(lieuChoisi.longitude);
         evenement.setNbreMaxParticipants(maxParticipants);
         evenement.setDate(date.getTimeInMillis());
-        evenement.setIdFirebase("yes");
         ArrayList<Utilisateur> listUtilisateur = new ArrayList<>();
         evenement.setOrganisateur(utilisateurConnecte);
 
@@ -153,14 +152,13 @@ public class CreerEvenement extends AppCompatActivity {
         listUtilisateur.add(utilisateurConnecte);
         g.setListeMembre(listUtilisateur);
         //Données test à modifier
-        g.setIdFirebase("test");
-        g.setConversation("conversationTest");
         GroupeBDD groupeBDD = new GroupeBDD(this);
         groupeBDD.open();
+        g.setEvenement(evenement);
         Conversation conversation = new Conversation();
         conversation.setNomConversation(evenement.getNomEvenement());
         conversation.setListeMessage(new ArrayList<Message>());
-
+        evenement.setPhoto(null);
         groupeBDD.affichageGroupe();
 
         evenement.setGroupeAssocie(g);
