@@ -221,6 +221,7 @@ public class Authentification extends CustomActivity
         utilisateur.setIdBDD(id);
         utilisateurBDD.connexion(utilisateur);
         utilisateurBDD.affichageUtilisateurConnecte();
+		utilisateurBDD.affichageUtilisateurs();
         utilisateurBDD.close();
         //TODO remove test
 

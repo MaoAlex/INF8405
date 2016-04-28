@@ -185,7 +185,7 @@ public class CreerEvenement extends AppCompatActivity {
         evenement.setDate(date.getTimeInMillis());
         ArrayList<Utilisateur> listUtilisateur = new ArrayList<>();
         evenement.setOrganisateur(utilisateurConnecte);
-
+        Log.d("Creatiovenement", "Creation de l'évenement" + evenement.getOrganisateur().getIdBDD());
         Groupe groupe = new Groupe();
         listUtilisateur.add(utilisateurConnecte);
         groupe.setListeMembre(listUtilisateur);
@@ -211,6 +211,7 @@ public class CreerEvenement extends AppCompatActivity {
 
         long idConversation = conversationBDD.insererConversation(conversation);
         Log.d("CreationEvenement", "l'id de la coenversation est : "+ groupe.getConversation());
+        Log.d("CreationEvenement", "Creation de l'évenement" + evenement.getOrganisateur().getIdBDD());
 
         long idGroupe = groupeBDD.insererGroupe(groupe);
 

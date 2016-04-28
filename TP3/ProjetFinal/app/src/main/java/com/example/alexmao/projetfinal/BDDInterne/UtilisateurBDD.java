@@ -189,7 +189,8 @@ public class UtilisateurBDD extends AbstractBDD {
 
        Log.d("query", query);
        Cursor cursor = database_.rawQuery(query, null);
-       //
+       Log.d(TAG, "Affichage des differents utilisateurs");
+
         //on insére l'objet dans la BDD via le ContentValues
        while (cursor.moveToNext()) {
            Log.d(TAG, "L'id de l'utilisateur est : " + cursor.getInt(NUM_COL_ID)
@@ -332,19 +333,19 @@ public class UtilisateurBDD extends AbstractBDD {
         database_.delete(Table.UTILISATEUR_CONNECTE, null, null);
         database_.delete(Table.UTILISATEUR, null, null);
         //TODO A supprimer toutes les tables
-//        database_.delete(Table.PARAMETRE_UTILISATEUR, null, null);
-//        database_.delete(Table.EVENEMENT, null, null);
-//        database_.delete(Table.EVENEMENT_INTERESSE, null, null);
-//        database_.delete(Table.PARTICIPANT_EVENEMENT, null, null);
-//        database_.delete(Table.INVITATION_EVENEMENT, null, null);
-//        database_.delete(Table.SPORT_UTILISATEUR, null, null);
-//        database_.delete(Table.INVITATION_CONNEXION, null, null);
-//        database_.delete(Table.MESSAGE, null, null);
-//        database_.delete(Table.MESSAGE_CONVERSATION, null, null);
-//        database_.delete(Table.CONVERSATION, null, null);
-//        database_.delete(Table.GROUPE, null, null);
-//        database_.delete(Table.GROUPE_UTILISATEUR, null, null);
-
+        database_.delete(Table.PARAMETRE_UTILISATEUR, null, null);
+        database_.delete(Table.EVENEMENT, null, null);
+        database_.delete(Table.EVENEMENT_INTERESSE, null, null);
+        database_.delete(Table.PARTICIPANT_EVENEMENT, null, null);
+        database_.delete(Table.INVITATION_EVENEMENT, null, null);
+        database_.delete(Table.SPORT_UTILISATEUR, null, null);
+        database_.delete(Table.INVITATION_CONNEXION, null, null);
+        database_.delete(Table.MESSAGE, null, null);
+        database_.delete(Table.MESSAGE_CONVERSATION, null, null);
+        database_.delete(Table.CONVERSATION, null, null);
+        database_.delete(Table.GROUPE, null, null);
+        database_.delete(Table.GROUPE_UTILISATEUR, null, null);
+        database_.delete(Table.UTILISATEUR_CONNEXIONS, null,null);
 
     }
 

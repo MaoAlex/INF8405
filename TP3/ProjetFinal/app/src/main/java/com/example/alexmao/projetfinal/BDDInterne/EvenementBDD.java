@@ -64,7 +64,7 @@ public class EvenementBDD extends AbstractBDD {
         values.put(Colonne.LONGITUDE, evenement.getLongitude());
         values.put(Colonne.NOM_LIEU, evenement.getLieu());
         values.put(Colonne.ID_FIREBASE, evenement.getIdFirebase());
-        values.put(Colonne.ID_ORGANISATEUR, evenement.getOrganisateur().getIdFirebase());
+        values.put(Colonne.ID_ORGANISATEUR, evenement.getOrganisateur().getIdBDD());
         values.put(Colonne.VISIBILITE, evenement.getVisibilite());
 
         //on insère l'objet dans la BDD via le ContentValues,
