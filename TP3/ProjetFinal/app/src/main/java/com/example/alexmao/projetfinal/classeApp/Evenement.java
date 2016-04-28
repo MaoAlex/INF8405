@@ -4,6 +4,9 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 /**
  * Created by Fabien on 02/04/2016.
  */
@@ -182,4 +185,29 @@ public class Evenement implements Parcelable {
             return new Evenement[size];
         }
     };
+
+    public String construireDateEvt() {
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.setTimeInMillis(date);
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            int hours = calendar.get(Calendar.HOUR);
+            int minutes = calendar.get(Calendar.MINUTE);
+            String dateEvt= new String(String.valueOf(day));
+            dateEvt = dateEvt.concat("/");
+            dateEvt = dateEvt.concat(String.valueOf(month));
+            dateEvt = dateEvt.concat("/");
+            dateEvt = dateEvt.concat(String.valueOf(year));
+            dateEvt = dateEvt.concat(" à ");
+            if(hours<10)
+                dateEvt = dateEvt.concat("0");
+            dateEvt = dateEvt.concat(String.valueOf(hours));
+            dateEvt = dateEvt.concat("h");
+            if(minutes<10)
+                dateEvt.concat("0");
+            dateEvt = dateEvt.concat(String.valueOf(minutes));
+
+            return dateEvt;
+    }
 }
