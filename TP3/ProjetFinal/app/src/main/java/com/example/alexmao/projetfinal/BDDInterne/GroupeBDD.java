@@ -75,7 +75,7 @@ public class GroupeBDD extends AbstractBDD {
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!A completer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         groupe.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
         groupe.setListeMembre(UtilisateurBDD.obtenirUtilisateurs(c.getInt(NUM_COL_ID)));
-        groupe.setConversation(ConversationBDD.obtenirConversation(groupe).getIdFirebase());
+//        groupe.setConversation(ConversationBDD.obtenirConversation(groupe).getIdFirebase());
         //groupe.setListeMembre();
         c.close();
         return groupe;

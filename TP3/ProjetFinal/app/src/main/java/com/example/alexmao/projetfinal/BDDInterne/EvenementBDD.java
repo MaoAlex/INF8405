@@ -152,7 +152,7 @@ public class EvenementBDD extends AbstractBDD {
             //!!!!!!!!!!!!!!!!!!!A COMPLETER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             //
             evenement.setGroupeAssocie(GroupeBDD.obtenirGroupe(c.getInt(NUM_COL_ID_GROUPE)));
-            evenement.setOrganisateur(UtilisateurBDD.obtenirUtilisateurParIdFirebase(c.getString(NUM_COL_ID_ORGANISATEUR)));
+            evenement.setOrganisateur(UtilisateurBDD.obtenirUtilisateurParId(c.getLong(NUM_COL_ID_ORGANISATEUR)));
             evenement.setVisibilite(c.getString(NUM_COL_VISIBILITE));
             //on l'ajoute à la liste d'evenement
             listeEvenement.add(evenement);
@@ -201,7 +201,7 @@ public class EvenementBDD extends AbstractBDD {
             evenement.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
 
             evenement.setGroupeAssocie(GroupeBDD.obtenirGroupe(c.getInt(NUM_COL_ID_GROUPE)));
-            evenement.setOrganisateur(UtilisateurBDD.obtenirUtilisateurParIdFirebase(c.getString(NUM_COL_ID_ORGANISATEUR)));
+            evenement.setOrganisateur(UtilisateurBDD.obtenirUtilisateurParId(c.getLong(NUM_COL_ID_ORGANISATEUR)));
             evenement.setVisibilite(c.getString(NUM_COL_VISIBILITE));
             //on l'ajoute à la liste d'evenement
 
@@ -247,7 +247,7 @@ public class EvenementBDD extends AbstractBDD {
         evenement.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
 
         evenement.setGroupeAssocie(GroupeBDD.obtenirGroupe(c.getInt(NUM_COL_ID_GROUPE)));
-        evenement.setOrganisateur(UtilisateurBDD.obtenirUtilisateurParIdFirebase(c.getString(NUM_COL_ID_ORGANISATEUR)));
+        evenement.setOrganisateur(UtilisateurBDD.obtenirUtilisateurParId(c.getLong(NUM_COL_ID_ORGANISATEUR)));
         evenement.setVisibilite(c.getString(NUM_COL_VISIBILITE));
         //on l'ajoute à la liste d'evenement
 
@@ -274,14 +274,14 @@ public class EvenementBDD extends AbstractBDD {
                     //on lui affecte toutes les infos grâce aux infos contenues dans le Cursor
                     evenement.setIdBDD(c.getInt(NUM_COL_ID));
                     evenement.setNbreMaxParticipants(c.getInt(NUM_COL_NOMBRE_PARTICIPANT));
-                    SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
-                    Date date = new Date();
-                    try {
-                        date = formatDate.parse(c.getString(NUM_COL_DATE_EVENENEMENT).toString());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    Log.i(TAG, "Date: " + formatDate.format(date));
+//                    SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+//                    Date date = new Date();
+//                    try {
+//                        date = formatDate.parse(c.getString(NUM_COL_DATE_EVENENEMENT).toString());
+//                    } catch (ParseException e) {
+//                        e.printStackTrace();
+//                    }
+//                    Log.i(TAG, "Date: " + formatDate.format(date));
                     evenement.setDate(c.getLong(NUM_COL_DATE_EVENENEMENT));
                     if (c.getString(NUM_COL_PHOTO) != "" || c.getString(NUM_COL_PHOTO) != null)
                         evenement.setPhoto(Uri.parse(c.getString(NUM_COL_PHOTO)));
@@ -292,7 +292,7 @@ public class EvenementBDD extends AbstractBDD {
                     evenement.setLieu(c.getString(NUM_COL_NOM_LIEU));
                     evenement.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
                     evenement.setGroupeAssocie(GroupeBDD.obtenirGroupe(c.getInt(NUM_COL_ID_GROUPE)));
-                    evenement.setOrganisateur(UtilisateurBDD.obtenirUtilisateurParIdFirebase(c.getString(NUM_COL_ID_ORGANISATEUR)));
+                    evenement.setOrganisateur(UtilisateurBDD.obtenirUtilisateurParId(c.getLong(NUM_COL_ID_ORGANISATEUR)));
                     evenement.setVisibilite(c.getString(NUM_COL_VISIBILITE));
                     //on l'ajoute à la liste d'evenement
                     listeEvenement.add(evenement);
@@ -341,7 +341,7 @@ public class EvenementBDD extends AbstractBDD {
                     evenement.setLieu(c.getString(NUM_COL_NOM_LIEU));
                     evenement.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
                     evenement.setGroupeAssocie(GroupeBDD.obtenirGroupe(c.getInt(NUM_COL_ID_GROUPE)));
-                    evenement.setOrganisateur(UtilisateurBDD.obtenirUtilisateurParIdFirebase(c.getString(NUM_COL_ID_ORGANISATEUR)));
+                    evenement.setOrganisateur(UtilisateurBDD.obtenirUtilisateurParId(c.getLong(NUM_COL_ID_ORGANISATEUR)));
                     evenement.setVisibilite(c.getString(NUM_COL_VISIBILITE));
                     //on l'ajoute à la liste d'evenement
                     listeEvenement.add(evenement);
@@ -371,7 +371,7 @@ public class EvenementBDD extends AbstractBDD {
                     + ", le sport associé est : " + cursor.getString(NUM_COL_SPORT_ASSOCIE)
                     + ", le nom de l'evenement est : " + cursor.getString(NUM_COL_NOM_EVENEMENT)
                     + ", l'id du groupe est : " + cursor.getInt(NUM_COL_ID_GROUPE)
-                    + ", l'id de l'organisateur est : " + cursor.getInt(NUM_COL_ID_ORGANISATEUR)
+                    + ", l'id de l'organisateur est : " + cursor.getLong(NUM_COL_ID_ORGANISATEUR)
                     + ", sa position est : (" + cursor.getDouble(NUM_COL_LATITUDE) + ", " + cursor.getDouble(NUM_COL_LONGITUDE)
                     + ", le nom du lieu est : " + cursor.getString(NUM_COL_NOM_LIEU)
                     + ", son id firebase est : " + cursor.getString(NUM_COL_ID_FIREBASE));
