@@ -8,6 +8,8 @@ import android.util.Log;
 import com.example.alexmao.projetfinal.classeApp.Conversation;
 import com.example.alexmao.projetfinal.classeApp.Groupe;
 
+import java.util.ArrayList;
+
 /**
  *Classe permettant de gérer la conversation associée à un groupe
  * A COMPLETER
@@ -41,14 +43,14 @@ public class ConversationBDD extends AbstractBDD
 
 
     //Une unique conversation est associé à un groupe
-    public Conversation obtenirConversation(long idGroupe){
+    public static Conversation obtenirConversation(Groupe groupe){
 
         Conversation conversation = new Conversation();
 
         //requete pour récupérer la conversation associée à un groupe
         String query = "SELECT *"
                 + " FROM "
-                + Table.CONVERSATION + " WHERE " + Colonne.ID_GROUPE + " = " + idGroupe ;
+                + Table.CONVERSATION + " WHERE " + Colonne.ID_GROUPE + " = " + groupe.getIdBDD() ;
 
         Log.d("query", query);
 
@@ -63,6 +65,58 @@ public class ConversationBDD extends AbstractBDD
 
         c.close();
         return conversation;
+    }
+
+    public Conversation obtenirConversationParId(long idConversation){
+
+        Conversation conversation = new Conversation();
+
+        //requete pour récupérer la conversation associée à un groupe
+        String query = "SELECT *"
+                + " FROM "
+                + Table.CONVERSATION + " WHERE " + Colonne.ID_CONVERSATION + " = " + idConversation ;
+
+        Log.d("query", query);
+
+        Cursor c = database_.rawQuery(query, null);
+        //On récupère la conversation associée à un groupe
+        c.moveToFirst();
+        long conversationId = c.getInt(NUM_COL_ID);
+        conversation.setIdBDD(conversationId);
+        conversation.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
+        conversation.setNomConversation(c.getString(NUM_COL_NOM_CONVERSATION));
+        conversation.setListeMessage(MessageConversationBDD.obtenirMessageConversation(conversationId));
+
+        c.close();
+        return conversation;
+    }
+
+    //Une unique conversation est associé à un groupe
+    public ArrayList<Conversation> obtenirListeConversation(){
+
+        ArrayList<Conversation> conversationListe = new ArrayList<>();
+
+        //requete pour récupérer la conversation associée à un groupe
+        String query = "SELECT *"
+                + " FROM "
+                + Table.CONVERSATION ;
+
+        Log.d("query", query);
+
+        Cursor c = database_.rawQuery(query, null);
+        //On récupère la conversation associée à un groupe
+        while (c.moveToNext()) {
+            Log.d("ConvesationBDD", "On recupere  une conversation");
+            Conversation conversation = new Conversation();
+            long conversationId = c.getInt(NUM_COL_ID);
+            conversation.setIdBDD(conversationId);
+            conversation.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
+            conversation.setNomConversation(c.getString(NUM_COL_NOM_CONVERSATION));
+            conversation.setListeMessage(MessageConversationBDD.obtenirMessageConversation(conversationId));
+            conversationListe.add(conversation);
+        }
+        c.close();
+        return conversationListe;
     }
 
     //On peut aussi récupérer une conversation entre plusieurs personnes qui forment juste un groupe

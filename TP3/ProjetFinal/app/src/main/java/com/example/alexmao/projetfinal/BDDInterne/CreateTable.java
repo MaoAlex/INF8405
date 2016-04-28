@@ -106,10 +106,8 @@ public class CreateTable {
     //Requete pour la création de la table message conversation
     public static final String MESSAGE_CONVERSATION = "CREATE TABLE " + Table.MESSAGE_CONVERSATION + " ("
             + Colonne.ID_MESSAGE + " INTEGER, "
-            + Colonne.ID_CONVERSATION + " INTEGER, "
-            + " PRIMARY KEY (" + Colonne.ID_MESSAGE + ", " + Colonne.ID_CONVERSATION + "), "
-            + " FOREIGN KEY (" + Colonne.ID_MESSAGE + ")  REFERENCES " + Table.MESSAGE + "( " + Colonne.ID_MESSAGE + "),"
-            + " FOREIGN KEY (" + Colonne.ID_CONVERSATION + ") REFERENCES " + Table.CONVERSATION + "( " + Colonne.ID_CONVERSATION + " )); ";
+            + Colonne.ID_CONVERSATION + " TEXT, "
+            + " FOREIGN KEY (" + Colonne.ID_MESSAGE + ")  REFERENCES " + Table.MESSAGE + "( " + Colonne.ID_MESSAGE + ")); ";
 
     //Requete pour la création de la table conversation
     public static final String CONVERSATION = "CREATE TABLE " + Table.CONVERSATION + " ("

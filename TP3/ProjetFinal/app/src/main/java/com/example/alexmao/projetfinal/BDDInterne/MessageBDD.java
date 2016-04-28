@@ -60,7 +60,7 @@ public class MessageBDD extends AbstractBDD {
         message.setDate(c.getLong(NUM_COL_DATE_MESSAGE));
         message.setMessage(c.getString(NUM_COL_MESSAGE));
 
-        Utilisateur expediteur = UtilisateurBDD.obtenirUtilisateurParId(c.getInt(NUM_COL_ID_EXPEDITEUR));
+        Utilisateur expediteur = UtilisateurBDD.obtenirUtilisateurParId(c.getLong(NUM_COL_ID_EXPEDITEUR));
         message.setExpediteur(expediteur);
         c.close();
         return message;

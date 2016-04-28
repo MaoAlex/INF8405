@@ -22,6 +22,7 @@ import com.example.alexmao.projetfinal.BDDExterne.LocalUserProfilEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.MessageEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.OnMessageReceiveCallback;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
+import com.example.alexmao.projetfinal.BDDInterne.ConversationBDD;
 import com.example.alexmao.projetfinal.BDDInterne.GroupeBDD;
 import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.R;
@@ -30,8 +31,6 @@ import com.example.alexmao.projetfinal.classeApp.Groupe;
 import com.example.alexmao.projetfinal.classeApp.Message;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 import com.example.alexmao.projetfinal.custom.CustomActivity;
-import com.example.alexmao.projetfinal.model.Convers;
-import com.example.alexmao.projetfinal.utils.Const;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,7 +47,8 @@ public class Chat extends CustomActivity
     private RemoteBD remoteBD;
     private Conversation conversation;
 	/** The Convers list. */
-	private ArrayList<Convers> convList;
+//	private Conversation convList;
+	private ArrayList<Message> listeMessage;
 	/** The chat adapter. */
 	private ChatAdapter adp;
 	/** The Editext to compose the message. */
@@ -67,7 +67,7 @@ public class Chat extends CustomActivity
     private LocalUserProfilEBDD currentUserFirebase;
     private LocalUserProfilEBDD testLocalUserProfil;
     private ConversationEBDD discussion;
-    private String discussionID;
+    private String conversationID;
     private ArrayList<Utilisateur> listeUtilisateur;
 
 	@Override
@@ -78,6 +78,11 @@ public class Chat extends CustomActivity
         UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
         utilisateurBDD.open();
         utilisateurConnecte = utilisateurBDD.obtenirProfil();
+        long id = getIntent().getLongExtra("id", -1);
+
+        ConversationBDD conversationBDD = new ConversationBDD(this);
+        conversationBDD.open();
+        conversation = conversationBDD.obtenirConversationParId(id);
 
 		ListView list = (ListView) findViewById(R.id.list);
 		adp = new ChatAdapter();
@@ -91,12 +96,10 @@ public class Chat extends CustomActivity
                 | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         //Mise en place du bouton d'envoie
 		setTouchNClick(R.id.btnSend);
-        //Recuperation du nom du groupe ou plutot du destinataire
-		buddy = getIntent().getStringExtra(Const.EXTRA_DATA);
-        //Mise en place d'un nom quelconque
-        buddy = "E T";
-        //On met comme titre le nom du destinataire
-		//getActionBar().setTitle(buddy);
+        //Recuperation du nom du groupe ou du destinataire unique
+		buddy = conversation.getNomConversation();
+        Log.d("chat", "Recuperation de la nouvelle conversatio");
+
         remoteBD = new FireBaseBD(this);
         /*currentUserFirebase = new LocalUserProfilEBDD("premier", "compte", "fifi@filou.com");
         Log.d("chat", "ici");
@@ -111,9 +114,11 @@ public class Chat extends CustomActivity
 //        testLocalUserProfil = new LocalUserProfilEBDD("deuxieme", "compte", "test@test.com");
 //        String idTest = remoteBD.addUserProfil(testLocalUserProfil);
 //        testLocalUserProfil.setDataBaseId(idTest);
-		if (discussionID == null) {
+		if (conversationID == null) {
             discussion = new ConversationEBDD();
-            discussionID = remoteBD.addDiscussion(discussion);
+            conversationID = remoteBD.addDiscussion(discussion);
+        }else{
+            conversationID = conversation.getIdFirebase();
         }
         GroupeBDD groupeBDD = new GroupeBDD(this);
         groupeBDD.open();
@@ -125,7 +130,7 @@ public class Chat extends CustomActivity
         //Creation du Handler
 		handler = new Handler();
         //On met en place le listerner qui nous permet d'etre notifie d'un nouveau message
-        remoteBD.listenToConversations(currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
+        remoteBD.listenToConversations(utilisateurConnecte.getIdFirebase(), new OnMessageReceiveCallback() {
 			@Override
 			public void onNewMessage(MessageEBDD messageEBDD) {
 				Log.d("chat", "notification de nouveau message");
@@ -195,14 +200,14 @@ public class Chat extends CustomActivity
         //content is what the user has written on the screen (in short the message body)
         conversation.setMessage(s);
         //id firebase
-        String msgID = remoteBD.addMsgToDiscussion(discussionID, conversation);
+        String msgID = remoteBD.addMsgToDiscussion(conversationID, conversation);
         //mise à jour de l'état d'envoi du message
-        if (msgID != null)
-            m.setStatus(Convers.STATUS_SENT);
-        else
-            m.setStatus(Convers.STATUS_FAILED);
+//        if (msgID != null)
+//            m.setStatus(Convers.STATUS_SENT);
+//        else
+//            m.setStatus(Convers.STATUS_FAILED);
         adp.notifyDataSetChanged();
-//        remoteBD.notifyUserForMsg(testLocalUserProfil.getDataBaseId(), conversation, discussionID);
+//        remoteBD.notifyUserForMsg(testLocalUserProfil.getDataBaseId(), conversation, conversationID);
         //onSendMsg(s);
 	}
 
@@ -212,69 +217,20 @@ public class Chat extends CustomActivity
 	 */
 	private void loadConversationList()
 	{
-        Log.d("Chat", "on est loadConversationList");
-        //when a new message arrived, we call onNewMsg
-		/*remoteBD.getDiscussion(discussionID, new OnConversationReceived() {
-			@Override
-			public void onConversationRecieved(ConversationEBDD conversationEBDD) {
-				onDiscussionReceived(conversationEBDD);
-			}
-		});*/
-        /*remoteBD.listenToConversation(discussionID, currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
-            @Override
-            public void onNewMessage(MessageEBDD message) {
-                onNewMsg(message);
-            }
-        });*/
-        /*
-		ParseQuery<ParseObject> q = ParseQuery.getQuery("Chat");
-		if (convList.size() == 0)
-		{
-			// load all messages...
-			ArrayList<String> al = new ArrayList<String>();
-			al.add(buddy);
-			al.add(groupe.getListeMembre().get(0).getNom());
-			q.whereContainedIn("sender", al);
-			q.whereContainedIn("receiver", al);
-		}
-		else
-		{
-			// load only newly received message..
-			if (lastMsgDate != null)
-				q.whereGreaterThan("createdAt", lastMsgDate);
-			q.whereEqualTo("sender", buddy);
-			q.whereEqualTo("receiver", groupe.getListeMembre().get(0).getNom());
-		}
-		q.orderByDescending("createdAt");
-		q.setLimit(30);
-		q.findInBackground(
-                new FindCallback<ParseObject>() {
-
-                    @Override
-                    public void done(List<ParseObject> li, ParseException e) {
-                        if (li != null && li.size() > 0) {
-                            for (int i = li.size() - 1; i >= 0; i--) {
-                                ParseObject po = li.get(i);
-                                Convers c = new Convers(po
-                                        .getString("message"), po.getCreatedAt(), po
-                                        .getString("sender"));
-                                convList.add(c);
-                                if (lastMsgDate == null
-                                        || lastMsgDate.before(c.getDate()))
-                                    lastMsgDate = c.getDate();
-                                adp.notifyDataSetChanged();
-                            }
-                        }
-                        handler.postDelayed(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                if (isRunning)
-                                    loadConversationList();
-                            }
-                        }, 1000);
-                    }
-                });*/
+//        Log.d("Chat", "on est loadConversationList");
+//        //when a new message arrived, we call onNewMsg
+//		remoteBD.getDiscussion(conversationID, new OnConversationReceived() {
+//			@Override
+//			public void onConversationRecieved(ConversationEBDD conversationEBDD) {
+//				onDiscussionReceived(conversationEBDD);
+//			}
+//		});
+//        remoteBD.listenToConversation(conversationID, currentUserFirebase.getDataBaseId(), new OnMessageReceiveCallback() {
+//            @Override
+//            public void onNewMessage(MessageEBDD message) {
+//                onNewMsg(message);
+//            }
+//        });
 
 	}
 
@@ -288,6 +244,7 @@ public class Chat extends CustomActivity
 		@Override
 		public int getCount()
 		{
+
 			return conversation.getListeMessage().size();
 		}
 
@@ -321,17 +278,17 @@ public class Chat extends CustomActivity
 			lbl.setText(message.getMessage());
 
 			lbl = (TextView) v.findViewById(R.id.lbl3);
-			if (message.getExpediteur().getIdBDD() == utilisateurConnecte.getIdBDD())
-			{
-				if (message.getStatus() == Convers.STATUS_SENT)
-					lbl.setText("Delivered");
-				else if (message.getStatus() == Convers.STATUS_SENDING)
-					lbl.setText("Sending...");
-				else
-					lbl.setText("Failed");
-			}
-			else
-				lbl.setText("");
+//			if (message.getExpediteur().getIdBDD() == utilisateurConnecte.getIdBDD())
+//			{
+//				if (message.getStatus() == Convers.STATUS_SENT)
+//					lbl.setText("Delivered");
+//				else if (message.getStatus() == Convers.STATUS_SENDING)
+//					lbl.setText("Sending...");
+//				else
+//					lbl.setText("Failed");
+//			}
+//			else
+//				lbl.setText("");
 
 			return v;
 		}
@@ -353,15 +310,16 @@ public class Chat extends CustomActivity
         if (content == null)
             return;
         //Create a class
-        MessageEBDD conversation   = new MessageEBDD();
-        conversation.setDate(new Date().getTime());
+        MessageEBDD messageEBDD   = new MessageEBDD();
+        messageEBDD.setDate(new Date().getTime());
         //content is what the user has written on the screen (in short the message body)
-        conversation.setMessage(content);
+        messageEBDD.setMessage(content);
         //id firebase
-        String msgID = remoteBD.addMsgToDiscussion(discussionID, conversation);
+        String msgID = remoteBD.addMsgToDiscussion(conversationID, messageEBDD);
 
         adp.notifyDataSetChanged();
-//        remoteBD.notifyUserForMsg(testLocalUserProfil.getDataBaseId(), conversation, discussionID);
+//        remoteBD.
+//        remoteBD.notifyUserForMsg(testLocalUserProfil.getDataBaseId(), conversation, conversationID);
     }
 
     //Fonction permettant la mise à jour du nouveau message reçu
@@ -373,9 +331,9 @@ public class Chat extends CustomActivity
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTimeInMillis(messageEBDD.getDate());
         UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
-        //Utilisateur expediteur = utilisateurBDD.obtenirUtilisateurParIdFirebase(messageEBDD.getExpediteurID());
-        Utilisateur expediteur = new Utilisateur();
-        expediteur.setIdBDD(135);
+        Utilisateur expediteur = utilisateurBDD.obtenirUtilisateurParIdFirebase(messageEBDD.getExpediteurID());
+        //Utilisateur expediteur = new Utilisateur();
+        //expediteur.setIdBDD(135);
         Message m= new Message(messageEBDD.getMessage(), messageEBDD.getDate(), expediteur);
         conversation.getListeMessage().add(m);
         if (lastMsgDate == 0)
@@ -394,10 +352,10 @@ public class Chat extends CustomActivity
     }
 
 	void onDiscussionReceived(ConversationEBDD conversationEBDD) {
-		/*String buffer = "";
+		String buffer = "";
 		for (MessageEBDD messageBDD: conversationEBDD.getListeMessage()) {
 			buffer += messageBDD.getMessage() + "\n";
-		}*/
+		}
 	}
 
 }

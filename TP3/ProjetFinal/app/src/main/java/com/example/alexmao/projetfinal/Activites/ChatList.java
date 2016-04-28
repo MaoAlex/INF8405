@@ -13,10 +13,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.alexmao.projetfinal.BDDInterne.ConversationBDD;
+import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.R;
+import com.example.alexmao.projetfinal.classeApp.Conversation;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 import com.example.alexmao.projetfinal.custom.CustomActivity;
-import com.example.alexmao.projetfinal.utils.Const;
 import com.example.alexmao.projetfinal.utils.Utils;
 
 import java.util.ArrayList;
@@ -29,11 +31,14 @@ public class ChatList extends CustomActivity
 {
 
 	/** The Chat list. */
-	private ArrayList<Utilisateur> uList;
+	private ArrayList<Conversation> conversationListe;
 
-	/** The user. */
-	public static Utilisateur user;
+	/** The utilisateur. */
+	public static Utilisateur utilisateur;
 
+    //BD interne
+    private UtilisateurBDD utilisateurBDD;
+    private ConversationBDD conversationBDD;
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
 	 */
@@ -44,20 +49,26 @@ public class ChatList extends CustomActivity
 		setContentView(R.layout.user_list);
 
 		//Récupération de la toolbar et mise en place
-		Toolbar toolbar =   (Toolbar) findViewById(R.id.toolbar);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		//Mise en place de la flèche pour le retour en arrière
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
-        uList = new ArrayList<>();
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setNom("salut");
 
-        Utilisateur utilisateur1 = new Utilisateur();
-        utilisateur1.setNom("Yeah");
-        uList.add(utilisateur);
-        uList.add(utilisateur1);
-		updateUserStatus(true);
+        conversationListe = new ArrayList<>();
+
+        utilisateurBDD = new UtilisateurBDD(this);
+        utilisateurBDD.open();
+
+        utilisateur = utilisateurBDD.obtenirProfil();
+
+        conversationBDD = new ConversationBDD(this);
+		conversationBDD.open();
+        conversationBDD.affichageConversation();
+
+        conversationListe = conversationBDD.obtenirListeConversation();
+        updateUserStatus(true);
+
 	}
 
 	/* (non-Javadoc)
@@ -85,8 +96,8 @@ public class ChatList extends CustomActivity
 	 */
 	private void updateUserStatus(boolean online)
 	{
-		//user.put("online", online);
-		//user.saveEventually();
+		//utilisateur.put("online", online);
+		//utilisateur.saveEventually();
 	}
 
 	/**
@@ -98,15 +109,15 @@ public class ChatList extends CustomActivity
 				getString(R.string.alert_loading));
 
         dia.dismiss();
-        if (uList != null)
+        if (conversationListe != null)
         {
-            if (uList.size() == 0)
+            if (conversationListe.size() == 0)
                 Toast.makeText(ChatList.this,
-                        R.string.msg_no_user_found,
+                        "Vous n'avez pas de conversation en cours",
                         Toast.LENGTH_SHORT).show();
 
             ListView list = (ListView) findViewById(R.id.list);
-            list.setAdapter(new UserAdapter());
+            list.setAdapter(new ConversationAdapter());
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 @Override
@@ -115,72 +126,58 @@ public class ChatList extends CustomActivity
                 {
                     startActivity(new Intent(ChatList.this,
                             Chat.class).putExtra(
-                            Const.EXTRA_DATA, uList.get(pos)
-                                    .getNom()));
+                            "id", conversationListe.get(pos).getIdBDD()
+                                    ));
                 }
             });
         }
         else
         {
-            Utils.showDialog(
-                    ChatList.this,
-                    getString(R.string.err_users) + " "
-            );
+            Utils.showDialog(ChatList.this, getString(R.string.err_users) + " ");
         }
 
 	}
 
 	/**
-	 * The Class UserAdapter is the adapter class for Utilisateur ListView. This
-	 * adapter shows the user name and it's only online status for each item.
-	 *Adapter pour l'affichage de la liste des conversation
+     *
+	 * ConversationAdapter est un adaptateur pour la liste des conversation
+     * Cette adapteur montre la liste des conversations et le nom de chaque conversation
+     * Adapter pour l'affichage de la liste des conversation
      */
-	private class UserAdapter extends BaseAdapter
+	private class ConversationAdapter extends BaseAdapter
 	{
 
-		/* (non-Javadoc)
-		 * @see android.widget.Adapter#getCount()
-		 */
 		@Override
 		public int getCount()
 		{
-			return uList.size();
+			return conversationListe.size();
 		}
 
-		/* (non-Javadoc)
-		 * @see android.widget.Adapter#getItem(int)
-		 */
 		@Override
-		public Utilisateur getItem(int arg0)
+		public Conversation getItem(int arg0)
 		{
-			return uList.get(arg0);
+			return conversationListe.get(arg0);
 		}
 
-		/* (non-Javadoc)
-		 * @see android.widget.Adapter#getItemId(int)
-		 */
 		@Override
 		public long getItemId(int arg0)
 		{
 			return arg0;
 		}
 
-		/* (non-Javadoc)
-		 * @see android.widget.Adapter#getView(int, android.view.View, android.view.ViewGroup)
-		 */
 		@Override
 		public View getView(int pos, View v, ViewGroup arg2)
 		{
 			if (v == null)
 				v = getLayoutInflater().inflate(R.layout.chat_item, null);
 
-			Utilisateur c = getItem(pos);
+			Conversation c = getItem(pos);
 			TextView lbl = (TextView) v;
-			lbl.setText(c.getNom());
-			/*lbl.setCompoundDrawablesWithIntrinsicBounds(
-					c.isOnline() ? R.drawable.ic_online
-							: R.drawable.ic_offline, 0, R.drawable.arrow, 0);
-*/
+			lbl.setText(c.getNomConversation());
+//			lbl.setCompoundDrawablesWithIntrinsicBounds(
+//					c.isOnline() ? R.drawable.ic_online
+//							: R.drawable.ic_offline, 0, R.drawable.arrow, 0);
+
 			return v;
 		}
 

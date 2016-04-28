@@ -46,7 +46,6 @@ public class MessageConversationBDD extends AbstractBDD {
 
         //On crée la requete nous permettant de faire la jointure des tables
         //On récupère ici les message de la un conversation
-        ArrayList<Long> idMessageList = new ArrayList<>();
         String query = "SELECT * " + " FROM "
                 + Table.MESSAGE_CONVERSATION + " WHERE "
                 + Colonne.ID_CONVERSATION + " = " + idConversation;
@@ -62,5 +61,21 @@ public class MessageConversationBDD extends AbstractBDD {
         return listeMessage;
     }
 
+    public static ArrayList<Message> obtenirMessageConversation(String  idConversation){
+
+        ArrayList<Message> listeMessage = new ArrayList<>();
+        String query = "SELECT * " + " FROM "
+                + Table.MESSAGE_CONVERSATION + " WHERE "
+                + Colonne.ID_CONVERSATION + " = ?" ;
+
+        Cursor c = database_.rawQuery(query, new String[]{idConversation});
+        while (c.moveToNext()) {
+            Message message = MessageBDD.obtenirMessage(c.getInt(NUM_COL_ID));
+            listeMessage.add(message);
+        }
+        c.close();
+
+        return listeMessage;
+    }
 
 }

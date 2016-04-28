@@ -14,6 +14,8 @@ import com.example.alexmao.projetfinal.Activites.interfaces.BtnEvenementAccepter
 import com.example.alexmao.projetfinal.Activites.interfaces.BtnEvenementRefuserClickListener;
 import com.example.alexmao.projetfinal.Adapter.AdapterInvitationConnexion;
 import com.example.alexmao.projetfinal.Adapter.AdapterInvitationEvenement;
+import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
+import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.BDDInterne.InvitationConnexionBDD;
 import com.example.alexmao.projetfinal.BDDInterne.InvitationEvenementBDD;
 import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
@@ -35,6 +37,8 @@ public class GererInvitations extends AppCompatActivity implements BtnConnexionA
 
     private InvitationConnexionBDD invitationConnexionBDD;
     private InvitationEvenementBDD invitationEvenementBDD;
+
+    RemoteBD remoteBD;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +48,7 @@ public class GererInvitations extends AppCompatActivity implements BtnConnexionA
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         mRecyclerViewC = (RecyclerView) findViewById(R.id.rv_invc);
-
+        remoteBD = new FireBaseBD(this);
         //Permet l'optimisation des performances
         // Dans le cas où l'on sait que la taille du layout RecyclerView ne va pas changer
 
@@ -97,6 +101,12 @@ public class GererInvitations extends AppCompatActivity implements BtnConnexionA
     public void onBtnConnexionAccepterClick(InvitationConnexion invConnexion) {
         Log.d("Connexion acceptée", invConnexion.getExpediteur().getNom());
         //TODO : Traitement de l'acceptation
+        remoteBD.removeNotification(invConnexion.getIdFirebase(), invConnexion.getInvite().getIdFirebase());
+        invitationConnexionBDD = new InvitationConnexionBDD(this);
+        invitationConnexionBDD.open();
+        invitationConnexionBDD.supprimerInvitationConnexion(invConnexion);
+        //TODO : Traitement de l'acceptation
+
         mAdapterC.removeItem(invConnexion);
     }
 
@@ -104,12 +114,22 @@ public class GererInvitations extends AppCompatActivity implements BtnConnexionA
     public void onBtnConnexionRefuserClick(InvitationConnexion invConnexion) {
         Log.d("Connexion refusée", invConnexion.getExpediteur().getNom());
         //TODO : Traitement du refus
+        remoteBD.removeNotification(invConnexion.getIdFirebase(), invConnexion.getInvite().getIdFirebase());
+        invitationConnexionBDD = new InvitationConnexionBDD(this);
+        invitationConnexionBDD.open();
+        invitationConnexionBDD.supprimerInvitationConnexion(invConnexion);
+        //TODO : Traitement du refus
+
         mAdapterC.removeItem(invConnexion);
     }
 
     @Override
     public void onBtnEvenementAccepterClick(InvitationEvenement invEvenement) {
         Log.d("Evenement accepté", invEvenement.getEvenement().getNomEvenement());
+        remoteBD.removeNotification(invEvenement.getIdFirebase(), invEvenement.getInvite().getIdFirebase());
+        invitationEvenementBDD = new InvitationEvenementBDD(this);
+        invitationEvenementBDD.open();
+        invitationEvenementBDD.supprimerInvitationEvenement(invEvenement);
         //TODO : Traitement de l'acceptation
         mAdapterE.removeItem(invEvenement);
     }
@@ -117,6 +137,10 @@ public class GererInvitations extends AppCompatActivity implements BtnConnexionA
     @Override
     public void onBtnEvenementRefuserClick(InvitationEvenement invEvenement) {
         Log.d("Evenement refusé", invEvenement.getEvenement().getNomEvenement());
+        remoteBD.removeNotification(invEvenement.getIdFirebase(), invEvenement.getInvite().getIdFirebase());
+        invitationEvenementBDD = new InvitationEvenementBDD(this);
+        invitationEvenementBDD.open();
+        invitationEvenementBDD.supprimerInvitationEvenement(invEvenement);
         //TODO : Traitement du refus
         mAdapterE.removeItem(invEvenement);
     }
