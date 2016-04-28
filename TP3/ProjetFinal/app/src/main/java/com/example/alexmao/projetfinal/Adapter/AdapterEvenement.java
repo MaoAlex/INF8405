@@ -14,6 +14,7 @@ import com.example.alexmao.projetfinal.Activites.AffichageEvenement;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
 import com.example.alexmao.projetfinal.classeApp.Groupe;
+import com.example.alexmao.projetfinal.classeApp.Sport;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
 import java.util.ArrayList;
@@ -54,12 +55,14 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
 
     // Constructeur
     public AdapterEvenement(String[] myDataset) {
+        Sport.initialize();
         mDataset = myDataset;
         initializeData();
     }
 
     // Constructeur
     public AdapterEvenement(List<Evenement> evenements) {
+        Sport.initialize();
         this.evenements = evenements;
         notifyDataSetChanged();
     }
@@ -102,12 +105,7 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
         holder.mNombreParticipant.setText(evenements.get(position).getGroupeAssocie().getListeMembre().size() + "/" + evenements.get(position).getNbreMaxParticipants());
         holder.mLieu.setText(evenements.get(position).getLieu());
         holder.mOrganisateur.setText(evenements.get(position).getOrganisateur().getNom());
-        if(holder.mNomSport.getText().equals("basket")){
-            holder.mPhoto.setImageResource(R.drawable.basketball);
-        }
-        else if(holder.mNomSport.getText().equals("tennis"))
-            holder.mPhoto.setImageResource(R.drawable.tennis);
-
+        holder.mPhoto.setImageResource(Sport.stringToDrawable.get(evenements.get(position).getSport()));
     }
 
     // Retourne la taille des données (utilisé par le layout manager)
@@ -130,7 +128,7 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
         evenement.setLieu("parc kent");
         evenement.setNomEvenement("Fin de session");
         evenement.setOrganisateur(u1);
-        evenement.setSport("foot");
+        evenement.setSport("football");
         Groupe g = new Groupe();
 
         g.setListeMembre(new ArrayList<Utilisateur>());
