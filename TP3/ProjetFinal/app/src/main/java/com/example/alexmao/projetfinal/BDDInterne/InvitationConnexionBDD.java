@@ -73,7 +73,7 @@ public class InvitationConnexionBDD extends AbstractBDD {
             invitationConnexion.setDate(c.getLong(NUM_COL_DATE));
             invitationConnexion.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
             invitationConnexion.setIdBDD(c.getInt(NUM_COL_ID));
-
+            invitationConnexion.setExpediteur(UtilisateurBDD.obtenirUtilisateurParId(c.getLong(NUM_COL_ID_EXPEDITEUR)));
             listeInvitationConnexion.add(invitationConnexion);
         }
         c.close();
@@ -85,16 +85,16 @@ public class InvitationConnexionBDD extends AbstractBDD {
     public void affichageInvitationConnexion() {
         String query = "SELECT * "
                 + " FROM "
-                + Table.EVENEMENT ;
+                + Table.INVITATION_CONNEXION ;
 
         Log.d("query", query);
         Cursor cursor = database_.rawQuery(query, null);
         //
         //on insère l'objet dans la BDD via le ContentValues
         while (cursor.moveToNext()) {
-            Log.d(TAG, "L'id de l''invitation connexion est : " + cursor.getInt(NUM_COL_ID)
-                    + ", l'id de l'expediteur est : " + cursor.getInt(NUM_COL_ID_EXPEDITEUR)
-                    + ", l'id de l'invite est : " + cursor.getInt(NUM_COL_ID_INVITE)
+            Log.d(TAG, "L'id de l''invitation connexion est : " + cursor.getLong(NUM_COL_ID)
+                    + ", l'id de l'expediteur est : " + cursor.getLong(NUM_COL_ID_EXPEDITEUR)
+                    + ", l'id de l'invite est : " + cursor.getLong(NUM_COL_ID_INVITE)
                     + ", la date est : " + cursor.getLong(NUM_COL_DATE)
                     + ", l'id firebase est : " + cursor.getString(NUM_COL_ID_FIREBASE));
         }

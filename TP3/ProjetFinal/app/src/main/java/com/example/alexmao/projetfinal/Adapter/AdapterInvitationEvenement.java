@@ -31,10 +31,10 @@ public class AdapterInvitationEvenement extends RecyclerView.Adapter<AdapterInvi
 
     public AdapterInvitationEvenement(List<InvitationEvenement> invitationEvenements, BtnEvenementAccepterClickListener listenerEA,
                                       BtnEvenementRefuserClickListener listenerER){
-        this.invitationsEvenements = invitationsEvenements;
+        this.invitationsEvenements = invitationEvenements;
         this.listenerEA = listenerEA;
         this.listenerER = listenerER;
-        initializeData();
+        //initializeData();
     }
 
     public void removeItem(InvitationEvenement invEvenement) {

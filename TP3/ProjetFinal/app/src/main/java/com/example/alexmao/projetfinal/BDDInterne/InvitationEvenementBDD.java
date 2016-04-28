@@ -72,9 +72,10 @@ public class InvitationEvenementBDD extends AbstractBDD {
 //            }
 //            Log.i(TAG, "Date: " + formatDate.format(date));
             invitationEvenement.setDate(c.getLong(NUM_COL_DATE));
-            //invitationEvenement.setEvenement();
+            invitationEvenement.setEvenement(EvenementBDD.obtenirEvenement(c.getLong(NUM_COL_ID_EVENEMENT)));
             invitationEvenement.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
             invitationEvenement.setIdBDD(c.getInt(NUM_COL_ID));
+            invitationEvenement.setExpediteur(UtilisateurBDD.obtenirUtilisateurParId(c.getLong(NUM_COL_ID_EXPEDITEUR)));
 
             listeInvitationEvenement.add(invitationEvenement);
         }

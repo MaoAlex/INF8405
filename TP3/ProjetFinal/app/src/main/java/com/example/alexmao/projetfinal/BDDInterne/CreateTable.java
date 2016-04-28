@@ -67,7 +67,7 @@ public class CreateTable {
     //Requete pour la création de la table invitation evenement
     public static final String INVITATION_EVENEMENT = "CREATE TABLE " + Table.INVITATION_EVENEMENT + " ("
             + Colonne.ID_INVITATION_EVENEMENT + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + Colonne.ID_EVENEMENT + " INTEGER, "
+            + Colonne.ID_EVENEMENT + " TEXT, "
             + Colonne.ID_EXPEDITEUR + " INTEGER, "
             + Colonne.ID_INVITE + " INTEGER,"
             + Colonne.DATE_INVITATION + " INTEGER, "
@@ -90,7 +90,7 @@ public class CreateTable {
 
     //Requete pour la création de la table invitation connexion
     public static final String INVITATION_CONNEXION = "CREATE TABLE " + Table.INVITATION_CONNEXION + " ("
-            + Colonne.ID_INVITATION_EVENEMENT + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + Colonne.ID_INVITATION_CONNEXION + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + Colonne.ID_EXPEDITEUR + " INTEGER, "
             + Colonne.ID_INVITE + " INTEGER, "
             + Colonne.DATE_INVITATION + " INTEGER, "

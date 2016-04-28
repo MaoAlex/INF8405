@@ -14,9 +14,13 @@ import com.example.alexmao.projetfinal.Activites.interfaces.BtnEvenementAccepter
 import com.example.alexmao.projetfinal.Activites.interfaces.BtnEvenementRefuserClickListener;
 import com.example.alexmao.projetfinal.Adapter.AdapterInvitationConnexion;
 import com.example.alexmao.projetfinal.Adapter.AdapterInvitationEvenement;
+import com.example.alexmao.projetfinal.BDDInterne.InvitationConnexionBDD;
+import com.example.alexmao.projetfinal.BDDInterne.InvitationEvenementBDD;
+import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.InvitationConnexion;
 import com.example.alexmao.projetfinal.classeApp.InvitationEvenement;
+import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
 import java.util.ArrayList;
 
@@ -28,6 +32,9 @@ public class GererInvitations extends AppCompatActivity implements BtnConnexionA
     private AdapterInvitationEvenement mAdapterE;
     private RecyclerView.LayoutManager mLayoutManagerE;
 
+
+    private InvitationConnexionBDD invitationConnexionBDD;
+    private InvitationEvenementBDD invitationEvenementBDD;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,11 +54,19 @@ public class GererInvitations extends AppCompatActivity implements BtnConnexionA
         mLayoutManagerC = new LinearLayoutManager(this);
         mRecyclerViewC.setLayoutManager(mLayoutManagerC);
 
+        UtilisateurBDD utilisateurBDD = new UtilisateurBDD(this);
+        utilisateurBDD.open();
+        Utilisateur utilisateur = utilisateurBDD.obtenirProfil();
+        utilisateurBDD.close();
+
+        invitationConnexionBDD = new InvitationConnexionBDD(this);
+        invitationConnexionBDD.open();
+        ArrayList<InvitationConnexion> listeInvitationConnexion = invitationConnexionBDD.obtenirInvitationUtilisateur(utilisateur);
         // Spécification de l'adapter
         ArrayList<InvitationConnexion> myDataset = new ArrayList<>();
-        mAdapterC = new AdapterInvitationConnexion(myDataset, this, this);
+        mAdapterC = new AdapterInvitationConnexion(listeInvitationConnexion, this, this);
         mRecyclerViewC.setAdapter(mAdapterC);
-
+        invitationConnexionBDD.close();
         //------------------------------
         // Evenements
         //------------------------------
@@ -67,10 +82,15 @@ public class GererInvitations extends AppCompatActivity implements BtnConnexionA
         mLayoutManagerE = new LinearLayoutManager(this);
         mRecyclerViewE.setLayoutManager(mLayoutManagerE);
 
+        invitationEvenementBDD = new InvitationEvenementBDD(this);
+        invitationEvenementBDD.open();
+        ArrayList<InvitationEvenement> listeInvitationEvenement = invitationEvenementBDD.obtenirInvitationUtilisateur(utilisateur);
+
         // Spécification de l'adapter
         ArrayList<InvitationEvenement> myDataset2 = new ArrayList<>();
-        mAdapterE = new AdapterInvitationEvenement(myDataset2, this, this);
+        mAdapterE = new AdapterInvitationEvenement(listeInvitationEvenement, this, this);
         mRecyclerViewE.setAdapter(mAdapterE);
+        invitationEvenementBDD.close();
     }
 
     @Override

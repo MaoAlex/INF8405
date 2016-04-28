@@ -11,11 +11,8 @@ import android.widget.TextView;
 
 import com.example.alexmao.projetfinal.Activites.interfaces.BtnConnexionAccepterClickListener;
 import com.example.alexmao.projetfinal.Activites.interfaces.BtnConnexionRefuserClickListener;
-import com.example.alexmao.projetfinal.Activites.interfaces.BtnEvenementAccepterClickListener;
-import com.example.alexmao.projetfinal.Activites.interfaces.BtnEvenementRefuserClickListener;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.InvitationConnexion;
-import com.example.alexmao.projetfinal.classeApp.InvitationEvenement;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
 import java.util.ArrayList;
@@ -33,10 +30,11 @@ public class AdapterInvitationConnexion extends RecyclerView.Adapter<AdapterInvi
 
     public AdapterInvitationConnexion(List<InvitationConnexion> invitationConnexions, BtnConnexionAccepterClickListener listenerCA,
                                       BtnConnexionRefuserClickListener listenerCR){
-        this.invitationsConnexions = invitationsConnexions;
+//        this.invitationsConnexions = new ArrayList<>();
+        this.invitationsConnexions = invitationConnexions;
         this.listenerCA = listenerCA;
         this.listenerCR = listenerCR;
-        initializeData();
+        //initializeData();
     }
 
 
