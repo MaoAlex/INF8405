@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.example.alexmao.projetfinal.Adapter.AdapterInvitationConnexion;
 import com.example.alexmao.projetfinal.Adapter.AdapterUtilisateurNom;
 import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
+import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.InvitationConnexion;
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
@@ -87,7 +88,6 @@ public class InviterEvenement extends AppCompatActivity {
         }
 
         private List<Utilisateur> chargerUtilisateursConnectes() {
-        // TODO : Charger les connectés depuis la BDD
         return new ArrayList<Utilisateur>();
     }
 
