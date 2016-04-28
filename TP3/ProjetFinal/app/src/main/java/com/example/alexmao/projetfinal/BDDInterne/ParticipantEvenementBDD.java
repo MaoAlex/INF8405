@@ -2,6 +2,8 @@ package com.example.alexmao.projetfinal.BDDInterne;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.util.Log;
 
 import com.example.alexmao.projetfinal.classeApp.Utilisateur;
 
@@ -46,6 +48,7 @@ public class ParticipantEvenementBDD extends AbstractBDD {
         return database_.delete(Table.PARTICIPANT_EVENEMENT, Colonne.ID_EVENEMENT + " = " + idEvenement
                 + " AND " + Colonne.ID_UTILISATEUR + " = " + idUtilisateur, null);
     }
+
 
 
 }

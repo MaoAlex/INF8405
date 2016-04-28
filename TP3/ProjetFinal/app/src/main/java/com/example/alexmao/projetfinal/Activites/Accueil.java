@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,6 +56,7 @@ import com.example.alexmao.projetfinal.BDDInterne.EvenementBDD;
 import com.example.alexmao.projetfinal.BDDInterne.InvitationConnexionBDD;
 import com.example.alexmao.projetfinal.BDDInterne.InvitationEvenementBDD;
 import com.example.alexmao.projetfinal.BDDInterne.MessageBDD;
+import com.example.alexmao.projetfinal.BDDInterne.SportUtilisateurBDD;
 import com.example.alexmao.projetfinal.BDDInterne.UtilisateurBDD;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
@@ -136,7 +138,8 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
         invitationEvenementBDD = new InvitationEvenementBDD(this);
         //Récupération de la tabLayout
         tabLayout = (TabLayout) findViewById(R.id.tabLayout1);
-
+        Log.d("Accueil", "Affichage des sports/utilisateur");
+        SportUtilisateurBDD.affichageSportUtilisateur();
         // Definition de la gravité et de son mode
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
@@ -470,7 +473,7 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
      * Fragment qui correspond au premier onglet
      * C'est l'onglet qui correspond à l'affichage des préférences de sport de l'utilisateur connecté
      */
-    public static class EvenenementsFragment extends android.support.v4.app.Fragment {
+        public static class EvenenementsFragment extends android.support.v4.app.Fragment {
         private RecyclerView mRecyclerView;
         private RecyclerView.Adapter mAdapter;
         private RecyclerView.LayoutManager mLayoutManager;
