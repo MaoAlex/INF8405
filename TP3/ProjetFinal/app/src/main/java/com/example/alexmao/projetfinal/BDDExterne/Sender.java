@@ -22,7 +22,10 @@ public class Sender {
         eventEBDD.setDataBaseId(idEvent);
         Log.d("Sender", "l'id event : " + idEvent);
         Log.d("Sender", "l'id event dans eventEBDD : " + eventEBDD.getDataBaseId());
-        conversationEBDD.setDataBaseId(remoteBD.addDiscussion(conversationEBDD));
+        String idConversation = remoteBD.addDiscussion(conversationEBDD);
+        conversationEBDD.setDataBaseId(idConversation);
+        Log.d("Sender", "l'id conversation : " + idConversation);
+        Log.d("Sender", "l'id conversation dans  : " + conversationEBDD.getDataBaseId());
         groupEBDD.setEventID(eventEBDD.getDataBaseId());
         groupEBDD.setConversationID(conversationEBDD.getDataBaseId());
         groupEBDD.setDatabaseID(remoteBD.addGroup(groupEBDD));
@@ -32,9 +35,12 @@ public class Sender {
             Log.d("Sender", "l'id event : " + eventEBDD.getDataBaseId());
         remoteBD.updateDiscussion(conversationEBDD.getDataBaseId(), conversationEBDD);
         remoteBD.updateEvent(eventEBDD.getDataBaseId(), eventEBDD);
-
+        Log.d("Sender", "l'id groupe : " + groupEBDD.getDatabaseID());
         groupe.setIdFirebase(groupEBDD.getDatabaseID());
+        groupe.setConversation(conversationEBDD.getDataBaseId());
+        Log.d("Sender", "l'id groupe : " + groupe.getIdFirebase());
         evenement.setIdFirebase(eventEBDD.getDataBaseId());
+        Log.d("Sender", "l'id event : " + eventEBDD.getDataBaseId());
         conversation.setGroupID(groupEBDD.getDatabaseID());
         conversation.setIdFirebase(conversationEBDD.getDataBaseId());
 

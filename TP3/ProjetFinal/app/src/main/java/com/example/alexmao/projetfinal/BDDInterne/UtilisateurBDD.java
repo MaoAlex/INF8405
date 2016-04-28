@@ -151,7 +151,7 @@ public class UtilisateurBDD extends AbstractBDD {
 
         String query = "SELECT * "
                 + " FROM "
-                + Table.UTILISATEUR + " WHERE " + Colonne.ID_UTILISATEUR + " = " + id;
+                + Table.UTILISATEUR_CONNEXIONS + " WHERE " + Colonne.ID_UTILISATEUR + " = " + id;
         ;
         Cursor cursor = database_.rawQuery(query, null);
         ArrayList<String> connexions = new ArrayList<>();
@@ -170,6 +170,8 @@ public class UtilisateurBDD extends AbstractBDD {
             evenementId.add(cursor.getString(NUM_COL_ID));
         }
 
+        ArrayList<String> sports = SportUtilisateurBDD.obtenirSportUtilisateur(id);
+        utilisateur.setSports(sports);
         utilisateur.setListeParticipationsID(evenementId);
         cursor.close();
 
