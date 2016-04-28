@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.alexmao.projetfinal.BDDExterne.FetchFullDataFromEBDD;
 import com.example.alexmao.projetfinal.BDDExterne.FireBaseBD;
@@ -20,6 +22,7 @@ import com.example.alexmao.projetfinal.BDDExterne.RemoteBD;
 import com.example.alexmao.projetfinal.BDDInterne.EvenementBDD;
 import com.example.alexmao.projetfinal.R;
 import com.example.alexmao.projetfinal.classeApp.Evenement;
+import com.example.alexmao.projetfinal.classeApp.Sport;
 
 import java.util.List;
 
@@ -56,6 +59,23 @@ public class AffichageEvenement extends AppCompatActivity {
         evenementBDD.open();
 
         evenement = evenementBDD.obtenirEvenement(idFirebase);
+
+        Sport.initialize();
+
+        TextView nomEvenement = (TextView) findViewById(R.id.nom_evenement);
+        nomEvenement.setText(evenement.getNomEvenement());
+        TextView nomSport = (TextView) findViewById(R.id.nom_sport);
+        nomSport.setText(evenement.getSport());
+        TextView nombreParticipants = (TextView) findViewById(R.id.nombre_participant);
+        nombreParticipants.setText(String.valueOf(evenement.getGroupeAssocie().getListeMembre().size())+"/"+String.valueOf(evenement.getNbreMaxParticipants()));
+        TextView nomLieu = (TextView) findViewById(R.id.nomLieu);
+        nomLieu.setText(evenement.getLieu());
+        ImageView image = (ImageView) findViewById(R.id.person_photo);
+        image.setImageResource(Sport.stringToDrawable.get(evenement.getSport()));
+        TextView organisateur = (TextView) findViewById(R.id.nom_organisateur);
+        organisateur.setText(evenement.getOrganisateur().construireNom());
+        TextView dateEvenement = (TextView) findViewById(R.id.date_evenement);
+        dateEvenement.setText(evenement.construireDateEvt());
 //        evenement.setNbreMaxParticipants(10);
 //        Utilisateur u1 = new Utilisateur();
 //        u1.setNom("Jean Paul");
