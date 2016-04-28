@@ -293,6 +293,9 @@ public class Accueil extends ConnectedMapActivity implements NavigationView.OnNa
             Intent intent = new Intent(this, ProfilUtilisateur.class);
             intent.putExtra("id", utilisateurConnecte.getIdBDD()     );
             startActivity(intent);
+        } else if (id == R.id.nav_batterie) {
+            Intent intent = new Intent(this, BatterieInformation.class);
+            startActivity(intent);
         } else if (id == R.id.nav_logout) {
             utilisateurBDD.open();
             utilisateurBDD.deconnexion();
