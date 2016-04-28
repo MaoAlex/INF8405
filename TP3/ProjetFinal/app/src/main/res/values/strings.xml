@@ -61,6 +61,7 @@
     <string name="nav_str_invitations">Voir les invitations reçues</string>
     <string name="nav_str_chat">Messagerie</string>
     <string name="nav_str_profil">Mon profil</string>
+    <string name="nav_str_batterie">Batterie</string>
     <string name="nav_str_logout">Déconnexion</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
