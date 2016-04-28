@@ -75,7 +75,7 @@ public class AffichageEvenement extends AppCompatActivity {
         TextView organisateur = (TextView) findViewById(R.id.nom_organisateur);
         organisateur.setText(evenement.getOrganisateur().construireNom());
         TextView dateEvenement = (TextView) findViewById(R.id.date_evenement);
-        dateEvenement.setText(evenement.construireDateEvt());
+        //dateEvenement.setText(evenement.construireDateEvt());
 //        evenement.setNbreMaxParticipants(10);
 //        Utilisateur u1 = new Utilisateur();
 //        u1.setNom("Jean Paul");
