@@ -44,7 +44,9 @@ public class GroupeBDD extends AbstractBDD {
         return idGroupe;
     }
 
-    public static int supprimerGroupe(int idGroupe){
+
+
+        public static int supprimerGroupe(long idGroupe){
         //cette groupe n'est plus utile, nous la supprimons
         return database_.delete(Table.GROUPE, Colonne.ID_GROUPE + " = " + idGroupe, null);
     }
@@ -56,7 +58,7 @@ public class GroupeBDD extends AbstractBDD {
 
     }
     //Un unique groupe est associé à un événement
-    public static Groupe obtenirGroupe(int idGroupe){
+    public static Groupe obtenirGroupe(long idGroupe){
 
         Groupe groupe = new Groupe();
 
@@ -68,13 +70,15 @@ public class GroupeBDD extends AbstractBDD {
         Log.d("query", query);
 
         Cursor c = database_.rawQuery(query, null);
+        if(c.getCount()==0)
+            return groupe;
         //On récupère la groupe associée à un événement, il est unique
         c.moveToFirst();
         groupe.setIdBDD(c.getInt(NUM_COL_ID));
 //        groupe.setEvenement(evenement);
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!A completer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         groupe.setIdFirebase(c.getString(NUM_COL_ID_FIREBASE));
-        groupe.setListeMembre(UtilisateurBDD.obtenirUtilisateurs(c.getInt(NUM_COL_ID)));
+        groupe.setListeMembre(UtilisateurBDD.obtenirUtilisateurs(c.getLong(NUM_COL_ID)));
 //        groupe.setConversation(ConversationBDD.obtenirConversation(groupe).getIdFirebase());
         //groupe.setListeMembre();
         c.close();

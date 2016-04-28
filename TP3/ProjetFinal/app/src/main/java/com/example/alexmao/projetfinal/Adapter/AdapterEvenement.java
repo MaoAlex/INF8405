@@ -38,6 +38,7 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
         TextView mNombreParticipant;
         TextView mLieu;
         TextView mOrganisateur;
+        TextView mDate;
         ImageView mPhoto;
         CardView cv;
         public ViewHolder(View v) {
@@ -50,6 +51,7 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
             mLieu = (TextView)v.findViewById(R.id.nomLieu);
             mPhoto = (ImageView) v.findViewById(R.id.sport_photo);
             mOrganisateur = (TextView)v.findViewById(R.id.nom_organisateur);
+            mDate = (TextView)v.findViewById(R.id.date_evenement);
         }
     }
 
@@ -112,6 +114,7 @@ public class AdapterEvenement extends RecyclerView.Adapter<AdapterEvenement.View
         holder.mLieu.setText(evenements.get(position).getLieu());
         holder.mOrganisateur.setText(evenements.get(position).getOrganisateur().getNom());
         holder.mPhoto.setImageResource(Sport.stringToDrawable.get(evenements.get(position).getSport()));
+        //holder.mDate.setText();
     }
 
     // Retourne la taille des données (utilisé par le layout manager)
